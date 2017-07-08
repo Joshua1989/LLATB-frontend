@@ -25,6 +25,7 @@ class TeamBuilder:
 		self.cards = [AdvancedCard(index, card) for index, card in game_data.raw_card.items()]
 		for card in self.cards: card.list_gem_allocation(self.live)
 		self.best_team = None
+		self.log = ''
 
 	def generate_setting(self, opt={}):
 		res = { key:getattr(self.live, key) for key in ['note_number', 'duration', 'star_density', 'note_type_dist', 'perfect_rate'] }
@@ -53,6 +54,7 @@ class TeamBuilder:
 				break
 		if center_card is None:
 			print('Did not find center card with index', center_idx)
+			self.log += 'Did not find center card with index {0}\n'.format(center_idx)
 			raise
 		for card in self.cards:
 			res = {k:getattr(card,k) for k in keys}
@@ -95,6 +97,7 @@ class TeamBuilder:
 			if center is not None and k >= K: break
 		if center is None:
 			print('There is no card has center skill', cskill)
+			self.log += 'There is no card has center skill {0}\n'.format(cskill)
 			raise
 		return center, candidates
 
@@ -116,6 +119,7 @@ class TeamBuilder:
 			t = int(method.replace('-suboptimal', ''))
 			if t not in list(range(1,9)): 
 				print('Suboptimal step must be in {1,...,8}')
+				self.log += 'Suboptimal step must be in {1,...,8}\n'
 				raise
 
 			# Use a map to keep track of computed team to avoid duplicated computation
@@ -154,6 +158,7 @@ class TeamBuilder:
 								eliminate[new_choice] = True
 		else:
 			print('Unrecognized method {0}, only support brute and t-suboptimal'.format(method))
+			self.log += 'Unrecognized method {0}, only support brute and t-suboptimal\n'.format(method)
 			raise		
 		return best_gem_allocator
 
@@ -177,6 +182,7 @@ class TeamBuilder:
 			return candidate_cskill
 
 		print('Team searching method: {0}. Gem allocation searching method: {1}'.format(method, alloc_method))
+		self.log += 'Team searching method: {0}. Gem allocation searching method: {1}\n'.format(method, alloc_method)
 		cskill_list, result = find_candidate_cskill(), []
 		max_score, best_team = 0, None
 		opt = {'score_up_bonus':self.score_up_bonus, 'skill_up_bonus':self.skill_up_bonus, 'guest_cskill':self.guest_cskill}
@@ -185,6 +191,7 @@ class TeamBuilder:
 			exp_score = gem_allocator.construct_team().compute_expected_total_score(self.live, opt=opt)
 			result.append((exp_score, gem_allocator))
 			print('{0}/{1}: Best team has score {2:6d} for {3}'.format(i, len(cskill_list), exp_score, cskill))
+			self.log += '{0}/{1}: Best team has score {2:6d} for {3}\n'.format(i, len(cskill_list), exp_score, cskill)
 			if exp_score > max_score: max_score, best_gem_allocator = gem_allocator.total_score, gem_allocator
 
 		self.best_gem_allocator = best_gem_allocator

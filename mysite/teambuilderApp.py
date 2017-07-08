@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from string import Template
 from django.views.decorators.csrf import csrf_exempt
-import json, time, sys
+import json, time, sys, urllib.request
 
 from . import settings
 sys.path.append(settings.BASE_DIR)
@@ -64,7 +64,6 @@ $author_memo
 def index(request):
 	result, live, live_info = '', '', ''
 	if 'group' in request.POST and 'attribute' in request.POST and 'difficulty' in request.POST:
-		print(request.POST.get('live', 'nolive'))
 		group_sel, attr_sel, diff_sel = request.POST['group'], request.POST['attribute'], request.POST['difficulty']
 		df_live = live_basic_data[live_basic_data.apply(lambda x: x.group==group_sel and x.attr==attr_sel and x.diff_level==diff_sel, axis=1)]
 		group = '\n'.join(['<option value="{0}" {1}>{0}</option>'.format(x, 'selected'*(x==group_sel)) for x in ["μ's", 'Aqours']])
@@ -74,21 +73,32 @@ def index(request):
 		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1 {1}> {2}'.format(name.replace(' ','_'), 'checked'*(value>0), name) 
 				 			for name, value in zip(['score up', 'skill up'], [score_up, skill_up])])
 		profile = '<textarea name="profile" cols="120" rows="20">{0}</textarea>'.format(request.POST['profile'])
+
+		print('User choice:', request.POST.get('live', 'NO_LIVE'), group_sel, attr_sel, diff_sel, score_up, skill_up)
 		if 'live' in request.POST and request.POST['live'] in df_live['name'].values:
 			try:
 				live_sel = request.POST['live']
 				live = '\n'.join(['<option value="{0}" {1}>{0}</option>'.format(x['name'], 'selected'*(x['name']==live_sel)) for i, x in df_live.iterrows() ])
-				live_obj = Live(live_sel, diff_sel, local_dir=settings.BASE_DIR+'/static/live_json/')
+				try:
+					live_obj = Live(live_sel, diff_sel, local_dir=settings.BASE_DIR+'/static/live_json/')
+				except:
+					url = live_basic_data[live_basic_data.apply(lambda x: x['name']==live_sel and x['diff_level']==diff_sel, axis=1)].iloc[0]['file_dir']
+					print(live_sel, diff_sel, 'not exists, download from', url)
+					opener = urllib.request.URLopener()
+					opener.addheader('User-Agent', 'whatever')
+					opener.retrieve(url, settings.BASE_DIR+'/static/live_json/'+url.split('/')[-1])
+					live_obj = Live(live_sel, diff_sel)
 				live_info += html_view(live_obj).data
 			except:
-				print('Did not found live')
+				print('Did not found live', live_sel, diff_sel)
 		else:
 			try:
 				live = '\n'.join(['<option value="{0}">{0}</option>'.format(x['name']) for i, x in df_live.iterrows() ])
-				live_obj = Live(df_live.iloc[0]['name'], diff_sel, local_dir=settings.BASE_DIR+'/static/live_json/')
+				live_sel = 'NO_LIVE' if len(df_live)==0 else df_live.iloc[0]['name']
+				live_obj = Live(live_sel, diff_sel, local_dir=settings.BASE_DIR+'/static/live_json/')
 				live_info += html_view(live_obj).data
 			except:
-				print('Did not found live')
+				print('Did not found live', live_sel, diff_sel)
 		if 'calculate' in request.POST:
 			json_str = request.POST['profile']
 			try:
@@ -98,14 +108,17 @@ def index(request):
 				else:
 					user_profile = GameData(json_str, file_type='ieb', string_input=True)
 				for x in ['Smile', 'Pure', 'Cool']: user_profile.owned_gem[x+' Kiss'] = 9
-				print('finish loading user profile')
+				print('Finished loading user profile')
 				opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
 				tb = TeamBuilder(live_obj, user_profile, opt=opt)
 				tb.build_team(K=12, method='1-suboptimal', alloc_method='DC')
 				elapsed_time = time.time() - start_time
-				result += 'Computation takes {0:.2f} seconds'.format(elapsed_time) + tb.view_result(show_cost=True).data
+				result += 'Computation takes {0:.2f} seconds. <br/>'.format(elapsed_time) 
+				# result += 'Algorithm output: <br/>' + tb.log.replace('\n','<br/>')
+				result += tb.view_result(show_cost=True).data
 			except:
-				print('Error in calculation')
+				print('Incorrect user profile input!')
+				result += 'Incorrect user profile input!'
 	else:
 		group = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ["μ's", 'Aqours']])
 		attr = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Smile', 'Pure', 'Cool']])
