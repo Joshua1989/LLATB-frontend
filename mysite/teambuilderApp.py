@@ -54,7 +54,7 @@ $author_memo
 			$live_info 
 		</div>
 	</div>
-	<div style="position:absolute; top:65%; left:0%; width:40%;">
+	<div style="position:absolute; top:70%; left:0%; width:40%;">
 		$result
 	</div>
 </form>''')
