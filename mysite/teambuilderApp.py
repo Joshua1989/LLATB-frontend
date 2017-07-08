@@ -54,8 +54,9 @@ $author_memo
 			$live_info 
 		</div>
 	</div>
-	<br/><br/>
-	$result
+	<div style="position:absolute; top:65%; left:0%; width:40%;">
+		$result
+	</div>
 </form>''')
 
 
@@ -110,7 +111,7 @@ def index(request):
 		attr = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Smile', 'Pure', 'Cool']])
 		diff = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Easy', 'Normal', 'Hard', 'Expert', 'Master']])
 		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1> {1}'.format(name.replace(' ','_'), name) for name in ['score up', 'skill up']])
-		profile = '<textarea name="profile" cols="90" rows="30"></textarea>'
+		profile = '<textarea name="profile" cols="120" rows="20"></textarea>'
 	return HttpResponse(html_template.substitute(author_memo=author_memo, live=live, group=group, attr=attr, 
 												 diff=diff, boost=boost, profile=profile, live_info=live_info, result=result))
 
