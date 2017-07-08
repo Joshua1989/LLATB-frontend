@@ -15,9 +15,6 @@ import dj_database_url
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Allow all host headers
-ALLOWED_HOSTS = ['*', '.herokuapp.com']
-
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -33,7 +30,8 @@ SECRET_KEY = '#+cg9&d0#^&$05ie^fkbbz+q@3)k!&fieo*auaf08=xhjh6m64'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Allow all host headers
+ALLOWED_HOSTS = ['*', '.herokuapp.com']
 
 
 # Application definition
