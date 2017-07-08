@@ -78,14 +78,14 @@ def index(request):
 			try:
 				live_sel = request.POST['live']
 				live = '\n'.join(['<option value="{0}" {1}>{0}</option>'.format(x['name'], 'selected'*(x['name']==live_sel)) for i, x in df_live.iterrows() ])
-				live_obj = Live(live_sel, diff_sel)
+				live_obj = Live(live_sel, diff_sel, local_dir=settings.BASE_DIR+'/static/live_json/')
 				live_info += html_view(live_obj).data
 			except:
 				print('Did not found live')
 		else:
 			try:
 				live = '\n'.join(['<option value="{0}">{0}</option>'.format(x['name']) for i, x in df_live.iterrows() ])
-				live_obj = Live(df_live.iloc[0]['name'], diff_sel)
+				live_obj = Live(df_live.iloc[0]['name'], diff_sel, local_dir=settings.BASE_DIR+'/static/live_json/')
 				live_info += html_view(live_obj).data
 			except:
 				print('Did not found live')
