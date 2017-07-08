@@ -14,14 +14,14 @@ author_memo = '''
 <br/>
 使用方法：1.选择歌曲; 2.从<a href="http://stats.llsif.win/">SIFStats(日服)</a> 或者 <a href="http://pll.sokka.cn/user">LLproxy(国服)</a> 粘贴社员信息卡组Json; 3: 点击calulate按钮
 <br/>
-注意：在极端情况下（各种宝石都很少）计算可能会比较慢，请耐性等待
+注意：在极端情况下（各种宝石都很少）计算可能会比较慢，请耐心等待
 '''
 
 html_template = Template('''
 $author_memo
 <br/><br/>
 <form method="post" action="/">
-	<div style="width: 100%; overflow: hidden;">
+	<div style="width: 100%; overflow: hidden; display: inline-block;">
 		<div style="width: 800px; float: left;">
 			Live:
 		    <select name="live" style="width: 200px;" onchange="submit(this)">
