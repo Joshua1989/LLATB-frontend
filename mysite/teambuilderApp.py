@@ -21,8 +21,8 @@ html_template = Template('''
 $author_memo
 <br/><br/>
 <form method="post" action="/">
-	<div style="width: 100%; overflow: hidden; display: inline-block;">
-		<div style="width: 800px; float: left;">
+	<div style="position:relative;">
+		<div style="position:absolute; left:0%; width:50%;">
 			Live:
 		    <select name="live" style="width: 200px;" onchange="submit(this)">
 			    $live
@@ -50,7 +50,7 @@ $author_memo
 			<br/><br/>
 			<input type="submit" name="calculate" value="calculate" />
 		</div>
-		<div style="margin-left: 820px;"> 
+		<div style="position:absolute; left:60%; width:40%;"> 
 			$live_info 
 		</div>
 	</div>
