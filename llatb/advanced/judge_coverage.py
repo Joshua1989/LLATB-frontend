@@ -1,6 +1,6 @@
 import math
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from llatb.common.global_var import combo_factor
 
 Offset = [4.5, 4, 3.625, 3.25, 2.875, 2.5, 2.25, 2, 1.75, 1.5]
@@ -125,9 +125,9 @@ class CoverageCalculator:
 			TempCoverage[i] = TimeAxis[int(a1):int(a2)].sum() / (a2-a1)
 
 		CR = TempCoverage.mean()
-		if plot:
-			plt.figure(figsize=(12,4))
-			t = np.arange(self.Map_beat[-1]) / 1000
-			plt.plot(t, TimeAxis[:len(t)])
-			plt.title('{0} triggered, ({1},{2}%,{3}), total note coverage {4:.2f}%'.format(skill.trigger_type, skill.trigger_count, skill.odds, skill.reward, 100*CR))
+		# if plot:
+		# 	plt.figure(figsize=(12,4))
+		# 	t = np.arange(self.Map_beat[-1]) / 1000
+		# 	plt.plot(t, TimeAxis[:len(t)])
+		# 	plt.title('{0} triggered, ({1},{2}%,{3}), total note coverage {4:.2f}%'.format(skill.trigger_type, skill.trigger_count, skill.odds, skill.reward, 100*CR))
 		return CR
