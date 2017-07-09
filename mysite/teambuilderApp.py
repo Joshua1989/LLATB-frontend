@@ -23,7 +23,7 @@ html_template = Template('''
 $author_memo
 <br/><br/>
 <form method="post" action="/">
-	<div style="position:relative;">
+	<div style="position:relative; width:1400px">
 		<div style="position:absolute; left:0%; width:55%;">
 			Live:
 		    <select name="live" style="width: 200px;" onchange="submit(this)">
@@ -56,7 +56,7 @@ $author_memo
 			$live_info 
 		</div>
 	</div>
-	<div style="position:absolute; top:70%; left:0%; width:40%;">
+	<div style="position:absolute; top:500px; left:0%">
 		$result
 	</div>
 </form>''')
