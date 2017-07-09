@@ -83,7 +83,7 @@ class TeamBuilder:
 			card.compute_rough_strength(cskill, self.guest_cskill, self.live, self.setting)
 		self.cards.sort(key=lambda x: x.rough_strength[self.live.attr]['strength'], reverse=True)
 		# Find the best card and choose it to be the center, and find K best cards from the rest for candidates
-		center, candidates, k, CC = None, [], 0, CoverageCalculator(self.live)
+		center, candidates, k, CC = None, [], 0, CoverageCalculator(self.live, self.setting)
 		for card in self.cards:
 			if card.has_same_cskill and center is None:
 				card.compute_card_stats(cskill, self.guest_cskill, self.live, self.setting)
@@ -219,7 +219,7 @@ class TeamBuilder:
 			print('The best team has not been formed yet')
 
 	def team_alloc(self, team, alloc_method='DC', show_cost=False):
-		candidates, CC = [], CoverageCalculator(self.live)
+		candidates, CC = [], CoverageCalculator(self.live, self.setting)
 		for index, card in enumerate(team.card_list):
 			adv_card = AdvancedCard(index, card)
 			adv_card.list_gem_allocation(self.live)
