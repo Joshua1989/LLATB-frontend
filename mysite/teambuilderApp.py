@@ -9,8 +9,6 @@ from llatb import GameData, Live, DefaultLive, TeamBuilder, html_view, live_basi
 from llatb.framework.live import live_basic_data
 
 author_memo = '''
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="/static/favicon.ico">
 网页版LLSIF-TeamBuilder考虑到运算量以及稳定性，预设所有吻宝石为9，预备卡组大小为12，使用1-suboptimal DP算法<br/>
 寻求更优解请移步<a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="doc">Love Live SIF 卡组强度导论</a>
 <br/>
@@ -20,11 +18,14 @@ author_memo = '''
 '''
 
 html_template = Template('''
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/static/favicon.ico">
 $author_memo
 <br/><br/>
 <form method="post" action="/">
-	<div style="position:relative; width:1400px">
-		<div style="position:absolute; left:0%; width:55%;">
+	<table>
+	<tr>
+		<td>
 			Live:
 		    <select name="live" style="width: 200px;" onchange="submit(this)">
 			    $live
@@ -45,20 +46,24 @@ $author_memo
 			购买应援:
 			$boost
 
-			<br/><br/>
+			<br/>
 			用户卡组信息 JSON:
+			<br/>
 			$profile
 
 			<br/><br/>
 			<input type="submit" name="calculate" value="calculate" />
-		</div>
-		<div style="position:absolute; left:60%; width:40%;"> 
+		</td>
+		<td> 
 			$live_info 
-		</div>
+		</td>
 	</div>
-	<div style="position:absolute; top:500px; left:0%">
+	</tr>
+	<tr>
+	<div style="position:absolute; top:700px; left:0%">
 		$result
 	</div>
+	</tr>
 </form>''')
 
 
