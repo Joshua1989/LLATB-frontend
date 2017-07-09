@@ -90,7 +90,8 @@ def index(request):
 					live_obj = Live(live_sel, diff_sel)
 				live_info += html_view(live_obj).data
 			except:
-				print('Did not found live', live_sel, diff_sel)
+				print('Did not find live', live_sel, diff_sel)
+				result += 'Did not find live {0} {1}'.format(live_sel, diff_sel)
 		else:
 			try:
 				live = '\n'.join(['<option value="{0}">{0}</option>'.format(x['name']) for i, x in df_live.iterrows() ])
@@ -98,7 +99,8 @@ def index(request):
 				live_obj = Live(live_sel, diff_sel, local_dir=settings.BASE_DIR+'/static/live_json/')
 				live_info += html_view(live_obj).data
 			except:
-				print('Did not found live', live_sel, diff_sel)
+				print('Did not find live', live_sel, diff_sel)
+				result += 'Did not find live {0} {1}'.format(live_sel, diff_sel)
 		if 'calculate' in request.POST:
 			json_str = request.POST['profile']
 			try:
