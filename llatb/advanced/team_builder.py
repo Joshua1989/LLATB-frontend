@@ -181,7 +181,7 @@ class TeamBuilder:
 			candidate_cskill.sort(key=lambda x: str(x))
 			return candidate_cskill
 
-		print('Team searching method: {0}. Gem allocation searching method: {1}'.format(method, alloc_method))
+		print('{2} {3}: Team searching method: {0}. Gem allocation searching method: {1}'.format(method, alloc_method, self.live.name, self.live.difficulty))
 		self.log += 'Team searching method: {0}. Gem allocation searching method: {1}\n'.format(method, alloc_method)
 		cskill_list, result = find_candidate_cskill(), []
 		max_score, best_team = 0, None

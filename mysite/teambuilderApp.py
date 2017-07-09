@@ -24,52 +24,55 @@ $author_memo
 <br/><br/>
 <form method="post" action="/">
 	<table>
-	<tr>
-		<td>
-			Live:
-		    <select name="live" style="width: 200px;" onchange="submit(this)">
-			    $live
-			</select>
-		    <select title="group" name="group" onchange="submit(this)">
-		    	$group
-			</select>
+	<tbody>
+		<tr>
+			<td>
+				Live:
+			    <select name="live" style="width: 200px;" onchange="submit(this)">
+				    $live
+				</select>
+			    <select title="group" name="group" onchange="submit(this)">
+			    	$group
+				</select>
 
-			<select name="attribute" onchange="submit(this)">
-				$attr
-			</select>
+				<select name="attribute" onchange="submit(this)">
+					$attr
+				</select>
 
-			<select name="difficulty" onchange="submit(this)">
-				$diff
-			</select>
+				<select name="difficulty" onchange="submit(this)">
+					$diff
+				</select>
 
-			&nbsp;&nbsp;
-			购买应援:
-			$boost
+				&nbsp;&nbsp;
+				购买应援:
+				$boost
 
-			<br/>
-			用户卡组信息 JSON:
-			<br/>
-			$profile
+				<br/>
+				用户卡组信息 JSON:
+				<br/>
+				$profile
 
-			<br/><br/>
-			<input type="submit" name="calculate" value="calculate" />
-		</td>
-		<td> 
-			$live_info 
-		</td>
-	</div>
-	</tr>
-	<tr>
-	<div style="position:absolute; top:700px; left:0%">
-		$result
-	</div>
-	</tr>
+				<br/><br/>
+				<input type="submit" name="calculate" value="calculate" />
+				$timing
+			</td>
+			<td> 
+				$live_info 
+			</td>
+		</div>
+		</tr>
+		<tr>
+			$result
+		</tr>
+		$output_file
+	</tbody>
+	</table>
 </form>''')
 
 
 @csrf_exempt
 def index(request):
-	result, live, live_info = '', '', ''
+	result, live, live_info, timing, output_file = '', '', '', '', ''
 	if 'group' in request.POST and 'attribute' in request.POST and 'difficulty' in request.POST:
 		group_sel, attr_sel, diff_sel = request.POST['group'], request.POST['attribute'], request.POST['difficulty']
 		df_live = live_basic_data[live_basic_data.apply(lambda x: x.group==group_sel and x.attr==attr_sel and x.diff_level==diff_sel, axis=1)]
@@ -138,10 +141,10 @@ def index(request):
 				</table>
 			  	'''
 
-				result += 'Computation takes {0:.2f} seconds. <br/>'.format(elapsed_time) 
+				timing += 'Computation takes {0:.2f} seconds. <br/>'.format(elapsed_time) 
 				# result += 'Algorithm output: <br/>' + tb.log.replace('\n','<br/>')
 				result += tb.view_result(show_cost=True, lang='CN').data
-				result += output_files.format(tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None))
+				output_file += output_files.format(tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None))
 			except:
 				print('Incorrect user profile input!')
 				result += 'Incorrect user profile input!'
@@ -151,6 +154,6 @@ def index(request):
 		diff = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Easy', 'Normal', 'Hard', 'Expert', 'Master']])
 		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1> {1}'.format(name, string) for name, string in zip(['score_up', 'skill_up'], ['得分+10%', '技能+10%'])])
 		profile = '<textarea name="profile" cols="120" rows="20"></textarea>'
-	return HttpResponse(html_template.substitute(author_memo=author_memo, live=live, group=group, attr=attr, 
-												 diff=diff, boost=boost, profile=profile, live_info=live_info, result=result))
+	return HttpResponse(html_template.substitute(author_memo=author_memo, live=live, group=group, attr=attr, diff=diff, boost=boost, profile=profile, live_info=live_info,
+												 timing=timing, result=result, output_file=output_file))
 
