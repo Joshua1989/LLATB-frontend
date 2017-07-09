@@ -113,9 +113,26 @@ def index(request):
 				tb = TeamBuilder(live_obj, user_profile, opt=opt)
 				tb.build_team(K=12, method='1-suboptimal', alloc_method='DC')
 				elapsed_time = time.time() - start_time
+
+				output_files = '''
+				</table><table border="1" class="dataframe">
+			  	<tbody>
+			  		<tr>
+				      <td>LL Helper 队伍信息sd文件</td>
+				      <td>SIFStats 队伍Json文件</td>
+			  		</tr>
+				    <tr>
+				      <td><textarea name="LLHelper" cols="80" rows="10">{0}</textarea></td>
+				      <td><textarea name="SIFState" cols="80" rows="10">{1}</textarea></td>
+				    </tr>
+				</tbody>
+				</table>
+			  	'''
+
 				result += 'Computation takes {0:.2f} seconds. <br/>'.format(elapsed_time) 
 				# result += 'Algorithm output: <br/>' + tb.log.replace('\n','<br/>')
 				result += tb.view_result(show_cost=True).data
+				result += output_files.format(tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None))
 			except:
 				print('Incorrect user profile input!')
 				result += 'Incorrect user profile input!'
