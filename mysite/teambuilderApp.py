@@ -113,7 +113,7 @@ def index(request):
 				print('Finished loading user profile')
 				opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
 				tb = TeamBuilder(live_obj, user_profile, opt=opt)
-				tb.build_team(K=12, method='1-suboptimal', alloc_method='DC')
+				tb.build_team(K=12, method='1-suboptimal', alloc_method='DP')
 				elapsed_time = time.time() - start_time
 
 				output_files = '''
