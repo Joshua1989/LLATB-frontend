@@ -9,6 +9,7 @@ from llatb import GameData, Live, DefaultLive, TeamBuilder, html_view, live_basi
 from llatb.framework.live import live_basic_data
 
 author_memo = '''
+<link rel="shortcut icon" href="/static/favicon.ico">
 网页版LLSIF-TeamBuilder考虑到运算量以及稳定性，预设所有吻宝石为9，预备卡组大小为12，使用1-suboptimal DP算法<br/>
 寻求更优解请移步<a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="doc">Love Live SIF 卡组强度导论</a>
 <br/>
@@ -22,7 +23,7 @@ $author_memo
 <br/><br/>
 <form method="post" action="/">
 	<div style="position:relative;">
-		<div style="position:absolute; left:0%; width:50%;">
+		<div style="position:absolute; left:0%; width:55%;">
 			Live:
 		    <select name="live" style="width: 200px;" onchange="submit(this)">
 			    $live
@@ -40,11 +41,11 @@ $author_memo
 			</select>
 
 			&nbsp;&nbsp;
-			Extra Support:
+			购买应援:
 			$boost
 
 			<br/><br/>
-			user profile JSON:
+			用户卡组信息 JSON:
 			$profile
 
 			<br/><br/>
@@ -70,8 +71,8 @@ def index(request):
 		attr = '\n'.join(['<option value="{0}" {1}>{0}</option>'.format(x, 'selected'*(x==attr_sel)) for x in ['Smile', 'Pure', 'Cool']])
 		diff = '\n'.join(['<option value="{0}" {1}>{0}</option>'.format(x, 'selected'*(x==diff_sel)) for x in ['Easy', 'Normal', 'Hard', 'Expert', 'Master']])
 		score_up, skill_up = float(request.POST.get('score_up', 0)), float(request.POST.get('skill_up', 0))
-		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1 {1}> {2}'.format(name.replace(' ','_'), 'checked'*(value>0), name) 
-				 			for name, value in zip(['score up', 'skill up'], [score_up, skill_up])])
+		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1 {1}> {2}'.format(name, 'checked'*(value>0), string) 
+				 			for name, value, string in zip(['score_up', 'skill_up'], [score_up, skill_up], ['得分+10%', '技能+10%'])])
 		profile = '<textarea name="profile" cols="120" rows="20">{0}</textarea>'.format(request.POST['profile'])
 
 		print('User choice:', request.POST.get('live', 'NO_LIVE'), group_sel, attr_sel, diff_sel, score_up, skill_up)
@@ -88,7 +89,7 @@ def index(request):
 					opener.addheader('User-Agent', 'whatever')
 					opener.retrieve(url, settings.BASE_DIR+'/static/live_json/'+url.split('/')[-1])
 					live_obj = Live(live_sel, diff_sel)
-				live_info += html_view(live_obj).data
+				live_info += html_view(live_obj, lang='CN').data
 			except:
 				print('Did not find live', live_sel, diff_sel)
 				result += 'Did not find live {0} {1}'.format(live_sel, diff_sel)
@@ -97,7 +98,7 @@ def index(request):
 				live = '\n'.join(['<option value="{0}">{0}</option>'.format(x['name']) for i, x in df_live.iterrows() ])
 				live_sel = 'NO_LIVE' if len(df_live)==0 else df_live.iloc[0]['name']
 				live_obj = Live(live_sel, diff_sel, local_dir=settings.BASE_DIR+'/static/live_json/')
-				live_info += html_view(live_obj).data
+				live_info += html_view(live_obj, lang='CN').data
 			except:
 				print('Did not find live', live_sel, diff_sel)
 				result += 'Did not find live {0} {1}'.format(live_sel, diff_sel)
@@ -133,7 +134,7 @@ def index(request):
 
 				result += 'Computation takes {0:.2f} seconds. <br/>'.format(elapsed_time) 
 				# result += 'Algorithm output: <br/>' + tb.log.replace('\n','<br/>')
-				result += tb.view_result(show_cost=True).data
+				result += tb.view_result(show_cost=True, lang='CN').data
 				result += output_files.format(tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None))
 			except:
 				print('Incorrect user profile input!')
@@ -142,7 +143,7 @@ def index(request):
 		group = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ["μ's", 'Aqours']])
 		attr = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Smile', 'Pure', 'Cool']])
 		diff = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Easy', 'Normal', 'Hard', 'Expert', 'Master']])
-		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1> {1}'.format(name.replace(' ','_'), name) for name in ['score up', 'skill up']])
+		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1> {1}'.format(name, string) for name, string in zip(['score_up', 'skill_up'], ['得分+10%', '技能+10%'])])
 		profile = '<textarea name="profile" cols="120" rows="20"></textarea>'
 	return HttpResponse(html_template.substitute(author_memo=author_memo, live=live, group=group, attr=attr, 
 												 diff=diff, boost=boost, profile=profile, live_info=live_info, result=result))

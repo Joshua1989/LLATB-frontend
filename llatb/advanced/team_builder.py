@@ -212,9 +212,9 @@ class TeamBuilder:
 		song_name, difficulty, PR = self.live.name, self.live.difficulty, self.live.perfect_rate
 		return sim.simulate(song_name, difficulty, prob=[PR,1-PR,0,0,0], save_to=save_to)
 
-	def view_result(self, show_cost=False):
+	def view_result(self, show_cost=False, lang='EN'):
 		try:
-			return self.best_gem_allocator.view_optimal_details(show_cost=show_cost)
+			return self.best_gem_allocator.view_optimal_details(show_cost=show_cost, lang=lang)
 		except:
 			print('The best team has not been formed yet')
 

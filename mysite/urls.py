@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 from django.contrib import admin
 from . import teambuilderApp
 
@@ -22,4 +23,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', teambuilderApp.index),
     url(r'^doc/$', TemplateView.as_view(template_name='theoretical_material.html')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico'))
 ]
