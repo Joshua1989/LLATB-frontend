@@ -9,6 +9,7 @@ from llatb import GameData, Live, DefaultLive, TeamBuilder, html_view, live_basi
 from llatb.framework.live import live_basic_data
 
 author_memo = '''
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/static/favicon.ico">
 网页版LLSIF-TeamBuilder考虑到运算量以及稳定性，预设所有吻宝石为9，预备卡组大小为12，使用1-suboptimal DP算法<br/>
 寻求更优解请移步<a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="doc">Love Live SIF 卡组强度导论</a>
