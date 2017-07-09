@@ -9,6 +9,9 @@ import llatb
 from llatb import GameData, Live, DefaultLive, TeamBuilder, html_view, live_basic_data, update_data
 from llatb.framework.live import live_basic_data
 
+from django.db.models import F
+from my_log.models import Counter
+
 author_memo = '''
 <p style="text-align:left">
 <img src="http://pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg" height=60 style="display:inline;vertical-align: middle;">
@@ -92,8 +95,10 @@ $author_memo
 
 @csrf_exempt
 def index(request):
+	counter, _ = Counter.objects.get_or_create()
+	count = counter.TeamCount
+
 	result, live, live_info, timing, output_file = '', '', '', '', llatb.config.html_template.format('')
-	count = open(settings.BASE_DIR+'/static/count.txt').read()
 	if 'group' in request.POST and 'attribute' in request.POST and 'difficulty' in request.POST:
 		group_sel, attr_sel, diff_sel = request.POST['group'], request.POST['attribute'], request.POST['difficulty']
 		df_live = live_basic_data[live_basic_data.apply(lambda x: x.group==group_sel and x.attr==attr_sel and x.diff_level==diff_sel, axis=1)]
@@ -166,9 +171,9 @@ def index(request):
 			result += tb.view_result(show_cost=True, lang='CN').data
 			output_file += output_files_template.format(tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None))
 
-			count = str(int(count)+1)
-			with open(settings.BASE_DIR+'/static/count.txt', 'w') as fp:
-				fp.write(count)
+			count += 1
+			counter.TeamCount = count
+			counter.save()
 	else:
 		group = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ["μ's", 'Aqours']])
 		attr = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Smile', 'Pure', 'Cool']])
