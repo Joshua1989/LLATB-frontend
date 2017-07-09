@@ -211,7 +211,7 @@ class Team:
 							card.pure + card.bond * (card.main_attr=='Pure'), 
 							card.cool + card.bond * (card.main_attr=='Cool'), 
 							0 if card.skill is None else card.skill.level, card.card_id, card.idolized]
-			gem_data['gemallpercent'] = round(gem_data['gemallpercent']*1000)/1000
+			gem_data['gemallpercent'] = round(gem_data['gemallpercent'],3)
 			field_val += [gem_data[x] for x in gem_field_list]
 			temp = ['%22{0}%22:%22{1}%22'.format(k,v if type(v) != bool else int(v)) for k,v in zip(field_name, field_val)]
 			return '%7B'+','.join(temp)+'%7D'
@@ -236,4 +236,4 @@ class Team:
 				fp.write(json.dumps(content))
 			print('File saved to', filename)
 		else:
-			return content
+			return json.dumps(content)
