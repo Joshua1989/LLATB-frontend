@@ -260,7 +260,6 @@ def view_live(live, lang='EN'):
 	df = live.summary.copy()
 	pos_name = ['<p>{0}</p>'.format(x) for x in ['L1', 'L2', 'L3', 'L4', 'C', 'R4', 'R3', 'R2', 'R1']]
 	df.index = [pos_name[9-x] if type(x)==int else x for x in list(df.index)]
-	print(df.index)
 	df = df.loc[pos_name+['total']]
 	df = df.applymap(lambda x: str(int(x)) if np.isclose(x,round(x)) else '{0:.3f}'.format(x)).transpose()
 
