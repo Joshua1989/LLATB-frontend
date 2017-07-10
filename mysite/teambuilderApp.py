@@ -101,6 +101,18 @@ $author_memo
 	</table>
 </form>''')
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        # print("returning FORWARDED_FOR")
+        ip = x_forwarded_for.split(',')[-1].strip()
+    elif request.META.get('HTTP_X_REAL_IP'):
+        # print("returning REAL_IP")
+        ip = request.META.get('HTTP_X_REAL_IP')
+    else:
+        # print("returning REMOTE_ADDR")
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 @csrf_exempt
 def index(request):
@@ -151,7 +163,11 @@ def index(request):
 		extra_cond = '\n'.join(['<option value="{0}" {1}>{2}</option>'.format(x, 'selected'*(x==extra_cond_sel), s) for x, s in 
 								zip(['default', 'max_level_bond', 'idolized', 'ultimate'], ['维持当前状态', '当前状态满级满绊', '贴纸觉醒满级满绊', '觉醒满槽满技能'])])
 
-		print('User choice:', request.POST.get('live', 'NO_LIVE'), group_sel, attr_sel, diff_sel, score_up, skill_up, is_gem_unlimited, extra_cond_sel) 
+		user_info  = 'User IP Address: {0}\n'.format(str(get_client_ip(request)))
+		user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(request.POST.get('live', 'NO_LIVE'), group_sel, attr_sel, diff_sel, PR)
+		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, is_gem_unlimited, extra_cond_sel)
+		print(user_info)
+
 		if 'calculate' in request.POST:
 			json_str = request.POST['profile']
 			# try:
@@ -178,8 +194,6 @@ def index(request):
 			else:
 				for x in ['Smile', 'Pure', 'Cool']: 
 					user_profile.owned_gem[x+' Kiss'] = 9
-
-			print(user_profile.owned_gem)
 
 			print('Finished loading user profile')
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
