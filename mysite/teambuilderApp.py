@@ -65,9 +65,18 @@ $author_memo
 				购买应援:
 				$boost
 
-				<span style="display:inline-block; width: 30px;"></span>
+				<span style="display:inline-block; width: 20px;"></span>
 				预设P率:
 				$perfect_rate
+
+				<span style="display:inline-block; width: 20px;"></span>
+				$unlimited_gem
+
+				<br/>
+				附加条件:
+				<select name="extra_cond">
+					$extra_cond
+				</select>
 
 				<br/>
 				用户卡组信息 JSON:
@@ -97,7 +106,6 @@ $author_memo
 def index(request):
 	counter, _ = Counter.objects.get_or_create()
 	count = counter.TeamCount
-
 	result, live, live_info, timing, output_file = '', '', '', '', llatb.config.html_template.format('')
 	if 'group' in request.POST and 'attribute' in request.POST and 'difficulty' in request.POST:
 		group_sel, attr_sel, diff_sel = request.POST['group'], request.POST['attribute'], request.POST['difficulty']
@@ -105,14 +113,8 @@ def index(request):
 		group = '\n'.join(['<option value="{0}" {1}>{0}</option>'.format(x, 'selected'*(x==group_sel)) for x in ["μ's", 'Aqours']])
 		attr = '\n'.join(['<option value="{0}" {1}>{0}</option>'.format(x, 'selected'*(x==attr_sel)) for x in ['Smile', 'Pure', 'Cool']])
 		diff = '\n'.join(['<option value="{0}" {1}>{0}</option>'.format(x, 'selected'*(x==diff_sel)) for x in ['Easy', 'Normal', 'Hard', 'Expert', 'Master']])
-		score_up, skill_up = float(request.POST.get('score_up', 0)), float(request.POST.get('skill_up', 0))
-		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1 {1}> {2}'.format(name, 'checked'*(value>0), string) 
-				 			for name, value, string in zip(['score_up', 'skill_up'], [score_up, skill_up], ['得分+10%', '技能+10%'])])
 		PR = request.POST['perfect_rate']
 		perfect_rate = '<input name="perfect_rate" type="number" min="0.01" max="1" step="0.01" value="{0}" />'.format(PR)
-		profile = '<textarea name="profile" cols="80" rows="20">{0}</textarea>'.format(request.POST['profile'])
-
-		print('User choice:', request.POST.get('live', 'NO_LIVE'), group_sel, attr_sel, diff_sel, score_up, skill_up)
 		if 'live' in request.POST and request.POST['live'] in df_live['name'].values:
 			try:
 				live_sel = request.POST['live']
@@ -125,7 +127,7 @@ def index(request):
 					opener = urllib.request.URLopener()
 					opener.addheader('User-Agent', 'whatever')
 					opener.retrieve(url, settings.BASE_DIR+'/static/live_json/'+url.split('/')[-1])
-					live_obj = Live(live_sel, diff_sel)
+					live_obj = Live(live_sel, diff_sel, perfect_rate=float(PR))
 				live_info = html_view(live_obj, lang='CN').data
 			except:
 				print('Did not find live', live_sel, diff_sel)
@@ -138,6 +140,18 @@ def index(request):
 			except:
 				print('Did not find live', live_sel, diff_sel)
 				result += 'Did not find live {0} {1}'.format(live_sel, diff_sel)
+
+		score_up, skill_up = float(request.POST.get('score_up', 0)), float(request.POST.get('skill_up', 0))
+		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1 {1}> {2}'.format(name, 'checked'*(value>0), string) 
+				 			for name, value, string in zip(['score_up', 'skill_up'], [score_up, skill_up], ['得分+10%', '技能+10%'])])
+		is_gem_unlimited= bool(request.POST.get('unlimited_gem', 0))
+		unlimited_gem = '<input type="checkbox" name="unlimited_gem" value=1 {0}> {1}'.format('checked'*is_gem_unlimited, '宝石无限') 
+		profile = '<textarea name="profile" cols="80" rows="20">{0}</textarea>'.format(request.POST['profile'])
+		extra_cond_sel = 'default' if 'extra_cond' not in request.POST else request.POST['extra_cond']
+		extra_cond = '\n'.join(['<option value="{0}" {1}>{2}</option>'.format(x, 'selected'*(x==extra_cond_sel), s) for x, s in 
+								zip(['default', 'max_level_bond', 'idolized', 'ultimate'], ['维持当前状态', '当前状态满级满绊', '贴纸觉醒满级满绊', '觉醒满槽满技能'])])
+
+		print('User choice:', request.POST.get('live', 'NO_LIVE'), group_sel, attr_sel, diff_sel, score_up, skill_up, is_gem_unlimited, extra_cond_sel) 
 		if 'calculate' in request.POST:
 			json_str = request.POST['profile']
 			# try:
@@ -146,11 +160,31 @@ def index(request):
 				user_profile = GameData(json_str, file_type='sokka', string_input=True)
 			else:
 				user_profile = GameData(json_str, file_type='ieb', string_input=True)
-			for x in ['Smile', 'Pure', 'Cool']: user_profile.owned_gem[x+' Kiss'] = 9
+			if extra_cond_sel == 'max_level_bond':
+				for i, card in user_profile.raw_card.items():
+					card.idolize(idolized=card.idolized, reset_slot=False)
+			elif extra_cond_sel == 'idolized':
+				for i, card in user_profile.raw_card.items():
+					card.idolize(idolized=True, reset_slot=False)
+			elif extra_cond_sel == 'ultimate':
+				for i, card in user_profile.raw_card.items():
+					card.idolize(idolized=True)
+					card.slot_num = card.max_slot_num
+					if card.skill is not None:
+						card.skill.level = 8
+			if is_gem_unlimited:
+				for x in list(user_profile.owned_gem.keys()):
+					user_profile.owned_gem[x] = 9
+			else:
+				for x in ['Smile', 'Pure', 'Cool']: 
+					user_profile.owned_gem[x+' Kiss'] = 9
+
+			print(user_profile.owned_gem)
+
 			print('Finished loading user profile')
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
 			tb = TeamBuilder(live_obj, user_profile, opt=opt)
-			tb.build_team(K=12, method='1-suboptimal', alloc_method='DP')
+			tb.build_team(K=12, method='1-suboptimal', alloc_method='DC' if is_gem_unlimited else 'DP')
 			elapsed_time = time.time() - start_time
 
 			output_files_template = '''
@@ -179,8 +213,12 @@ def index(request):
 		attr = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Smile', 'Pure', 'Cool']])
 		diff = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Easy', 'Normal', 'Hard', 'Expert', 'Master']])
 		boost = '\n'.join(['<input type="checkbox" name="{0}" value=0.1> {1}'.format(name, string) for name, string in zip(['score_up', 'skill_up'], ['得分+10%', '技能+10%'])])
-		perfect_rate = '<input name="perfect_rate" type="number" min="0.01" max="1" step="0.01" value="0.95" />'
 		profile = '<textarea name="profile" cols="80" rows="20"></textarea>'
-	return HttpResponse(html_template.substitute(author_memo=author_memo.format(count), live=live, group=group, attr=attr, diff=diff, boost=boost, perfect_rate=perfect_rate, 
-												 profile=profile, live_info=live_info, timing=timing, result=result, output_file=output_file))
+		unlimited_gem = '<input type="checkbox" name="unlimited_gem" value=1> 宝石无限'
+		extra_cond = '\n'.join(['<option value="{0}">{1}</option>'.format(x, s) for x, s in 
+								zip(['default', 'max_level_bond', 'idolized', 'ultimate'], ['维持当前状态', '当前状态满级满绊', '贴纸觉醒满级满绊', '觉醒满槽满技能'])])
+		perfect_rate = '<input name="perfect_rate" type="number" min="0.01" max="1" step="0.01" value="0.95" />'
+	return HttpResponse(html_template.substitute(author_memo=author_memo.format(count), live=live, group=group, attr=attr, diff=diff, boost=boost, 
+												 perfect_rate=perfect_rate, profile=profile, extra_cond=extra_cond, unlimited_gem=unlimited_gem,
+												 live_info=live_info, timing=timing, result=result, output_file=output_file))
 
