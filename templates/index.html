@@ -138,9 +138,15 @@ td {
                     <br/> 在以上设定下
                     <span style="color:red">并不能保证找到最优解</span>，但是期望得分大多数情况只比最优解少1000分以内。
                     <br/> 寻求更优解请移步
-                    <a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="doc">Love Live SIF 卡组强度导论</a>。
+                    <a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="../doc">Love Live SIF 卡组强度导论</a>。
                     <br/>
-                    <br/> 使用方法: 1.选择歌曲; 2.从<a href="http://stats.llsif.win/">SIFStats(日服)</a> 或者 <a href="http://pll.sokka.cn/user">LLproxy(国服)</a> 粘贴社员信息卡组Json; 3: 点击calulate按钮
+                    <br/> 使用方法: 
+                    <ol>
+                    <li>选择歌曲（点击封面上方歌名，点击封面为查看谱面详细信息），以及选择附加条件</li>
+                    <li>从<a href="http://stats.llsif.win/">SIFStats(日服)</a> 或者 <a href="http://pll.sokka.cn/user">LLproxy(国服)</a> 粘贴社员信息卡组Json。<br/>
+                        目前已支持本地存储，关闭网页下一次访问时可以直接载入之前输入的卡组。</li>
+                    <li>点击calulate按钮计算最优卡组</li>
+                    </ol>
                     <br/> 如果发现疑似bug请到
                     <a href="https://tieba.baidu.com/p/5212387940">贴吧发布帖</a>进行反馈，说明具体问题并注明组卡时的<span style="color:red">所有设置</span>。
                     <br/>
@@ -291,14 +297,12 @@ td {
                 swiper.appendSlide("<div class='swiper-slide'><div class='w3-bar w3-{0} w3-center w3-hover-white' style='height:25px' onclick=\"chooseLive('{3}','{4}')\"><b>{1}</b></div><img src='{2}' width=100%></div>\n".format(attribute_color[live['attr']], live['name'], live['cover'], live['name'], diff_sel));
             }
         }
+        // Timeout count for onHold event to view live stats
+        $('.swiper-slide img').on('click', function(e) {
+            viewLiveStats(e);
+        });
     }
     updateLiveSwiper()
-
-    // Timeout count for onHold event to view live stats
-    var timeout_counter = 0;
-    $('.swiper-slide img').on('click', function(e) {
-        viewLiveStats(e);
-    });
 
     function viewLiveStats(e) {
         sn = e.target.parentNode.childNodes[0].getElementsByTagName("b")[0].innerHTML;
