@@ -20,6 +20,7 @@ except:
 class Live:
 	def __init__(self, name, difficulty, perfect_rate=0.95, local_dir=None):
 		try:
+			print(len(live_basic_data), name, difficulty)
 			info = live_basic_data[live_basic_data.apply(lambda x: x['name']==name and x['diff_level']==difficulty, axis=1)].iloc[0]
 		except:
 			print('Live data of {0} {1} not found!'.format(name, difficulty))
@@ -31,8 +32,11 @@ class Live:
 			req = urllib.request.Request(info.file_dir, data=None, headers={'User-Agent': 'whatever'})
 			temp = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
 		else:
-			print(local_dir+info.file_dir.split('/')[-1])
-			temp = json.loads(open(local_dir+info.file_dir.split('/')[-1]).read())
+			try:
+				temp = json.loads(open(local_dir+info.file_dir.split('/')[-1]).read())
+			except:
+				req = urllib.request.Request(info.file_dir, data=None, headers={'User-Agent': 'whatever'})
+				temp = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
 		df = pd.DataFrame(temp, index=list(range(1,len(temp)+1)))
 		df = df.assign(token=df.effect==2, long=df.effect.apply(lambda x: x == 3), 
 					   star=df.effect==4, swing=df.effect.apply(lambda x: x in [11,13]))
