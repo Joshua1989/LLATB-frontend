@@ -76,9 +76,6 @@ if not Path(unit_db_dir).exists():
 	print('{0} does not exist'.format(unit_db_dir))
 
 html_template = '''
-<!DOCTYPE html>
-<html>
-
 <head>
     <style>
     table {{
@@ -87,12 +84,11 @@ html_template = '''
         border: none;
         border-collapse: collapse;
         border-spacing: 0;
-        color: @rendered_html_border_color;
         font-size: 12px;
         table-layout: fixed;
     }}
     
-    th {{
+    /*th {{
 	    white-space: nowrap;
 	}}
 
@@ -105,7 +101,7 @@ html_template = '''
     }}
     
     tbody tr:nth-child(odd) {{
-        background: #f5f5f5;
+        background-color: #f5f5f5;
     }}
     
     * + table {{
@@ -121,11 +117,7 @@ html_template = '''
         margin-left: auto;
         margin-right: auto;
     }}
-    </style>
+    </style>*/
 </head>
-<body>
-    {0} 
-</body>
-
-</html>
+{0} 
 '''
