@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 import time, sys, urllib.request
 from mysite import settings
 sys.path.append(settings.BASE_DIR)
-from llatb import GameData, Live, DefaultLive, TeamBuilder, html_view
+from llatb import GameData, Live, DefaultLive, MFLive, TeamBuilder, html_view
 
 from my_log.models import Counter
 
@@ -31,22 +31,23 @@ def index(request):
 def calculate(request):
 	if request.is_ajax():
 		start_time = time.time()
-
-		song_name, group, attr, diff, PR = [request.POST[x] for x in ['song_name', 'group', 'attribute', 'difficulty', 'perfect_rate']]
+		song_list, PR = eval(request.POST['song_list']), float(request.POST['perfect_rate'])
+		group, attr, diff = [request.POST[x] for x in ['group', 'attribute', 'difficulty']]
 		score_up, skill_up = 1 + 0.1*float(request.POST['score_up']=='true'), 1 + 0.1*float(request.POST['skill_up']=='true')
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']), request.POST['extra_cond'], request.POST['user_profile']
 
 		user_info  = 'User IP Address: {0}\n'.format(str(get_client_ip(request)))
-		user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_name, group, attr, diff, PR)
+		user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)
 		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, unlimit_gem, extra_cond)
 		print(user_info)
 
 		# Load live
 		try:
-			if 'Default' not in song_name:
-				live = Live(song_name, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=float(PR))
+			if '默认谱面' not in song_list[0]:
+				live = MFLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR)
 				live_stats = html_view(live, lang='CN').data
 			else:
+				song_name = song_list[0].replace('默认谱面', 'Default')
 				live = DefaultLive(song_name, diff, perfect_rate=float(PR))
 				live_stats = 'NA'
 		except:
@@ -97,6 +98,7 @@ def calculate(request):
 			message = {'complete':False, 'msg':'求解最佳卡组失败...'}
 			return JsonResponse(message)
 		# Covert result to LL Helper and SIFStats
+		sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
 		try:
 			sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
 		except:

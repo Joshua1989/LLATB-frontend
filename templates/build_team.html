@@ -20,7 +20,6 @@
 <!-- Link LESS JS -->
 <script src="//cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
 
-
 <body>
     <div class='w3-container w3-black' style='padding:0'>
         <div id='infoBox' class='infoBar w3-pale-green'>
@@ -31,7 +30,7 @@
             <span> </span>
         </div>
         <div class='w3-bar toolBar'>
-        <!-- <div class='w3-bar w3-border w3-topbar w3-bottombar w3-border-white' style='padding:12px 0'> -->
+            <!-- <div class='w3-bar w3-border w3-topbar w3-bottombar w3-border-white' style='padding:12px 0'> -->
             <!-- Group select button -->
             <button id='group' class='groupBtn w3-margin-left w3-margin-right' onclick="switchGroup()"></button>
             <!-- Attribute select radio buttons -->
@@ -58,6 +57,9 @@
             </select>
             <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left' onclick="openUserJSON()"><b>用户JSON</b></button>
             <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
+        </div>
+        <div id='liveSel' class='infoBar w3-black' style='height:auto'>
+            <span> <b> </b> </span>
         </div>
         <!-- Swiper -->
         <div id='liveSwiper' class='swiper-container w3-black'>
@@ -180,6 +182,11 @@
         Pure: 'green',
         Cool: 'blue'
     }
+    var attribute_color2 = {
+        Smile: '\#f44336',
+        Pure: '\#4CAF50',
+        Cool: '\#2196F3'
+    }
     var difficulty_arr = ['Easy', 'Normal', 'Hard', 'Expert', 'Master'];
     var extra_cond_arr = ['default', 'current_max', 'idolized_max', 'ultimate'];
     var extra_cond_text = {
@@ -199,7 +206,47 @@
         perfect_rate = 0.95,
         extra_cond = 'default';
     var user_json = localStorage.getItem("user_json");
-    var song_name = 'Default {0} {1}'.format(group_arr[group_sel], attr_sel);
+    var song_name = '默认谱面 {0} {1}'.format(group_arr[group_sel], attr_sel);
+    var live_selection = {
+        group: group_sel,
+        attr: attr_sel,
+        diff: diff_sel,
+        song_list: [song_name]
+    }
+
+    // Used for update MF selection
+    function updateLiveSel(add_song) {
+        var change = (live_selection['group'] != group_sel) | (live_selection['attr'] != attr_sel) | (live_selection['diff'] != diff_sel)
+        if (change) {
+            live_selection = {
+                group: group_sel,
+                attr: attr_sel,
+                diff: diff_sel,
+                song_list: ['默认谱面 {0} {1}'.format(group_arr[group_sel], attr_sel)]
+            };
+        } else if (add_song) {
+            if (live_selection['song_list'].length < 5) {
+                if (add_song.indexOf('默认') == -1) {
+                    if (live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('默认') > -1) {
+                        live_selection['song_list'].pop();
+                    }
+                    live_selection['song_list'].push(add_song)
+                } else {
+                    live_selection = {
+                        group: group_sel,
+                        attr: attr_sel,
+                        diff: diff_sel,
+                        song_list: [add_song]
+                    };
+                }
+            } else {
+                updateInfo('选择Live数量已达到上限 5', true);
+            }
+        }
+        $("#liveSel span b").html('难度: {0}, 已选曲目: {1}'.format(live_selection['diff'], live_selection['song_list'].join(', ')));
+        $("#liveSel span b").css('color', attribute_color2[live_selection['attr']]);
+    }
+    updateLiveSel();
 
     // Initialized display
     $('#group').html("<img src='{0}' alt='{1}'>".format(img_url[group_sel], group_arr[group_sel]));
@@ -273,6 +320,7 @@
         if (sn.indexOf('默认') != -1) {
             return
         } else {
+            console.log(sn)
             POST_JSON = {
                 'song_name': sn,
                 'difficulty': diff_sel,
@@ -337,6 +385,7 @@
         $('#group').html("<img src='{0}' alt='{1}'>".format(img_url[group_sel], group_arr[group_sel]));
         updateLiveSwiper();
         updateInfo('选择团体为 {0}'.format(group_arr[group_sel]), false);
+        updateLiveSel();
     }
 
     // Choose attribute of live
@@ -348,6 +397,7 @@
         attr_sel = attr;
         updateLiveSwiper();
         updateInfo('选择属性为 {0}'.format(attr_sel), false);
+        updateLiveSel();
     }
 
     // Choose difficulty of live
@@ -357,12 +407,14 @@
         updateLiveSwiper();
         updateInfo('选择难度为 {0}'.format(diff_sel), false);
         $('#difficulty>button').html("<img src='{0}'>".format(img_url[diff_sel]));
+        updateLiveSel();
     }
 
     // Choose live
     function chooseLive(name, diff) {
         song_name = name;
         updateInfo('选择谱面为 {0} {1}'.format(name, diff), false);
+        updateLiveSel(song_name);
     }
 
     // Toggle score up, skill up and unlimited gem
@@ -405,7 +457,7 @@
         } else {
             updateInfo('无判P率为输入错误，还原为{0}%'.format(parseInt(perfect_rate * 100)), true);
         }
-        
+
     }
 
     function changeExtraCondition() {
@@ -443,17 +495,17 @@
         }
 
         POST_JSON = {
-            'song_name': song_name.replace('默认谱面', 'Default'),
-            'group': group_arr[group_sel],
-            'attribute': attr_sel,
-            'difficulty': diff_sel,
-            'score_up': score_up,
-            'skill_up': skill_up,
-            'perfect_rate': perfect_rate,
-            'unlimit_gem': unlimit_gem,
-            'extra_cond': extra_cond,
-            'user_profile': user_json,
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
+            song_list: JSON.stringify(live_selection['song_list']),
+            group: live_selection['group'],
+            attribute: live_selection['attr'],
+            difficulty: live_selection['diff'],
+            score_up: score_up,
+            skill_up: skill_up,
+            perfect_rate: perfect_rate,
+            unlimit_gem: unlimit_gem,
+            extra_cond: extra_cond,
+            user_profile: user_json,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
         }
         $.ajax({
             type: "POST",

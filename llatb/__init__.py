@@ -4,10 +4,10 @@ import pandas as pd
 from pathlib import Path
 from IPython.display import HTML
 
-import llatb.common
 from llatb.common import config, global_var
+from llatb.common.display import view_card, view_cards, view_team, view_live
 from llatb import skill
-from llatb.framework import Card, Team, Live, DefaultLive
+from llatb.framework import Card, Team, Live, DefaultLive, MFLive
 from llatb.importer.game_data import GameData
 from llatb.simulator import Simulator
 from llatb.advanced import TeamBuilder
@@ -18,15 +18,15 @@ def update_data():
 
 def html_view(item_to_show, show_gem=False, extra_col=[], lang='EN'):
 	if isinstance(item_to_show, Card):
-		return llatb.common.display.view_card(item_to_show, show_gem=show_gem, extra_col=extra_col)
+		return view_card(item_to_show, show_gem=show_gem, extra_col=extra_col)
 	elif isinstance(item_to_show, Team):
-		return llatb.common.display.view_team(item_to_show, show_gem=show_gem, extra_col=extra_col)
+		return view_team(item_to_show, show_gem=show_gem, extra_col=extra_col)
 	elif isinstance(item_to_show, pd.core.frame.DataFrame):
-		return llatb.common.display.view_cards(item_to_show, show_gem=show_gem, extra_col=extra_col)
+		return view_cards(item_to_show, show_gem=show_gem, extra_col=extra_col)
 	elif type(item_to_show) in [dict, list]:
-		return llatb.common.display.view_cards(item_to_show, show_gem=show_gem, extra_col=extra_col)
-	elif isinstance(item_to_show, Live):
-		return llatb.common.display.view_live(item_to_show, lang=lang)
+		return view_cards(item_to_show, show_gem=show_gem, extra_col=extra_col)
+	elif isinstance(item_to_show, Live) or isinstance(item_to_show, MFLive):
+		return view_live(item_to_show, lang=lang)
 
 def skill_type_table():
 	user_profile = GameData()
