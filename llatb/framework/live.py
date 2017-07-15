@@ -194,7 +194,6 @@ class MFLive:
 		# Save useful statistics as member variables
 		self.summary = note_stat
 		self.star_density = note_stat.loc['total','star'] / self.note_number
-		print(df['combo_factor'])
 
 		self.note_type_dist = dict()
 		self.note_type_dist['normal_density'] = note_stat.loc['total','tap'] / self.note_number

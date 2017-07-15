@@ -86,7 +86,7 @@ class GameData:
 				resp_data = resp['response_data']
 				if type(resp_data) == list and len(resp_data) > 0 and resp_data[0]['result'].get('present_cnt') is not None:
 					useful_info = resp_data
-			result = dict()
+			result, profile = dict(), dict()
 			for item in useful_info:
 				temp = item['result']
 				if temp == []:
@@ -94,11 +94,16 @@ class GameData:
 				elif type(temp) == dict and temp.get('equipment_info') is not None:
 					result['gem_equip_info'] = temp['equipment_info']
 					result['gem_owning_info'] = temp['owning_info']
+					profile['removable_info'] = temp
 				elif type(temp) == list:
 					if temp[0].get('display_rank') is not None:
 						result['card_owning_info'] = temp
+						profile['unit_info'] = temp
 					elif temp[0].get('deck_name') is not None:
 						result['deck_info'] = temp
+						profile['deck_info'] = temp
+			with open('packet_to_json.json', 'w') as fp:
+				fp.write(json.dumps(profile))
 			return result
 		def get_card_levelup_info(card_info):
 			res = {

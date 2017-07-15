@@ -89,7 +89,7 @@
     </div>
     <div id='liveStats' class='w3-modal'>
         <div class='w3-modal-content'>
-            <div class='w3-container w3-padding-24'>
+            <div class='w3-container w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
             </div>
         </div>
     </div>
@@ -451,7 +451,7 @@
     // Change perfect rate and extra condition
     function changePerfectRate() {
         temp = parseFloat($('#perfectRate').val());
-        if (!isNaN(temp)) {
+        if (!isNaN(temp) && temp >= 0.01 && temp <= 1) {
             perfect_rate = temp;
             updateInfo('更改无判P率为 {0}%'.format(parseInt(perfect_rate * 100)), false);
         } else {
