@@ -3,9 +3,9 @@
 <title>LLSIF-AutoTeamBuilder</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <!-- Link W3.CSS -->
-<link rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css'>
+<link rel='stylesheet' href='//www.w3schools.com/w3css/4/w3.css'>
 <!-- Link JQuery -->
-<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 {% load staticfiles %}
 <!-- Cookie handlers -->
 <script src="{% static 'js/cookies.min.js' %}"></script>
@@ -96,25 +96,25 @@
             <div class='w3-container w3-padding-24'>
                 <p style='text-align:left'>
                     <span onclick="document.getElementById('about').style.display='none'" class='exitBtn'><v>x</b></span>
-                    <img src='http://pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ 欢迎使用新版UI网页LLSIF-AutoTeamBuilder全自动组卡器，目前已帮助大家成功组卡 {{ count }} 队
+                    <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ 欢迎使用新版UI网页LLSIF-AutoTeamBuilder全自动组卡器，目前已帮助大家成功组卡 {{ count }} 队
                     <br/>
                     <br/> 网页版LLSIF-AutoTeamBuilder考虑到运算量以及稳定性，使用如下参数：
                     <br/> 预设所有吻宝石为9，预备卡组大小为12，宝石有限时使用1-suboptimal DP算法，无限时使用1-suboptimal DC算法。
                     <br/> 在以上设定下
                     <span style='color:red'>并不能保证找到最优解</span>，但是期望得分大多数情况只比最优解少1000分以内。
                     <br/> 寻求更优解请移步
-                    <a href='https://github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github源码</a>自行尝试，算法细节请参考<a href='../doc'>Love Live SIF 卡组强度导论</a>。
+                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github源码</a>自行尝试，算法细节请参考<a href='../doc'>Love Live SIF 卡组强度导论</a>。
                     <br/>
                     <br/> 使用方法:
                     <ol>
                         <li>选择歌曲（点击封面上方歌名，点击封面为查看谱面详细信息），以及选择附加条件</li>
-                        <li>从<a href='http://stats.llsif.win/'>SIFStats(日服)</a> 或者 <a href='http://pll.sokka.cn/user'>LLproxy(国服)</a> 粘贴社员信息卡组Json。
+                        <li>从<a href='//stats.llsif.win/'>SIFStats(日服)</a> 或者 <a href='//pll.sokka.cn/user'>LLproxy(国服)</a> 粘贴社员信息卡组Json。
                             <br/> 目前已支持本地存储，关闭网页下一次访问时可以直接载入之前输入的卡组。
                         </li>
                         <li>点击calulate按钮计算最优卡组</li>
                     </ol>
                     <br/> 如果发现疑似bug请到
-                    <a href='https://tieba.baidu.com/p/5212387940'>贴吧发布帖</a>进行反馈，说明具体问题并注明组卡时的<span style='color:red'>所有设置</span>。
+                    <a href='//tieba.baidu.com/p/5212387940'>贴吧发布帖</a>进行反馈，说明具体问题并注明组卡时的<span style='color:red'>所有设置</span>。
                     <br/>
                     <br/> Remark 1: 在极端情况下（各种宝石都很少）计算可能会比较慢，请耐心等待。
                     <br/> Remark 2: 由于美服并没有类似数据站，Github代码提供了虽然从tshark抓包导入用户卡组的功能，但是由于抓包中<span style='color:red'>含有账户信息</span>所以考虑到安全问题网页版暂不支持该格式。
@@ -144,30 +144,30 @@
     // Load all live basic information
     var live_info = JSON.parse(live_info_data);
     var img_url = {
-        muse: 'https://r.llsif.win/assets/image/event/mission/ms_m_type_10.png',
-        Aqours: 'https://r.llsif.win/assets/image/event/mission/ms_m_type_11.png',
-        Smile: 'http://c.dash.moe/static/images/smile.png',
-        Pure: 'http://c.dash.moe/static/images/pure.png',
-        Cool: 'http://c.dash.moe/static/images/cool.png',
-        Easy: 'https://r.llsif.win/assets/image/ui/event/e_button_12.png',
-        Normal: 'https://r.llsif.win/assets/image/ui/event/e_button_13.png',
-        Hard: 'https://r.llsif.win/assets/image/ui/event/e_button_14.png',
-        Expert: 'https://r.llsif.win/assets/image/ui/event/e_button_15.png',
-        Master: 'https://r.llsif.win/assets/image/ui/event/e_button_17.png',
-        ScoreUp: 'https://r.llsif.win/assets/image/ui/event/e_button_32.png',
-        SkillUp: 'https://r.llsif.win/assets/image/ui/event/e_button_33.png',
-        UnlimitGem: 'https://r.llsif.win/assets/image/ui/profile/p_icon_01.png',
+        muse: '//r.llsif.win/assets/image/event/mission/ms_m_type_10.png',
+        Aqours: '//r.llsif.win/assets/image/event/mission/ms_m_type_11.png',
+        Smile: '//c.dash.moe/static/images/smile.png',
+        Pure: '//c.dash.moe/static/images/pure.png',
+        Cool: '//c.dash.moe/static/images/cool.png',
+        Easy: '//r.llsif.win/assets/image/ui/event/e_button_12.png',
+        Normal: '//r.llsif.win/assets/image/ui/event/e_button_13.png',
+        Hard: '//r.llsif.win/assets/image/ui/event/e_button_14.png',
+        Expert: '//r.llsif.win/assets/image/ui/event/e_button_15.png',
+        Master: '//r.llsif.win/assets/image/ui/event/e_button_17.png',
+        ScoreUp: '//r.llsif.win/assets/image/ui/event/e_button_32.png',
+        SkillUp: '//r.llsif.win/assets/image/ui/event/e_button_33.png',
+        UnlimitGem: '//r.llsif.win/assets/image/ui/profile/p_icon_01.png',
     };
     var default_cover_url = {
         muse: {
-            Smile: 'https://r.llsif.win/assets/image/ui/live/l_etc_36.png',
-            Pure: 'https://r.llsif.win/assets/image/ui/live/l_etc_37.png',
-            Cool: 'https://r.llsif.win/assets/image/ui/live/l_etc_38.png',
+            Smile: '//r.llsif.win/assets/image/ui/live/l_etc_36.png',
+            Pure: '//r.llsif.win/assets/image/ui/live/l_etc_37.png',
+            Cool: '//r.llsif.win/assets/image/ui/live/l_etc_38.png',
         },
         Aqours: {
-            Smile: 'https://r.llsif.win/assets/image/ui/live/l_etc_130.png',
-            Pure: 'https://r.llsif.win/assets/image/ui/live/l_etc_131.png',
-            Cool: 'https://r.llsif.win/assets/image/ui/live/l_etc_132.png',
+            Smile: '//r.llsif.win/assets/image/ui/live/l_etc_130.png',
+            Pure: '//r.llsif.win/assets/image/ui/live/l_etc_131.png',
+            Cool: '//r.llsif.win/assets/image/ui/live/l_etc_132.png',
         }
     }
     var group_arr = {
