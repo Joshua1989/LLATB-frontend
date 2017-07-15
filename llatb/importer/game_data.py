@@ -54,7 +54,7 @@ class GameData:
 				# Teams of user: list of gem-equipped cards
 				self.team_list = [ None if deck is None else Team([gen_card(c,equip=True) for c in deck]) for deck in deck_info ]
 			except:
-				print('Failed to generate user information from packet file{0}!'.format(' ' + filename if not string_input else ''))
+				print('Failed to generate user information from profile file{0}!'.format(' ' + filename if not string_input else ''))
 	def get_user_packet_info(self, packet_file):
 		def load_packets(packet_file):
 			def fix_file(file_name):

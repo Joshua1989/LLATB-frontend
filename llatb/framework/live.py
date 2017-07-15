@@ -20,7 +20,6 @@ except:
 class Live:
 	def __init__(self, name, difficulty, perfect_rate=0.95, local_dir=None):
 		try:
-			print(len(live_basic_data), name, difficulty)
 			info = live_basic_data[live_basic_data.apply(lambda x: x['name']==name and x['diff_level']==difficulty, axis=1)].iloc[0]
 		except:
 			print('Live data of {0} {1} not found!'.format(name, difficulty))
@@ -195,6 +194,7 @@ class MFLive:
 		# Save useful statistics as member variables
 		self.summary = note_stat
 		self.star_density = note_stat.loc['total','star'] / self.note_number
+		print(df['combo_factor'])
 
 		self.note_type_dist = dict()
 		self.note_type_dist['normal_density'] = note_stat.loc['total','tap'] / self.note_number

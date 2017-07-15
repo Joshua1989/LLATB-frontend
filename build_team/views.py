@@ -33,7 +33,7 @@ def calculate(request):
 		start_time = time.time()
 		song_list, PR = eval(request.POST['song_list']), float(request.POST['perfect_rate'])
 		group, attr, diff = [request.POST[x] for x in ['group', 'attribute', 'difficulty']]
-		score_up, skill_up = 1 + 0.1*float(request.POST['score_up']=='true'), 1 + 0.1*float(request.POST['skill_up']=='true')
+		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']), request.POST['extra_cond'], request.POST['user_profile']
 
 		user_info  = 'User IP Address: {0}\n'.format(str(get_client_ip(request)))
@@ -50,20 +50,20 @@ def calculate(request):
 				song_name = song_list[0].replace('默认谱面', 'Default')
 				live = DefaultLive(song_name, diff, perfect_rate=float(PR))
 				live_stats = 'NA'
+			print('Successfully loaded live.')
 		except:
 			message = {'complete':False, 'msg':'载入谱面信息失败...'}
 			return JsonResponse(message)
-		print('Successfully loaded live.')
 		# Load user profile
 		try:
 			if 'detail' in json_str:
 				user_profile = GameData(json_str, file_type='sokka', string_input=True)
 			else:
 				user_profile = GameData(json_str, file_type='ieb', string_input=True)
+			print('Successfully loaded user profile.')
 		except:
 			message = {'complete':False, 'msg':'载入用户卡组信息失败...'}
 			return JsonResponse(message)
-		print('Successfully loaded user profile.')
 		# Modify user profile
 		try:
 			if extra_cond == 'current_max':
@@ -84,10 +84,11 @@ def calculate(request):
 			else:
 				for x in ['Smile', 'Pure', 'Cool']: 
 					user_profile.owned_gem[x+' Kiss'] = 9
+			if extra_cond != 'default':
+				print('Successfully applied extra condition.')
 		except:
 			message = {'complete':False, 'msg':'应用附加条件失败...'}
 			return JsonResponse(message)
-		print('Successfully applied extra condition.')
 		# Solve for optimal team
 		try:
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
