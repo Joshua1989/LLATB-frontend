@@ -1,0 +1,242 @@
+/* W3.CSS styles */
+
+@import (less) url("w3.css");
+.exitBtn {
+    .w3-button;
+    .w3-ripple;
+    .w3-red;
+    .w3-right;
+    .w3-display-topright;
+    &:hover:extend(.w3-hover-yellow:hover) {}
+}
+
+.aboutBtn {
+    .w3-button;
+    .w3-ripple;
+    .w3-blue;
+    .w3-right;
+    padding: 0 5px;
+    &:hover:extend(.w3-hover-yellow:hover) {}
+}
+
+.toolBar {
+    .w3-border;
+    .w3-topbar;
+    .w3-bottombar;
+    .w3-border-yellow;
+    padding: 12px 0;
+}
+
+.infoBar {
+    .w3-bar;
+    .w3-center;
+    .w3-border;
+    .w3-border-black;
+    .exitBtn {
+        position: relative;
+        padding: 0;
+        width: 30px;
+    }
+    height: 25px;
+}
+
+.imgBtn {
+    .w3-bar.w3-bar-item;
+    .w3-button;
+    .w3-ripple;
+    .w3-round-large;
+    &:hover:extend(.w3-hover-yellow:hover) {}
+    height: 40px;
+    padding: 0;
+    img {
+        height:100%;
+    }
+}
+
+.groupBtn {
+    .imgBtn;
+    .w3-border;
+    .w3-border-white;
+    padding: 5px;
+    background-color:pink;
+}
+
+.attrBtn {
+    .imgBtn;
+    .w3-circle;
+    width: 40;
+}
+
+.diffBtn {
+    .imgBtn;
+    float:none;
+}
+
+.diffItem {
+    .w3-button;
+    .w3-ripple;
+    &:hover:extend(.w3-hover-yellow:hover) {}
+    padding: 0;
+    height: 40px;
+    img {
+        height:100%;
+    }
+}
+
+/* Swiper styles */
+
+.swiper-container {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: radial-gradient(grey, black);
+}
+
+.swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 250px;
+    height: 275px;
+    border-width: 5px;
+    border-style: solid;
+    .topBar {
+        .w3-bar;
+        .w3-center;
+        position: absolute;
+        top:0;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        height: 25px;
+        width: 100%;
+        transition: .5s ease;
+        &:hover {
+            bottom: 0;
+            height: 75px;
+        }
+        z-index:2;
+        .titleText {
+            white-space: nowrap; 
+            position: absolute;
+            overflow: hidden;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+        }
+    }
+    img {
+        position: absolute;
+        top:25px;
+        width:250px;
+    }
+}
+
+.roundBtn {
+    .w3-button;
+    .w3-ripple;
+    .w3-round-large;
+    .w3-border;
+    .w3-border-white;
+    height:40px;
+    padding:0 5px
+}
+
+/* Table styles */
+
+table {
+    width: 100%;
+}
+
+tr:nth-child(odd) {
+    background: #f5f5f5;
+}
+
+tr:hover {
+    background-color: #e6ffff;
+}
+
+th,
+td {
+    width: 50%;
+    border: solid 1px;
+    margin: auto;
+    text-align: center;
+    overflow-x: scroll;
+}
+
+#userJSON {
+    .w3-animate-zoom;
+    background-color:rgba(0,0,0,0);
+    .w3-modal-content {
+        .w3-pale-blue;
+        .w3-border;
+        .w3-topbar;
+        .w3-bottombar;
+        .w3-leftbar;
+        .w3-rightbar;
+        border-color: #e91e63!important;
+    }
+    .profile {
+        width:90%;
+        height:50%;
+    }
+    .output {
+        padding:15px 0;
+        width:45%;
+        height:40%;
+        display:inline-block;
+    }
+    .LLH, .ieb {
+        width:100%;
+        height:100%;
+    }
+}
+
+#result {
+    .w3-container;
+    .w3-border;
+    .w3-topbar;
+    .w3-bottombar;
+    .w3-leftbar;
+    .w3-rightbar;
+    .w3-border-blue;
+    overflow:scroll; 
+    padding:0;
+    p {
+        white-space: normal;
+    }
+}
+
+#liveStats {
+    .w3-animate-zoom;
+    background-color:rgba(0,0,0,0);
+    overflow:scroll;
+    p {
+        white-space: normal;
+    }
+    table img {
+        width: 100%;
+    }
+}
+
+#about {
+    .w3-animate-opacity;
+    background-color:rgba(0,0,0,0);
+    .w3-modal-content {
+        .w3-pale-blue;
+        .w3-border;
+        .w3-topbar;
+        .w3-bottombar;
+        .w3-leftbar;
+        .w3-rightbar;
+        .w3-border-blue;
+    }
+}
+
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}

@@ -1,4 +1,3 @@
-import os
 import os 
 from pathlib import Path
 from llatb.common.global_var import gem_skill_dict, gem_skill_id_rev_dict
@@ -75,6 +74,53 @@ if not Path(live_archive_dir).exists():
 if not Path(unit_db_dir).exists():
 	print('{0} does not exist'.format(unit_db_dir))
 
+# html_template = '''
+# <head>
+#     <style>
+#     table {{
+#         margin-left: 0px;
+#         margin-right: auto;
+#         border: none;
+#         border-collapse: collapse;
+#         border-spacing: 0;
+#         font-size: 12px;
+#         table-layout: fixed;
+#     }}
+    
+#     th {{
+# 	    white-space: nowrap;
+# 	}}
+
+# 	td {{
+# 	    white-space: nowrap;
+# 	}}
+    
+#     th {{
+#         font-weight: bold;
+#     }}
+    
+#     tbody tr:nth-child(odd) {{
+#         background-color: #f5f5f5;
+#     }}
+    
+#     * + table {{
+#         margin-top: 1em;
+#     }}
+    
+#     p {{
+#         text-align: center;
+#     }}
+    
+#     img {{
+#         display: block;
+#         margin-left: auto;
+#         margin-right: auto;
+#     }}
+#     </style>
+# </head>
+# {0} 
+# '''
+
 html_template = '''
 <head>
     <style>
@@ -87,37 +133,7 @@ html_template = '''
         font-size: 12px;
         table-layout: fixed;
     }}
-    
-    /*th {{
-	    white-space: nowrap;
-	}}
-
-	td {{
-	    white-space: nowrap;
-	}}
-    
-    th {{
-        font-weight: bold;
-    }}
-    
-    tbody tr:nth-child(odd) {{
-        background-color: #f5f5f5;
-    }}
-    
-    * + table {{
-        margin-top: 1em;
-    }}
-    
-    p {{
-        text-align: center;
-    }}
-    
-    img {{
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }}
-    </style>*/
+    </style>
 </head>
 {0} 
 '''

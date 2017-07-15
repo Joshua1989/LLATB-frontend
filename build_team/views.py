@@ -25,7 +25,7 @@ def get_client_ip(request):
 # Create your views here.
 def index(request):
 	context = { 'count': Counter.objects.get_or_create()[0].TeamCount }
-	return render(request, 'index.html', context)
+	return render(request, 'build_team.html', context)
 
 @csrf_exempt
 def calculate(request):
