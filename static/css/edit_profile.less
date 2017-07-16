@@ -1,0 +1,154 @@
+/* W3.CSS styles */
+
+@import (less) url("w3.css");
+.exitBtn {
+    .w3-button;
+    .w3-ripple;
+    .w3-red;
+    .w3-right;
+    .w3-display-topright;
+    &:hover:extend(.w3-hover-yellow:hover) {}
+}
+
+.toolBar {
+    .w3-border;
+    .w3-topbar;
+    .w3-bottombar;
+    .w3-border-yellow;
+    padding: 12px 0;
+}
+
+.infoBar {
+    .w3-bar;
+    .w3-center;
+    .w3-border;
+    .w3-border-black;
+    .exitBtn {
+        position: relative;
+        padding: 0;
+        width: 30px;
+    }
+    height: 25px;
+}
+
+.imgBtn {
+    .w3-bar.w3-bar-item;
+    .w3-button;
+    .w3-ripple;
+    .w3-round-large;
+    &:hover:extend(.w3-hover-yellow:hover) {}
+    height: 50px;
+    padding: 0;
+    img {
+        height: 100%;
+    }
+}
+
+.memberBtn {
+    .imgBtn;
+    .w3-border;
+    .w3-border-white;
+    padding: 0px;
+    background-color: pink;
+}
+
+.attrBtn {
+    .imgBtn;
+    .w3-circle;
+}
+
+.idolBtn {
+    .imgBtn;
+    padding: 3px;
+}
+
+.roundBtn {
+    .w3-button;
+    .w3-ripple;
+    .w3-round-large;
+    .w3-border;
+    .w3-border-white;
+    height: 60px;
+    padding: 0 5px
+}
+
+#chooseMember {
+    .w3-animate-zoom;
+    background-color: rgba(0, 0, 0, 0);
+    .w3-modal-content {
+        .w3-border;
+        .w3-topbar;
+        .w3-bottombar;
+        .w3-leftbar;
+        .w3-rightbar;
+        border-color: #e91e63!important;
+        .w3-bar {
+            height: 40px;
+            .tab {
+                .w3-round-large;
+                .w3-button;
+                height: 100%;
+                padding: 0;
+                background-color: rgba(0, 0, 0, 0);
+                &:hover {
+                    background-color: yellow;
+                }
+                img {
+                    height: 100%;
+                }
+            }
+        }
+
+        .member {
+            @media (min-width:901px) {
+                max-width:11%;
+            }
+            @media (max-width:901px) and (min-width:401px) {
+                max-width:20%;
+            }
+            @media (max-width:400px) {
+                max-width:33%;
+            }
+            .w3-button;
+            .w3-ripple;
+            .w3-round-large;
+            &:hover {
+                background-color: yellow;
+            }
+            padding: 0;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+            .w3-border;
+            .w3-border-black;
+        }
+        .Muse {
+            background-color: #ff9800;
+        }
+        .Aqours {
+            background-color: #87CEEB;
+        }
+    }
+}
+
+#pond {
+    img {
+        @media (min-width:901px) {
+            max-width:7%;
+        }
+        @media (max-width:901px) and (min-width:401px) {
+            max-width:15%;
+        }
+        @media (max-width:400px) {
+            max-width:25%;
+        }
+    }
+}
+
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}

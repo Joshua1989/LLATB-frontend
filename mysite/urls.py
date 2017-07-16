@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', teambuilderApp.index),
     url(r'^build_team/', include('build_team.urls')),
+    url(r'^edit_profile/', include('edit_profile.urls')),
     url(r'^doc/$', TemplateView.as_view(template_name='theoretical_material.html')),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico'))
 ]

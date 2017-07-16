@@ -3,152 +3,48 @@
 <title>LLSIF-AutoTeamBuilder</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <!-- Link W3.CSS -->
-<link rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css'>
+<link rel='stylesheet' href='//www.w3schools.com/w3css/4/w3.css'>
 <!-- Link JQuery -->
-<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 {% load staticfiles %}
-<!-- Link Cookies JS -->
-<script src="{% static 'js/cookies.min.js' %}"></script>
 <!-- Cookie handlers -->
-<script type="text/javascript" src="{% static 'live_data_base.json' %}"></script>
-<style>
-.swiper-container {
-    width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.swiper-slide {
-    background-position: center;
-    background-size: cover;
-    width: 250px;
-    height: 275px;
-}
-
-.swiper-slide div:active {
-    transform: scale(1.05);
-}
-
-table {
-    width: 100%;
-}
-
-tr:nth-child(odd) {
-    background: #f5f5f5;
-}
-
-tr:hover {
-    background-color: #e6ffff;
-}
-
-th,
-td {
-    width: 50%;
-    border: solid 1px;
-    margin: auto;
-    text-align: center;
-    overflow-x: scroll;
-}
-
-#result p {
-    white-space: normal;
-}
-
-#result img[width="75"] {
-    width: 50px;
-}
-
-#liveStats p {
-    white-space: normal;
-}
-
-#liveStats table img {
-    width: 100%;
-}
-</style>
+<script src="{% static 'js/cookies.min.js' %}"></script>
+<!-- Load live basic data -->
+<script type="text/javascript" src="{% static 'card_data_base.json' %}"></script>
+<!-- Link LESS CSS -->
+<link rel="stylesheet/less" type="text/css" href="{% static 'css/edit_profile.less' %}" />
+<!-- Link LESS JS -->
+<script src="//cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
 
 <body>
     <div class='w3-container w3-black' style='padding:0'>
-        <div id='infoBox' class='w3-bar w3-pale-green w3-border w3-border-black' style='height:25px'>
-            <span onclick="this.parentElement.style.display='none'" class='w3-button w3-ripple w3-red w3-right' style='padding:0;width:30px;'>x</span>
-            <button onclick="document.getElementById('about').style.display='block'" class='w3-button w3-ripple w3-blue w3-hover-yellow w3-right' style='padding:0;'>About</button>
+        <div id='infoBox' class='infoBar w3-pale-green'>
+            <span class='exitBtn'><v>x</b></span>
             <span> </span>
         </div>
-        <div class='w3-bar w3-border w3-topbar w3-bottombar w3-border-white' style='padding:12px 0'>
+        <div class='w3-bar toolBar'>
             <!-- Group select button -->
-            <button id='group' class='w3-bar-item w3-button w3-ripple w3-hover-yellow' style='height:40px;padding:5px' onclick="switchGroup()"></button>
+            <button id='member' class='memberBtn w3-margin-left w3-margin-right'></button>
             <!-- Attribute select radio buttons -->
-            <button id='attrSmile' class='w3-bar-item w3-button w3-ripple w3-hover-yellow' style='width:40px;height:40px;padding:0' onclick="switchColor('Smile')"></button>
-            <button id='attrPure' class='w3-bar-item w3-button w3-ripple w3-hover-yellow' style='width:40px;height:40px;padding:0' onclick="switchColor('Pure')"></button>
-            <button id='attrCool' class='w3-bar-item w3-button w3-ripple w3-hover-yellow' style='width:40px;height:40px;padding:0' onclick="switchColor('Cool')"></button>
-            <!-- Difficulty select dropdown -->
-            <div id='difficulty' class='w3-dropdown-click w3-margin-left'>
-                <button class='w3-button w3-ripple w3-hover-yellow' style='height:40px;padding:0'></button>
-                <div class='w3-dropdown-content w3-bar-block' style='z-index:2;min-width:40px;'>
-                </div>
-            </div>
-            <button id='scoreUp' class='w3-bar-item w3-button w3-ripple w3-hover-yellow w3-margin-left' style='height:40px;padding:0' onclick="toggleScoreUp()"></button>
-            <button id='skillUp' class='w3-bar-item w3-button w3-ripple w3-hover-yellow' style='height:40px;padding:0' onclick="toggleSkillUp()"></button>
-            <div class="w3-bar-item w3-margin-left" style='width:75px;height:40px;padding:0'>
-                <input id='perfectRate' class='w3-input' type='number' min='0.01' max='1' step='0.01' placeholder='无判P率' onchange="changePerfectRate()">
-            </div>
-            <button id='unlimitGem' class='w3-bar-item w3-button w3-ripple w3-hover-yellow w3-margin-left' style='height:40px;padding:0' onclick="toggleUnlimitGem()"></button>
-            <select id='extraCond' class='w3-bar-item w3-select w3-margin-left' style='height:40px;padding:0' onchange="changeExtraCondition()">
-            </select>
-            <button class='w3-bar-item w3-button w3-ripple w3-round-large w3-pink w3-hover-yellow w3-border w3-border-white w3-margin-left' style='height:40px;padding:0 5px' onclick="document.getElementById('userJSON').style.display='block'"><b>用户JSON</b></button>
-            <button class='w3-bar-item w3-button w3-ripple w3-block w3-round-large w3-green w3-hover-yellow w3-border w3-border-white w3-right w3-mobile' style='height:40px;padding:0 5px' onclick="calculate()"><b>Calculate</b></button>
-        </div>
-        <!-- Swiper -->
-        <div id='liveSwiper' class='swiper-container w3-black'>
-            <div class='swiper-wrapper'>
-                <div class='swiper-slide'><b>Init</b></div>
-            </div>
+            <button id='attrSmile' class='attrBtn'></button>
+            <button id='attrPure' class='attrBtn'></button>
+            <button id='attrCool' class='attrBtn'></button>
+            <button id='idolized' class='idolBtn w3-margin-left'></button>
+            <button id='saveProfile' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right w3-mobile'><b>保存修改</b></button>
         </div>
     </div>
-    <div id='result' class='w3-container w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue' style='overflow:scroll; padding:0'>
+    <div id='pond' class='w3-container w3-black' style='padding:0'>
     </div>
-    <div id="userJSON" class="w3-modal">
-        <div class="w3-modal-content" style='height:70%'>
-            <div class="w3-container w3-black w3-border w3-border-white w3-padding-24" style='height:100%'>
-                <span onclick="inputUserJSON()" class="w3-button w3-ripple w3-display-topright w3-red">x</span>
-                <b>在此输入用户卡组信息 JSON: </b>
-                <textarea class='w3-input' style='width:90%;height:90%'></textarea>
+    <div id='owned' class='w3-container w3-black' style='padding:0'>
+    </div>
+    <div id='chooseMember' class='w3-modal'>
+        <div class='w3-modal-content'>
+            <span class='exitBtn'><b>x</b></span>
+            <div class="w3-bar w3-black">
+                <button id='chooseMuse' class="w3-bar-item tab"></button>
+                <button id='chooseAqours' class="w3-bar-item tab"></button>
             </div>
-        </div>
-    </div>
-    <div id="liveStats" class="w3-modal" style='overflow:scroll'>
-        <div class="w3-modal-content">
-            <div class="w3-container w3-padding-24">
-            </div>
-        </div>
-    </div>
-    <div id="about" class="w3-modal">
-        <div class="w3-modal-content w3-pale-blue">
-            <div class="w3-container w3-padding-24">
-                <p style="text-align:left">
-                    <span onclick="document.getElementById('about').style.display='none'" class="w3-button w3-ripple w3-display-topright w3-red">x</span>
-                    <img src="http://pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg" height=60 style="display:inline;vertical-align: middle;"> Nyan~ 欢迎使用新版UI网页LLSIF-AutoTeamBuilder全自动组卡器，目前已帮助大家成功组卡 {{ count }} 队
-                    <br/>
-                    <br/> 网页版LLSIF-AutoTeamBuilder考虑到运算量以及稳定性，使用如下参数：<br/>
-                          预设所有吻宝石为9，预备卡组大小为12，宝石有限时使用1-suboptimal DP算法，无限时使用1-suboptimal DC算法。
-                    <br/> 在以上设定下
-                    <span style="color:red">并不能保证找到最优解</span>，但是期望得分大多数情况只比最优解少1000分以内。
-                    <br/> 寻求更优解请移步
-                    <a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="../doc">Love Live SIF 卡组强度导论</a>。
-                    <br/>
-                    <br/> 使用方法: 
-                    <ol>
-                    <li>选择歌曲（点击封面上方歌名，点击封面为查看谱面详细信息），以及选择附加条件</li>
-                    <li>从<a href="http://stats.llsif.win/">SIFStats(日服)</a> 或者 <a href="http://pll.sokka.cn/user">LLproxy(国服)</a> 粘贴社员信息卡组Json。<br/>
-                        目前已支持本地存储，关闭网页下一次访问时可以直接载入之前输入的卡组。</li>
-                    <li>点击calulate按钮计算最优卡组</li>
-                    </ol>
-                    <br/> 如果发现疑似bug请到
-                    <a href="https://tieba.baidu.com/p/5212387940">贴吧发布帖</a>进行反馈，说明具体问题并注明组卡时的<span style="color:red">所有设置</span>。
-                    <br/>
-                    <br/> Remark 1: 在极端情况下（各种宝石都很少）计算可能会比较慢，请耐心等待。
-                    <br/> Remark 2: 由于美服并没有类似数据站，Github代码提供了虽然从tshark抓包导入用户卡组的功能，但是由于抓包中<span style="color:red">含有账户信息</span>所以考虑到安全问题网页版暂不支持该格式。
-                </p>
+            <div class='w3-container w3-black w3-padding-24'>
             </div>
         </div>
     </div>
@@ -171,36 +67,104 @@ td {
         return true;
     }
 
-    // Load all live basic information
-    var live_info = JSON.parse(live_info_data);
     var img_url = {
-        muse: 'https://r.llsif.win/assets/image/event/mission/ms_m_type_10.png',
-        Aqours: 'https://r.llsif.win/assets/image/event/mission/ms_m_type_11.png',
-        Smile: 'http://c.dash.moe/static/images/smile.png',
-        Pure: 'http://c.dash.moe/static/images/pure.png',
-        Cool: 'http://c.dash.moe/static/images/cool.png',
-        Easy: 'https://r.llsif.win/assets/image/ui/event/e_button_12.png',
-        Normal: 'https://r.llsif.win/assets/image/ui/event/e_button_13.png',
-        Hard: 'https://r.llsif.win/assets/image/ui/event/e_button_14.png',
-        Expert: 'https://r.llsif.win/assets/image/ui/event/e_button_15.png',
-        Master: 'https://r.llsif.win/assets/image/ui/event/e_button_17.png',
-        ScoreUp: 'https://r.llsif.win/assets/image/ui/event/e_button_32.png',
-        SkillUp: 'https://r.llsif.win/assets/image/ui/event/e_button_33.png',
-        UnlimitGem: 'https://r.llsif.win/assets/image/ui/profile/p_icon_01.png',
-        SR: 'https://r.llsif.win/assets/image/item/icon/item_icon_14.png',
-        SSR: 'https://r.llsif.win/assets/image/item/icon/item_icon_25.png',
-        UR: 'https://r.llsif.win/assets/image/item/icon/item_icon_13.png'
+        Muse: '//r.llsif.win/assets/image/event/mission/ms_m_type_10.png',
+        Aqours: '//r.llsif.win/assets/image/event/mission/ms_m_type_11.png',
+        Smile: '//db.loveliv.es/static/img/icon/1.png',
+        Pure: '//db.loveliv.es/static/img/icon/2.png',
+        Cool: '//db.loveliv.es/static/img/icon/3.png',
+        Idolized: '//r.llsif.win/assets/image/ui/common/com_etc_250.png',
     };
-    var default_cover_url = {
-        muse: {
-            Smile: 'https://r.llsif.win/assets/image/ui/live/l_etc_36.png',
-            Pure: 'https://r.llsif.win/assets/image/ui/live/l_etc_37.png',
-            Cool: 'https://r.llsif.win/assets/image/ui/live/l_etc_38.png',
+    var member_info = {
+        Honoka: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_254.png',
+            name: '高坂穂乃果',
+            group: 'Muse'
         },
-        Aqours: {
-            Smile: 'https://r.llsif.win/assets/image/ui/live/l_etc_130.png',
-            Pure: 'https://r.llsif.win/assets/image/ui/live/l_etc_131.png',
-            Cool: 'https://r.llsif.win/assets/image/ui/live/l_etc_132.png',
+        Eli: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_255.png',
+            name: '絢瀬絵里',
+            group: 'Muse'
+        },
+        Kotori: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_256.png',
+            name: '南ことり',
+            group: 'Muse'
+        },
+        Umi: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_257.png',
+            name: '園田海未',
+            group: 'Muse'
+        },
+        Rin: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_258.png',
+            name: '星空凛',
+            group: 'Muse'
+        },
+        Maki: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_259.png',
+            name: '西木野真姫',
+            group: 'Muse'
+        },
+        Nozomi: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_260.png',
+            name: '東條希',
+            group: 'Muse'
+        },
+        Hanayo: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_261.png',
+            name: '小泉花陽',
+            group: 'Muse'
+        },
+        Nico: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_262.png',
+            name: '矢澤にこ',
+            group: 'Muse'
+        },
+        Chika: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_105.png',
+            name: '高海千歌',
+            group: 'Aqours'
+        },
+        Riko: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_106.png',
+            name: '桜内梨子',
+            group: 'Aqours'
+        },
+        Kanan: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_107.png',
+            name: '松浦果南',
+            group: 'Aqours'
+        },
+        Dia: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_108.png',
+            name: '黒澤ダイヤ',
+            group: 'Aqours'
+        },
+        You: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_109.png',
+            name: '渡辺曜',
+            group: 'Aqours'
+        },
+        Yoshiko: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_110.png',
+            name: '津島善子',
+            group: 'Aqours'
+        },
+        Hanamaru: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_111.png',
+            name: '国木田花丸',
+            group: 'Aqours'
+        },
+        Mari: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_112.png',
+            name: '小原鞠莉',
+            group: 'Aqours'
+        },
+        Ruby: {
+            url: '//r.llsif.win/assets/image/ui/common/com_etc_113.png',
+            name: '黒澤ルビィ',
+            group: 'Aqours'
         }
     }
     var group_arr = {
@@ -213,137 +177,47 @@ td {
         Pure: 'green',
         Cool: 'blue'
     }
-    var difficulty_arr = ['Easy', 'Normal', 'Hard', 'Expert', 'Master'];
-    var extra_cond_arr = ['default', 'current_max', 'idolized_max', 'ultimate'];
-    var extra_cond_text = {
-        default: '维持当前状态',
-        current_max: '当前状态满级满绊',
-        idolized_max: '贴纸觉醒满级满绊',
-        ultimate: '觉醒满槽满技能'
-    };
-
-    // Initialize selections
-    var group_sel = 'muse',
-        attr_sel = 'Smile',
-        diff_sel = 'Expert',
-        score_up = false,
-        skill_up = false,
-        unlimit_gem = false,
-        perfect_rate = 0.95,
-        extra_cond = 'default';
-    var user_json = localStorage.getItem("user_json");
-    var song_name = 'Default {0} {1}'.format(group_arr[group_sel], attr_sel);
-
-    // Initialized display
-    $('#group').html("<img src='{0}' alt='{1}' height=100%>".format(img_url[group_sel], group_arr[group_sel]));
-    for (x in attribute_arr) {
-        attr = attribute_arr[x];
-        $('#attr' + attr).html("<img src='{0}' alt='{1}' height=100%>".format(img_url[attr], group_arr[attr]));
-        $('#attr' + attr + ' img').addClass('w3-grayscale-max');
+    var attribute_color2 = {
+        Smile: '\#f44336',
+        Pure: '\#4CAF50',
+        Cool: '\#2196F3'
     }
-    $('#attr' + attr_sel + ' img').removeClass('w3-grayscale-max');
-    var temp = '';
-    for (x in difficulty_arr) {
-        diff = difficulty_arr[x];
-        temp += "<button class='w3-bar-item w3-button w3-ripple w3-border w3-border-white' onclick=\"switchDifficulty('{0}')\" style='height:40px;padding:0;'><img src='{1}' style='height:100%;'></button>".format(diff, img_url[diff]);
-    }
-    $('#difficulty div').html(temp);
-    $('#difficulty>button').html("<img src='{0}' height=100%>".format(img_url[diff_sel]));
-    $('#scoreUp').html("<img src='{0}' height=100%>".format(img_url['ScoreUp']));
-    $('#scoreUp img').addClass('w3-grayscale-max');
-    $('#skillUp').html("<img src='{0}' height=100%>".format(img_url['SkillUp']));
-    $('#skillUp img').addClass('w3-grayscale-max');
-    $('#unlimitGem').html("<img src='{0}' height=100%>".format(img_url['UnlimitGem']));
-    $('#unlimitGem img').addClass('w3-grayscale-max');
-    $('#perfectRate').val(perfect_rate);
-    temp = '';
-    for (x in extra_cond_arr) {
-        ec = extra_cond_arr[x]
-        temp += "<option value='{0}'>{1}</option>".format(ec, extra_cond_text[ec]);
-    }
-    $('#extraCond').html(temp);
-    $('#userJSON textarea').val(user_json)
 
-    // Initialize Swiper
-    var swiper = new Swiper('.swiper-container', {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        coverflow: {
-            rotate: 30,
-            stretch: 0,
-            depth: 350,
-            modifier: 1,
-            slideShadows: false
-        },
-        loop: false,
-        mousewheelControl: true,
-        freeMode: true,
-        freeModeSticky: true
-    });
-    // Fill live pond into swiper
-    function updateLiveSwiper() {
-        swiper.removeAllSlides()
-        var default_name = '默认谱面 {0} {1}'.format(group_arr[group_sel], attr_sel)
-        swiper.appendSlide("<div class='swiper-slide w3-hover-border-yellow' style='border:5px solid black'><div class='w3-bar w3-{0} w3-center w3-hover-white' style='height:25px' onclick=\"chooseLive('{3}','{4}')\"><b>{1}</b></div><img src='{2}' width=100%></div>\n".format(attribute_color[attr_sel], default_name, default_cover_url[group_sel][attr_sel], default_name.replace("'", "\\\'"), diff_sel));
-        for (x in live_info) {
-            live = live_info[x];
-            if (live['group'] == group_arr[group_sel] && live['attr'] == attr_sel && live['diff_level'] == diff_sel) {
-                swiper.appendSlide("<div class='swiper-slide w3-hover-border-yellow' style='border:5px solid black'><div class='w3-bar w3-{0} w3-center w3-hover-white' style='height:25px' onclick=\"chooseLive('{3}','{4}')\"><b>{1}</b></div><img src='{2}' width=100%></div>\n".format(attribute_color[live['attr']], live['name'], live['cover'], live['name'], diff_sel));
-            }
+    // Load all live basic information
+    var card_info = JSON.parse(card_info_data);
+    var rev_dict = {},
+        card_bucket = {},
+        promo_bucket = {};
+    for (var x in member_info) {
+        rev_dict[member_info[x]['name']] = x;
+        card_bucket[x] = {};
+        for (var y in attribute_arr) {
+            card_bucket[x][attribute_arr[y]] = [];
         }
-        // Timeout count for onHold event to view live stats
-        $('.swiper-slide img').on('click', function(e) {
-            viewLiveStats(e);
-        });
+        promo_bucket[x] = {};
+        for (var y in attribute_arr) {
+            promo_bucket[x][attribute_arr[y]] = [];
+        }
     }
-    updateLiveSwiper()
-
-    function viewLiveStats(e) {
-        sn = e.target.parentNode.childNodes[0].getElementsByTagName("b")[0].innerHTML;
-        if (sn.indexOf('默认') != -1) {
-            return
+    for (var card_id in card_info) {
+        var ci = card_info[card_id];
+        var key = rev_dict[ci['member_name']],
+            attr = ci['main_attr'];
+        if (ci['promo']) {
+            promo_bucket[key][attr].push(card_id);
         } else {
-            POST_JSON = {
-                'song_name': sn,
-                'difficulty': diff_sel,
-                'perfect_rate': perfect_rate,
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            }
-            $.ajax({
-                type: "POST",
-                url: "live_stats",
-                headers: {
-                    'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
-                },
-                data: POST_JSON,
-                success: function(data) {
-                    updateInfo(data['msg'], !data['complete']);
-                    $('#result').html(data['result']);
-                    $('#liveStats').css('display', 'block');
-                    temp = '<span onclick="document.getElementById(\'liveStats\').style.display=\'none\'" class="w3-button w3-ripple w3-display-topright w3-red">x</span>'
-                    temp += data['live_stats'];
-                    $('#liveStats .w3-container').html(temp)
-                }
-            });
+            card_bucket[key][attr].push(card_id);
         }
     }
 
-    // Make a clickable dropdown for difficulty
-    $(document).ready(function() {
-        $('#difficulty').click(function() {
-            $('#difficulty div').show();
-        });
-        $('#difficulty div').click(function(e) {
-            e.stopPropagation();
-        });
-        $('#difficulty div').mouseleave(function() {
-            $('#difficulty div').hide();
-        });
+    var user_json = JSON.parse(localStorage.getItem("user_json"));
+    var owned_bucket = {};
+
+    // Info bar
+    $('#infoBox .exitBtn').click(function() {
+        $('#infoBox').hide();
     });
 
-    // Update info bar
     function updateInfo(msg, is_error) {
         $("#infoBox").removeClass('w3-pale-green');
         $("#infoBox").removeClass('w3-pale-red');
@@ -357,129 +231,116 @@ td {
         $("#infoBox span:last").html(prefix + msg);
     }
 
-    // Toggle Muse and Aquors
-    function switchGroup() {
-        group_sel = group_sel == 'Aqours' ? 'muse' : 'Aqours';
-        $('#group').html("<img src='{0}' alt='{1}' height=100%>".format(img_url[group_sel], group_arr[group_sel]));
-        updateLiveSwiper();
-        updateInfo('选择团体为 {0}'.format(group_arr[group_sel]), false);
+    // Member choose
+    var member_sel = 'Honoka';
+    $('#member').html("<img src='{0}' alt='{1}'>".format(member_info[member_sel]['url'], member_sel));
+    $('#member').click(function() {
+        $('#chooseMember').show();
+    });
+    $('#chooseMember .exitBtn').click(function() {
+        $('#chooseMember').hide();
+    });
+    $('#chooseMuse').html("<img src='{0}'>".format(img_url['Muse']))
+    $('#chooseAqours').html("<img src='{0}'>".format(img_url['Aqours']))
+    var temp = '';
+    for (var x in member_info) {
+        var group = member_info[x]['group'],
+            url = member_info[x]['url'];
+        temp += '<div id=\'{0}\' class=\'{1} member\'><img src=\'{2}\' ></div>'.format(x, group, url);
     }
+    $('#chooseMember .w3-container').html(temp);
+    $('#chooseMember .Muse').show();
+    $('#chooseMember .Aqours').hide();
+    $('#chooseMuse').click(function() {
+        $('#chooseMember .Muse').show();
+        $('#chooseMember .Aqours').hide();
+    })
+    $('#chooseAqours').click(function() {
+        $('#chooseMember .Muse').hide();
+        $('#chooseMember .Aqours').show();
+    })
+    $('#chooseMember .member').click(function() {
+        member_sel = this.id;
+        $('#chooseMember').hide();
+        $('#member').html("<img src='{0}' alt='{1}'>".format(member_info[member_sel]['url'], member_sel));
+        updateInfo('选择角色为 {0}'.format(member_info[member_sel]['name']));
+        showCardPond();
+    })
 
-    // Choose attribute of live
-    function switchColor(attr) {
-        for (x in attribute_arr) {
+    // Attribute switch
+    var attr_sel = 'Smile';
+    for (var x in attribute_arr) {
+        var attr = attribute_arr[x];
+        $('#attr' + attr).html("<img src='{0}' alt='{1}'>".format(img_url[attr], group_arr[attr]));
+    }
+    $('#attrSmile').click(function() {
+        switchColor('Smile');
+    });
+    $('#attrPure').click(function() {
+        switchColor('Pure');
+    });
+    $('#attrCool').click(function() {
+        switchColor('Cool');
+    });
+
+    function switchColor(attr, no_print) {
+        for (var x in attribute_arr) {
             $('#attr' + attribute_arr[x] + ' img').addClass('w3-grayscale-max');
         }
         $('#attr' + attr + ' img').removeClass('w3-grayscale-max');
         attr_sel = attr;
-        updateLiveSwiper();
-        updateInfo('选择属性为 {0}'.format(attr_sel), false);
-    }
-
-    // Choose difficulty of live
-    function switchDifficulty(diff) {
-        $('#difficulty div').hide();
-        diff_sel = diff;
-        updateLiveSwiper();
-        updateInfo('选择难度为 {0}'.format(diff_sel), false);
-        $('#difficulty>button').html("<img src='{0}' height=100%>".format(img_url[diff_sel]));
-    }
-
-    // Choose live
-    function chooseLive(name, diff) {
-        song_name = name;
-        updateInfo('选择谱面为 {0} {1}'.format(name, diff), false);
-    }
-
-    // Toggle score up, skill up and unlimited gem
-    function toggleScoreUp() {
-        score_up = !score_up;
-        if (score_up) {
-            $('#scoreUp img').removeClass('w3-grayscale-max');
-        } else {
-            $('#scoreUp img').addClass('w3-grayscale-max');
+        if (!no_print) {
+            updateInfo('选择属性为 {0}'.format(attr_sel), false);
         }
-        updateInfo('{0} 打击得分+10%'.format(score_up ? '启用' : '取消'), false);
+        showCardPond();
     }
+    switchColor(attr_sel);
 
-    function toggleSkillUp() {
-        skill_up = !skill_up;
-        if (skill_up) {
-            $('#skillUp img').removeClass('w3-grayscale-max');
-        } else {
-            $('#skillUp img').addClass('w3-grayscale-max');
+    // Idolized switch
+    var idolized_sel = false;
+    $('#idolized').html("<img src='{0}' alt='{1}'>".format(img_url['Idolized'], 'Idolized'));
+    $('#idolized').click(function() {
+        idolized_sel = !idolized_sel;
+        $('#idolized img').removeClass('w3-grayscale-max');
+        if (idolized_sel) {
+            $('#idolized img').addClass('w3-grayscale-max');
         }
-        updateInfo('{0} 技能触发+10%'.format(skill_up ? '启用' : '取消'), false);
+        updateInfo('选择觉醒状态为 {0}觉醒'.format(idolized_sel ? '' : '未'), false);
+        showCardPond();
+    })
+
+    // Display all filtered card
+    function icon_path(card_id, idolized) {
+        return 'http://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup':'normal', card_id);
     }
 
-    function toggleUnlimitGem() {
-        unlimit_gem = !unlimit_gem;
-        if (unlimit_gem) {
-            $('#unlimitGem img').removeClass('w3-grayscale-max');
-        } else {
-            $('#unlimitGem img').addClass('w3-grayscale-max');
+    function showCardPond() {
+        var id_list = []
+        for (var x in card_bucket[member_sel][attr_sel]) {
+            id_list.push(card_bucket[member_sel][attr_sel][x])
         }
-        updateInfo('{0} 宝石无限'.format(unlimit_gem ? '启用' : '取消'), false);
-    }
-
-    // Change perfect rate and extra condition
-    function changePerfectRate() {
-        perfect_rate = parseFloat($('#perfectRate').val());
-        updateInfo('更改无判P率为 {0}%'.format(perfect_rate * 100), false);
-    }
-
-    function changeExtraCondition() {
-        extra_cond = $('#extraCond').val();
-        updateInfo('设置附加条件为 {0}'.format(extra_cond_text[extra_cond]), false);
-    }
-
-    // Check whether input user JSON is valid
-    function inputUserJSON() {
-        $('#userJSON').css('display', 'none');
-        temp = $('#userJSON textarea').val();
-        if (temp == '' || IsJsonString(temp)) {
-            user_json = temp;
-            localStorage.setItem('user_json', user_json);
-            updateInfo('用户卡组JSON已成功更新', false);
-        } else {
-            $('#userJSON textarea').val(user_json);
-            updateInfo('用户卡组JSON有误，回滚至上次合法JSON', true);
-        }
-    }
-
-    // calculate best team
-    function calculate() {
-        if (user_json == '') {
-            updateInfo('用户卡组JSON为空', true);
-            return
-        }
-
-        POST_JSON = {
-            'song_name': song_name.replace('默认谱面', 'Default'),
-            'group': group_arr[group_sel],
-            'attribute': attr_sel,
-            'difficulty': diff_sel,
-            'score_up': score_up,
-            'skill_up': skill_up,
-            'perfect_rate': perfect_rate,
-            'unlimit_gem': unlimit_gem,
-            'extra_cond': extra_cond,
-            'user_profile': user_json,
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
-        }
-        $.ajax({
-            type: "POST",
-            url: "calculate",
-            headers: {
-                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
-            },
-            data: POST_JSON,
-            success: function(data) {
-                updateInfo(data['msg'], !data['complete']);
-                $('#result').html(data['result']);
+        if (idolized_sel) {
+            for (var x in promo_bucket[member_sel][attr_sel]) {
+                id_list.push(promo_bucket[member_sel][attr_sel][x])
             }
-        });
+        }
+        id_list.sort()
+        var temp = ''
+        for (var x in id_list) {
+            temp += '<img src=\'{0}\' alt=\'{1}\'>'.format(icon_path(id_list[x], idolized_sel), id_list[x])
+        }
+        $('#pond').html(temp);
     }
+
+    // Save profile
+    $('#saveProfile').click(function() {
+        idolized_sel = !idolized_sel;
+        $('#idolized').addClass('w3-grayscale-max');
+        if (idolized_sel) {
+            $('#idolized').removeClass('w3-grayscale-max');
+        }
+        updateInfo('已保存当前选择到用户卡组JSON', false);
+    });
     </script>
 </body>
 

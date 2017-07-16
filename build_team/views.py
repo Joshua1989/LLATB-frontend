@@ -52,6 +52,7 @@ def calculate(request):
 				live_stats = 'NA'
 			print('Successfully loaded live.')
 		except:
+			print('Failed to load live.')
 			message = {'complete':False, 'msg':'载入谱面信息失败...'}
 			return JsonResponse(message)
 		# Load user profile
@@ -62,6 +63,7 @@ def calculate(request):
 				user_profile = GameData(json_str, file_type='ieb', string_input=True)
 			print('Successfully loaded user profile.')
 		except:
+			print('Failed to load user profile.')
 			message = {'complete':False, 'msg':'载入用户卡组信息失败...'}
 			return JsonResponse(message)
 		# Modify user profile
@@ -87,6 +89,7 @@ def calculate(request):
 			if extra_cond != 'default':
 				print('Successfully applied extra condition.')
 		except:
+			print('Failed to apply extra condition.')
 			message = {'complete':False, 'msg':'应用附加条件失败...'}
 			return JsonResponse(message)
 		# Solve for optimal team
@@ -96,6 +99,7 @@ def calculate(request):
 			tb.build_team(K=12, method='1-suboptimal', alloc_method='DC' if unlimit_gem else 'DP')
 			result = tb.view_result(show_cost=True, lang='CN').data
 		except:
+			print('Failed to compute optimal team.')
 			message = {'complete':False, 'msg':'求解最佳卡组失败...'}
 			return JsonResponse(message)
 		# Covert result to LL Helper and SIFStats
@@ -103,6 +107,7 @@ def calculate(request):
 		try:
 			sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
 		except:
+			print('Failed to export file.')
 			message = {'complete':False, 'msg':'导出文件失败...'}
 			return JsonResponse(message)
 		elapsed_time = time.time() - start_time
@@ -135,10 +140,11 @@ def live_stats(request):
 		try:
 			live = Live(song_name, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=float(PR))
 			live_stats = html_view(live, lang='CN').data
+			print('Successfully loaded live.')
 		except:
+			print('Failed to load live.')
 			message = {'complete':False, 'msg':'载入谱面信息失败...'}
 			return JsonResponse(message)
-		print('Successfully loaded live.')
 
 		message = {
 			'complete': True,
