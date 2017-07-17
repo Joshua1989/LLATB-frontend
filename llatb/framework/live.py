@@ -122,7 +122,6 @@ class MFLive:
 		names, groups, attrs, covers, file_dirs = [], [], [], [], []
 		for name in name_list:
 			try:
-				print(len(live_basic_data), name, difficulty)
 				info = live_basic_data[live_basic_data.apply(lambda x: x['name']==name and x['diff_level']==difficulty, axis=1)].iloc[0]
 			except:
 				print('Live data of {0} {1} not found!'.format(name, difficulty))

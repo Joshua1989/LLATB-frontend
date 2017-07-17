@@ -68,7 +68,7 @@
     .w3-round-large;
     .w3-border;
     .w3-border-white;
-    height: 60px;
+    height: 50px;
     padding: 0 5px
 }
 
@@ -100,14 +100,14 @@
         }
 
         .member {
-            @media (min-width:901px) {
+            @media (min-width: 901px) {
                 max-width:11%;
             }
             @media (max-width:901px) and (min-width:401px) {
-                max-width:20%;
+                max-width: 20%;
             }
             @media (max-width:400px) {
-                max-width:33%;
+                max-width: 33%;
             }
             .w3-button;
             .w3-ripple;
@@ -132,16 +132,169 @@
     }
 }
 
-#pond {
-    img {
-        @media (min-width:901px) {
+#editCard {
+    .w3-animate-zoom;
+    background-color: rgba(0, 0, 0, 0);
+    .w3-modal-content {
+        .w3-border;
+        .w3-topbar;
+        .w3-bottombar;
+        .w3-leftbar;
+        .w3-rightbar;
+        border-color: #e91e63!important;
+        .w3-bar {
+            height: 40px;
+            .tab {
+                .w3-round-large;
+                .w3-button;
+                height: 100%;
+                padding: 0;
+                background-color: rgba(0, 0, 0, 0);
+                &:hover {
+                    background-color: yellow;
+                }
+                img {
+                    height: 100%;
+                }
+            }
+        }
+    }
+    .w3-bar {
+        .w3-input {
+            width: 30%;
+        }
+        .roundBtn {
+            .w3-margin-right;
+            height: 100%;
+        }
+    }
+    #deleteCard {
+        .exitBtn;
+        .w3-purple;
+        .w3-round-large;
+        border: 1px solid white;
+    }
+    #editLevel,
+    #editBond {
+        &:invalid {
+            background-color: #ffdddd;
+        }
+        &:valid {
+            background-color: #ddffdd;
+        }
+    }
+    #editSlotNum,
+    #editSkillLevel {
+        width: 100%;
+        height: 40%;
+        button {
+            .roundBtn;
+            margin: 1px;
+            height: 100%;
+            width: 11%;
+            padding: 5px;
+            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            background-color: #4CAF50;
+            &:hover {
+                background-color: yellow;
+            }
+        }
+        .checked {
+            background-color: #f44336;
+        }
+    }
+}
+
+#pond,
+#owned {
+    .icon,
+    .own_icon {
+        @media (min-width: 901px) {
             max-width:7%;
         }
         @media (max-width:901px) and (min-width:401px) {
-            max-width:15%;
+            max-width: 15%;
         }
         @media (max-width:400px) {
-            max-width:25%;
+            max-width: 25%;
+        }
+        display:inline-block;
+        img {
+            width: 100%;
+            border-radius: 25%;
+            background-color: black;
+            &:hover {
+                background-color: yellow;
+            }
+        }
+        .stats_bar {
+            @media (min-width: 901px) {
+                font-size: 0.7vw;
+            }
+            @media (max-width:901px) and (min-width:401px) {
+                font-size: 1.5vw;
+            }
+            @media (max-width:400px) {
+                font-size: 2.5vw;
+            }
+            text-align: center;
+            width:100%;
+        }
+    }
+}
+
+#editGemModal {
+    .w3-animate-zoom;
+    background-color: rgba(0, 0, 0, 0);
+    .w3-modal-content {
+        .w3-border;
+        .w3-topbar;
+        .w3-bottombar;
+        .w3-leftbar;
+        .w3-rightbar;
+        border-color: #e91e63!important;
+        .w3-bar {
+            height: 40px;
+            .tab {
+                .w3-button;
+                height: 100%;
+                width:30%;
+                padding: 0;
+            }
+            #exitEditGem {
+                .w3-button;
+                height: 100%;
+                width:10%;
+                padding: 0;
+            }
+        }
+        .gemNum {
+            display: inline-block;
+            padding:5px;
+            @media (min-width: 901px) {
+                max-width:16.6%;
+            }
+            @media (max-width:901px) and (min-width:401px) {
+                max-width: 25%;
+            }
+            @media (max-width:400px) {
+                max-width: 33.3%;
+            }
+            div {
+                text-align: center;
+            }
+            input {
+                text-align: center;
+                .w3-round-large;
+                .w3-border;
+                .w3-border-black;
+                &:invalid {
+                    background-color: #ffdddd;
+                }
+                &:valid {
+                    background-color: #ddffdd;
+                }
+            }
         }
     }
 }

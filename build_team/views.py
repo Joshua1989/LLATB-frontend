@@ -34,7 +34,7 @@ def calculate(request):
 		song_list, PR = eval(request.POST['song_list']), float(request.POST['perfect_rate'])
 		group, attr, diff = [request.POST[x] for x in ['group', 'attribute', 'difficulty']]
 		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
-		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']), request.POST['extra_cond'], request.POST['user_profile']
+		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
 
 		user_info  = 'User IP Address: {0}\n'.format(str(get_client_ip(request)))
 		user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)

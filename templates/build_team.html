@@ -8,7 +8,7 @@
 <script src='//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 {% load staticfiles %}
 <!-- Cookie handlers -->
-<script src="{% static 'js/cookies.min.js' %}"></script>
+<!-- <script src="{% static 'js/cookies.min.js' %}"></script> -->
 <!-- Load live basic data -->
 <script type="text/javascript" src="{% static 'live_data_base.json' %}"></script>
 <!-- Swiper CSS -->
@@ -23,9 +23,9 @@
 <body>
     <div class='w3-container w3-black' style='padding:0'>
         <div id='infoBox' class='infoBar w3-pale-green'>
-            <span onclick="this.parentElement.style.display='none'" class='exitBtn'><v>x</b></span>
+            <span onclick="this.parentElement.style.display='none'" class='exitBtn'><b>x</b></span>
             <button onclick="document.getElementById('about').style.display='block'" class='aboutBtn'>
-                <v>About</v>
+                <b>About</b>
             </button>
             <span> </span>
         </div>
@@ -45,11 +45,8 @@
             </div>
             <button id='scoreUp' class='imgBtn w3-margin-left' onclick="toggleScoreUp()"></button>
             <button id='skillUp' class='imgBtn' onclick="toggleSkillUp()"></button>
-            <!-- <div class="w3-bar-item w3-margin-left" style='width:75px;height:40px;padding:0'>
-                <input id='perfectRate' class='w3-input' type='number' min='0.01' max='1' step='0.01' placeholder='无判P率' onchange="changePerfectRate()">
-            </div> -->
             <div class="w3-bar-item w3-margin-left" style='width:75px;height:40px;padding:0;'>
-                <input id='perfectRate' class='w3-input w3-round-large' type='number' min='0.01' max='1' step='0.01' placeholder='无判P率' onchange="changePerfectRate()">
+                <input id='perfectRate' class='w3-input w3-round-large' type='number' min='0.01' max='1' step='0.01' placeholder='无判P率' required='required' onchange="changePerfectRate()">
             </div>
             <button id='unlimitGem' class='imgBtn w3-margin-left' onclick="toggleUnlimitGem()"></button>
             <select id='extraCond' class='w3-bar-item w3-select w3-margin-left' style='height:40px;padding:0' onchange="changeExtraCondition()">
@@ -74,8 +71,9 @@
         <div class='w3-modal-content' style='height:100%'>
             <div class='w3-container w3-black w3-padding-24' style='height:100%'>
                 <span onclick="inputUserJSON()" class='exitBtn'><b>x</b></span>
-                <b>在此输入用户卡组信息 JSON: </b>
-                <textarea class='w3-round-large profile w3-input'></textarea>
+                <b>用户卡组JSON: </b>
+                <a href='/edit_profile'><button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'>手动编辑</button></a>
+                <textarea class='w3-round-large profile w3-input' required='required'></textarea>
                 <div class='output'>
                     <b>LL Helper 队伍信息sd文件</b>
                     <textarea class='w3-round-large LLH w3-input' readonly></textarea>
@@ -87,7 +85,7 @@
             </div>
         </div>
     </div>
-    <div id='liveStats' class='w3-modal'>
+    <div id='liveStats' class='w3-modal' style='background-color: rgba(0,0,0,0);'>
         <div class='w3-modal-content'>
             <div class='w3-container w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
             </div>
@@ -97,7 +95,7 @@
         <div class='w3-modal-content'>
             <div class='w3-container w3-padding-24'>
                 <p style='text-align:left'>
-                    <span onclick="document.getElementById('about').style.display='none'" class='exitBtn'><v>x</b></span>
+                    <span onclick="document.getElementById('about').style.display='none'" class='exitBtn'><b>x</b></span>
                     <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ 欢迎使用新版UI网页LLSIF-AutoTeamBuilder全自动组卡器，目前已帮助大家成功组卡 {{ count }} 队
                     <br/>
                     <br/> 网页版LLSIF-AutoTeamBuilder考虑到运算量以及稳定性，使用如下参数：
@@ -127,13 +125,13 @@
     <script>
     // utility for string format
     String.prototype.format = function() {
-            a = this;
-            for (k in arguments) {
-                a = a.replace('{' + k + '}', arguments[k]);
-            }
-            return a;
+        a = this;
+        for (k in arguments) {
+            a = a.replace('{' + k + '}', arguments[k]);
         }
-        // utility for check whether a string is a valid JSON
+        return a;
+    }
+    // utility for check whether a string is a valid JSON
     function IsJsonString(str) {
         try {
             JSON.parse(str);
@@ -339,7 +337,7 @@
                     $('#result').html(data['result']);
                     $('#liveStats').show();
                     $('body').addClass('modal-open');
-                    temp = '<span onclick="closeLiveStats()" class="exitBtn"><v>x</b></span>'
+                    temp = '<span onclick="closeLiveStats()" class="exitBtn"><b>x</b></span>'
                     temp += data['live_stats'];
                     $('#liveStats .w3-container').html(temp)
                 }
@@ -455,6 +453,7 @@
             perfect_rate = temp;
             updateInfo('更改无判P率为 {0}%'.format(parseInt(perfect_rate * 100)), false);
         } else {
+            $('#perfectRate').val(perfect_rate);
             updateInfo('无判P率为输入错误，还原为{0}%'.format(parseInt(perfect_rate * 100)), true);
         }
 
@@ -477,13 +476,26 @@
         temp = $('#userJSON .profile').val();
         if (temp == '' || IsJsonString(temp)) {
             if (user_json != temp) {
+                user_json_obj = JSON.parse(temp);
+                if (user_json_obj['unit_info'] == undefined |
+                    user_json_obj['deck_info'] == undefined |
+                    user_json_obj['removable_info'] == undefined |
+                    user_json_obj['removable_info']['equipment_info'] == undefined |
+                    user_json_obj['removable_info']['owning_info'] == undefined) {
+                    $('#userJSON .profile').val(user_json);
+                    updateInfo('用户卡组JSON格式有误，回滚至上次合法JSON', true);
+                    return
+                }
                 user_json = temp;
-                localStorage.setItem('user_json', user_json);
+                user_json_obj['removable_info']['equipment_info'] = {};
+                user_json_obj['deck_info'] = [];
+                localStorage.setItem('user_json', JSON.stringify(user_json_obj));
+                $('#userJSON .profile').val(JSON.stringify(user_json_obj));
                 updateInfo('用户卡组JSON已成功更新', false);
             }
         } else {
             $('#userJSON .profile').val(user_json);
-            updateInfo('用户卡组JSON有误，回滚至上次合法JSON', true);
+            updateInfo('输入文本不是JSON格式，回滚至上次合法JSON', true);
         }
     }
 

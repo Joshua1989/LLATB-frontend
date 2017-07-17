@@ -11,15 +11,17 @@
 <script src="{% static 'js/cookies.min.js' %}"></script>
 <!-- Load live basic data -->
 <script type="text/javascript" src="{% static 'card_data_base.json' %}"></script>
+<!-- Load unit id to unit number dict -->
+<script type="text/javascript" src="{% static 'uid_cid_dict.json' %}"></script>
 <!-- Link LESS CSS -->
 <link rel="stylesheet/less" type="text/css" href="{% static 'css/edit_profile.less' %}" />
 <!-- Link LESS JS -->
-<script src="//cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
+<script src="{% static 'js/less.min.js' %}"></script>
 
-<body>
+<body class='w3-black'>
     <div class='w3-container w3-black' style='padding:0'>
         <div id='infoBox' class='infoBar w3-pale-green'>
-            <span class='exitBtn'><v>x</b></span>
+            <span class='exitBtn'><b>x</b></span>
             <span> </span>
         </div>
         <div class='w3-bar toolBar'>
@@ -30,12 +32,24 @@
             <button id='attrPure' class='attrBtn'></button>
             <button id='attrCool' class='attrBtn'></button>
             <button id='idolized' class='idolBtn w3-margin-left'></button>
-            <button id='saveProfile' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right w3-mobile'><b>保存修改</b></button>
+            <button id='editGem' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>宝石储量</b></button>
+            <button id='saveProfile' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>保存修改</b></button>
+            <a href='/build_team'><button class='roundBtn w3-green w3-hover-yellow w3-right w3-margin-right'><b>组队</b></button></a>
         </div>
     </div>
-    <div id='pond' class='w3-container w3-black' style='padding:0'>
+    <div class='w3-container w3-black'>
+        <div style='padding:15px 0'>
+            <b>卡池中符合当前条件的卡牌 (卡牌编号):</b>
+        </div>
+        <div id='pond' class='w3-container w3-black'>
+        </div>
     </div>
-    <div id='owned' class='w3-container w3-black' style='padding:0'>
+    <div class='w3-container w3-black'>
+        <div style='padding:15px 0'>
+            <b>当前持有的符合当前条件的卡牌 (技能槽数/技能等级/卡牌等级/绊): </b>
+        </div>
+        <div id='owned' class='w3-container w3-black'>
+        </div>
     </div>
     <div id='chooseMember' class='w3-modal'>
         <div class='w3-modal-content'>
@@ -48,16 +62,66 @@
             </div>
         </div>
     </div>
+    <div id='editCard' class='w3-modal'>
+        <div class='w3-modal-content'>
+            <span id='deleteCard'><b>劝退</b></span>
+            <div class='w3-container w3-black w3-padding-24'>
+                <b id='editTitle'></b>
+                <div class='w3-bar w3-black' style='margin-top:25px'>
+                    <div class='w3-bar-item'><b>Lv</b></div>
+                    <input id='editLevel' class='w3-bar-item w3-input w3-round-large' type='number' min='1' step='1' value='1' required='required'>
+                    <div class='w3-bar-item'><b>绊</b></div>
+                    <input id='editBond' class='w3-bar-item w3-input w3-round-large' type='number' min='1' step='1' value='1' required='required'>
+                </div>
+                <div class='w3-container w3-black'>
+                    <div style='padding:15px 0'>
+                        <b>技能槽数:</b>
+                    </div>
+                    <div id='editSlotNum'>
+                    </div>
+                </div>
+                <div class='w3-container w3-black'>
+                    <div style='padding:15px 0'>
+                        <b>技能等级:</b>
+                    </div>
+                    <div id='editSkillLevel'>
+                    </div>
+                </div>
+                <div class='w3-bar w3-black' style='margin-top:25px'>
+                    <button id='editIdolization' class='w3-bar-item roundBtn w3-hover-yellow w3-green w3-margin-left'>未觉</button>
+                    <button id='editCancel' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>取消</b></button>
+                    <button id='editOK' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>确认</b></button>
+                </div>
+                <div class='w3-container w3-black'>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='editGemModal' class='w3-modal'>
+        <div class='w3-modal-content'>
+            <div class="w3-bar">
+                <button id='smileGem' class="w3-bar-item tab w3-red w3-hover-orange"><b>Smile</b></button>
+                <button id='pureGem' class="w3-bar-item tab w3-green w3-hover-light-green"><b>Pure</b></button>
+                <button id='coolGem' class="w3-bar-item tab w3-blue w3-hover-light-blue"><b>Cool</b></button>
+                <button id='exitEditGem' class="w3-bar-item w3-purple w3-hover-yellow"><b>x</b></button>
+            </div>
+            <div class='w3-container w3-padding-8'>
+            </div>
+        </div>
+    </div>
     <script>
+    function sortNumber(a, b) {
+        return a - b;
+    }
     // utility for string format
     String.prototype.format = function() {
-            a = this;
-            for (k in arguments) {
-                a = a.replace('{' + k + '}', arguments[k]);
-            }
-            return a;
+        a = this;
+        for (k in arguments) {
+            a = a.replace('{' + k + '}', arguments[k]);
         }
-        // utility for check whether a string is a valid JSON
+        return a;
+    }
+    // utility for check whether a string is a valid JSON
     function IsJsonString(str) {
         try {
             JSON.parse(str);
@@ -172,46 +236,102 @@
         Aqours: 'Aqours'
     };
     var attribute_arr = ['Smile', 'Pure', 'Cool'];
-    var attribute_color = {
-        Smile: 'red',
-        Pure: 'green',
-        Cool: 'blue'
-    }
-    var attribute_color2 = {
-        Smile: '\#f44336',
-        Pure: '\#4CAF50',
-        Cool: '\#2196F3'
-    }
-
     // Load all live basic information
     var card_info = JSON.parse(card_info_data);
     var rev_dict = {},
         card_bucket = {},
-        promo_bucket = {};
+        promo_bucket = {},
+        owned_bucket = {};
     for (var x in member_info) {
         rev_dict[member_info[x]['name']] = x;
         card_bucket[x] = {};
+        promo_bucket[x] = {};
+        owned_bucket[x] = {};
         for (var y in attribute_arr) {
             card_bucket[x][attribute_arr[y]] = [];
-        }
-        promo_bucket[x] = {};
-        for (var y in attribute_arr) {
             promo_bucket[x][attribute_arr[y]] = [];
+            owned_bucket[x][attribute_arr[y]] = [];
         }
     }
-    for (var card_id in card_info) {
-        var ci = card_info[card_id];
-        var key = rev_dict[ci['member_name']],
-            attr = ci['main_attr'];
-        if (ci['promo']) {
-            promo_bucket[key][attr].push(card_id);
+    for (var cid in card_info) {
+        var CI = card_info[cid];
+        var key = rev_dict[CI['member_name']],
+            attr = CI['main_attr'];
+        if (CI['promo']) {
+            promo_bucket[key][attr].push(cid);
         } else {
-            card_bucket[key][attr].push(card_id);
+            card_bucket[key][attr].push(cid);
         }
     }
 
+    // Load user profile, if not create a new one
     var user_json = JSON.parse(localStorage.getItem("user_json"));
-    var owned_bucket = {};
+    if (user_json == null || user_json== '') {
+        user_json = {
+            unit_info: [],
+            deck_info: [],
+            removable_info: {
+                equipment_info: {},
+                owning_info: []
+            }
+        };
+        for (var gid = 1; gid <= 39; gid++) {
+            user_json['removable_info']['owning_info'].push({
+                total_amount: 9,
+                unit_removable_skill_id: parseInt(gid)
+            })
+        }
+    } else {
+        if (user_json['unit_info'] == undefined) {
+            user_json['unit_info'] = [];
+        }
+        if (user_json['deck_info'] == undefined) {
+            user_json['deck_info'] = [];
+        }
+        if (user_json['removable_info'] == undefined) {
+            user_json['removable_info'] = {};
+            if (user_json['removable_info']['equipment_info'] == undefined) {
+                user_json['removable_info']['equipment_info'] = {};
+            }
+            if (user_json['removable_info']['owning_info'] == undefined) {
+                user_json['removable_info']['owning_info'] = [];
+                for (var gid = 1; gid <= 39; gid++) {
+                    user_json['removable_info']['owning_info'].push({
+                        total_amount: 9,
+                        unit_removable_skill_id: parseInt(gid)
+                    })
+                }
+            }
+        }
+    }
+    var temp_dict = JSON.parse(uid_cid_dict);
+    var U2C_dict = {},
+        C2U_dict = {};
+    for (var uid in temp_dict) {
+        var u = parseInt(uid),
+            c = parseInt(temp_dict[uid]);
+        U2C_dict[u] = c;
+        C2U_dict[c] = u;
+    }
+    var owned_index = 0;
+    for (var x in user_json['unit_info']) {
+        var CI = user_json['unit_info'][x];
+        var cid = U2C_dict[CI['unit_id']];
+        if (card_info[cid] != undefined) {
+            var key = rev_dict[card_info[cid]['member_name']],
+                attr = card_info[cid]['main_attr'];
+            owned_bucket[key][attr][owned_index] = {};
+            owned_bucket[key][attr][owned_index]['card_id'] = cid;
+            owned_bucket[key][attr][owned_index]['idolized'] = CI['rank'] == 2;
+            owned_bucket[key][attr][owned_index]['level'] = CI['level'];
+            owned_bucket[key][attr][owned_index]['bond'] = CI['love'];
+            owned_bucket[key][attr][owned_index]['slot'] = CI['unit_removable_skill_capacity'];
+            owned_bucket[key][attr][owned_index]['skill'] = CI['unit_skill_level'];
+            owned_bucket[key][attr][owned_index]['rarity'] = card_info[cid]['rarity'];
+            owned_bucket[key][attr][owned_index]['promo'] = card_info[cid]['promo'];
+            owned_index += 1;
+        }
+    }
 
     // Info bar
     $('#infoBox .exitBtn').click(function() {
@@ -236,8 +356,10 @@
     $('#member').html("<img src='{0}' alt='{1}'>".format(member_info[member_sel]['url'], member_sel));
     $('#member').click(function() {
         $('#chooseMember').show();
+        $('body').addClass('modal-open');
     });
     $('#chooseMember .exitBtn').click(function() {
+        $('body').removeClass('modal-open');
         $('#chooseMember').hide();
     });
     $('#chooseMuse').html("<img src='{0}'>".format(img_url['Muse']))
@@ -265,10 +387,228 @@
         $('#member').html("<img src='{0}' alt='{1}'>".format(member_info[member_sel]['url'], member_sel));
         updateInfo('选择角色为 {0}'.format(member_info[member_sel]['name']));
         showCardPond();
+        showOwned();
     })
+
+    var max_level_dict = {
+        // Normal unidolized
+        false: {
+            SR: 60,
+            SSR: 70,
+            UR: 80
+        },
+        // Normal idolized
+        true: {
+            SR: 80,
+            SSR: 90,
+            UR: 100
+        }
+    }
+    var max_bond_dict = {
+        // Unidolized
+        false: {
+            SR: 250,
+            SSR: 375,
+            UR: 500
+        },
+        // Idolized
+        true: {
+            SR: 500,
+            SSR: 750,
+            UR: 1000
+        }
+    }
+    var slot_num_dict = {
+        promo: [1, 2],
+        SR: [2, 4],
+        SSR: [3, 6],
+        UR: [4, 8]
+    }
+
+
+    // Display all filtered card
+    function icon_path(cid, idolized) {
+        return 'http://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup' : 'normal', cid);
+    }
+
+    function showCardPond() {
+        var id_list = []
+        for (var x in card_bucket[member_sel][attr_sel]) {
+            id_list.push(card_bucket[member_sel][attr_sel][x])
+        }
+        if (idolized_sel) {
+            for (var x in promo_bucket[member_sel][attr_sel]) {
+                id_list.push(promo_bucket[member_sel][attr_sel][x])
+            }
+        }
+        id_list.sort(sortNumber)
+        var temp = ''
+        for (var x in id_list) {
+            var cid = id_list[x];
+            temp += '<div class=\'icon\'><div class=\'stats_bar\'>{0}</div><img src=\'{1}\' alt=\'icon-{2}\'></div>'.format(cid, icon_path(cid, idolized_sel), cid)
+        }
+        $('#pond').html(temp);
+        $(".icon img").each(function(index) {
+            $(this).on("click", function() {
+                var cid = parseInt($(this).attr('alt').replace('icon-', ''));
+                var CI = card_info[cid];
+                owned_bucket[member_sel][attr_sel][owned_index] = {
+                    card_id: cid,
+                    level: max_level_dict[idolized_sel][CI['rarity']],
+                    bond: max_bond_dict[idolized_sel][CI['rarity']],
+                    idolized: idolized_sel,
+                    slot: slot_num_dict[CI['promo'] ? 'promo' : CI['rarity']][0],
+                    skill: 1,
+                    rarity: CI['rarity'],
+                    promo: CI['promo']
+                }
+                showOwned();
+                CI = owned_bucket[member_sel][attr_sel][owned_index];
+                var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
+                var idol_str = CI['idolized'] ? '觉醒' : '未觉醒';
+                updateInfo(' CID {0}: own ID {1}, 添加数据为 {2} {3}'.format(CI['card_id'], owned_index, idol_str, stats_str));
+                owned_index += 1;
+            })
+        })
+    }
+
+    function showOwned() {
+        var temp = ''
+        for (var ownIdx in owned_bucket[member_sel][attr_sel]) {
+            var CI = owned_bucket[member_sel][attr_sel][ownIdx]
+            if (CI['idolized'] == idolized_sel) {
+                var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
+                temp += '<div class=\'own_icon\'><div class=\'stats_bar\'>{2}</div><img src=\'{0}\' alt=\'own-{1}\'></div>'.format(icon_path(CI['card_id'], CI['idolized']), ownIdx, stats_str);
+            }
+        }
+        $('#owned').html(temp);
+        $(".own_icon img").each(function(index) {
+            $(this).on("click", function() {
+                $('#editCard').show();
+                $('body').addClass('modal-open');
+                var own_id = $(this).attr('alt').replace('own-', '');
+                prepareEditModal(own_id);
+            })
+        })
+    }
+
+    // Edit card modal
+    temp = '';
+    for (var x = 1; x <= 8; x++) {
+        temp += '<button id=\'slot-{0}\'>{1}</button>'.format(x, x);
+    }
+    $('#editSlotNum').html(temp);
+    temp = '';
+    for (var x = 1; x <= 8; x++) {
+        temp += '<button id=\'skill-{0}\'>{1}</button>'.format(x, x);
+    }
+    $('#editSkillLevel').html(temp);
+
+    for (var x = 1; x <= 8; x++) {
+        $('#slot-' + x).click(function() {
+            for (var y = 1; y <= 8; y++) {
+                $('#slot-' + y).removeClass('checked');
+            }
+            $(this).addClass('checked')
+        })
+        $('#skill-' + x).click(function() {
+            for (var y = 1; y <= 8; y++) {
+                $('#skill-' + y).removeClass('checked');
+            }
+            $(this).addClass('checked')
+        })
+    }
+
+    function prepareEditModal(own_id) {
+        var CI = owned_bucket[member_sel][attr_sel][own_id];
+        $('#editTitle').text('cid: {0}, own_id: {1}'.format(CI['card_id'], own_id));
+        $('#editLevel').attr('max', max_level_dict[CI['idolized']][CI['rarity']]);
+        $('#editLevel').val(CI['level']);
+        $('#editBond').attr('max', max_bond_dict[CI['idolized']][CI['rarity']]);
+        $('#editBond').val(CI['bond']);
+        var slot_limit = slot_num_dict[CI['promo'] ? 'promo' : CI['rarity']]
+        for (var x = 1; x <= 8; x++) {
+            $('#slot-' + x).show();
+            $('#slot-' + x).removeClass('checked');
+            if (x < slot_limit[0] || x > slot_limit[1]) {
+                $('#slot-' + x).hide();
+            }
+            if (x == CI['slot']) {
+                $('#slot-' + x).addClass('checked');
+            }
+        }
+        for (var x = 1; x <= 8; x++) {
+            $('#skill-' + x).show();
+            $('#skill-' + x).removeClass('checked');
+            if (x == CI['skill']) {
+                $('#skill-' + x).addClass('checked');
+            }
+        }
+        var temp_idolized = CI['idolized'];
+        if (CI['idolized']) {
+            $('#editIdolization').removeClass('w3-green');
+            $('#editIdolization').addClass('w3-red');
+            $('#editIdolization').text('觉醒');
+        } else {
+            $('#editIdolization').removeClass('w3-red');
+            $('#editIdolization').addClass('w3-green');
+            $('#editIdolization').text('未觉');
+        }
+        $('#editIdolization').click(function() {
+            temp_idolized = !temp_idolized;
+            $('#editLevel').attr('max', max_level_dict[temp_idolized][CI['rarity']]);
+            $('#editLevel').val(max_level_dict[temp_idolized][CI['rarity']]);
+            $('#editBond').attr('max', max_bond_dict[temp_idolized][CI['rarity']]);
+            $('#editBond').val(max_bond_dict[temp_idolized][CI['rarity']]);
+            if (temp_idolized) {
+                $(this).removeClass('w3-green');
+                $(this).addClass('w3-red');
+                $(this).text('觉醒');
+            } else {
+                $(this).removeClass('w3-red');
+                $(this).addClass('w3-green');
+                $(this).text('未觉');
+            }
+        })
+        $('#editOK').click(function() {
+            if (!$('#editLevel').is(':valid') || !$('#editBond').is(':valid')) {
+                alert('请输入正确的等级和绊值')
+                return
+            }
+            var own_id = parseInt($('#editTitle').text().split(': ')[2]);
+            var CI = owned_bucket[member_sel][attr_sel][own_id];
+            CI['level'] = parseInt($('#editLevel').val());
+            CI['bond'] = parseInt($('#editBond').val());
+            CI['slot'] = parseInt($('button[id^=slot-][class=checked]').text());
+            CI['skill'] = parseInt($('button[id^=skill-][class=checked]').text());
+            CI['idolized'] = temp_idolized;
+            $('#editCard').hide();
+            $('body').removeClass('modal-open');
+            showOwned();
+            var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
+            var idol_str = CI['idolized'] ? '觉醒' : '未觉醒';
+            updateInfo('CID {0}: own ID {1}, 更新数据为 {2} {3}'.format(CI['card_id'], own_id, idol_str, stats_str));
+        })
+        $('#editCancel').click(function() {
+            $('#editCard').hide();
+            $('body').removeClass('modal-open');
+        })
+        $('#deleteCard').click(function() {
+            var own_id = parseInt($('#editTitle').text().split(': ')[2]);
+            var CI = owned_bucket[member_sel][attr_sel][own_id];
+            var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
+            var idol_str = CI['idolized'] ? '觉醒' : '未觉醒';
+            delete owned_bucket[member_sel][attr_sel][own_id];
+            $('#editCard').hide();
+            $('body').removeClass('modal-open');
+            showOwned();
+            updateInfo('CID {0}: own ID {1}, 劝退，原数据为 {2} {3}'.format(CI['card_id'], own_id, idol_str, stats_str));
+        })
+    }
 
     // Attribute switch
     var attr_sel = 'Smile';
+    var idolized_sel = false;
     for (var x in attribute_arr) {
         var attr = attribute_arr[x];
         $('#attr' + attr).html("<img src='{0}' alt='{1}'>".format(img_url[attr], group_arr[attr]));
@@ -293,52 +633,178 @@
             updateInfo('选择属性为 {0}'.format(attr_sel), false);
         }
         showCardPond();
+        showOwned();
     }
     switchColor(attr_sel);
 
     // Idolized switch
-    var idolized_sel = false;
-    $('#idolized').html("<img src='{0}' alt='{1}'>".format(img_url['Idolized'], 'Idolized'));
+    $('#idolized').html("<img src='{0}' alt='{1}' class='w3-grayscale-max'>".format(img_url['Idolized'], 'Idolized'));
     $('#idolized').click(function() {
         idolized_sel = !idolized_sel;
-        $('#idolized img').removeClass('w3-grayscale-max');
+        $('#idolized img').addClass('w3-grayscale-max');
         if (idolized_sel) {
-            $('#idolized img').addClass('w3-grayscale-max');
+            $('#idolized img').removeClass('w3-grayscale-max');
         }
         updateInfo('选择觉醒状态为 {0}觉醒'.format(idolized_sel ? '' : '未'), false);
         showCardPond();
+        showOwned();
     })
 
-    // Display all filtered card
-    function icon_path(card_id, idolized) {
-        return 'http://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup':'normal', card_id);
+    // Edit gem number
+    var gem_skill_id_dict = {
+        1: 'Smile Kiss',
+        2: 'Pure Kiss',
+        3: 'Cool Kiss',
+        4: 'Smile Perfume',
+        5: 'Pure Perfume',
+        6: 'Cool Perfume',
+        7: 'Smile Ring 1st',
+        8: 'Pure Ring 1st',
+        9: 'Cool Ring 1st',
+        10: 'Smile Ring 2nd',
+        11: 'Pure Ring 2nd',
+        12: 'Cool Ring 2nd',
+        13: 'Smile Ring 3rd',
+        14: 'Pure Ring 3rd',
+        15: 'Cool Ring 3rd',
+        16: 'Smile Cross 1st',
+        17: 'Pure Cross 1st',
+        18: 'Cool Cross 1st',
+        19: 'Smile Cross 2nd',
+        20: 'Pure Cross 2nd',
+        21: 'Cool Cross 2nd',
+        22: 'Smile Cross 3rd',
+        23: 'Pure Cross 3rd',
+        24: 'Cool Cross 3rd',
+        25: 'Smile Aura',
+        26: 'Pure Aura',
+        27: 'Cool Aura',
+        28: 'Smile Veil',
+        29: 'Pure Veil',
+        30: 'Cool Veil',
+        31: 'Princess Charm',
+        32: 'Princess Heal',
+        33: 'Princess Trick',
+        34: 'Angel Charm',
+        35: 'Angel Heal',
+        36: 'Angel Trick',
+        37: 'Empress Charm',
+        38: 'Empress Heal',
+        39: 'Empress Trick'
     }
-
-    function showCardPond() {
-        var id_list = []
-        for (var x in card_bucket[member_sel][attr_sel]) {
-            id_list.push(card_bucket[member_sel][attr_sel][x])
-        }
-        if (idolized_sel) {
-            for (var x in promo_bucket[member_sel][attr_sel]) {
-                id_list.push(promo_bucket[member_sel][attr_sel][x])
+    var gem_CN = {
+        Perfume: '香水',
+        Ring: '指环',
+        Cross: '十字',
+        Aura: '光环',
+        Veil: '面纱',
+        Charm: '魅力',
+        Heal: '治愈',
+        Trick: '诡计'
+    }
+    $('#editGem').click(function() {
+        $('#editGemModal').show();
+        $('body').addClass('modal-open');
+    })
+    $('#exitEditGem').click(function() {
+        var is_valid = true;
+        for (gem_id in gem_skill_id_dict) {
+            if (gem_id > 3) {
+                is_valid &= $('#gem-' + gem_id + ' input').is(':valid');
             }
         }
-        id_list.sort()
-        var temp = ''
-        for (var x in id_list) {
-            temp += '<img src=\'{0}\' alt=\'{1}\'>'.format(icon_path(id_list[x], idolized_sel), id_list[x])
+        if (!is_valid) {
+            alert('所有宝石持有数量应为0～9的整数')
+            return
         }
-        $('#pond').html(temp);
+        for (gem_id in gem_skill_id_dict) {
+            if (gem_id > 3) {
+                user_json['removable_info']['owning_info'][gem_id - 1] = {
+                    total_amount: parseInt($('#gem-' + gem_id + ' input').val()),
+                    unit_removable_skill_id: parseInt(gem_id)
+                }
+            } else {
+                user_json['removable_info']['owning_info'][gem_id - 1] = {
+                    total_amount: 9,
+                    unit_removable_skill_id: parseInt(gem_id)
+                }
+            }
+        }
+        $('#editGemModal').hide();
+        $('body').removeClass('modal-open');
+        updateInfo('修改宝石储量')
+    })
+    var temp = '';
+    for (gem_id in gem_skill_id_dict) {
+        if (gem_id > 3) {
+            var attr = gem_skill_id_dict[gem_id].split(' ')[0].replace('Princess', 'Smile').replace('Angel', 'Pure').replace('Empress', 'Cool');
+            // var name = gem_skill_id_dict[gem_id].split(' ').slice(1).join(' ');
+            var subnames = gem_skill_id_dict[gem_id].split(' ').slice(1);
+            var name = subnames.length==1 ? gem_CN[subnames[0]] : gem_CN[subnames[0]]+' '+subnames[1]
+            var number = user_json['removable_info']['owning_info'][gem_id - 1]['total_amount'];
+            temp += "<div id='gem-{0}' class='gemNum {1}'><div>{2}</div><input class='w3-input' type='number' min='0' step='1' value='{3}' required='required'></div>".format(gem_id, attr, name, number);
+        }
     }
+    $('#editGemModal .w3-container').html(temp);
+    $('#editGemModal .w3-container').addClass('w3-red');
+    $('#editGemModal .Pure').hide();
+    $('#editGemModal .Cool').hide();
+    $('#smileGem').click(function() {
+        $('#editGemModal .w3-container').removeClass('w3-green');
+        $('#editGemModal .Pure').hide();
+        $('#editGemModal .w3-container').removeClass('w3-blue');
+        $('#editGemModal .Cool').hide();
+        $('#editGemModal .w3-container').addClass('w3-red');
+        $('#editGemModal .Smile').show();
+    })
+    $('#pureGem').click(function() {
+        $('#editGemModal .w3-container').removeClass('w3-red');
+        $('#editGemModal .Smile').hide();
+        $('#editGemModal .w3-container').removeClass('w3-blue');
+        $('#editGemModal .Cool').hide();
+        $('#editGemModal .w3-container').addClass('w3-green');
+        $('#editGemModal .Pure').show();
+    })
+    $('#coolGem').click(function() {
+        $('#editGemModal .w3-container').removeClass('w3-red');
+        $('#editGemModal .Smile').hide();
+        $('#editGemModal .w3-container').removeClass('w3-green');
+        $('#editGemModal .Pure').hide();
+        $('#editGemModal .w3-container').addClass('w3-blue');
+        $('#editGemModal .Cool').show();
+    })
+
 
     // Save profile
     $('#saveProfile').click(function() {
-        idolized_sel = !idolized_sel;
-        $('#idolized').addClass('w3-grayscale-max');
-        if (idolized_sel) {
-            $('#idolized').removeClass('w3-grayscale-max');
+        var temp = [];
+        for (var member in owned_bucket) {
+            for (var attr in owned_bucket[member]) {
+                for (var own_id in owned_bucket[member][attr]) {
+                    temp.push({
+                        own_id: own_id,
+                        data: owned_bucket[member][attr][own_id]
+                    })
+                }
+            }
         }
+        temp.sort(function(a, b) { parseInt(a.own_id) - parseInt(b.own_id) });
+
+        var temp_unit_info = [];
+        for (var x in temp) {
+            var CI = temp[x]['data'];
+            temp_unit_info.push({
+                unit_owning_user_id: 0,
+                unit_id: C2U_dict[CI['card_id']],
+                level: max_level_dict[CI['idolized']][CI['rarity']],
+                love: max_bond_dict[CI['idolized']][CI['rarity']],
+                rank: CI['idolized'] + 1,
+                unit_removable_skill_capacity: CI['slot'],
+                unit_skill_level: CI['skill']
+            })
+        }
+        user_json['unit_info'] = temp_unit_info;
+        localStorage.setItem('user_json', JSON.stringify(user_json));
         updateInfo('已保存当前选择到用户卡组JSON', false);
     });
     </script>

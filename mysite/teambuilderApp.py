@@ -30,6 +30,8 @@ Nyan~ 欢迎使用网页版LLSIF-AutoTeamBuilder全自动组卡器，目前已�
 Remark 1: 在极端情况下（各种宝石都很少）计算可能会比较慢，请耐心等待。
 <br/>
 Remark 2: 由于美服并没有类似数据站，Github代码提供了虽然从tshark抓包导入用户卡组的功能，但是由于抓包中<span style="color:red">含有账户信息</span>所以考虑到安全问题网页版暂不支持该格式。
+<br/><br/>
+<span style="color:red"><b><a href="/build_team">全新UI入口</a>，支持本地保存用户JSON，MF模式多曲组卡</b></span>
 </p>
 '''
 
