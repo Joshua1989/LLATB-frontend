@@ -134,7 +134,7 @@ def live_stats(request):
 	if request.is_ajax():
 		song_name, diff, PR = request.POST['song_name'], request.POST['difficulty'], request.POST['perfect_rate']
 		user_info  = 'User IP Address: {0}\n'.format(str(get_client_ip(request)))
-		user_info += 'View Live Info: {0} {1}\n'.format(song_name, diff)
+		user_info += 'View Live Info: {0} {1}'.format(song_name, diff)
 		print(user_info)
 
 		try:

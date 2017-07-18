@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <title>LLSIF-AutoTeamBuilder</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'> {% load staticfiles %}
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<!-- Load static resources -->
+{% load staticfiles %}
 <!-- Link W3.CSS -->
 <link rel='stylesheet' href="{% static 'css/w3.css' %}">
 <!-- Link JQuery -->
@@ -140,6 +142,8 @@
         }
         return true;
     }
+
+    window.ondragstart = function() { return false; }
 
     // Load all live basic information
     var live_info = JSON.parse(live_info_data);

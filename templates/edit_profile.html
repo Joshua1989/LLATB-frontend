@@ -2,6 +2,7 @@
 <html>
 <title>LLSIF-AutoTeamBuilder</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
+<!-- Load static resources -->
 {% load staticfiles %}
 <!-- Link W3.CSS -->
 <link rel='stylesheet' href="{% static 'css/w3.css' %}">
@@ -34,7 +35,9 @@
             <button id='idolized' class='idolBtn w3-margin-left'></button>
             <button id='editGem' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>宝石储量</b></button>
             <button id='saveProfile' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>保存修改</b></button>
-            <a href='/build_team'><button class='roundBtn w3-green w3-hover-yellow w3-right w3-margin-right'><b>组队</b></button></a>
+            <a href='/build_team'>
+                <button class='roundBtn w3-green w3-hover-yellow w3-right w3-margin-right'><b>组队</b></button>
+            </a>
         </div>
     </div>
     <div class='w3-container w3-black'>
@@ -130,6 +133,8 @@
         }
         return true;
     }
+
+    window.ondragstart = function() { return false; }
 
     var img_url = {
         Muse: '//r.llsif.win/assets/image/event/mission/ms_m_type_10.png',
@@ -266,7 +271,7 @@
 
     // Load user profile, if not create a new one
     var user_json = JSON.parse(localStorage.getItem("user_json"));
-    if (user_json == null || user_json== '') {
+    if (user_json == null || user_json == '') {
         user_json = {
             unit_info: [],
             deck_info: [],
@@ -303,6 +308,19 @@
                 }
             }
         }
+        var temp = [];
+        for (var gid = 1; gid <= 39; gid++) {
+            temp.push({
+                total_amount: 0,
+                unit_removable_skill_id: gid
+            })
+        }
+        for (var x in user_json['removable_info']['owning_info']) {
+            var gem_info = user_json['removable_info']['owning_info'][x];
+            var gid = gem_info['unit_removable_skill_id']
+            temp[gid - 1]['total_amount'] = gem_info['total_amount'];
+        }
+        user_json['removable_info']['owning_info'] = temp;
     }
     var temp_dict = JSON.parse(uid_cid_dict);
     var U2C_dict = {},
@@ -428,7 +446,7 @@
 
     // Display all filtered card
     function icon_path(cid, idolized) {
-        return 'http://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup' : 'normal', cid);
+        return '//gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup' : 'normal', cid);
     }
 
     function showCardPond() {
@@ -725,7 +743,7 @@
                 }
             } else {
                 user_json['removable_info']['owning_info'][gem_id - 1] = {
-                    total_amount: 9,
+                    total_amount: 1,
                     unit_removable_skill_id: parseInt(gem_id)
                 }
             }
@@ -734,18 +752,30 @@
         $('body').removeClass('modal-open');
         updateInfo('修改宝石储量')
     })
-    var temp = '';
-    for (gem_id in gem_skill_id_dict) {
+    var own_gem = {};
+    for (var gem_id = 4; gem_id <= 39; gem_id++) {
+        var attr = gem_skill_id_dict[gem_id].split(' ')[0].replace('Princess', 'Smile').replace('Angel', 'Pure').replace('Empress', 'Cool');
+        var subnames = gem_skill_id_dict[gem_id].split(' ').slice(1);
+        var name = subnames.length == 1 ? gem_CN[subnames[0]] : gem_CN[subnames[0]] + ' ' + subnames[1]
+        var number = 0;
+        own_gem[gem_id] = "<div id='gem-{0}' class='gemNum {1}'><div>{2}</div><input class='w3-input' type='number' min='0' step='1' value='{3}' required='required'></div>".format(gem_id, attr, name, number);
+    }
+    for (var x in user_json['removable_info']['owning_info']) {
+        var gem_id = user_json['removable_info']['owning_info'][x]['unit_removable_skill_id'];
+        var number = user_json['removable_info']['owning_info'][x]['total_amount'];
         if (gem_id > 3) {
             var attr = gem_skill_id_dict[gem_id].split(' ')[0].replace('Princess', 'Smile').replace('Angel', 'Pure').replace('Empress', 'Cool');
-            // var name = gem_skill_id_dict[gem_id].split(' ').slice(1).join(' ');
             var subnames = gem_skill_id_dict[gem_id].split(' ').slice(1);
-            var name = subnames.length==1 ? gem_CN[subnames[0]] : gem_CN[subnames[0]]+' '+subnames[1]
-            var number = user_json['removable_info']['owning_info'][gem_id - 1]['total_amount'];
-            temp += "<div id='gem-{0}' class='gemNum {1}'><div>{2}</div><input class='w3-input' type='number' min='0' step='1' value='{3}' required='required'></div>".format(gem_id, attr, name, number);
+            var name = subnames.length == 1 ? gem_CN[subnames[0]] : gem_CN[subnames[0]] + ' ' + subnames[1]
+            own_gem[gem_id] = "<div id='gem-{0}' class='gemNum {1}'><div>{2}</div><input class='w3-input' type='number' min='0' step='1' value='{3}' required='required'></div>".format(gem_id, attr, name, number);
         }
     }
+    var temp = '';
+    for (var gem_id = 4; gem_id <= 39; gem_id++) {
+        temp += own_gem[gem_id];
+    }
     $('#editGemModal .w3-container').html(temp);
+
     $('#editGemModal .w3-container').addClass('w3-red');
     $('#editGemModal .Pure').hide();
     $('#editGemModal .Cool').hide();
