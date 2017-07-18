@@ -2,13 +2,11 @@
 <html>
 <title>LLSIF-AutoTeamBuilder</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<!-- Link W3.CSS -->
-<link rel='stylesheet' href='//www.w3schools.com/w3css/4/w3.css'>
-<!-- Link JQuery -->
-<script src='//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 {% load staticfiles %}
-<!-- Cookie handlers -->
-<!-- <script src="{% static 'js/cookies.min.js' %}"></script> -->
+<!-- Link W3.CSS -->
+<link rel='stylesheet' href="{% static 'css/w3.css' %}">
+<!-- Link JQuery -->
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <!-- Load live basic data -->
 <script type="text/javascript" src="{% static 'live_data_base.json' %}"></script>
 <!-- Swiper CSS -->
@@ -18,7 +16,8 @@
 <!-- Link LESS CSS -->
 <link rel="stylesheet/less" type="text/css" href="{% static 'css/build_team.less' %}" />
 <!-- Link LESS JS -->
-<script src="//cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
+<script src="{% static 'js/less.min.js' %}"></script>
+<!-- <script src="//cdn.bootcss.com/less.js/1.7.0/less.min.js"></script> -->
 
 <body>
     <div class='w3-container w3-black' style='padding:0'>
