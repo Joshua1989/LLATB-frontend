@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Receive</title>
+</head>
+<body>
+<span id="text"></span>
+<script>
+    var text=document.getElementById('text')
+    window.addEventListener('message', function (e) {
+        text.innerHTML=e.data
+        localStorage.setItem('user_json', e.data)
+    }, true);
+</script>
+</body>
+</html>

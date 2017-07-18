@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <title>LLSIF-AutoTeamBuilder</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-{% load staticfiles %}
+<meta name='viewport' content='width=device-width, initial-scale=1'> {% load staticfiles %}
 <!-- Link W3.CSS -->
 <link rel='stylesheet' href="{% static 'css/w3.css' %}">
 <!-- Link JQuery -->
@@ -17,7 +16,6 @@
 <link rel="stylesheet/less" type="text/css" href="{% static 'css/build_team.less' %}" />
 <!-- Link LESS JS -->
 <script src="{% static 'js/less.min.js' %}"></script>
-<!-- <script src="//cdn.bootcss.com/less.js/1.7.0/less.min.js"></script> -->
 
 <body>
     <div class='w3-container w3-black' style='padding:0'>
@@ -52,7 +50,7 @@
             </select>
             </select>
             <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left' onclick="openUserJSON()"><b>用户JSON</b></button>
-            <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
+            <button id='calculate' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
         </div>
         <div id='liveSel' class='infoBar w3-black' style='height:auto'>
             <span> <b> </b> </span>
@@ -71,7 +69,9 @@
             <div class='w3-container w3-black w3-padding-24' style='height:100%'>
                 <span onclick="inputUserJSON()" class='exitBtn'><b>x</b></span>
                 <b>用户卡组JSON: </b>
-                <a href='/edit_profile'><button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'>手动编辑</button></a>
+                <a href='/edit_profile'>
+                    <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'>手动编辑</button>
+                </a>
                 <textarea class='w3-round-large profile w3-input' required='required'></textarea>
                 <div class='output'>
                     <b>LL Helper 队伍信息sd文件</b>
@@ -503,7 +503,7 @@
             updateInfo('用户卡组JSON为空', true);
             return
         }
-
+        $('#calculate').prop('disabled', true);
         POST_JSON = {
             song_list: JSON.stringify(live_selection['song_list']),
             group: live_selection['group'],
@@ -529,6 +529,7 @@
                 $('#result').html(data['result']);
                 $('#userJSON .LLH').val(data['sd_file']);
                 $('#userJSON .ieb').val(data['ieb_file']);
+                $('#calculate').prop('disabled', false);
             }
         });
     }

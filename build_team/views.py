@@ -154,3 +154,6 @@ def live_stats(request):
 	else:
 		message = {'complete':False, 'msg':'服务器接收请求不是AJAX'}
 	return JsonResponse(message)
+
+def receive_user_json(request):
+	return render(request, 'receive_user_json.html')
