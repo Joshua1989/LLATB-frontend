@@ -489,11 +489,12 @@
                     updateInfo('用户卡组JSON格式有误，回滚至上次合法JSON', true);
                     return
                 }
-                user_json = temp;
                 user_json_obj['removable_info']['equipment_info'] = {};
                 user_json_obj['deck_info'] = [];
-                localStorage.setItem('user_json', JSON.stringify(user_json_obj));
-                $('#userJSON .profile').val(JSON.stringify(user_json_obj));
+                user_json = JSON.stringify(user_json_obj);
+
+                localStorage.setItem('user_json', user_json);
+                $('#userJSON .profile').val(user_json);
                 updateInfo('用户卡组JSON已成功更新', false);
             }
         } else {
