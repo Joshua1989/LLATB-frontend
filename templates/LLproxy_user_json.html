@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get user_json from LLproxy</title>
+</head>
+<body>
+<script>
+    function Jump2MainPage() {
+        location = "/build_team/"
+    }
+    function fetchDate() {
+        var api_url = "https://llsif.sokka.cn/api/llproxy/unitsExportJSON/?uid=";
+        var args = new URLSearchParams(location.search.slice(1));
+        if (!args.has('uid') || window.XMLHttpRequest) {
+            Jump2MainPage()
+        }
+        api_url += args.get('uid');
+        // get uid from URL https://llsifteambuilder.herokuapp.com/build_team/LLproxy_user_json?uid=
+        var xmlhttp = new XMLHttpRequest();
+        if (xmlhttp) {
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                    var res = JSON.parse(xmlhttp.responseText).result;
+//                    document.write(res.uid + ' - ' + res.update_time);
+                    localStorage.setItem('user_json', res.JSONString);
+                    Jump2MainPage()
+                }
+            };
+            xmlhttp.open('GET', api_url);
+            xmlhttp.send();
+        }
+    }
+    try {
+        fetchDate()
+    } catch (e) {
+        Jump2MainPage()
+    }
+</script>
+</body>
+</html>

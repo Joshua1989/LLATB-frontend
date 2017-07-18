@@ -157,3 +157,6 @@ def live_stats(request):
 
 def receive_user_json(request):
 	return render(request, 'receive_user_json.html')
+
+def LLproxy_user_json(request):
+	return render(request, 'LLproxy_user_json.html')
