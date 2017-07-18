@@ -509,6 +509,19 @@
             updateInfo('用户卡组JSON为空', true);
             return
         }
+        user_json_obj = JSON.parse(user_json)
+        if (user_json_obj['unit_info'] == undefined |
+            user_json_obj['deck_info'] == undefined |
+            user_json_obj['removable_info'] == undefined |
+            user_json_obj['removable_info']['equipment_info'] == undefined |
+            user_json_obj['removable_info']['owning_info'] == undefined) {
+            updateInfo('用户卡组JSON格式有误', true);
+            return
+        }
+        if (user_json_obj['unit_info'].length < 13) {
+            updateInfo('组卡至少要有13张卡，您目前有{0}张，请继续添加卡组'.format(user_json_obj['unit_info'].length), true);
+            return
+        }
         $('#calculate').prop('disabled', true);
         POST_JSON = {
             song_list: JSON.stringify(live_selection['song_list']),
