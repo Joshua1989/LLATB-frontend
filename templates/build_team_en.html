@@ -97,19 +97,19 @@
             <div class='w3-container w3-padding-24'>
                 <p style='text-align:left'>
                     <span onclick="document.getElementById('about').style.display='none'" class='exitBtn'><b>x</b></span>
-                    <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ Welcome to the new UI of web LLSIF-AutoTeamBuilder, now it has formed {{ count }} teams for SIF players.
+                    <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ Welcome to the web LLSIF-AutoTeamBuilder, now it has formed {{ count }} teams for SIF players.
                     <br/>
                     <br/> For efficiency and stability, Web LLSIF-AutoTeamBuilder uses the following parameters:
                     <br/> Set all kiss gems to 9, the candidate card pond has size 12, 1-suboptimal DP algorithm is applied when the gem is limited, while 1-suboptimal DC is applied when the gem is unlimited.
                     <br/> Under above assumption
-                    <span style='color:red'>optimal solution is not GUARANTEED</span>，but most of the case the expected total score is within 1000 points to the optimal one.
+                    <span style='color:red'>optimal solution is not GUARANTEED</span>，but by experience most of the case the expected total score is within 1000 points to the optimal one.
                     <br/> You can run a more accurate algorithm locally by using
-                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github source</a>，more detail for the algorithm please refer to <a href='../doc'>Love Live SIF: Introduction to team strength</a> (written in Chinese).
+                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github source</a>，more detail for the algorithm please refer to <a href='../../doc'>Love Live SIF: Introduction to team strength</a> (written in Chinese).
                     <br/>
-                    <br/> User Guide:
+                    <br/> User Guide: <a href='../../tutorial/en'>detailed tutorial here</a>
                     <ol>
                         <li>Choose song (Click on song name to add to live list, click cover to look at live details), and extra conditions</li>
-                        <li> If you are in JP server and linked to <a href='//stats.llsif.win/'>SIFStats</a>, or you are in CN server and linked to <a href='http://pll.sokka.cn/user'>LLproxy</a>, then you can directly copy the user profile JSON to input your card list.
+                        <li> If you are using a third-party proxy <a href='//stats.llsif.win/'>SIFStats (JP)</a>, <a href='http://pll.sokka.cn/user'>LLproxy (CN)</a>, then you can directly copy the user profile JSON to input your card list.
                             <br/> If you are in EN server or not linked to any proxy stats site, you can edit your profile <span style='color:red'><b>manually</b></span>, once you are done I highly recommend you to <span style='color:red'><b>save the JSON locally</b></span> in case of lost.
                             <br/> The input user JSON is stored in local storage, so next time you open this page you do not need to copy your JSON again.
                         </li>
@@ -192,7 +192,7 @@
         default: 'Maintain Current',
         current_max: 'Max Lv & Bond',
         idolized_max: 'Idlz, Max Lv & Bond',
-        ultimate: 'Idlz, Lv 8 & Slot 8'
+        ultimate: 'Idlz, Lv 8 & Slot Max'
     };
 
     // Initialize selections

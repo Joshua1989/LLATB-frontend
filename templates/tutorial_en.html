@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<title>LLSIF-AutoTeamBuilder Tutorial</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'> {% load staticfiles %}
+<style>
+body {
+    background-color: pink;
+    color: black;
+}
+
+img {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+}
+</style>
+
+<body>
+    <h1>Edit Your User Profile</h1>
+    <h2>Using Third-Party Proxy</h2>
+    <p>If you are using a third-party proxy <a href='//stats.llsif.win/'>SIFStats (JP)</a>, <a href='http://pll.sokka.cn/user'>LLproxy (CN)</a>, then you can directly copy the user profile JSON to input your card list.</p>
+    <div style='display: block;margin: 0 auto' style='width:100%'>
+        <img src="{% static 'tutorial_en 2.jpg' %}" style='width:48%;display:inline-block;'>
+        <img src="{% static 'tutorial_en 3.jpg' %}" style='width:48%;display:inline-block;'>
+    </div>
+    <h2>Manually Edit Card Profile</h2>
+    <p>If you are not use a third-party proxy, you can still use this tool by editing your profile manually. The editing is incremental, if you first copy user profile JSON and then edit manually, you will start from the profile in the JSON.</p>
+    <img src="{% static 'tutorial_en 4.png' %}" align='middle'>
+    <p>When you add a card, first you need to choose which member, attribute and whether it is idolized to filter out all card satisfying these conditions.</p>
+    <img src="{% static 'tutorial_en 5.png' %}" align='middle'>
+    <p>Then two sets of card will show below:
+        <ul>
+            <li> the first set contains all possible cards available in the game that satisfies the filter </li>
+            <li> the second set contains all your cards that satisfies the filter </li>
+        </ul>
+    </p>
+    <p>You can add a new card by clicking an icon in the first set, then it will appear in the second set, by default the card has minimum number of slots, skill level 1, max level and bond.</p>
+    <p>You can edit an existing card by clicking an icon in the second set, then the following modal will pop up for you to change card stats. The only thing you need to notice is that if you changed the idolization, the edited will disappear from the second set since it does not satisfy the current filter (idolization does not match).</p>
+    <img src="{% static 'tutorial_en 6.png' %}" align='middle' style='width:60%'>
+    <p>After you finished editing all your cards, you may want to edit the number of all gems, simply click "Edit Gem" button and input the numbers.</p>
+    <img src="{% static 'tutorial_en 7.png' %}" align='middle' style='width:60%'>
+    <p>Now you are done, it is simple right? Do not forget to click "Save" before you click "Build" to build your optimal team. And I highly recommend you to save the user JSON locally in case of losing information.</p>
+
+    <h1>Build Optimal Team</h1>
+    <img src="{% static 'tutorial_en 1.png' %}" align='middle'>
+    <h2>Configure Settings</h2>
+    <p>Once you created a valid user profile, simply choose all parameters:
+        <ul>
+            <li>Live List: the live(s) you want to optimize over: this team builder support Medley Festival, under same group, attribute and difficulty, you can add at most 5 songs</li>
+            <li>Buy Support: this is useful when you are in a Medley Festival or Challenge Festival</li>
+            <li>Prior Perfect Rate: this is used for evaluating how well you play the game, it is the average probability that you tap a PERFECT in absence of any perfect lock skills. Note that all computation are based on Full Combo presumption, Prior Perfect Rate is 0.95 means your taps are 95% PERFECT and 5% GREAT.</li>
+            <li>Gem Unlimited: just a setting to discard gem owning constraints, this may tell you what gem is more valuable in your following game progress</li>
+            <li>Extra Condition: you can choose extra conditions to see your potentials:
+                <ul>
+                    <li>Maintain Current: nothing changes, cards information strictly follows what you input in user profile JSON</li>
+                    <li>Max Lv & Bond: All cards maintain current idolization, but are set to max level and max bond</li>
+                    <li>Idlz, Max Lv & Bond: All cards set to idolized, but are set to max level and max bond, slot number unchanged</li>
+                    <li>Idlz, Lv 8 & Slot Max: This is the ultimate status, all cards set to idolized, but are set to max level and max bond, besides the skill level is 8 and maximize the slot number.</li>
+                </ul>
+            </li>
+        </ul>
+    </p>
+    <h2>Team Build Results</h2>
+    <p>Whew, finally you can press the "Calculate" button, there is no error showing, congratulations your optimal team is available! Enjoy!!!</p>
+    <p>Here is an example output. For ordinary users, what you may be interested in are:
+        <ul>
+            <li>Cover Rate in Total Stats: The estimated note cover rate for perfect lock.</li>
+            <li>Expected Score in Total Stats: The expected score you can obtain using the optimal team.</li>
+            <li>Recommended Guest Center Skill: The best guest you should use in traditional icon collect event and when there is no event.</li>
+            <li>Icon & Gem: Of course this is why you use the LLSIF-AutoTeamBuilder</li>
+        </ul>
+    </p>
+    <p>For technical users, I am open to discussion and glad to share idea. Feel free to contact me.</p>
+    <img src="{% static 'tutorial_en 8.png' %}" align='middle'>
+</body>
+
+</html>
