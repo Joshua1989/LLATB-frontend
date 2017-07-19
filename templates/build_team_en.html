@@ -45,13 +45,13 @@
             <button id='scoreUp' class='imgBtn w3-margin-left' onclick="toggleScoreUp()"></button>
             <button id='skillUp' class='imgBtn' onclick="toggleSkillUp()"></button>
             <div class="w3-bar-item w3-margin-left" style='width:75px;height:40px;padding:0;'>
-                <input id='perfectRate' class='w3-input w3-round-large' type='number' min='0.01' max='1' step='0.01' placeholder='无判P率' required='required' onchange="changePerfectRate()">
+                <input id='perfectRate' class='w3-input w3-round-large' type='number' min='0.01' max='1' step='0.01' placeholder='Perfect Rate' required='required' onchange="changePerfectRate()">
             </div>
             <button id='unlimitGem' class='imgBtn w3-margin-left' onclick="toggleUnlimitGem()"></button>
             <select id='extraCond' class='w3-bar-item w3-select w3-margin-left' style='height:40px;padding:0' onchange="changeExtraCondition()">
             </select>
             </select>
-            <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left' onclick="openUserJSON()"><b>用户JSON</b></button>
+            <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left' style='padding:0 0' onclick="openUserJSON()"><b>User JSON</b></button>
             <button id='calculate' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
         </div>
         <div id='liveSel' class='infoBar w3-black' style='height:auto'>
@@ -70,17 +70,17 @@
         <div class='w3-modal-content' style='height:100%'>
             <div class='w3-container w3-black w3-padding-24' style='height:100%'>
                 <span onclick="inputUserJSON()" class='exitBtn'><b>x</b></span>
-                <b>用户卡组JSON: </b>
-                <a href='/edit_profile'>
-                    <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'>手动编辑</button>
+                <b>User Profile JSON: </b>
+                <a href='/edit_profile/en'>
+                    <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'>Manual</button>
                 </a>
                 <textarea class='w3-round-large profile w3-input' required='required'></textarea>
                 <div class='output'>
-                    <b>LL Helper 队伍信息sd文件</b>
+                    <b>LL Helper Team sd file</b>
                     <textarea class='w3-round-large LLH w3-input' readonly></textarea>
                 </div>
                 <div class='output'>
-                    <b>SIFStats 队伍Json文件</b>
+                    <b>SIFStats Team Json</b>
                     <textarea class='w3-round-large ieb w3-input' readonly></textarea>
                 </div>
             </div>
@@ -97,29 +97,26 @@
             <div class='w3-container w3-padding-24'>
                 <p style='text-align:left'>
                     <span onclick="document.getElementById('about').style.display='none'" class='exitBtn'><b>x</b></span>
-                    <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ 欢迎使用新版UI网页LLSIF-AutoTeamBuilder全自动组卡器，目前已帮助大家成功组卡 {{ count }} 队
+                    <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ Welcome to the new UI of web LLSIF-AutoTeamBuilder, now it has formed {{ count }} teams for SIF players.
                     <br/>
-                    <br/> 网页版LLSIF-AutoTeamBuilder考虑到运算量以及稳定性，使用如下参数：
-                    <br/> 预设所有吻宝石为9，预备卡组大小为12，宝石有限时使用1-suboptimal DP算法，无限时使用1-suboptimal DC算法。
-                    <br/> 在以上设定下
-                    <span style='color:red'>并不能保证找到最优解</span>，但是期望得分大多数情况只比最优解少1000分以内。
-                    <br/> 寻求更优解请移步
-                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github源码</a>自行尝试，算法细节请参考<a href='../doc'>Love Live SIF 卡组强度导论</a>。
+                    <br/> For efficiency and stability, Web LLSIF-AutoTeamBuilder uses the following parameters:
+                    <br/> Set all kiss gems to 9, the candidate card pond has size 12, 1-suboptimal DP algorithm is applied when the gem is limited, while 1-suboptimal DC is applied when the gem is unlimited.
+                    <br/> Under above assumption
+                    <span style='color:red'>optimal solution is not GUARANTEED</span>，but most of the case the expected total score is within 1000 points to the optimal one.
+                    <br/> You can run a more accurate algorithm locally by using
+                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github source</a>，more detail for the algorithm please refer to <a href='../doc'>Love Live SIF: Introduction to team strength</a> (written in Chinese).
                     <br/>
-                    <br/> 使用方法:
+                    <br/> User Guide:
                     <ol>
-                        <li>选择歌曲（点击封面上方歌名，点击封面为查看谱面详细信息），以及选择附加条件</li>
-                        <li>从<a href='//stats.llsif.win/'>SIFStats(日服)</a>， <a href='http://pll.sokka.cn/user'>LLproxy(国服)</a> 粘贴社员信息卡组JSON。
-                            <br/> 目前已支持本地存储，关闭网页下一次访问时可以直接载入之前输入的卡组。
-                            <br/> 没有连接数据站的用户可以使用<span style='color:red'><b>手动编辑</b></span>功能来输入卡组信息，编辑完成后<span style='color:red'><b>建议本地保存</b></span>用户JSON以免丢失。
+                        <li>Choose song (Click on song name to add to live list, click cover to look at live details), and extra conditions</li>
+                        <li> If you are in JP server and linked to <a href='//stats.llsif.win/'>SIFStats</a>, or you are in CN server and linked to <a href='http://pll.sokka.cn/user'>LLproxy</a>, then you can directly copy the user profile JSON to input your card list.
+                            <br/> If you are in EN server or not linked to any proxy stats site, you can edit your profile <span style='color:red'><b>manually</b></span>, once you are done I highly recommend you to <span style='color:red'><b>save the JSON locally</b></span> in case of lost.
+                            <br/> The input user JSON is stored in local storage, so next time you open this page you do not need to copy your JSON again.
                         </li>
-                        <li>点击calulate按钮计算最优卡组</li>
+                        <li>Click calculate button to solve for optimal team and gem allocation.</li>
                     </ol>
-                    <br/> 如果发现疑似bug请到
-                    <a href='//tieba.baidu.com/p/5225376536?pid=109423217170&cid=0#109423217170'>贴吧发布帖</a>进行反馈，说明具体问题并注明组卡时的<span style='color:red'>所有设置</span>。
+                    <br/> If you found a bug, please <a href="mailto:Joshualian1989@gmail.com">report it to me</a>, please describe the situation with <span style='color:red'>ALL SETTINGS</span>.
                     <br/>
-                    <br/> Remark 1: 在极端情况下（各种宝石都很少）计算可能会比较慢，请耐心等待。
-                    <br/> Remark 2: 由于美服并没有类似数据站，Github代码提供了虽然从tshark抓包导入用户卡组的功能，但是由于抓包中<span style='color:red'>含有账户信息</span>所以考虑到安全问题网页版暂不支持该格式。
                 </p>
             </div>
         </div>
@@ -192,10 +189,10 @@
     var difficulty_arr = ['Easy', 'Normal', 'Hard', 'Expert', 'Master'];
     var extra_cond_arr = ['default', 'current_max', 'idolized_max', 'ultimate'];
     var extra_cond_text = {
-        default: '维持当前状态',
-        current_max: '当前状态满级满绊',
-        idolized_max: '贴纸觉醒满级满绊',
-        ultimate: '觉醒满槽满技能'
+        default: 'Maintain Current',
+        current_max: 'Max Lv & Bond',
+        idolized_max: 'Idlz, Max Lv & Bond',
+        ultimate: 'Idlz, Lv 8 & Slot 8'
     };
 
     // Initialize selections
@@ -208,7 +205,7 @@
         perfect_rate = 0.95,
         extra_cond = 'default';
     var user_json = localStorage.getItem("user_json");
-    var song_name = '默认谱面 {0} {1}'.format(group_arr[group_sel], attr_sel);
+    var song_name = 'Default {0} {1}'.format(group_arr[group_sel], attr_sel);
     var live_selection = {
         group: group_sel,
         attr: attr_sel,
@@ -224,12 +221,12 @@
                 group: group_sel,
                 attr: attr_sel,
                 diff: diff_sel,
-                song_list: ['默认谱面 {0} {1}'.format(group_arr[group_sel], attr_sel)]
+                song_list: ['Default {0} {1}'.format(group_arr[group_sel], attr_sel)]
             };
         } else if (add_song) {
             if (live_selection['song_list'].length < 5) {
-                if (add_song.indexOf('默认') == -1) {
-                    if (live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('默认') > -1) {
+                if (add_song.indexOf('Default') == -1) {
+                    if (live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('Default') > -1) {
                         live_selection['song_list'].pop();
                     }
                     live_selection['song_list'].push(add_song)
@@ -242,10 +239,10 @@
                     };
                 }
             } else {
-                updateInfo('选择Live数量已达到上限 5', true);
+                updateInfo('Selected Live number reached upper bound 5', true);
             }
         }
-        $("#liveSel span b").html('难度: {0}, 已选曲目: {1}'.format(live_selection['diff'], live_selection['song_list'].join(', ')));
+        $("#liveSel span b").html('Difficulty: {0}, Selected songs: {1}'.format(live_selection['diff'], live_selection['song_list'].join(', ')));
         $("#liveSel span b").css('color', attribute_color2[live_selection['attr']]);
     }
     updateLiveSel();
@@ -301,7 +298,7 @@
     // Fill live pond into swiper
     function updateLiveSwiper() {
         swiper.removeAllSlides()
-        var default_name = '默认谱面 {0} {1}'.format(group_arr[group_sel], attr_sel);
+        var default_name = 'Default {0} {1}'.format(group_arr[group_sel], attr_sel);
         var color_str = attribute_color[attr_sel];
         swiper.appendSlide("<div class='swiper-slide w3-{0} w3-border-{5} w3-hover-border-yellow'><div class='topBar w3-hover-{6} w3-{0}' onclick=\"chooseLive('{3}','{4}')\"><b class='titleText'>{1}</b></div><img src='{2}'></div>\n".format(color_str, default_name, default_cover_url[group_sel][attr_sel], default_name.replace("'", "\\\'"), diff_sel, color_str, color_str));
         for (x in live_info) {
@@ -319,11 +316,11 @@
 
     function viewLiveStats(e) {
         sn = e.target.parentNode.childNodes[0].getElementsByTagName("b")[0].innerHTML;
-        if (sn.indexOf('默认') != -1) {
+        if (sn.indexOf('Default') != -1) {
             return
         } else {
             POST_JSON = {
-                lang: 'CN',
+                lang: 'EN',
                 song_name: sn,
                 difficulty: diff_sel,
                 perfect_rate: perfect_rate,
@@ -386,7 +383,7 @@
         group_sel = group_sel == 'Aqours' ? 'muse' : 'Aqours';
         $('#group').html("<img src='{0}' alt='{1}'>".format(img_url[group_sel], group_arr[group_sel]));
         updateLiveSwiper();
-        updateInfo('选择团体为 {0}'.format(group_arr[group_sel]), false);
+        updateInfo('Choose group as {0}'.format(group_arr[group_sel]), false);
         updateLiveSel();
     }
 
@@ -398,7 +395,7 @@
         $('#attr' + attr + ' img').removeClass('w3-grayscale-max');
         attr_sel = attr;
         updateLiveSwiper();
-        updateInfo('选择属性为 {0}'.format(attr_sel), false);
+        updateInfo('Choose attribute as {0}'.format(attr_sel), false);
         updateLiveSel();
     }
 
@@ -407,7 +404,7 @@
         $('#difficulty div').hide();
         diff_sel = diff;
         updateLiveSwiper();
-        updateInfo('选择难度为 {0}'.format(diff_sel), false);
+        updateInfo('Choose difficulty as {0}'.format(diff_sel), false);
         $('#difficulty>button').html("<img src='{0}'>".format(img_url[diff_sel]));
         updateLiveSel();
     }
@@ -415,7 +412,7 @@
     // Choose live
     function chooseLive(name, diff) {
         song_name = name;
-        updateInfo('选择谱面为 {0} {1}'.format(name, diff), false);
+        updateInfo('Choose song as {0} {1}'.format(name, diff), false);
         updateLiveSel(song_name);
     }
 
@@ -427,7 +424,7 @@
         } else {
             $('#scoreUp img').addClass('w3-grayscale-max');
         }
-        updateInfo('{0} 打击得分+10%'.format(score_up ? '启用' : '取消'), false);
+        updateInfo('Score Up 10% {0}'.format(score_up ? 'ON' : 'OFF'), false);
     }
 
     function toggleSkillUp() {
@@ -437,7 +434,7 @@
         } else {
             $('#skillUp img').addClass('w3-grayscale-max');
         }
-        updateInfo('{0} 技能触发+10%'.format(skill_up ? '启用' : '取消'), false);
+        updateInfo('Skill Up 10% {0}'.format(skill_up ? 'ON' : 'OFF'), false);
     }
 
     function toggleUnlimitGem() {
@@ -447,7 +444,7 @@
         } else {
             $('#unlimitGem img').addClass('w3-grayscale-max');
         }
-        updateInfo('{0} 宝石无限'.format(unlimit_gem ? '启用' : '取消'), false);
+        updateInfo('Unlimited gem {0}'.format(unlimit_gem ? 'ON' : 'OFF'), false);
     }
 
     // Change perfect rate and extra condition
@@ -455,17 +452,17 @@
         temp = parseFloat($('#perfectRate').val());
         if (!isNaN(temp) && temp >= 0.01 && temp <= 1) {
             perfect_rate = temp;
-            updateInfo('更改无判P率为 {0}%'.format(parseInt(perfect_rate * 100)), false);
+            updateInfo('Change prior perfect rate to {0}%'.format(parseInt(perfect_rate * 100)), false);
         } else {
             $('#perfectRate').val(perfect_rate);
-            updateInfo('无判P率为输入错误，还原为{0}%'.format(parseInt(perfect_rate * 100)), true);
+            updateInfo('Invalid prior perfect rate, return to {0}%'.format(parseInt(perfect_rate * 100)), true);
         }
 
     }
 
     function changeExtraCondition() {
         extra_cond = $('#extraCond').val();
-        updateInfo('设置附加条件为 {0}'.format(extra_cond_text[extra_cond]), false);
+        updateInfo('Set extra condition as {0}'.format(extra_cond_text[extra_cond]), false);
     }
 
     // Check whether input user JSON is valid
@@ -487,7 +484,7 @@
                     user_json_obj['removable_info']['equipment_info'] == undefined |
                     user_json_obj['removable_info']['owning_info'] == undefined) {
                     $('#userJSON .profile').val(user_json);
-                    updateInfo('用户卡组JSON格式有误，回滚至上次合法JSON', true);
+                    updateInfo('Invalid user profile JSON, rollback to last valid version.', true);
                     return
                 }
                 user_json_obj['removable_info']['equipment_info'] = {};
@@ -496,18 +493,18 @@
 
                 localStorage.setItem('user_json', user_json);
                 $('#userJSON .profile').val(user_json);
-                updateInfo('用户卡组JSON已成功更新', false);
+                updateInfo('User profile JSON successfully updated', false);
             }
         } else {
             $('#userJSON .profile').val(user_json);
-            updateInfo('输入文本不是JSON格式，回滚至上次合法JSON', true);
+            updateInfo('Input is not valid JSON format, rollback to last valid version.', true);
         }
     }
 
     // calculate best team
     function calculate() {
         if (user_json == '') {
-            updateInfo('用户卡组JSON为空', true);
+            updateInfo('User profile JSON is empty', true);
             return
         }
         user_json_obj = JSON.parse(user_json)
@@ -516,16 +513,16 @@
             user_json_obj['removable_info'] == undefined |
             user_json_obj['removable_info']['equipment_info'] == undefined |
             user_json_obj['removable_info']['owning_info'] == undefined) {
-            updateInfo('用户卡组JSON格式有误', true);
+            updateInfo('Invalid user profile JSON', true);
             return
         }
         if (user_json_obj['unit_info'].length < 13) {
-            updateInfo('组卡至少要有13张卡，您目前有{0}张，请继续添加卡组'.format(user_json_obj['unit_info'].length), true);
+            updateInfo('You need at least 13 cards, now you have {0}, please edit your profile.'.format(user_json_obj['unit_info'].length), true);
             return
         }
         $('#calculate').prop('disabled', true);
         POST_JSON = {
-            lang: 'CN',
+            lang: 'EN',
             song_list: JSON.stringify(live_selection['song_list']),
             group: live_selection['group'],
             attribute: live_selection['attr'],

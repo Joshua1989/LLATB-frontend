@@ -27,8 +27,36 @@ def index(request):
 	context = { 'count': Counter.objects.get_or_create()[0].TeamCount }
 	return render(request, 'build_team.html', context)
 
+# Create your views here.
+def build_team_en(request):
+	context = { 'count': Counter.objects.get_or_create()[0].TeamCount }
+	return render(request, 'build_team_en.html', context)
+
 @csrf_exempt
 def calculate(request):
+	strings = {
+		'CN': {
+			'DEFAULT': '默认谱面',
+			'ERR_LIVE': '载入谱面信息失败...',
+			'ERR_PROFILE': '载入用户卡组信息失败...',
+			'ERR_EXCOND': '应用附加条件失败...',
+			'ERR_SOLVE': '求解最佳卡组失败，请检查该色是否有13张卡',
+			'ERR_EXPORT': '导出文件失败...',
+			'SUCCESS': '组队成功，共耗时{0:.2f}秒',
+			'ERR_NONAJAX': '服务器接收请求不是AJAX'
+		},
+		'EN': {
+			'DEFAULT': 'Default',
+			'ERR_LIVE': 'Failed to load live notes...',
+			'ERR_PROFILE': 'Failed to read user profile...',
+			'ERR_EXCOND': 'Failed to apply extra condition...',
+			'ERR_SOLVE': 'Failed to solve optimal team, please check whether there are at least 13 cards have current attribute',
+			'ERR_EXPORT': 'Failed to export result into other formats...',
+			'SUCCESS': 'Team builded, used {0:.2f} secs',
+			'ERR_NONAJAX': 'The request is not AJAX'
+		}
+	}
+	lang = request.POST['lang']
 	if request.is_ajax():
 		start_time = time.time()
 		song_list, PR = eval(request.POST['song_list']), float(request.POST['perfect_rate'])
@@ -43,17 +71,17 @@ def calculate(request):
 
 		# Load live
 		try:
-			if '默认谱面' not in song_list[0]:
+			if strings[lang]['DEFAULT'] not in song_list[0]:
 				live = MFLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR)
 				live_stats = html_view(live, lang='CN').data
 			else:
-				song_name = song_list[0].replace('默认谱面', 'Default')
+				song_name = song_list[0].replace(strings[lang]['DEFAULT'], 'Default')
 				live = DefaultLive(song_name, diff, perfect_rate=float(PR))
 				live_stats = 'NA'
 			print('Successfully loaded live.')
 		except:
 			print('Failed to load live.')
-			message = {'complete':False, 'msg':'载入谱面信息失败...'}
+			message = {'complete':False, 'msg':strings[lang]['ERR_LIVE']}
 			return JsonResponse(message)
 		# Load user profile
 		try:
@@ -64,7 +92,7 @@ def calculate(request):
 			print('Successfully loaded user profile.')
 		except:
 			print('Failed to load user profile.')
-			message = {'complete':False, 'msg':'载入用户卡组信息失败...'}
+			message = {'complete':False, 'msg':strings[lang]['ERR_PROFILE']}
 			return JsonResponse(message)
 		# Modify user profile
 		try:
@@ -90,17 +118,17 @@ def calculate(request):
 				print('Successfully applied extra condition.')
 		except:
 			print('Failed to apply extra condition.')
-			message = {'complete':False, 'msg':'应用附加条件失败...'}
+			message = {'complete':False, 'msg':strings[lang]['ERR_EXCOND']}
 			return JsonResponse(message)
 		# Solve for optimal team
 		try:
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
 			tb = TeamBuilder(live, user_profile, opt=opt)
 			tb.build_team(K=12, method='1-suboptimal', alloc_method='DC' if unlimit_gem else 'DP')
-			result = tb.view_result(show_cost=True, lang='CN').data
+			result = tb.view_result(show_cost=True, lang=lang).data
 		except:
 			print('Failed to compute optimal team.')
-			message = {'complete':False, 'msg':'求解最佳卡组失败...'}
+			message = {'complete':False, 'msg':strings[lang]['ERR_SOLVE']}
 			return JsonResponse(message)
 		# Covert result to LL Helper and SIFStats
 		sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
@@ -108,14 +136,13 @@ def calculate(request):
 			sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
 		except:
 			print('Failed to export file.')
-			message = {'complete':False, 'msg':'导出文件失败...'}
+			message = {'complete':False, 'msg':strings[lang]['ERR_EXPORT']}
 			return JsonResponse(message)
 		elapsed_time = time.time() - start_time
 
 		counter, _ = Counter.objects.get_or_create()
 		counter.TeamCount += 1
 		counter.save()
-
 		message = {
 			'complete': True,
 			'counter': counter.TeamCount,
@@ -123,14 +150,27 @@ def calculate(request):
 			'ieb_file': ieb_file,
 			'live_stats': live_stats,
 			'result': result,
-			'msg': '组队成功，共耗时{0:.2f}秒'.format(elapsed_time)
+			'msg': strings[lang]['SUCCESS'].format(elapsed_time)
 		}
 	else:
-		message = {'complete':False, 'msg':'服务器接收请求不是AJAX'}
+		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}
 	return JsonResponse(message)
 
 @csrf_exempt
 def live_stats(request):
+	strings = {
+		'CN': {
+			'ERR_LIVE': '载入谱面信息失败...',
+			'SUCCESS': '成功获取谱面详细信息',
+			'ERR_NONAJAX': '服务器接收请求不是AJAX'
+		},
+		'EN': {
+			'ERR_LIVE': 'Failed to load live notes...',
+			'SUCCESS': 'Successfully fetched detailed live stats',
+			'ERR_NONAJAX': 'The request is not AJAX'
+		}
+	}
+	lang = request.POST['lang']
 	if request.is_ajax():
 		song_name, diff, PR = request.POST['song_name'], request.POST['difficulty'], request.POST['perfect_rate']
 		user_info  = 'User IP Address: {0}\n'.format(str(get_client_ip(request)))
@@ -139,20 +179,20 @@ def live_stats(request):
 
 		try:
 			live = Live(song_name, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=float(PR))
-			live_stats = html_view(live, lang='CN').data
+			live_stats = html_view(live, lang=lang).data
 			print('Successfully loaded live.')
 		except:
 			print('Failed to load live.')
-			message = {'complete':False, 'msg':'载入谱面信息失败...'}
+			message = {'complete':False, 'msg':strings[lang]['ERR_LIVE']}
 			return JsonResponse(message)
 
 		message = {
 			'complete': True,
 			'live_stats': live_stats,
-			'msg': '成功获取谱面详细信息 {0} {1}'.format(song_name, diff)
+			'msg': '{0} {1} {2}'.format(strings[lang]['SUCCESS'], song_name, diff)
 		}
 	else:
-		message = {'complete':False, 'msg':'服务器接收请求不是AJAX'}
+		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}
 	return JsonResponse(message)
 
 def receive_user_json(request):

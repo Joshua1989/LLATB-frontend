@@ -12,3 +12,6 @@ from my_log.models import Counter
 # Create your views here.
 def index(request):
 	return render(request, 'edit_profile.html')
+
+def edit_profile_en(request):
+	return render(request, 'edit_profile_en.html')

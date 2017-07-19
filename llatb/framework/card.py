@@ -66,6 +66,7 @@ class Card:
 		if not all(check):
 			attr_name = np.array(['Level', 'Bond', 'Skill Level', 'Slot Number'])
 			print(self)
+			print([level, bond, slot_num, skill_level])
 			print('{0} must be integer within valid range!'.format(', '.join(attr_name[[not x for x in check]])))
 			raise
 		not_none = [not x for x in is_none]
@@ -205,13 +206,6 @@ class Card:
 			res.pop('stats_list', None)
 		return res
 	def copy(self):
-		# card = Card(self.card_id, self.card_name, self.member_name, self.rarity, self.main_attr, 
-		# 			self.stats_list, self.idolized, self.skill, self.cskill, self.promo)
-		# if self.skill is None:
-		# 	card.level_up(slot_num=self.slot_num, level=self.level, bond=self.bond)
-		# else:
-		# 	card.level_up(skill_level=self.skill.level, slot_num=self.slot_num, level=self.level, bond=self.bond)
-		# return card
 		return deepcopy(self)
 	@classmethod
 	def fromJSON(cls, json_data, idolized=False):

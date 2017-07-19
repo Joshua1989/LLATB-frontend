@@ -33,23 +33,23 @@
             <button id='attrPure' class='attrBtn'></button>
             <button id='attrCool' class='attrBtn'></button>
             <button id='idolized' class='idolBtn w3-margin-left'></button>
-            <button id='editGem' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>宝石储量</b></button>
-            <button id='saveProfile' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>保存修改</b></button>
-            <a href='/build_team'>
-                <button class='roundBtn w3-green w3-hover-yellow w3-right w3-margin-right'><b>组队</b></button>
+            <button id='editGem' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>Edit Gem</b></button>
+            <button id='saveProfile' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>Save</b></button>
+            <a href='/build_team/en'>
+                <button class='roundBtn w3-green w3-hover-yellow w3-right w3-margin-right'><b>Build</b></button>
             </a>
         </div>
     </div>
     <div class='w3-container w3-black'>
         <div style='padding:15px 0'>
-            <b>卡池中符合当前条件的卡牌 (卡牌编号):</b>
+            <b>All possible cards satisfy current filter (Card Number):</b>
         </div>
         <div id='pond' class='w3-container w3-black'>
         </div>
     </div>
     <div class='w3-container w3-black'>
         <div style='padding:15px 0'>
-            <b>当前持有的符合当前条件的卡牌 (技能槽数/技能等级/卡牌等级/绊): </b>
+            <b>All cards satisfy current filter that you own (Slots/Skill Lv/Lv/Bond): </b>
         </div>
         <div id='owned' class='w3-container w3-black'>
         </div>
@@ -67,33 +67,33 @@
     </div>
     <div id='editCard' class='w3-modal'>
         <div class='w3-modal-content'>
-            <span id='deleteCard'><b>劝退</b></span>
+            <span id='deleteCard'><b>Remove</b></span>
             <div class='w3-container w3-black w3-padding-24'>
                 <b id='editTitle'></b>
                 <div class='w3-bar w3-black' style='margin-top:25px'>
                     <div class='w3-bar-item'><b>Lv</b></div>
-                    <input id='editLevel' class='w3-bar-item w3-input w3-round-large' type='number' min='1' step='1' value='1' required='required'>
-                    <div class='w3-bar-item'><b>绊</b></div>
-                    <input id='editBond' class='w3-bar-item w3-input w3-round-large' type='number' min='1' step='1' value='1' required='required'>
+                    <input id='editLevel' class='w3-bar-item w3-input w3-round-large lang-en' type='number' min='1' step='1' value='1' required='required'>
+                    <div class='w3-bar-item'><b>Bond</b></div>
+                    <input id='editBond' class='w3-bar-item w3-input w3-round-large lang-en' type='number' min='1' step='1' value='1' required='required'>
                 </div>
                 <div class='w3-container w3-black'>
                     <div style='padding:15px 0'>
-                        <b>技能槽数:</b>
+                        <b>Slot Number:</b>
                     </div>
                     <div id='editSlotNum'>
                     </div>
                 </div>
                 <div class='w3-container w3-black'>
                     <div style='padding:15px 0'>
-                        <b>技能等级:</b>
+                        <b>Skill Level:</b>
                     </div>
                     <div id='editSkillLevel'>
                     </div>
                 </div>
                 <div class='w3-bar w3-black' style='margin-top:25px'>
-                    <button id='editIdolization' class='w3-bar-item roundBtn w3-hover-yellow w3-green w3-margin-left'>未觉</button>
-                    <button id='editCancel' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>取消</b></button>
-                    <button id='editOK' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>确认</b></button>
+                    <button id='editIdolization' class='w3-bar-item roundBtn w3-hover-yellow w3-green w3-margin-left'>Unidolized</button>
+                    <button id='editCancel' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>Cancel</b></button>
+                    <button id='editOK' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>Confirm</b></button>
                 </div>
                 <div class='w3-container w3-black'>
                 </div>
@@ -399,7 +399,7 @@
         member_sel = this.id;
         $('#chooseMember').hide();
         $('#member').html("<img src='{0}' alt='{1}'>".format(member_info[member_sel]['url'], member_sel));
-        updateInfo('选择角色为 {0}'.format(member_info[member_sel]['name']));
+        updateInfo('Choose member as {0}'.format(member_info[member_sel]['name']));
         showCardPond();
         showOwned();
         $('body').removeClass('modal-open');
@@ -481,8 +481,8 @@
                 showOwned();
                 CI = owned_bucket[member_sel][attr_sel][owned_index];
                 var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
-                var idol_str = CI['idolized'] ? '觉醒' : '未觉醒';
-                updateInfo(' CID {0}: own ID {1}, 添加数据为 {2} {3}'.format(CI['card_id'], owned_index, idol_str, stats_str));
+                var idol_str = CI['idolized'] ? 'Idolized' : 'Unidolized';
+                updateInfo(' CID {0}: own ID {1}, add data as {2} {3}'.format(CI['card_id'], owned_index, idol_str, stats_str));
                 owned_index += 1;
             })
         })
@@ -564,11 +564,11 @@
         if (CI['idolized']) {
             $('#editIdolization').removeClass('w3-green');
             $('#editIdolization').addClass('w3-red');
-            $('#editIdolization').text('觉醒');
+            $('#editIdolization').text('Idolized');
         } else {
             $('#editIdolization').removeClass('w3-red');
             $('#editIdolization').addClass('w3-green');
-            $('#editIdolization').text('未觉');
+            $('#editIdolization').text('Unidolized');
         }
         $('#editIdolization').click(function() {
             temp_idolized = !temp_idolized;
@@ -579,16 +579,16 @@
             if (temp_idolized) {
                 $(this).removeClass('w3-green');
                 $(this).addClass('w3-red');
-                $(this).text('觉醒');
+                $(this).text('Idolized');
             } else {
                 $(this).removeClass('w3-red');
                 $(this).addClass('w3-green');
-                $(this).text('未觉');
+                $(this).text('Unidolized');
             }
         })
         $('#editOK').click(function() {
             if (!$('#editLevel').is(':valid') || !$('#editBond').is(':valid')) {
-                alert('请输入正确的等级和绊值')
+                alert('Lv or bond out of range.')
                 return
             }
             var own_id = parseInt($('#editTitle').text().split(': ')[2]);
@@ -602,8 +602,8 @@
             $('body').removeClass('modal-open');
             showOwned();
             var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
-            var idol_str = CI['idolized'] ? '觉醒' : '未觉醒';
-            updateInfo('CID {0}: own ID {1}, 更新数据为 {2} {3}'.format(CI['card_id'], own_id, idol_str, stats_str));
+            var idol_str = CI['idolized'] ? 'Idolized' : 'Unidolized';
+            updateInfo('CID {0}: own ID {1}, change data to {2} {3}'.format(CI['card_id'], own_id, idol_str, stats_str));
         })
         $('#editCancel').click(function() {
             $('#editCard').hide();
@@ -613,12 +613,12 @@
             var own_id = parseInt($('#editTitle').text().split(': ')[2]);
             var CI = owned_bucket[member_sel][attr_sel][own_id];
             var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
-            var idol_str = CI['idolized'] ? '觉醒' : '未觉醒';
+            var idol_str = CI['idolized'] ? 'Idolized' : 'Unidolized';
             delete owned_bucket[member_sel][attr_sel][own_id];
             $('#editCard').hide();
             $('body').removeClass('modal-open');
             showOwned();
-            updateInfo('CID {0}: own ID {1}, 劝退，原数据为 {2} {3}'.format(CI['card_id'], own_id, idol_str, stats_str));
+            updateInfo('CID {0}: own ID {1}, remove, its data is {2} {3}'.format(CI['card_id'], own_id, idol_str, stats_str));
         })
     }
 
@@ -646,7 +646,7 @@
         $('#attr' + attr + ' img').removeClass('w3-grayscale-max');
         attr_sel = attr;
         if (!no_print) {
-            updateInfo('选择属性为 {0}'.format(attr_sel), false);
+            updateInfo('Choose attribute as {0}'.format(attr_sel), false);
         }
         showCardPond();
         showOwned();
@@ -661,7 +661,7 @@
         if (idolized_sel) {
             $('#idolized img').removeClass('w3-grayscale-max');
         }
-        updateInfo('选择觉醒状态为 {0}觉醒'.format(idolized_sel ? '' : '未'), false);
+        updateInfo('Choose idolization as {0}'.format(idolized_sel ? 'Idolized' : 'Unidolized'), false);
         showCardPond();
         showOwned();
     })
@@ -709,14 +709,14 @@
         39: 'Empress Trick'
     }
     var gem_CN = {
-        Perfume: '香水',
-        Ring: '指环',
-        Cross: '十字',
-        Aura: '光环',
-        Veil: '面纱',
-        Charm: '魅力',
-        Heal: '治愈',
-        Trick: '诡计'
+        Perfume: 'Perfume',
+        Ring: 'Ring',
+        Cross: 'Cross',
+        Aura: 'Aura',
+        Veil: 'Veil',
+        Charm: 'Charm',
+        Heal: 'Heal',
+        Trick: 'Trick'
     }
     $('#editGem').click(function() {
         $('#editGemModal').show();
@@ -730,7 +730,7 @@
             }
         }
         if (!is_valid) {
-            alert('所有宝石持有数量应为0～9的整数')
+            alert('Gem number should be a non-negative integer,')
             return
         }
         for (gem_id in gem_skill_id_dict) {
@@ -748,7 +748,7 @@
         }
         $('#editGemModal').hide();
         $('body').removeClass('modal-open');
-        updateInfo('修改宝石储量')
+        updateInfo('Gem owning number updated.')
     })
     var own_gem = {};
     for (var gem_id = 4; gem_id <= 39; gem_id++) {
@@ -833,7 +833,7 @@
         }
         user_json['unit_info'] = temp_unit_info;
         localStorage.setItem('user_json', JSON.stringify(user_json));
-        updateInfo('已保存当前选择到用户卡组JSON', false);
+        updateInfo('Saved current settings to user profile JSON', false);
     });
     </script>
 </body>
