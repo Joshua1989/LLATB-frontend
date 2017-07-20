@@ -235,8 +235,8 @@ class GameData:
 				'idolized': card.idolized,
 				'level': card.level,
 				'bond': card.bond,
-				'skill_level': 1,
-				'slot_num': card.slot_num,
+				'skill_level': card_info[6],
+				'slot_num': card_info[5],
 				'equipped_gems':[]
 			}
 			return res
