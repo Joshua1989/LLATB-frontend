@@ -64,7 +64,7 @@ def calculate(request):
 		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
 
-		user_info  = 'User IP Address: {0}\n'.format(str(get_client_ip(request)))
+		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)
 		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, unlimit_gem, extra_cond)
 		print(user_info)
@@ -86,7 +86,7 @@ def calculate(request):
 		# Load user profile
 		try:
 			if 'detail' in json_str:
-				user_profile = GameData(json_str, file_type='sokka', string_input=True)
+				user_profile = GameData(json_str, file_type='pll', string_input=True)
 			else:
 				user_profile = GameData(json_str, file_type='ieb', string_input=True)
 			print('Successfully loaded user profile.')
@@ -125,7 +125,7 @@ def calculate(request):
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
 			tb = TeamBuilder(live, user_profile, opt=opt)
 			tb.build_team(K=12, method='1-suboptimal', alloc_method='DC' if unlimit_gem else 'DP')
-			result = tb.view_result(show_cost=True, lang=lang).data
+			result = tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
 		except:
 			print('Failed to compute optimal team.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_SOLVE']}
@@ -173,13 +173,13 @@ def live_stats(request):
 	lang = request.POST['lang']
 	if request.is_ajax():
 		song_name, diff, PR = request.POST['song_name'], request.POST['difficulty'], request.POST['perfect_rate']
-		user_info  = 'User IP Address: {0}\n'.format(str(get_client_ip(request)))
+		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'View Live Info: {0} {1}'.format(song_name, diff)
 		print(user_info)
 
 		try:
 			live = Live(song_name, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=float(PR))
-			live_stats = html_view(live, lang=lang).data
+			live_stats = html_view(live, lang=lang).data.replace('http:','').replace('https:','')
 			print('Successfully loaded live.')
 		except:
 			print('Failed to load live.')
@@ -193,6 +193,46 @@ def live_stats(request):
 		}
 	else:
 		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}
+	return JsonResponse(message)
+
+@csrf_exempt
+def minaraishi_convert(request):
+	strings = {
+		'CN': {
+			'ERR_MINARAISHI': '转换minaraishi格式失败...',
+			'SUCCESS': '成功转换minaraishi格式',
+			'ERR_NONAJAX': '服务器接收请求不是AJAX'
+		},
+		'EN': {
+			'ERR_MINARAISHI': 'Failed to convert from minaraishi\'s format...',
+			'SUCCESS': 'Successfully convert from minaraishi\'s format',
+			'ERR_NONAJAX': 'The request is not AJAX'
+		}
+	}
+
+	lang = request.POST['lang']
+	if request.is_ajax():
+		minaraishi_json_str = request.POST['minaraishi_json']
+		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		print(user_info)
+		user_profile = GameData(minaraishi_json_str, file_type='minaraishi', string_input=True)
+		user_json = user_profile.to_WebATB()
+		try:
+			user_profile = GameData(minaraishi_json_str, file_type='minaraishi', string_input=True)
+			user_json = user_profile.to_WebATB()
+		except:
+			print('Failed to convert minaraishi fpr,at.')
+			message = {'complete':False, 'msg':strings[lang]['ERR_MINARAISHI']}
+			return JsonResponse(message)
+
+		message = {
+			'complete': True,
+			'user_json': user_json,
+			'msg': strings[lang]['SUCCESS']
+		}
+	else:
+		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}
+	
 	return JsonResponse(message)
 
 def receive_user_json(request):

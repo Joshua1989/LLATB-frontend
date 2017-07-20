@@ -13,6 +13,7 @@ unit_db_dir = root+'assets/unit.db_'
 unit_db_download_url = 'https://r.llsif.win/db/unit/unit.db_'
 live_db_dir = root+'assets/live.db_'
 live_db_download_url = 'https://r.llsif.win/db/live/live.db_'
+minaraishi_json_url = 'https://designedfor.sakura.ne.jp/nikuma-n/school-idol-festival/members.json'
 
 # Path function for saving downloaded resources and HTML image embedding
 def icon_path(card_id, idolized):

@@ -33,7 +33,7 @@
             <button id='attrPure' class='attrBtn'></button>
             <button id='attrCool' class='attrBtn'></button>
             <button id='idolized' class='idolBtn w3-margin-left'></button>
-            <button id='editGem' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>Edit Gem</b></button>
+            <button id='editGem' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>Edit SIS</b></button>
             <button id='saveProfile' class='w3-pink w3-hover-yellow roundBtn w3-margin-left'><b>Save</b></button>
             <a href='/build_team/en'>
                 <button class='roundBtn w3-green w3-hover-yellow w3-right w3-margin-right'><b>Build</b></button>
@@ -93,7 +93,7 @@
                 <div class='w3-bar w3-black' style='margin-top:25px'>
                     <button id='editIdolization' class='w3-bar-item roundBtn w3-hover-yellow w3-green w3-margin-left'>Unidolized</button>
                     <button id='editCancel' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>Cancel</b></button>
-                    <button id='editOK' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>Confirm</b></button>
+                    <button id='editOK' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-right'><b>OK</b></button>
                 </div>
                 <div class='w3-container w3-black'>
                 </div>
@@ -269,7 +269,7 @@
         }
     }
 
-    // Load user profile, if not create a new one
+    // Load user profile, ifnot create a new one
     var user_json = JSON.parse(localStorage.getItem("user_json"));
     if (user_json == null || user_json == '') {
         user_json = {
@@ -408,12 +408,14 @@
     var max_level_dict = {
         // Normal unidolized
         false: {
+            R: 40,
             SR: 60,
             SSR: 70,
             UR: 80
         },
         // Normal idolized
         true: {
+            R: 60,
             SR: 80,
             SSR: 90,
             UR: 100
@@ -422,20 +424,24 @@
     var max_bond_dict = {
         // Unidolized
         false: {
+            R: 100,
             SR: 250,
             SSR: 375,
             UR: 500
         },
         // Idolized
         true: {
+            R: 200,
             SR: 500,
             SSR: 750,
             UR: 1000
         }
     }
     var slot_num_dict = {
+        promoR: [1, 1],
         promoSR: [1, 1],
         promoUR: [2, 2],
+        R: [1, 2],
         SR: [2, 4],
         SSR: [3, 6],
         UR: [4, 8]
@@ -730,7 +736,7 @@
             }
         }
         if (!is_valid) {
-            alert('Gem number should be a non-negative integer,')
+            alert('SIS number should be a non-negative integer,')
             return
         }
         for (gem_id in gem_skill_id_dict) {
@@ -748,7 +754,7 @@
         }
         $('#editGemModal').hide();
         $('body').removeClass('modal-open');
-        updateInfo('Gem owning number updated.')
+        updateInfo('SIS owning number updated.')
     })
     var own_gem = {};
     for (var gem_id = 4; gem_id <= 39; gem_id++) {

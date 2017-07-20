@@ -66,7 +66,6 @@ class Card:
 		if not all(check):
 			attr_name = np.array(['Level', 'Bond', 'Skill Level', 'Slot Number'])
 			print(self)
-			print([level, bond, slot_num, skill_level])
 			print('{0} must be integer within valid range!'.format(', '.join(attr_name[[not x for x in check]])))
 			raise
 		not_none = [not x for x in is_none]
@@ -223,7 +222,7 @@ class Card:
 		return cls(card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo)
 
 def card_dataframe(cards):
-	keys = [ 'card_id', 'member_name', 'main_attr',
+	keys = [ 'card_name', 'card_id', 'member_name', 'main_attr',
 			 'idolized', 'promo', 'rarity',
 			 'level', 'max_level', 
 			 'bond', 'max_bond', 

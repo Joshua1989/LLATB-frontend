@@ -472,33 +472,58 @@
     }
 
     function inputUserJSON() {
-        $('#userJSON').hide();
         $('body').removeClass('modal-open')
         temp = $('#userJSON .profile').val();
         if (temp == '' || IsJsonString(temp)) {
             if (user_json != temp) {
                 user_json_obj = JSON.parse(temp);
-                if (user_json_obj['unit_info'] == undefined |
-                    user_json_obj['deck_info'] == undefined |
-                    user_json_obj['removable_info'] == undefined |
-                    user_json_obj['removable_info']['equipment_info'] == undefined |
-                    user_json_obj['removable_info']['owning_info'] == undefined) {
+                json_valid = user_json_obj['unit_info'] != undefined & user_json_obj['deck_info'] != undefined & user_json_obj['removable_info'] != undefined
+                if (json_valid) {
+                    json_valid = user_json_obj['removable_info']['equipment_info'] != undefined & user_json_obj['removable_info']['owning_info'] != undefined
+                }
+                minaraishi_valid = user_json_obj['idol_skills'] != undefined & user_json_obj['members'] != undefined
+                if (!json_valid & !minaraishi_valid) {
                     $('#userJSON .profile').val(user_json);
                     updateInfo('Invalid user profile JSON, rollback to last valid version.', true);
                     return
-                }
-                user_json_obj['removable_info']['equipment_info'] = {};
-                user_json_obj['deck_info'] = [];
-                user_json = JSON.stringify(user_json_obj);
+                } else if (json_valid) {
+                    user_json_obj['removable_info']['equipment_info'] = {};
+                    user_json_obj['deck_info'] = [];
+                    user_json = JSON.stringify(user_json_obj);
 
-                localStorage.setItem('user_json', user_json);
-                $('#userJSON .profile').val(user_json);
-                updateInfo('User profile JSON successfully updated', false);
+                    localStorage.setItem('user_json', user_json);
+                    $('#userJSON .profile').val(user_json);
+                    updateInfo('User profile JSON successfully updated', false);
+                } else if (minaraishi_valid) {
+                    console.log(temp)
+                    POST_JSON = {
+                        lang: 'EN',
+                        minaraishi_json: temp,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "minaraishi_convert",
+                        headers: {
+                            'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                        },
+                        data: POST_JSON,
+                        success: function(data) {
+                            if (data['complete']) {
+                                user_json = data['user_json'];
+                                localStorage.setItem('user_json', user_json);
+                                $('#userJSON .profile').val(user_json);
+                            }
+                            updateInfo(data['msg'], !data['complete']);
+                        }
+                    });
+                }
             }
         } else {
             $('#userJSON .profile').val(user_json);
             updateInfo('Input is not valid JSON format, rollback to last valid version.', true);
         }
+        $('#userJSON').hide();
     }
 
     // calculate best team

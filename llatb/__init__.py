@@ -6,15 +6,16 @@ from IPython.display import HTML
 
 from llatb.common import config, global_var
 from llatb.common.display import view_card, view_cards, view_team, view_live
+from llatb.common.util import update_card_data, update_live_data
 from llatb import skill
 from llatb.framework import Card, Team, Live, DefaultLive, MFLive
-from llatb.importer.game_data import GameData
+from llatb.importer.game_data import GameData, uid_cid_dict
 from llatb.simulator import Simulator
 from llatb.advanced import TeamBuilder
 
 def update_data():
-	llatb.common.util.update_card_data()
-	llatb.common.util.update_live_data()
+	update_card_data()
+	update_live_data()
 
 def html_view(item_to_show, show_gem=False, extra_col=[], lang='EN'):
 	if isinstance(item_to_show, Card):
