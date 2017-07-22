@@ -6,6 +6,7 @@ import time, sys, urllib.request
 from mysite import settings
 sys.path.append(settings.BASE_DIR)
 from llatb import GameData, Live, DefaultLive, MFLive, TeamBuilder, html_view
+from llatb.skill import CenterSkill
 
 from my_log.models import Counter
 
@@ -42,7 +43,7 @@ def calculate(request):
 			'ERR_EXCOND': '应用附加条件失败...',
 			'ERR_SOLVE': '求解最佳卡组失败，请检查该色是否有13张卡',
 			'ERR_EXPORT': '导出文件失败...',
-			'SUCCESS': '组队成功，共耗时{0:.2f}秒',
+			'SUCCESS': '#{0} 组队成功，共耗时{1:.2f}秒',
 			'ERR_NONAJAX': '服务器接收请求不是AJAX'
 		},
 		'EN': {
@@ -52,7 +53,7 @@ def calculate(request):
 			'ERR_EXCOND': 'Failed to apply extra condition...',
 			'ERR_SOLVE': 'Failed to solve optimal team, please check whether there are at least 13 cards have current attribute',
 			'ERR_EXPORT': 'Failed to export result into other formats...',
-			'SUCCESS': 'Team builded, used {0:.2f} secs',
+			'SUCCESS': '#{0} Team builded, used {1:.2f} secs',
 			'ERR_NONAJAX': 'The request is not AJAX'
 		}
 	}
@@ -122,16 +123,41 @@ def calculate(request):
 			return JsonResponse(message)
 		# Solve for optimal team
 		try:
-			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
+			guest_center = request.POST.get('guest_center', 'None')
+			if guest_center == 'None':
+				guest_cskill = None
+			else:
+				main_attr = guest_center.split(': ')[0]
+				params = guest_center.split(': ')[1].split(' ')
+				print(guest_center, params)
+				base_attr, main_ratio = params[0], int(params[1][:-1])
+				bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
+				guest_cskill = CenterSkill(guest_center, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)
+			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':guest_cskill}
 			tb = TeamBuilder(live, user_profile, opt=opt)
-			tb.build_team(K=12, method='1-suboptimal', alloc_method='DC' if unlimit_gem else 'DP')
+			
+			# Choose alloc method wisely
+			temp_dict = dict()
+			for x in [live.attr]: 
+			    temp_dict[x+' Perfume'] = user_profile.owned_gem[x+' Perfume']
+			    temp_dict[x+' Aura'] = user_profile.owned_gem[x+' Aura']
+			    temp_dict[x+' Veil'] = user_profile.owned_gem[x+' Veil']
+			    for y in ['(1st)', '(2nd)', '(3rd)']:
+			        temp_dict[x+' Ring '+y] = user_profile.owned_gem[x+' Ring '+y]
+			        temp_dict[x+' Cross '+y] = user_profile.owned_gem[x+' Cross '+y]
+			for x in ['Princess', 'Angel', 'Empress']:
+			    temp_dict[x+' Charm'] = user_profile.owned_gem[x+' Charm']
+			    temp_dict[x+' Heal'] = user_profile.owned_gem[x+' Heal']
+			    temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
+			alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
+
+			tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method)
 			result = tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
 		except:
 			print('Failed to compute optimal team.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_SOLVE']}
 			return JsonResponse(message)
 		# Covert result to LL Helper and SIFStats
-		sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
 		try:
 			sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
 		except:
@@ -143,6 +169,7 @@ def calculate(request):
 		counter, _ = Counter.objects.get_or_create()
 		counter.TeamCount += 1
 		counter.save()
+		print('This is the {0}-th built team, computation takes {1:.2f} seconds'.format(counter.TeamCount, elapsed_time))
 		message = {
 			'complete': True,
 			'counter': counter.TeamCount,
@@ -150,7 +177,7 @@ def calculate(request):
 			'ieb_file': ieb_file,
 			'live_stats': live_stats,
 			'result': result,
-			'msg': strings[lang]['SUCCESS'].format(elapsed_time)
+			'msg': strings[lang]['SUCCESS'].format(counter.TeamCount, elapsed_time)
 		}
 	else:
 		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<title>LLATB-TeamStrengthCalculator Tutorial</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'> {% load staticfiles %}
+<style>
+body {
+    background-color: pink;
+    color: black;
+}
+
+img {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+}
+</style>
+
+<body>
+    <h1>Before You Use Team Strength Calculator</h1>
+    <p>If you have used LLSIF-AutoTeamBuilder before, our SIS owning information will be load automatically, otherwise all SIS numbers are set to 9.</p>
+    <p>Besides, if this is the first time you use the team strength calculator, a default team will be given, you can edit it afterwards.</p>
+
+    <h1>Manually Edit Team</h1>
+    <h2>Choose Card</h2>
+    <p>The user interface of card filter (idol member, attribute, idolization) is same as profile editing page in LLATB, so I will skip it here.</p>
+    <p>The only different part is that: when you click an icon, nothing will change in your team, the selected card is just highlighted to indicate you that this is the card you will use for card replacement. As you can tell from the card edit modal, the "Remove" button is replaced by the "Replace" button.</p>
+    <img src="{% static 'tutorial_team_strength_2.png' %}" align='middle' style='width:50%'>
+
+    <h2>Choose SIS</h2>
+    <p>You can simply equip SIS by checking the check boxes. From the picture below you can see for different SIS types, I did not specify the attribute:
+    <ul>
+        <li>For SIS type that is not charm, heal and trick: the SIS has no constraint on the attribute, so the SIS has <b>same attribute as the center card</b>.</li>
+        <li>For SIS type that is charm, heal or trick: the SIS has constraint on the attribute, so the SIS has same attribute as the card equipping it.</li>
+    </ul>
+    </p>
+    <p>If the total cost for equipped SIS exceed the card slot number, the header will turn red to indicate you are violating the constraints.</p>
+    <p>For example, in the picture below, Umi is equipped with a Perfume and a Heal, since the center card is Smile, so in this case the equipped SISs are Smile Perfume and Empress Heal.</p>
+    <img src="{% static 'tutorial_team_strength_1.png' %}" align='middle'>
+    
+    <h2>Swap Position of Cards</h2>
+    <p>To swap to cards in the team, simply click on the header cell, you will see the font color becomes green, it tells you this card is waiting for position swapping. You acn click on the second header cell to finish the swap.</p>
+
+    <h1>Compute Team Strength Details</h1>
+    <h2>Start the Calculation</h2>
+    <p>Again the user interface is almost same as the AutoTeamBuilder, the only difference is the "Auto Mode" button:
+    <ul>
+        <li>If the button is OFF: the computation is exactly based on the team you edited</li>
+        <li>If the button is ON: an auto SIS allocation will be performed, this will give an optimal SIS allocation and positioning based on your input and SIS owning information.</li>
+    </ul>
+    </p>
+    <img src="{% static 'tutorial_team_strength_3.png' %}" align='middle'>
+    <h2>Output for Further Trial</h2>
+    <p>Once you have new team from the auto mode, you may want to start from this one to make further changes. You can easily copy the output team JSON and paste it as input team JSON.</p>
+    <img src="{% static 'tutorial_team_strength_4.png' %}" align='middle' style='width:60%'>
+</body>
+
+</html>

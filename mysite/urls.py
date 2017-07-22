@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^$', teambuilderApp.index),
     url(r'^build_team/', include('build_team.urls')),
     url(r'^edit_profile/', include('edit_profile.urls')),
+    url(r'^team_strength/', include('team_strength.urls')),
     url(r'^doc/$', TemplateView.as_view(template_name='theoretical_material.html')),
     url(r'^tutorial/cn$', TemplateView.as_view(template_name='tutorial_cn.html')),
     url(r'^tutorial/en$', TemplateView.as_view(template_name='tutorial_en.html')),

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>LLSIF-AutoTeamBuilder EN</title>
+<title>LLATB-TeamStrength</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <!-- Load static resources -->
 {% load staticfiles %}
@@ -51,7 +51,8 @@
             <select id='extraCond' class='w3-bar-item w3-select w3-margin-right' style='height:40px;padding:0' onchange="changeExtraCondition()">
             </select>
             </select>
-            <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-right' style='padding:0 0' onclick="openUserJSON()"><b>User JSON</b></button>
+            <button id='autoMode' class='imgBtn' onclick="toggleAutoMode()"></button>
+            <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left w3-margin-right' style='padding:0 0' onclick="openUTeamJSON()"><b>Team JSON</b></button>
             <select id='guestCenter' class='w3-bar-item w3-select w3-mobile' style='height:40px;padding:0' onchange="changeGuestCenter()">
             </select>
             <button id='calculate' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
@@ -71,9 +72,9 @@
     <div id='userJSON' class='w3-modal'>
         <div class='w3-modal-content' style='height:100%'>
             <div class='w3-container w3-black w3-padding-24' style='height:100%'>
-                <span onclick="inputUserJSON()" class='exitBtn'><b>x</b></span>
-                <b>User Profile JSON: </b>
-                <a href='/edit_profile/en'>
+                <span onclick="inputTeamJSON()" class='exitBtn'><b>x</b></span>
+                <b>Team JSON: </b>
+                <a href='/team_strength/edit'>
                     <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'>Manual</button>
                 </a>
                 <textarea class='w3-round-large profile w3-input' required='required'></textarea>
@@ -101,23 +102,17 @@
                     <span onclick="document.getElementById('about').style.display='none'" class='exitBtn'><b>x</b></span>
                     <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ Welcome to the web LLSIF-AutoTeamBuilder, now it has formed {{ count }} teams for SIF players.
                     <br/>
-                    <br/> For efficiency and stability, Web LLSIF-AutoTeamBuilder uses the following parameters:
-                    <br/> Set all kiss gems to 9, the candidate card pond has size 12, 1-suboptimal DP algorithm is applied when the gem is limited, while 1-suboptimal DC is applied when the gem is unlimited.
-                    <br/> Under above assumption
-                    <span style='color:red'>optimal solution is not GUARANTEED</span>，but by experience most of the case the expected total score is within 1000 points to the optimal one.
-                    <br/> You can run a more accurate algorithm locally by using
+                    <br/> This page is used to compute detailed stats, and the best SIS allocation and positioning for user custom teams.
+                    To use your whole user profile to build team please check <a href='../build_team/en'><b style='color:red'>team building page</b></a>.
+                    <br/> All the algorithms are available at
                     <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github source</a>，more detail for the algorithm please refer to <a href='../../doc'>Love Live SIF: Introduction to team strength</a> (written in Chinese).
                     <br/>
-                    <br/> User Guide: <a href='../../tutorial/en'><b>detailed tutorial here</b></a>
+                    <br/> User Guide: <a href='/team_strength/tutorial'><b>detailed tutorial here</b></a>
                     <ol>
                         <li>Choose song (Click on song name to add to live list, click cover to look at live details), and extra conditions</li>
-                        <li> If you are using a third-party proxy <a href='//stats.llsif.win/'>SIFStats (JP)</a>, <a href='http://pll.sokka.cn/user'>LLproxy (CN)</a>, then you can directly copy the user profile JSON to input your card list.
-                            <br/> If you are in EN server or not linked to any proxy stats site, you can edit your profile <span style='color:red'><b>manually</b></span>, once you are done I highly recommend you to <span style='color:red'><b>save the JSON locally</b></span> in case of lost.
-                            <br/> The input user JSON is stored in local storage, so next time you open this page you do not need to copy your JSON again.
-                        </li>
-                        <li>Click calculate button to solve for optimal team and gem allocation.</li>
+                        <li>Copy the team JSON, or manually edit your team</li>
+                        <li>Click calculate button to compute the team strength details, if you checked <b>auto allocate</b>, the best SIS allocation will be displayed.</li>
                     </ol>
-                    <br/> To check the best SIS allocation and team strength details for user custom teams, check <a href='../../team_strength'><b style='color:red'>team strength page</b></a>.
                     <br/> If you found a bug, please <a href="mailto:Joshualian1989@gmail.com">report it to me</a>, please describe the situation with <span style='color:red'>ALL SETTINGS</span>.
                     <br/>
                 </p>
@@ -161,6 +156,7 @@
         ScoreUp: '//r.llsif.win/assets/image/ui/event/e_button_32.png',
         SkillUp: '//r.llsif.win/assets/image/ui/event/e_button_33.png',
         UnlimitGem: '//r.llsif.win/assets/image/ui/profile/p_icon_01.png',
+        AutoMode: '//r.llsif.win/assets/image/ui/unit/u_button_10.png'
     };
     var default_cover_url = {
         muse: {
@@ -221,11 +217,17 @@
         unlimit_gem = false,
         perfect_rate = 0.95,
         extra_cond = 'default',
-        guest_center = 'None';
+        guest_center = 'None'
+    auto_mode = false;
     var user_json = localStorage.getItem("user_json");
     if (user_json==null) {
         user_json = '{"unit_info":[],"deck_info":[],"removable_info":{"equipment_info":{},"owning_info":[{"total_amount":9,"unit_removable_skill_id":1},{"total_amount":9,"unit_removable_skill_id":2},{"total_amount":9,"unit_removable_skill_id":3},{"total_amount":9,"unit_removable_skill_id":4},{"total_amount":9,"unit_removable_skill_id":5},{"total_amount":9,"unit_removable_skill_id":6},{"total_amount":9,"unit_removable_skill_id":7},{"total_amount":9,"unit_removable_skill_id":8},{"total_amount":9,"unit_removable_skill_id":9},{"total_amount":9,"unit_removable_skill_id":10},{"total_amount":9,"unit_removable_skill_id":11},{"total_amount":9,"unit_removable_skill_id":12},{"total_amount":9,"unit_removable_skill_id":13},{"total_amount":9,"unit_removable_skill_id":14},{"total_amount":9,"unit_removable_skill_id":15},{"total_amount":9,"unit_removable_skill_id":16},{"total_amount":9,"unit_removable_skill_id":17},{"total_amount":9,"unit_removable_skill_id":18},{"total_amount":9,"unit_removable_skill_id":19},{"total_amount":9,"unit_removable_skill_id":20},{"total_amount":9,"unit_removable_skill_id":21},{"total_amount":9,"unit_removable_skill_id":22},{"total_amount":9,"unit_removable_skill_id":23},{"total_amount":9,"unit_removable_skill_id":24},{"total_amount":9,"unit_removable_skill_id":25},{"total_amount":9,"unit_removable_skill_id":26},{"total_amount":9,"unit_removable_skill_id":27},{"total_amount":9,"unit_removable_skill_id":28},{"total_amount":9,"unit_removable_skill_id":29},{"total_amount":9,"unit_removable_skill_id":30},{"total_amount":9,"unit_removable_skill_id":31},{"total_amount":9,"unit_removable_skill_id":32},{"total_amount":9,"unit_removable_skill_id":33},{"total_amount":9,"unit_removable_skill_id":34},{"total_amount":9,"unit_removable_skill_id":35},{"total_amount":9,"unit_removable_skill_id":36},{"total_amount":9,"unit_removable_skill_id":37},{"total_amount":9,"unit_removable_skill_id":38},{"total_amount":9,"unit_removable_skill_id":39}]}}';
         localStorage.setItem("user_json", user_json)
+    }
+    var team_json = localStorage.getItem("team_json");
+    if (team_json==null) {
+        team_json = '[0,{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":982,"unit_skill_level":8,"unit_removable_skill_capacity":8},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1027,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1004,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1131,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1109,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1075,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1048,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1177,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1153,"unit_skill_level":1,"unit_removable_skill_capacity":4}]';
+        localStorage.setItem("team_json", team_json)
     }
     var song_name = 'Default {0} {1}'.format(group_arr[group_sel], attr_sel);
     var live_selection = {
@@ -297,7 +299,9 @@
         temp += "<option value='{0}'>{1}</option>".format(ec, extra_cond_text[ec]);
     }
     $('#extraCond').html(temp);
-    $('#userJSON .profile').val(user_json)
+    $('#autoMode').html("<img src='{0}' height=100%>".format(img_url['AutoMode']));
+    $('#autoMode img').addClass('w3-grayscale-max');
+    $('#userJSON .profile').val(team_json)
 
     // Initialize Swiper
     var swiper = new Swiper('.swiper-container', {
@@ -507,66 +511,46 @@
         updateInfo('Set extra condition as {0}'.format(extra_cond_text[extra_cond]), false);
     }
 
+    function toggleAutoMode() {
+        auto_mode = !auto_mode;
+        if (auto_mode) {
+            $('#autoMode img').removeClass('w3-grayscale-max');
+        } else {
+            $('#autoMode img').addClass('w3-grayscale-max');
+        }
+        updateInfo('Auto SIS allocation {0}'.format(auto_mode ? 'ON' : 'OFF'), false);
+    }
+
     function changeGuestCenter() {
         guest_center = $('#guestCenter').val();
         updateInfo('Set guest center as {0}'.format($('#guestCenter').val()), false);
     }
 
     // Check whether input user JSON is valid
-    function openUserJSON() {
+    function openUTeamJSON() {
         $('#userJSON').show();
         $('body').addClass('modal-open')
     }
 
-    function inputUserJSON() {
+    function inputTeamJSON() {
         $('body').removeClass('modal-open')
         temp = $('#userJSON .profile').val();
         if (temp == '' || IsJsonString(temp)) {
-            if (user_json != temp) {
-                user_json_obj = JSON.parse(temp);
-                json_valid = user_json_obj['unit_info'] != undefined & user_json_obj['deck_info'] != undefined & user_json_obj['removable_info'] != undefined
-                if (json_valid) {
-                    json_valid = user_json_obj['removable_info']['equipment_info'] != undefined & user_json_obj['removable_info']['owning_info'] != undefined
-                }
-                minaraishi_valid = user_json_obj['idol_skills'] != undefined & user_json_obj['members'] != undefined
-                if (!json_valid & !minaraishi_valid) {
-                    $('#userJSON .profile').val(user_json);
-                    updateInfo('Invalid user profile JSON, rollback to last valid version.', true);
+            if (team_json != temp) {
+                team_json_obj = JSON.parse(temp);
+                if (team_json_obj.length != 10) {
+                    $('#userJSON .profile').val(team_json);
+                    updateInfo('Invalid team JSON, rollback to last valid version.', true);
                     return
-                } else if (json_valid) {
-                    user_json_obj['removable_info']['equipment_info'] = {};
-                    user_json_obj['deck_info'] = [];
-                    user_json = JSON.stringify(user_json_obj);
-
-                    localStorage.setItem('user_json', user_json);
-                    $('#userJSON .profile').val(user_json);
-                    updateInfo('User profile JSON successfully updated', false);
-                } else if (minaraishi_valid) {
-                    POST_JSON = {
-                        lang: 'EN',
-                        minaraishi_json: temp,
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: "minaraishi_convert",
-                        headers: {
-                            'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
-                        },
-                        data: POST_JSON,
-                        success: function(data) {
-                            if (data['complete']) {
-                                user_json = data['user_json'];
-                                localStorage.setItem('user_json', user_json);
-                                $('#userJSON .profile').val(user_json);
-                            }
-                            updateInfo(data['msg'], !data['complete']);
-                        }
-                    });
+                } else {
+                    team_json = JSON.stringify(team_json_obj);
+                    localStorage.setItem('team_json', team_json);
+                    $('#userJSON .profile').val(team_json);
+                    updateInfo('Team JSON successfully updated', false);
                 }
             }
         } else {
-            $('#userJSON .profile').val(user_json);
+            $('#userJSON .profile').val(team_json);
             updateInfo('Input is not valid JSON format, rollback to last valid version.', true);
         }
         $('#userJSON').hide();
@@ -574,25 +558,43 @@
 
     // calculate best team
     function calculate() {
-        user_json = localStorage.getItem('user_json');
-        if (user_json == '' | user_json == undefined) {
-            updateInfo('User profile JSON is empty', true);
+        var user_json = localStorage.getItem('user_json'),
+            team_json = localStorage.getItem('team_json')
+        if (user_json == '') {
+            updateInfo('Team JSON is empty', true);
             return
         }
-        user_json_obj = JSON.parse(user_json)
-        if (user_json_obj['unit_info'] == undefined |
-            user_json_obj['deck_info'] == undefined |
-            user_json_obj['removable_info'] == undefined |
-            user_json_obj['removable_info']['equipment_info'] == undefined |
-            user_json_obj['removable_info']['owning_info'] == undefined) {
-            updateInfo('Invalid user profile JSON', true);
+        var team_json_obj = JSON.parse(team_json),
+            user_json_obj = JSON.parse(user_json);
+        if (team_json_obj.length != 10) {
+            updateInfo('Invalid team JSON', true);
             return
         }
-        if (user_json_obj['unit_info'].length < 13) {
-            updateInfo('You need at least 13 cards, now you have {0}, please edit your profile.'.format(user_json_obj['unit_info'].length), true);
-            return
+        if (auto_mode) {
+            if (user_json_obj['removable_info'] == undefined) {
+                updateInfo('SIS owning information missing', true);
+                return
+            }
+            if (user_json_obj['removable_info']['owning_info'] == undefined) {
+                updateInfo('SIS owning information missing', true);
+                return
+            }
         }
-        $('#calculate').prop('disabled', true);
+        var temp_user_json = {
+            unit_info: [],
+            deck_info: [],
+            removable_info: {
+                equipment_info: {},
+                owning_info: auto_mode ? user_json_obj['removable_info']['owning_info'] : []
+            }
+        };
+        for (var x = 1; x <= 9; x++) {
+            var CI = team_json_obj[x];
+            CI['unit_owning_user_id'] = x;
+            temp_user_json['unit_info'].push(CI);
+        }
+
+        // $('#calculate').prop('disabled', true);
         POST_JSON = {
             lang: 'EN',
             song_list: JSON.stringify(live_selection['song_list']),
@@ -605,7 +607,8 @@
             perfect_rate: perfect_rate,
             unlimit_gem: unlimit_gem,
             extra_cond: extra_cond,
-            user_profile: user_json,
+            user_profile: JSON.stringify(temp_user_json),
+            auto_mode: auto_mode,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         }
         $.ajax({

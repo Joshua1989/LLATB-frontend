@@ -208,8 +208,8 @@ class GemAllocator:
 			final_card_list[weight_list[i][1]] = self.card_list[1:][bonus_list[i][1]]
 		return Team(final_card_list)
 
-	def view_optimal_details(self, show_cost=False, lang='EN'):
-		team = self.construct_team()		
+	def view_optimal_details(self, show_cost=False, lang='EN', fixed_team=None):
+		team = self.construct_team() if fixed_team is None else fixed_team
 
 		col_name = { x:'<img src="{0}" width=25/>'.format(misc_path(x)) for x in ['level','bond','smile','pure','cool'] }
 

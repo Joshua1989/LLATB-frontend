@@ -228,7 +228,7 @@ class Team:
 		cid_uid_dict = {v:k for k,v in sqlite3.connect(unit_db_dir).cursor().execute("SELECT unit_id, unit_number FROM unit_m").fetchall()}
 		def card_dict(card):
 			res = {'love':int(card.bond), 'rank':int(card.idolized)+1, 'level':int(card.level), 'unit_skill_level':int(card.skill.level),
-				   'unit_id':cid_uid_dict[card.card_id], 'removable':[gem_id_dict[gem.name] for gem in card.equipped_gems]}
+				   'unit_id':cid_uid_dict[card.card_id], 'removable':[gem_id_dict[gem.name] for gem in card.equipped_gems], 'unit_removable_skill_capacity':int(card.slot_num)}
 			return res
 		content = [0] + [card_dict(card) for card in self.card_list]
 		if filename is not None:
