@@ -249,10 +249,11 @@ class GameData:
 		for card_id, card in raw_card_dict.items():
 			member_card_name_to_id[(card.member_name, card.card_name)] = card_id
 		# Generate user card information
-		card_info, owning_id_dict = dict(), dict()
-		for i, card in enumerate(minaraishi_info['members'], 1):
+		card_info, owning_id_dict, index = dict(), dict(), 1
+		for card in minaraishi_info['members']:
 			try:
-				card_info[str(i)] = get_card_levelup_info(card)
+				card_info[str(index)] = get_card_levelup_info(card)
+				index += 1
 			except:
 				print('Cannot generate card level-up info from', card)
 		# Generate user gem information
