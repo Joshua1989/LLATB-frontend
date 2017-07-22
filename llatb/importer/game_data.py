@@ -198,12 +198,15 @@ class GameData:
 		pll_info = json.loads(pll_file if string_input else open(pll_file).read())
 		# Generate user card information
 		card_info, owning_id_dict = dict(), dict()
+		pll_error_capture = ''
 		for i, card in enumerate(pll_info['unit_info'], 1):
 			try:
 				card_info[str(i)] = get_card_levelup_info(card)
 				owning_id_dict[str(card['unit_owning_user_id'])] = str(i)
 			except:
+				if pll_error_capture == '': pll_error_capture += pll_file
 				print('{0} is not in uid_cid_dict, please update {1}'.format(card['unit_id'], unit_db_dir))
+		print(pll_error_capture)
 		for key, equip_info in pll_info['removable_info']['equipment_info'].items():
 			value = [x['unit_removable_skill_id'] for x in equip_info['detail']]
 			card_info[owning_id_dict[key]]['equipped_gems'] = [gem_skill_id_dict[x] for x in value]
@@ -248,7 +251,6 @@ class GameData:
 		# Generate user card information
 		card_info, owning_id_dict = dict(), dict()
 		for i, card in enumerate(minaraishi_info['members'], 1):
-			card_info[str(i)] = get_card_levelup_info(card)
 			try:
 				card_info[str(i)] = get_card_levelup_info(card)
 			except:

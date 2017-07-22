@@ -129,7 +129,6 @@ def calculate(request):
 			else:
 				main_attr = guest_center.split(': ')[0]
 				params = guest_center.split(': ')[1].split(' ')
-				print(guest_center, params)
 				base_attr, main_ratio = params[0], int(params[1][:-1])
 				bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
 				guest_cskill = CenterSkill(guest_center, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)
