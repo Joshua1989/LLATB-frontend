@@ -22,11 +22,14 @@ img {
 
     <h1>Manually Edit Team</h1>
     <h2>Choose Card</h2>
-    <p>The user interface of card filter (idol member, attribute, idolization) is same as profile editing page in LLATB, so I will skip it here.</p>
+    <p>The user interface of card filter (idol member, attribute, idolization) is same as profile editing page in LLATB, so I will skip it here. You can read more above it <a href="../../tutorial/en">here</a>.</p>
     <p>The only different part is that: when you click an icon, nothing will change in your team, the selected card is just highlighted to indicate you that this is the card you will use for card replacement. As you can tell from the card edit modal, the "Remove" button is replaced by the "Replace" button.</p>
     <img src="{% static 'tutorial_team_strength_2.png' %}" align='middle' style='width:50%'>
 
-    <h2>Choose SIS</h2>
+    <h2>Edit SIS Owning Info</h2>
+    <p>If you want to use the auto SIS allocation function, the SIS owning information is necessary. By default the SIS owning information is loaded from your user profile if you have one, the only thing worthing being aware of is that the changes you made here <b>WILL OVERWRITE</b> the SIS owning information in your user profile.</p>
+
+    <h2>Equip SIS</h2>
     <p>You can simply equip SIS by checking the check boxes. From the picture below you can see for different SIS types, I did not specify the attribute:
     <ul>
         <li>For SIS type that is not charm, heal and trick: the SIS has no constraint on the attribute, so the SIS has <b>same attribute as the center card</b>.</li>
@@ -38,7 +41,8 @@ img {
     <img src="{% static 'tutorial_team_strength_1.png' %}" align='middle'>
     
     <h2>Swap Position of Cards</h2>
-    <p>To swap to cards in the team, simply click on the header cell, you will see the font color becomes green, it tells you this card is waiting for position swapping. You acn click on the second header cell to finish the swap.</p>
+    <p>To swap to cards in the team, simply click on the header cell, you will see the font color becomes green, it tells you this card is waiting for position swapping. You can click on the second header cell to finish the swap.</p>
+    <p>Do not forget to <b>SAVE</b> your changes before clicking "Back" for computation.</p>
 
     <h1>Compute Team Strength Details</h1>
     <h2>Start the Calculation</h2>
