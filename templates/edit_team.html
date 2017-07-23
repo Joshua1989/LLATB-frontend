@@ -1110,7 +1110,7 @@
                     urltoFile(rst.base64, 'compressed.jpeg', 'image/jpeg')
                         .then(function(file) {
                             $.ajax({
-                                url: 'https://crossorigin.me/http://api.sif.lcm.im/teamview', // 这个地址做了跨域处理，可以用于实际调试
+                                url: 'http://api.sif.lcm.im/teamview', // 这个地址做了跨域处理，可以用于实际调试
                                 data: rst.formData,
                                 processData: false,
                                 contentType: false,
