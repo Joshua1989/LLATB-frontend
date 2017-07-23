@@ -240,14 +240,13 @@ def minaraishi_convert(request):
 	if request.is_ajax():
 		minaraishi_json_str = request.POST['minaraishi_json']
 		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info += 'Request to convert minaraishi\'s format.'
 		print(user_info)
-		user_profile = GameData(minaraishi_json_str, file_type='minaraishi', string_input=True)
-		user_json = user_profile.to_WebATB()
 		try:
 			user_profile = GameData(minaraishi_json_str, file_type='minaraishi', string_input=True)
 			user_json = user_profile.to_WebATB()
 		except:
-			print('Failed to convert minaraishi fpr,at.')
+			print('Failed to convert minaraishi format.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_MINARAISHI']}
 			return JsonResponse(message)
 
@@ -255,6 +254,46 @@ def minaraishi_convert(request):
 			'complete': True,
 			'user_json': user_json,
 			'msg': strings[lang]['SUCCESS']
+		}
+	else:
+		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}
+	
+	return JsonResponse(message)
+
+@csrf_exempt
+def SIT_convert(request):
+	strings = {
+		'CN': {
+			'ERR_SIT': '导入School Idol Tomodachi账户{0}失败...',
+			'SUCCESS': '成功导入School Idol Tomodachi账户{0}',
+			'ERR_NONAJAX': '服务器接收请求不是AJAX'
+		},
+		'EN': {
+			'ERR_SIT': 'Failed import School Idol Tomodachi account {0}...',
+			'SUCCESS': 'Successfully import School Idol Tomodachi account {0}',
+			'ERR_NONAJAX': 'The request is not AJAX'
+		}
+	}
+
+	lang = request.POST['lang']
+	if request.is_ajax():
+		SIT_json_str, user_name, account_name = request.POST['SIT_json'], request.POST['username'], request.POST['account']
+		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info += 'Request to convert School Idol Tomodachi format.\n'
+		user_info += 'SIT username: {0}, SIT account: {1}'.format(user_name, account_name)
+		print(user_info)
+		try:
+			user_profile = GameData(SIT_json_str, file_type='SIT', string_input=True)
+			user_json = user_profile.to_WebATB()
+		except:
+			print('Failed to convert SIT format.')
+			message = {'complete':False, 'msg':strings[lang]['ERR_SIT'].format(account_name)}
+			return JsonResponse(message)
+
+		message = {
+			'complete': True,
+			'user_json': user_json,
+			'msg': strings[lang]['SUCCESS'].format(account_name)
 		}
 	else:
 		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}

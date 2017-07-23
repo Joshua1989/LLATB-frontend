@@ -45,6 +45,8 @@ class GameData:
 					card_info, gem_owning_info, deck_info = self.get_pll_info(filename, string_input)
 				elif file_type == 'minaraishi':
 					card_info, gem_owning_info, deck_info = self.get_minaraishi_info(filename, string_input)
+				elif file_type == 'SIT':
+					card_info, gem_owning_info, deck_info = self.get_SIT_info(filename, string_input)
 				else:
 					print('Incorrect file type {0}. Please choose packet or ieb'.format(file_type))
 					raise
@@ -266,6 +268,34 @@ class GameData:
 				gem_owning_info[skill_name] = value
 		# Generate user gem information
 		deck_info = []
+		return card_info, gem_owning_info, deck_info
+	def get_SIT_info(self, SIT_file, string_input=False):
+		def get_card_levelup_info(card_info):
+			card_id = str(card_info['card']['id'])
+			card = raw_card_dict[card_id].copy()
+			card.idolize(card_info['idolized'])
+			res = {
+				'unit_id': card_info['card']['game_id'],
+				'card_id': card_id,
+				'idolized': card.idolized,
+				'level': card.level,
+				'bond': card.bond,
+				'skill_level': card.skill.level,
+				'slot_num': card.slot_num + card.idolized if card.slot_num + card.idolized <= card.max_slot_num else card.slot_num,
+				'equipped_gems':[]
+			}
+			return res
+		SIT_info = json.loads(SIT_file if string_input else open(SIT_file).read())
+		# Generate user card information
+		card_info, index = dict(), 1
+		for item in SIT_info:
+			card_id = item['card']['id']
+			try:
+				card_info[str(index)] = get_card_levelup_info(item)
+				index += 1
+			except:
+				print('Cannot generate card level-up info from card id, maybe it is a promo card', card_id)
+		gem_owning_info, deck_info = {gem:9 for gem in list(gem_skill_id_dict.values())}, []
 		return card_info, gem_owning_info, deck_info
 	def filter(self, sel_func=None, sort_func=None, ascend=False):
 		df = self.owned_card

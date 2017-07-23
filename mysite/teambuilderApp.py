@@ -172,60 +172,63 @@ def index(request):
 		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, is_gem_unlimited, extra_cond_sel)
 		print(user_info)
 
-		if 'calculate' in request.POST:
-			json_str = request.POST['profile']
-			# try:
-			start_time = time.time()
-			if 'detail' in json_str:
-				user_profile = GameData(json_str, file_type='sokka', string_input=True)
-			else:
-				user_profile = GameData(json_str, file_type='ieb', string_input=True)
-			if extra_cond_sel == 'max_level_bond':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=card.idolized, reset_slot=False)
-			elif extra_cond_sel == 'idolized':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=True, reset_slot=False)
-			elif extra_cond_sel == 'ultimate':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=True)
-					card.slot_num = card.max_slot_num
-					if card.skill is not None:
-						card.skill.level = 8
-			if is_gem_unlimited:
-				for x in list(user_profile.owned_gem.keys()):
-					user_profile.owned_gem[x] = 9
-			else:
-				for x in ['Smile', 'Pure', 'Cool']: 
-					user_profile.owned_gem[x+' Kiss'] = 9
+		try:
+			if 'calculate' in request.POST:
+				json_str = request.POST['profile']
+				# try:
+				start_time = time.time()
+				if 'detail' in json_str:
+					user_profile = GameData(json_str, file_type='sokka', string_input=True)
+				else:
+					user_profile = GameData(json_str, file_type='ieb', string_input=True)
+				if extra_cond_sel == 'max_level_bond':
+					for i, card in user_profile.raw_card.items():
+						card.idolize(idolized=card.idolized, reset_slot=False)
+				elif extra_cond_sel == 'idolized':
+					for i, card in user_profile.raw_card.items():
+						card.idolize(idolized=True, reset_slot=False)
+				elif extra_cond_sel == 'ultimate':
+					for i, card in user_profile.raw_card.items():
+						card.idolize(idolized=True)
+						card.slot_num = card.max_slot_num
+						if card.skill is not None:
+							card.skill.level = 8
+				if is_gem_unlimited:
+					for x in list(user_profile.owned_gem.keys()):
+						user_profile.owned_gem[x] = 9
+				else:
+					for x in ['Smile', 'Pure', 'Cool']: 
+						user_profile.owned_gem[x+' Kiss'] = 9
 
-			print('Finished loading user profile')
-			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
-			tb = TeamBuilder(live_obj, user_profile, opt=opt)
-			tb.build_team(K=12, method='1-suboptimal', alloc_method='DC' if is_gem_unlimited else 'DP')
-			elapsed_time = time.time() - start_time
+				print('Finished loading user profile')
+				opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':None}
+				tb = TeamBuilder(live_obj, user_profile, opt=opt)
+				tb.build_team(K=12, method='1-suboptimal', alloc_method='DC' if is_gem_unlimited else 'DP')
+				elapsed_time = time.time() - start_time
 
-			output_files_template = '''
-			</table><table border="1" class="dataframe">
-		  	<tbody>
-		  		<tr>
-			      <td>LL Helper 队伍信息sd文件</td>
-			      <td>SIFStats 队伍Json文件</td>
-		  		</tr>
-			    <tr>
-			      <td><textarea name="LLHelper" cols="80" rows="10">{0}</textarea></td>
-			      <td><textarea name="SIFState" cols="80" rows="10">{1}</textarea></td>
-			    </tr>
-			</tbody>
-			</table>
-		  	'''
-			timing += 'Computation takes {0:.2f} seconds. <br/>'.format(elapsed_time) 
-			result += tb.view_result(show_cost=True, lang='CN').data
-			output_file += output_files_template.format(tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None))
+				output_files_template = '''
+				</table><table border="1" class="dataframe">
+			  	<tbody>
+			  		<tr>
+				      <td>LL Helper 队伍信息sd文件</td>
+				      <td>SIFStats 队伍Json文件</td>
+			  		</tr>
+				    <tr>
+				      <td><textarea name="LLHelper" cols="80" rows="10">{0}</textarea></td>
+				      <td><textarea name="SIFState" cols="80" rows="10">{1}</textarea></td>
+				    </tr>
+				</tbody>
+				</table>
+			  	'''
+				timing += 'Computation takes {0:.2f} seconds. <br/>'.format(elapsed_time) 
+				result += tb.view_result(show_cost=True, lang='CN').data
+				output_file += output_files_template.format(tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None))
 
-			count += 1
-			counter.TeamCount = count
-			counter.save()
+				count += 1
+				counter.TeamCount = count
+				counter.save()
+		except:
+			print('Invalid User input', json_str)
 	else:
 		group = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ["μ's", 'Aqours']])
 		attr = '\n'.join(['<option value="{0}">{0}</option>'.format(x) for x in ['Smile', 'Pure', 'Cool']])

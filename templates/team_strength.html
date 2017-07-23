@@ -71,13 +71,12 @@
     </div>
     <div id='userJSON' class='w3-modal'>
         <div class='w3-modal-content' style='height:100%'>
-            <div class='w3-container w3-black w3-padding-24' style='height:100%'>
+            <div class='w3-container w3-black w3-padding-24' style='height:100%;overflow: scroll;'>
                 <span onclick="inputTeamJSON()" class='exitBtn'><b>x</b></span>
-                <b>Team JSON: </b>
-                <a href='/team_strength/edit'>
-                    <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'>Manual</button>
-                </a>
-                <textarea class='w3-round-large profile w3-input' required='required'></textarea>
+                <b id='profile-title'>Team JSON: </b>
+                <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><a href='/team_strength/edit' style="text-decoration:none"><b>Manual</b></a></button>
+                <button id='importSIT' class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Import SIT</b></button>
+                <textarea class='w3-round-large profile w3-input w3-margin-top' required='required'></textarea>
                 <div class='output'>
                     <b>LL Helper Team sd file</b>
                     <textarea class='w3-round-large LLH w3-input' readonly></textarea>
@@ -89,9 +88,33 @@
             </div>
         </div>
     </div>
-    <div id='liveStats' class='w3-modal' style='background-color: rgba(0,0,0,0);'>
+    <div id='liveStats' class='w3-modal'>
         <div class='w3-modal-content'>
             <div class='w3-container w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
+            </div>
+        </div>
+    </div>
+    <div id='modalSIT' class='w3-modal'>
+        <div class='w3-modal-content'>
+            <div class='w3-container w3-black w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
+                <span class='exitBtn'><b>x</b></span>
+                <p class='w3-mobile'><b>SIT User Name</b></p>
+                <div class='w3-bar'>
+                    <input class='w3-input w3-round-large'>
+                </div>
+                <p class='w3-mobile'><b>Select Account</b></p>
+                <div class='w3-bar w3-margin-buttom'>
+                    <select class='w3-select account'>
+                    </select>
+                </div>
+                <p class='w3-mobile'><b>Select Team</b></p>
+                <div class='w3-bar w3-margin-buttom'>
+                    <select class='w3-select team'>
+                    </select>
+                </div>
+                <div class='w3-display-container' style='margin-top:40px'>
+                    <button class='roundBtn w3-pink w3-hover-yellow w3-display-middle w3-mobile' style='width:20%'><b>Import</b></button>
+                </div>
             </div>
         </div>
     </div>
@@ -102,18 +125,17 @@
                     <span onclick="document.getElementById('about').style.display='none'" class='exitBtn'><b>x</b></span>
                     <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ Welcome to the web LLSIF-AutoTeamBuilder, now it has formed {{ count }} teams for SIF players.
                     <br/>
-                    <br/> This page is used to compute detailed stats, and the best SIS allocation and positioning for user custom teams.
-                    To use your whole user profile to build team please check <a href='../build_team/en'><b style='color:red'>team building page</b></a>.
+                    <br/> This page is used to compute detailed stats, and the best SIS allocation and positioning for user custom teams. To use your whole user profile to build team please check <a href='../build_team/en'><b style='color:red'>team building page</b></a>.
                     <br/> All the algorithms are available at
-                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github source</a>，more detail for the algorithm please refer to <a href='../../doc'>Love Live SIF: Introduction to team strength</a> (written in Chinese).
+                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'><b>Github source</b></a>，more detail for the algorithm please refer to <a href='../../doc'><b>Love Live SIF: Introduction to team strength</b></a> (written in Chinese).
                     <br/>
                     <br/> User Guide: <a href='/team_strength/tutorial'><b>detailed tutorial here</b></a>
                     <ol>
-                        <li>Choose song (Click on song name to add to live list, click cover to look at live details), and extra conditions</li>
-                        <li>Copy the team JSON, or manually edit your team</li>
+                        <li>Choose song (Click on song name to add to live list, click cover to look at live details), and extra conditions.</li>
+                        <li>Copy the team JSON, or import the teams from your <a href="http://schoolido.lu/" style='color:blue'><b>School Idol Tomodachi</b></a> account, or manually edit your team, or import your team from screenshot (this feature is provided by <a href="https://github.com/liaocm" style='color:blue'><b>liaocm</b></a>).</li>
                         <li>Click calculate button to compute the team strength details, if you checked <b>auto allocate</b>, the best SIS allocation will be displayed.</li>
                     </ol>
-                    <br/> If you found a bug, please <a href="mailto:Joshualian1989@gmail.com">report it to me</a>, please describe the situation with <span style='color:red'>ALL SETTINGS</span>.
+                    <br/> If you found a bug, please <a href="https://www.reddit.com/user/Hentyclopedia/"><b>report it to me</b></a>, please describe the situation with <span style='color:red'>ALL SETTINGS</span>.
                     <br/>
                 </p>
             </div>
@@ -220,12 +242,12 @@
         guest_center = 'None'
     auto_mode = false;
     var user_json = localStorage.getItem("user_json");
-    if (user_json==null) {
+    if (user_json == null) {
         user_json = '{"unit_info":[],"deck_info":[],"removable_info":{"equipment_info":{},"owning_info":[{"total_amount":9,"unit_removable_skill_id":1},{"total_amount":9,"unit_removable_skill_id":2},{"total_amount":9,"unit_removable_skill_id":3},{"total_amount":9,"unit_removable_skill_id":4},{"total_amount":9,"unit_removable_skill_id":5},{"total_amount":9,"unit_removable_skill_id":6},{"total_amount":9,"unit_removable_skill_id":7},{"total_amount":9,"unit_removable_skill_id":8},{"total_amount":9,"unit_removable_skill_id":9},{"total_amount":9,"unit_removable_skill_id":10},{"total_amount":9,"unit_removable_skill_id":11},{"total_amount":9,"unit_removable_skill_id":12},{"total_amount":9,"unit_removable_skill_id":13},{"total_amount":9,"unit_removable_skill_id":14},{"total_amount":9,"unit_removable_skill_id":15},{"total_amount":9,"unit_removable_skill_id":16},{"total_amount":9,"unit_removable_skill_id":17},{"total_amount":9,"unit_removable_skill_id":18},{"total_amount":9,"unit_removable_skill_id":19},{"total_amount":9,"unit_removable_skill_id":20},{"total_amount":9,"unit_removable_skill_id":21},{"total_amount":9,"unit_removable_skill_id":22},{"total_amount":9,"unit_removable_skill_id":23},{"total_amount":9,"unit_removable_skill_id":24},{"total_amount":9,"unit_removable_skill_id":25},{"total_amount":9,"unit_removable_skill_id":26},{"total_amount":9,"unit_removable_skill_id":27},{"total_amount":9,"unit_removable_skill_id":28},{"total_amount":9,"unit_removable_skill_id":29},{"total_amount":9,"unit_removable_skill_id":30},{"total_amount":9,"unit_removable_skill_id":31},{"total_amount":9,"unit_removable_skill_id":32},{"total_amount":9,"unit_removable_skill_id":33},{"total_amount":9,"unit_removable_skill_id":34},{"total_amount":9,"unit_removable_skill_id":35},{"total_amount":9,"unit_removable_skill_id":36},{"total_amount":9,"unit_removable_skill_id":37},{"total_amount":9,"unit_removable_skill_id":38},{"total_amount":9,"unit_removable_skill_id":39}]}}';
         localStorage.setItem("user_json", user_json)
     }
     var team_json = localStorage.getItem("team_json");
-    if (team_json==null) {
+    if (team_json == null) {
         team_json = '[0,{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":982,"unit_skill_level":8,"unit_removable_skill_capacity":8},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1027,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1004,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1131,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1109,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1075,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1048,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1177,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1153,"unit_skill_level":1,"unit_removable_skill_capacity":4}]';
         localStorage.setItem("team_json", team_json)
     }
@@ -627,6 +649,136 @@
             }
         });
     }
+
+    // SIT importer
+    var SIT = {
+        get_all: function(url, callback, progress, _loaded) {
+            _loaded = _loaded || 0;
+            var all = [];
+            $.get(url, function(data) {
+                for (var i = 0; i < data.results.length; i++) all.push(data.results[i]);
+                if (data.next) {
+                    _loaded += all.length;
+                    if (typeof progress === "function") progress(_loaded, data.count);
+
+                    setTimeout(function() {
+                        SIT.get_all(data.next, function(result) {
+                            for (var i = 0; i < result.length; i++) all.push(result[i]);
+                            callback(all);
+                        }, progress, _loaded);
+                    }, 10);
+                } else {
+                    callback(all);
+                }
+            });
+        }
+    };
+
+    var SIT_user_name = localStorage.getItem('SIT_user_name');
+    var SIT_team_list = undefined;
+    if (SIT_user_name != null) {
+        $('#modalSIT input').val(SIT_user_name);
+        SIT.get_all("http://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+            function(accountList) {
+                if (accountList.length === 0) {
+                    alert("No SIT Accounts Found");
+                    $("#modalSIT .account").html('');
+                }
+                for (var i = 0; i < accountList.length; i++) {
+                    $("#modalSIT .account").append("<option value=\"" + accountList[i].id + "\">[" + accountList[i].language + "] " + accountList[i].nickname + "</select>");
+                    if (i == 0) {
+                        SIT.get_all("http://schoolido.lu/api/teams/?owner_account=" + accountList[i].id + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(teamList) {
+                            SIT_team_list = {};
+                            $("#modalSIT .team").html('');
+                            for (var j = 0; j < teamList.length; j++) {
+                                SIT_team_list[teamList[j].name] = teamList[j].members;
+                                $("#modalSIT .team").append("<option value=\"" + teamList[j].name + "\">" + teamList[j].name + "</select>");
+                            }
+                        });
+                    }
+                }
+            });
+    }
+
+    $('#importSIT').click(function() {
+        $('#modalSIT').show()
+    })
+    $('#modalSIT .exitBtn').click(function() {
+        $('#modalSIT').hide()
+    })
+    $('#modalSIT input').change(function() {
+        SIT_user_name = $(this).val()
+        SIT.get_all("http://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+            function(accountList) {
+                if (accountList.length === 0) {
+                    alert("No SIT Accounts Found");
+                    $("#modalSIT .account").html('');
+                }
+                for (var i = 0; i < accountList.length; i++) {
+                    localStorage.setItem('SIT_user_name', SIT_user_name);
+                    $("#modalSIT .account").append("<option value=\"" + accountList[i].id + "\">[" + accountList[i].language + "] " + accountList[i].nickname + "</select>");
+                }
+            });
+
+    })
+    $('#modalSIT .account').change(function() {
+        var id = $("#modalSIT .account").val();
+        SIT.get_all("http://schoolido.lu/api/teams/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(teamList) {
+            SIT_team_list = {};
+            $("#modalSIT .team").html('');
+            for (var i = 0; i < teamList.length; i++) {
+                SIT_team_list[teamList[i].name] = teamList[i].members;
+                $("#modalSIT .team").append("<option value=\"" + teamList[i].name + "\">" + teamList[i].name + "</select>");
+            }
+        });
+
+    })
+    var max_bond_dict = {
+        false: {
+            N: 25,
+            R: 100,
+            SR: 250,
+            SSR: 375,
+            UR: 500
+        },
+        true: {
+            N: 50,
+            R: 200,
+            SR: 500,
+            SSR: 750,
+            UR: 1000
+        }
+    }
+    $('#modalSIT button').click(function() {
+        var team_name = $("#modalSIT .team").val();
+        if (team_name==null) {
+            alert('There is no team selected.')
+        } else {
+            var team_sel = SIT_team_list[team_name],
+                team_info = Array(10).fill(0);
+            for (var x = 1; x <= 9; x++) {
+                if (team_sel[x-1] == null) {
+                    team_info[x] = {"level":40,"love":100,"rank":1,"removable":[],"unit_id":49,"unit_skill_level":1,"unit_removable_skill_capacity":1}
+                } else {
+                    var card = team_sel[x-1].card,
+                        idolized = team_sel[x-1].idolized;
+                    team_info[x] = {
+                        level: idolized ? card.idolized_max_level : card.non_idolized_max_level,
+                        love: max_bond_dict[idolized][card.rarity],
+                        rank: 1 + idolized,
+                        removable: [],
+                        unit_id: card.game_id,
+                        unit_skill_level: team_sel[x-1].skill,
+                        unit_removable_skill_capacity: team_sel[x-1].skill_slots + (idolized & !team_sel[x-1].is_promo)
+                    }
+                }
+            }
+            team_json = JSON.stringify(team_info);
+            localStorage.setItem('team_json', team_json);
+            $('#userJSON .profile').val(team_json);
+            $('#modalSIT').hide();
+        }
+    })
     </script>
 </body>
 

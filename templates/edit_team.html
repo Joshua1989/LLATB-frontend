@@ -8,6 +8,8 @@
 <link rel='stylesheet' href="{% static 'css/w3.css' %}">
 <!-- Link JQuery -->
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<!-- Link Image Compression -->
+<script src="{% static 'js/lrz/lrz.bundle.js' %}"></script>
 <!-- Load live basic data -->
 <script type="text/javascript" src="{% static 'card_data_base.json' %}"></script>
 <!-- Load unit id to unit number dict -->
@@ -47,8 +49,14 @@
     </div>
     <div class='w3-container w3-black' style='margin-bottom: 10%'>
         <div style='padding:15px 0'>
-            <b>Your Team: </b>
+            <b class='w3-margin-right'>Your Team: </b>
+            <div class='roundBtn w3-pink w3-hover-yellow roundBtn w3-margin-left' style='height:25px;vertical-align: middle;min-width: 150px;'>
+                <label id='upload' for="fromImage">From Screenshot</label>
+                <input id="fromImage" style="display:none;" type="file">
+            </div>
+            <img id="reflect" src="" style="max-width:100%;margin=10px auto" />
         </div>
+        <div id='importImage'></div>
         <div style='overflow-x:scroll'>
             <table id='team'>
                 <thread>
@@ -798,8 +806,8 @@
 
             // Swap SIS check boxes
             for (var sis_type in sis_cost) {
-                var from_ckb = $('#sis-'+sis_type+' .pos-'+swap_from_pos),
-                    to_ckb = $('#sis-'+sis_type+' .pos-'+swap_to_pos);
+                var from_ckb = $('#sis-' + sis_type + ' .pos-' + swap_from_pos),
+                    to_ckb = $('#sis-' + sis_type + ' .pos-' + swap_to_pos);
                 temp = from_ckb.is(':checked');
                 from_ckb.prop('checked', to_ckb.is(':checked'));
                 to_ckb.prop('checked', temp);
@@ -884,6 +892,7 @@
         showCardPond();
     })
 
+    // Edit SIS owning info
     var gem_EN = {
         Perfume: 'Perfume',
         Ring: 'Ring',
@@ -926,6 +935,7 @@
         $('body').removeClass('modal-open');
         updateInfo('SIS owning number updated.')
     })
+
     var own_gem = {};
     for (var gem_id = 4; gem_id <= 39; gem_id++) {
         var attr = gem_skill_id_dict[gem_id].split(' ')[0].replace('Princess', 'Smile').replace('Angel', 'Pure').replace('Empress', 'Cool');
@@ -1038,6 +1048,97 @@
         localStorage.setItem('team_json', JSON.stringify(team_json));
         localStorage.setItem('user_json', JSON.stringify(user_json));
         updateInfo('Saved current settings to user profile JSON', false);
+    });
+
+    // Import team from screen shot
+    function showImageImportResult(image_team_info) {
+        for (var x = 1; x <= 9; x++) {
+            var card_id = image_team_info[x - 1].cardid,
+                idolized = image_team_info[x - 1].mezame > 0;
+            var CI = card_info[card_id];
+            var rarity = CI['rarity'];
+            var slot_limit = slot_num_dict[CI['promo'] ? 'promo' + CI['rarity'] : CI['rarity']];
+            var slot_num = 0;
+            var CI = {
+                level: max_level_dict[idolized][CI['rarity']],
+                bond: max_bond_dict[idolized][CI['rarity']],
+                removable: [],
+                unit_id: C2U_dict[CI['card_id']],
+                skill: 1,
+                slot: slot_limit[0] + (!CI['promo'] & idolized),
+                card_id: CI['card_id'],
+                idolized: idolized,
+                promo: CI['promo'],
+                rarity: CI['rarity'],
+                main_attr: CI['main_attr'],
+                member_name: CI['member_name'],
+            }
+
+            current_team[x] = CI;
+            total_cost[x] = 0;
+            $('#header-' + x).css('background-color', 'grey');
+        }
+        showTeam(true);
+        updateInfo('Successfully import team from screenshot', false);
+    }
+
+    function urltoFile(url, filename, mimeType) {
+        return (fetch(url)
+            .then(function(res) { return res.arrayBuffer(); })
+            .then(function(buf) { return new File([buf], filename, { type: mimeType }); })
+        );
+    }
+
+    $('#fromImage').change(function(e) {
+        if (window.FileReader) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+            if (file && file.type.match('image.*')) {
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please choose an image file')
+                return
+            }
+            lrz(file, {
+                    width: 800
+                })
+                .then(function(rst) {
+                    console.log('Compressed image size is {0} kb'.format((rst.fileLen / 1024).toFixed()))
+                    $("#upload").text("Uploading...");
+                    $("#fromImage").attr("disabled", true);
+                    $("#fromImage").parent().addClass('w3-grey')
+                    urltoFile(rst.base64, 'compressed.jpeg', 'image/jpeg')
+                        .then(function(file) {
+                            $.ajax({
+                                url: 'http://api.sif.lcm.im/teamview', // 这个地址做了跨域处理，可以用于实际调试
+                                data: rst.formData,
+                                processData: false,
+                                contentType: false,
+                                type: 'POST',
+                                success: function(data) {
+                                    result = JSON.parse(data)
+                                    var result = JSON.parse(event.target.responseText);
+                                    console.log(result)
+                                    if (result.status != 200) {
+                                        alert("Fail: " + result.message);
+                                        $("#upload").text("From Screenshot");
+                                        $("#fromImage").attr("disabled", false);
+                                        $("#fromImage").parent().removeClass('w3-grey')
+                                    }
+                                    showImageImportResult(result.team);
+                                    $("#upload").text("From Screenshot");
+                                    $("#fromImage").attr("disabled", false);
+                                    $("#fromImage").parent().removeClass('w3-grey')
+                                }
+                            });
+                        })
+                    return rst;
+                });
+        }
+    });
+    $('#upload').click(function() {
+        $('#fromImage').trigger('click');
+        return false;
     });
     </script>
 </body>

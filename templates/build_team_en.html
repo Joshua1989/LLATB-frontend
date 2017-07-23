@@ -70,13 +70,12 @@
     </div>
     <div id='userJSON' class='w3-modal'>
         <div class='w3-modal-content' style='height:100%'>
-            <div class='w3-container w3-black w3-padding-24' style='height:100%'>
+            <div class='w3-container w3-black w3-padding-24' style='height:100%;overflow: scroll;'>
                 <span onclick="inputUserJSON()" class='exitBtn'><b>x</b></span>
-                <b>User Profile JSON: </b>
-                <a href='/edit_profile/en'>
-                    <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'>Manual</button>
-                </a>
-                <textarea class='w3-round-large profile w3-input' required='required'></textarea>
+                <b id='profile-title'>User Profile JSON:</b>
+                <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><a href='/edit_profile/en' style="text-decoration:none"><b>Manual</b></a></button>
+                <button id='importSIT' class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Import SIT</b></button>
+                <textarea class='w3-round-large profile w3-input w3-margin-top' required='required'></textarea>
                 <div class='output'>
                     <b>LL Helper Team sd file</b>
                     <textarea class='w3-round-large LLH w3-input' readonly></textarea>
@@ -88,9 +87,28 @@
             </div>
         </div>
     </div>
-    <div id='liveStats' class='w3-modal' style='background-color: rgba(0,0,0,0);'>
+    <div id='liveStats' class='w3-modal'>
         <div class='w3-modal-content'>
             <div class='w3-container w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
+            </div>
+        </div>
+    </div>
+    <div id='modalSIT' class='w3-modal'>
+        <div class='w3-modal-content'>
+            <div class='w3-container w3-black w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
+                <span class='exitBtn'><b>x</b></span>
+                <p class='w3-mobile'><b>SIT User Name</b></p>
+                <div class='w3-bar'>
+                    <input class='w3-input w3-round-large'>
+                </div>
+                <p class='w3-mobile'><b>Select Account</b></p>
+                <div class='w3-bar w3-margin-buttom'>
+                    <select class='w3-select'>
+                    </select>
+                </div>
+                <div class='w3-display-container' style='margin-top:40px'>
+                    <button class='roundBtn w3-pink w3-hover-yellow w3-display-middle w3-mobile' style='width:20%'><b>Import</b></button>
+                </div>
             </div>
         </div>
     </div>
@@ -106,19 +124,21 @@
                     <br/> Under above assumption
                     <span style='color:red'>optimal solution is not GUARANTEED</span>，but by experience most of the case the expected total score is within 1000 points to the optimal one.
                     <br/> You can run a more accurate algorithm locally by using
-                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github source</a>，more detail for the algorithm please refer to <a href='../../doc'>Love Live SIF: Introduction to team strength</a> (written in Chinese).
+                    <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'><b>Github source</b></a>，more detail for the algorithm please refer to <a href='../../doc'><b>Love Live SIF: Introduction to team strength</b></a> (written in Chinese).
                     <br/>
                     <br/> User Guide: <a href='../../tutorial/en'><b>detailed tutorial here</b></a>
                     <ol>
                         <li>Choose song (Click on song name to add to live list, click cover to look at live details), and extra conditions</li>
-                        <li> If you are using a third-party proxy <a href='//stats.llsif.win/'>SIFStats (JP)</a>, <a href='http://pll.sokka.cn/user'>LLproxy (CN)</a>, then you can directly copy the user profile JSON to input your card list.
+                        <li> If you are using a third-party proxy <a href='//stats.llsif.win/' style='color:blue'><b>SIFStats (JP)</b></a>, <a href='http://pll.sokka.cn/user' style='color:blue'><b>LLproxy (CN)</b></a>, then you can directly copy the user profile JSON to input your card list.
+                            <br/> If you have used <a href="https://designedfor.sakura.ne.jp/nikuma-n/" style='color:blue'><b>minaraishi's team builder</b></a>, you can copy the exported file here.
+                            <br/> If you have a <a href="http://schoolido.lu/" style='color:blue'><b>School Idol Tomodachi</b></a> account, you can also import your user profile here.
                             <br/> If you are in EN server or not linked to any proxy stats site, you can edit your profile <span style='color:red'><b>manually</b></span>, once you are done I highly recommend you to <span style='color:red'><b>save the JSON locally</b></span> in case of lost.
                             <br/> The input user JSON is stored in local storage, so next time you open this page you do not need to copy your JSON again.
                         </li>
                         <li>Click calculate button to solve for optimal team and gem allocation.</li>
                     </ol>
-                    <br/> To check the best SIS allocation and team strength details for user custom teams, check <a href='../../team_strength'><b style='color:red'>team strength page</b></a>.
-                    <br/> If you found a bug, please <a href="mailto:Joshualian1989@gmail.com">report it to me</a>, please describe the situation with <span style='color:red'>ALL SETTINGS</span>.
+                    To check the best SIS allocation and team strength details for user custom teams, check <a href='../../team_strength'><b style='color:red'>team strength page</b></a>.
+                    <br/> If you found a bug, please <a href="https://www.reddit.com/user/Hentyclopedia/"><b>report it to me</b></a>, please describe the situation with <span style='color:red'>ALL SETTINGS</span>.
                     <br/>
                 </p>
             </div>
@@ -223,7 +243,7 @@
         extra_cond = 'default',
         guest_center = 'None';
     var user_json = localStorage.getItem("user_json");
-    if (user_json==null) {
+    if (user_json == null) {
         user_json = '{"unit_info":[],"deck_info":[],"removable_info":{"equipment_info":{},"owning_info":[{"total_amount":9,"unit_removable_skill_id":1},{"total_amount":9,"unit_removable_skill_id":2},{"total_amount":9,"unit_removable_skill_id":3},{"total_amount":9,"unit_removable_skill_id":4},{"total_amount":9,"unit_removable_skill_id":5},{"total_amount":9,"unit_removable_skill_id":6},{"total_amount":9,"unit_removable_skill_id":7},{"total_amount":9,"unit_removable_skill_id":8},{"total_amount":9,"unit_removable_skill_id":9},{"total_amount":9,"unit_removable_skill_id":10},{"total_amount":9,"unit_removable_skill_id":11},{"total_amount":9,"unit_removable_skill_id":12},{"total_amount":9,"unit_removable_skill_id":13},{"total_amount":9,"unit_removable_skill_id":14},{"total_amount":9,"unit_removable_skill_id":15},{"total_amount":9,"unit_removable_skill_id":16},{"total_amount":9,"unit_removable_skill_id":17},{"total_amount":9,"unit_removable_skill_id":18},{"total_amount":9,"unit_removable_skill_id":19},{"total_amount":9,"unit_removable_skill_id":20},{"total_amount":9,"unit_removable_skill_id":21},{"total_amount":9,"unit_removable_skill_id":22},{"total_amount":9,"unit_removable_skill_id":23},{"total_amount":9,"unit_removable_skill_id":24},{"total_amount":9,"unit_removable_skill_id":25},{"total_amount":9,"unit_removable_skill_id":26},{"total_amount":9,"unit_removable_skill_id":27},{"total_amount":9,"unit_removable_skill_id":28},{"total_amount":9,"unit_removable_skill_id":29},{"total_amount":9,"unit_removable_skill_id":30},{"total_amount":9,"unit_removable_skill_id":31},{"total_amount":9,"unit_removable_skill_id":32},{"total_amount":9,"unit_removable_skill_id":33},{"total_amount":9,"unit_removable_skill_id":34},{"total_amount":9,"unit_removable_skill_id":35},{"total_amount":9,"unit_removable_skill_id":36},{"total_amount":9,"unit_removable_skill_id":37},{"total_amount":9,"unit_removable_skill_id":38},{"total_amount":9,"unit_removable_skill_id":39}]}}';
         localStorage.setItem("user_json", user_json)
     }
@@ -624,6 +644,99 @@
             }
         });
     }
+
+    // SIT importer
+    var SIT = {
+        get_all: function(url, callback, progress, _loaded) {
+            _loaded = _loaded || 0;
+            var all = [];
+            $.get(url, function(data) {
+                for (var i = 0; i < data.results.length; i++) all.push(data.results[i]);
+                if (data.next) {
+                    _loaded += all.length;
+                    if (typeof progress === "function") progress(_loaded, data.count);
+
+                    setTimeout(function() {
+                        SIT.get_all(data.next, function(result) {
+                            for (var i = 0; i < result.length; i++) all.push(result[i]);
+                            callback(all);
+                        }, progress, _loaded);
+                    }, 10);
+                } else {
+                    callback(all);
+                }
+            });
+        }
+    };
+
+    var SIT_user_name = localStorage.getItem('SIT_user_name');
+    if (SIT_user_name != null) {
+        $('#modalSIT input').val(SIT_user_name);
+        SIT.get_all("http://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+            function(accountList) {
+                if (accountList.length === 0) {
+                    alert("No SIT Accounts Found");
+                    $("#modalSIT select").html('');
+                }
+                for (var i = 0; i < accountList.length; i++) {
+                    $("#modalSIT select").append("<option value=\"" + accountList[i].id + "\">[" + accountList[i].language + "] " + accountList[i].nickname + "</select>");
+                }
+            });
+    }
+
+    $('#importSIT').click(function() {
+        $('#modalSIT').show()
+    })
+    $('#modalSIT .exitBtn').click(function() {
+        $('#modalSIT').hide()
+    })
+    $('#modalSIT input').change(function() {
+        SIT_user_name = $(this).val()
+        SIT.get_all("http://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+            function(accountList) {
+                if (accountList.length === 0) {
+                    alert("No SIT Accounts Found");
+                    $("#modalSIT select").html('');
+                }
+                for (var i = 0; i < accountList.length; i++) {
+                    localStorage.setItem('SIT_user_name', SIT_user_name);
+                    $("#modalSIT select").append("<option value=\"" + accountList[i].id + "\">[" + accountList[i].language + "] " + accountList[i].nickname + "</select>");
+                }
+            });
+
+    })
+    $('#modalSIT button').click(function() {
+        var id = $("#modalSIT select").val();
+        SIT.get_all("http://schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR&expand_card", function(cardList) {
+            POST_JSON = {
+                lang: 'EN',
+                username: $("#modalSIT input").val(),
+                account: $('#modalSIT option[value="{0}"]'.format(id)).text(),
+                SIT_json: JSON.stringify(cardList),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+            $.ajax({
+                type: "POST",
+                url: "SIT_convert",
+                headers: {
+                    'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                data: POST_JSON,
+                success: function(data) {
+                    if (data['complete']) {
+                        user_json = data['user_json'];
+                        localStorage.setItem('user_json', user_json);
+                        $('#userJSON .profile').val(user_json);
+                        updateInfo(data['msg'], !data['complete']);
+                        $('#modalSIT').hide()
+                    } else {
+                        alert('Import SIT account failed.')
+                        updateInfo(data['msg'], !data['complete']);
+                    }
+                }
+            });
+        });
+    })
     </script>
 </body>
 
