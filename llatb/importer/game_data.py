@@ -280,8 +280,8 @@ class GameData:
 				'idolized': card.idolized,
 				'level': card.level,
 				'bond': card.bond,
-				'skill_level': card.skill.level,
-				'slot_num': card.slot_num + card.idolized if card.slot_num + card.idolized <= card.max_slot_num else card.slot_num,
+				'skill_level': card_info['skill'],
+				'slot_num': card_info['skill_slots'],
 				'equipped_gems':[]
 			}
 			return res
