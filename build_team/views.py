@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-import time, sys, urllib.request
+import time, sys, urllib.request, json, pygeoip
 from mysite import settings
 sys.path.append(settings.BASE_DIR)
 from llatb import GameData, Live, DefaultLive, MFLive, TeamBuilder, html_view
@@ -10,6 +10,7 @@ from llatb.skill import CenterSkill
 
 from my_log.models import Counter
 
+GEOIP = pygeoip.GeoIP(settings.BASE_DIR+"/static/GeoLiteCity.dat", pygeoip.MEMORY_CACHE)
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -21,7 +22,11 @@ def get_client_ip(request):
     else:
         # print("returning REMOTE_ADDR")
         ip = request.META.get('REMOTE_ADDR')
-    return ip
+    try:
+    	res = GEOIP.record_by_addr(str(ip))
+    	return '{0} {1} {2}'.format(str(ip), res['city'], res['country_name'])
+    except:
+    	return str(ip)
 
 # Create your views here.
 def index(request):
@@ -65,7 +70,7 @@ def calculate(request):
 		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
 
-		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)
 		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, unlimit_gem, extra_cond)
 		print(user_info)
@@ -74,11 +79,11 @@ def calculate(request):
 		try:
 			if strings[lang]['DEFAULT'] not in song_list[0]:
 				live = MFLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR)
-				live_stats = html_view(live, lang='CN').data
+				live_stats, note_list = html_view(live, lang='CN').data, json.dumps(live.web_note_list)
 			else:
 				song_name = song_list[0].replace(strings[lang]['DEFAULT'], 'Default')
 				live = DefaultLive(song_name, diff, perfect_rate=float(PR))
-				live_stats = 'NA'
+				live_stats, note_list = 'NA', '{}'
 			print('Successfully loaded live.')
 		except:
 			print('Failed to load live.')
@@ -159,6 +164,7 @@ def calculate(request):
 		# Covert result to LL Helper and SIFStats
 		try:
 			sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
+			simul_base_info = json.dumps(tb.best_team.prepare_simulation())
 		except:
 			print('Failed to export file.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_EXPORT']}
@@ -176,6 +182,8 @@ def calculate(request):
 			'ieb_file': ieb_file,
 			'live_stats': live_stats,
 			'result': result,
+			'note_list': note_list,
+			'simul_base_info': simul_base_info,
 			'msg': strings[lang]['SUCCESS'].format(counter.TeamCount, elapsed_time)
 		}
 	else:
@@ -199,7 +207,7 @@ def live_stats(request):
 	lang = request.POST['lang']
 	if request.is_ajax():
 		song_name, diff, PR = request.POST['song_name'], request.POST['difficulty'], request.POST['perfect_rate']
-		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'View Live Info: {0} {1}'.format(song_name, diff)
 		print(user_info)
 
@@ -239,7 +247,7 @@ def minaraishi_convert(request):
 	lang = request.POST['lang']
 	if request.is_ajax():
 		minaraishi_json_str = request.POST['minaraishi_json']
-		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'Request to convert minaraishi\'s format.'
 		print(user_info)
 		try:
@@ -278,7 +286,7 @@ def SIT_convert(request):
 	lang = request.POST['lang']
 	if request.is_ajax():
 		SIT_json_str, user_name, account_name = request.POST['SIT_json'], request.POST['username'], request.POST['account']
-		user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'Request to convert School Idol Tomodachi format.\n'
 		user_info += 'SIT username: {0}, SIT account: {1}'.format(user_name, account_name)
 		print(user_info)

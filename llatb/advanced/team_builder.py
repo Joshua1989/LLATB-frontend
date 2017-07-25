@@ -87,11 +87,11 @@ class TeamBuilder:
 		for card in self.cards:
 			if card.has_same_cskill and center is None:
 				card.compute_card_stats(cskill, self.guest_cskill, self.live, self.setting)
-				if card.CR is None: card.CR = CC.compute_coverage(card)
+				if card.CR is None: card.CR, card.CR_list = CC.compute_coverage(card)
 				center = card
 			elif k < K:
 				card.compute_card_stats(cskill, self.guest_cskill, self.live, self.setting)
-				if card.CR is None: card.CR = CC.compute_coverage(card)
+				if card.CR is None: card.CR, card.CR_list = CC.compute_coverage(card)
 				candidates.append(card)
 				k += 1
 			if center is not None and k >= K: break
@@ -224,7 +224,7 @@ class TeamBuilder:
 			adv_card = AdvancedCard(index, card)
 			adv_card.list_gem_allocation(self.live)
 			adv_card.compute_card_stats(team.center().cskill, self.guest_cskill, self.live, self.setting)
-			adv_card.CR = CC.compute_coverage(card)
+			adv_card.CR, adv_card.CR_list = CC.compute_coverage(card)
 			if index == 4:
 				center = adv_card
 			else:
@@ -239,7 +239,7 @@ class TeamBuilder:
 			adv_card = AdvancedCard(index, card)
 			adv_card.list_gem_allocation(self.live)
 			adv_card.compute_card_stats(team.center().cskill, self.guest_cskill, self.live, self.setting)
-			adv_card.CR = CC.compute_coverage(card)
+			adv_card.CR, adv_card.CR_list = CC.compute_coverage(card)
 			if index == 4:
 				center = adv_card
 			else:

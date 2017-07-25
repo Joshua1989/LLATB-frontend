@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-import time, sys, urllib.request, json
+import time, sys, urllib.request, json, pygeoip
 from mysite import settings
 sys.path.append(settings.BASE_DIR)
 from llatb import GameData, Live, DefaultLive, MFLive, TeamBuilder, Team, html_view
@@ -12,6 +12,7 @@ from llatb.skill import CenterSkill
 
 from my_log.models import Counter
 
+GEOIP = pygeoip.GeoIP(settings.BASE_DIR+"/static/GeoLiteCity.dat", pygeoip.MEMORY_CACHE)
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -23,7 +24,11 @@ def get_client_ip(request):
     else:
         # print("returning REMOTE_ADDR")
         ip = request.META.get('REMOTE_ADDR')
-    return ip
+    try:
+        res = GEOIP.record_by_addr(str(ip))
+        return '{0} {1} {2}'.format(str(ip), res['city'], res['country_name'])
+    except:
+        return str(ip)
 
 # Create your views here.
 def index(request):
@@ -56,7 +61,7 @@ def calculate(request):
             'ERR_AUTOSIS': 'Fail to allocate SIS, team must have at least one card that matches live attribute.',
             'ERR_TEAM': 'Failed to construct team...',
             'ERR_EXCOND': 'Failed to apply extra condition...',
-            'ERR_SOLVE': 'Failed to solve optimal SIS allocation...',
+            'ERR_SOLVE': 'Failed to compute team strength details. Perhaps lack of slot number information, please try manual edit team first.',
             'ERR_EXPORT': 'Failed to export result into other formats...',
             'SUCCESS': 'Team strength calculated, used {0:.2f} secs',
             'SUCCESS_AUTO': '#{0} optimal SIS allocated, used {1:.2f} secs',
@@ -72,7 +77,7 @@ def calculate(request):
         unlimit_gem, extra_cond = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond']
         auto_mode, json_str = request.POST['auto_mode']=='true', request.POST['user_profile']
 
-        user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+        user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
         user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)
         user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}, AutoMode={4}'.format(score_up, skill_up, unlimit_gem, extra_cond, auto_mode)
         print(user_info)
@@ -81,9 +86,11 @@ def calculate(request):
         try:
             if strings[lang]['DEFAULT'] not in song_list[0]:
                 live = MFLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR)
+                note_list = json.dumps(live.web_note_list)
             else:
                 song_name = song_list[0].replace(strings[lang]['DEFAULT'], 'Default')
                 live = DefaultLive(song_name, diff, perfect_rate=float(PR))
+                note_list = '{}'
             print('Successfully loaded live.')
         except:
             print('Failed to load live.')
@@ -179,15 +186,17 @@ def calculate(request):
                 result = tb.team_strength_detail(input_team, show_cost=True).data.replace('http:','').replace('https:','')
                 print('Successfully computed team strength details.')
         except:
-            print('Failed to compute team strength details.')
+            print('Failed to compute team strength details. Perhaps lack of slot number information, please try manual edit team first.')
             message = {'complete':False, 'msg':strings[lang]['ERR_SOLVE']}
             return JsonResponse(message)
         # Covert result to LL Helper and SIFStats
         try:
             if auto_mode:
                 sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
+                simul_base_info = json.dumps(tb.best_team.prepare_simulation())
             else:
                 sd_file, ieb_file = input_team.to_LLHelper(None), input_team.to_ieb(None)
+                simul_base_info = json.dumps(input_team.prepare_simulation())
         except:
             print('Failed to export file.')
             message = {'complete':False, 'msg':strings[lang]['ERR_EXPORT']}
@@ -208,6 +217,8 @@ def calculate(request):
             'sd_file': sd_file,
             'ieb_file': ieb_file,
             'result': result,
+            'note_list': note_list,
+            'simul_base_info': simul_base_info,
             'msg': success_msg
         }
     else:
@@ -231,7 +242,7 @@ def live_stats(request):
     lang = request.POST['lang']
     if request.is_ajax():
         song_name, diff, PR = request.POST['song_name'], request.POST['difficulty'], request.POST['perfect_rate']
-        user_info  = 'User IP Address: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+        user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
         user_info += 'View Live Info: {0} {1}'.format(song_name, diff)
         print(user_info)
 

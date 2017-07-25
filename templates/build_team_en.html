@@ -18,6 +18,10 @@
 <link rel="stylesheet/less" type="text/css" href="{% static 'css/build_team.less' %}" />
 <!-- Link LESS JS -->
 <script src="{% static 'js/less.min.js' %}"></script>
+<!-- Link High Charts -->
+<script src="{% static 'js/highstock.js' %}"></script>
+<!-- Link SImulation -->
+<script src="{% static 'js/simulation.js' %}"></script>
 
 <body>
     <div class='w3-container w3-black' style='padding:0'>
@@ -66,6 +70,15 @@
             </div>
         </div>
     </div>
+    <div id="simulation" class='w3-display-container'>
+        <span class='exitBtn' style='z-index:1'><b>x</b></span>
+        <div id="cover_rate">
+        </div>
+        <div id="simul_hist">
+        </div>
+        <div id="simul_result">
+        </div>
+    </div>
     <div id='result'>
     </div>
     <div id='userJSON' class='w3-modal'>
@@ -73,7 +86,9 @@
             <div class='w3-container w3-black w3-padding-24' style='height:100%;overflow: scroll;'>
                 <span class='exitBtn'><b>x</b></span>
                 <span id='profile-title'><b>User Profile JSON:</b></span>
-                <a href='/edit_profile/en' style="text-decoration:none"><button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Manual</b></button></a>
+                <a href='/edit_profile/en' style="text-decoration:none">
+                    <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Manual</b></button>
+                </a>
                 <button id='importSIT' class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Import SIT</b></button>
                 <textarea class='w3-round-large profile w3-input w3-margin-top' required='required'></textarea>
                 <div class='output'>
@@ -122,7 +137,7 @@
                     </select>
                 </div>
                 <div class='w3-display-container' style='margin-top:40px'>
-                    <button class='import roundBtn w3-pink w3-hover-yellow w3-left' style='padding:0min-width:70px;'><b>Import</b></button>
+                    <button class='import roundBtn w3-pink w3-hover-yellow w3-left' style='padding:0;min-width:70px;'><b>Import</b></button>
                     <button class='save roundBtn w3-pink w3-hover-yellow w3-margin-left' style='min-width:70px;'><b>Save</b></button>
                     <button class='create roundBtn w3-pink w3-hover-yellow w3-right' style='min-width:70px;'><b>Create</b></button>
                 </div>
@@ -197,7 +212,7 @@
         Master: '//r.llsif.win/assets/image/ui/event/e_button_17.png',
         ScoreUp: '//r.llsif.win/assets/image/ui/event/e_button_32.png',
         SkillUp: '//r.llsif.win/assets/image/ui/event/e_button_33.png',
-        UnlimitGem: '//r.llsif.win/assets/image/ui/profile/p_icon_01.png',
+        UnlimitGem: '//r.llsif.win/assets/flash/ui/live/img/e_icon_07.png',
     };
     var default_cover_url = {
         muse: {
@@ -342,7 +357,8 @@
         temp += "<option value='{0}'>{1}</option>".format(ec, extra_cond_text[ec]);
     }
     $('#extraCond').html(temp);
-    $('#userJSON .profile').val(user_json)
+    $('#userJSON .profile').val(user_json);
+    $('#simulation').hide();
 
     // Initialize Swiper
     var swiper = new Swiper('.swiper-container', {
@@ -673,15 +689,44 @@
             },
             data: POST_JSON,
             success: function(data) {
+                if (data['complete']) {
+                    $('#simulation').hide();
+                    $('#result').html(data['result']);
+                    if (live_selection['song_list'][0].indexOf('Default') == -1) {
+                        $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>Simulate</b></button>")
+                        var n_trial = 5000,
+                            P_rate = parseFloat(perfect_rate),
+                            live_group = group_arr[live_selection['group']],
+                            live_attr = live_selection['attr'],
+                            simul_card_info = JSON.parse(data.simul_base_info),
+                            simul_live_info = JSON.parse(data.note_list),
+                            skillup = 1 + 0.1 * skill_up,
+                            scoreup = 1 + 0.1 * score_up;
+                        $('#simulBtn').click(function() {
+                            var simul_res = MonteCarlo(n_trial, P_rate, live_group, live_attr, simul_card_info, simul_live_info, skillup, scoreup);
+                            draw_simul('simul_hist', 'cover_rate', simul_res);
+                            $('#simulation').show()
+                            $('#simul_hist').highcharts().reflow();
+                            $('#cover_rate').highcharts().reflow();
+                            show_simul_result('simul_result', simul_res, simul_card_info.icon_url);
+                            updateInfo('Finished simulation', false);
+                        })
+                    } else {
+                        $('#simulation').hide();
+                    }
+                    $('#userJSON .LLH').val(data['sd_file']);
+                    $('#userJSON .ieb').val(data['ieb_file']);
+                }
                 updateInfo(data['msg'], !data['complete']);
-                $('#result').html(data['result']);
-                $('#userJSON .LLH').val(data['sd_file']);
-                $('#userJSON .ieb').val(data['ieb_file']);
                 $('#calculate').prop('disabled', false);
             }
         });
     }
 
+    $('#simulation .exitBtn').click(function() {
+        $('#simulation').hide();
+    })
+    
     // SIT importer
     var SIT = {
         get_all: function(url, callback, progress, _loaded) {
@@ -709,7 +754,7 @@
     var SIT_user_name = localStorage.getItem('SIT_user_name');
     if (SIT_user_name != null) {
         $('#modalSIT input').val(SIT_user_name);
-        SIT.get_all("http://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+        SIT.get_all("//schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
             function(accountList) {
                 if (accountList.length === 0) {
                     alert("No SIT Accounts Found");
@@ -729,7 +774,7 @@
     })
     $('#modalSIT input').change(function() {
         SIT_user_name = $(this).val()
-        SIT.get_all("http://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+        SIT.get_all("//schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
             function(accountList) {
                 if (accountList.length === 0) {
                     alert("No SIT Accounts Found");
@@ -744,7 +789,7 @@
     })
     $('#modalSIT button').click(function() {
         var id = $("#modalSIT select").val();
-        SIT.get_all("http://schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR&expand_card", function(cardList) {
+        SIT.get_all("//schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
             POST_JSON = {
                 lang: 'EN',
                 username: $("#modalSIT input").val(),

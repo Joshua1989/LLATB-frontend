@@ -26,7 +26,7 @@ class AdvancedCard(Card):
 		self.is_charm = self.skill is not None and self.skill.effect_type == 'Score Up'
 		self.is_heal = self.skill is not None and self.skill.effect_type == 'Stamina Restore'
 		self.is_trick = self.skill is not None and self.skill.effect_type in ['Weak Judge', 'Strong Judge']
-		self.CR = None
+		self.CR, self.CR_list = None, None
 	def compute_rough_strength(self, cskill, guest_cskill, live, setting):
 		# Compute rough strength and sort them by live attribute
 		setting = setting.copy()

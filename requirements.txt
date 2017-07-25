@@ -24,3 +24,4 @@ Django==1.11.3
 dj-database-url==0.4.2
 matplotlib==2.0.2
 psycopg2==2.7.1
+pygeoip==0.3.2

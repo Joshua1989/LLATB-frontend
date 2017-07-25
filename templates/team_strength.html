@@ -18,6 +18,10 @@
 <link rel="stylesheet/less" type="text/css" href="{% static 'css/build_team.less' %}" />
 <!-- Link LESS JS -->
 <script src="{% static 'js/less.min.js' %}"></script>
+<!-- Link High Charts -->
+<script src="{% static 'js/highstock.js' %}"></script>
+<!-- Link SImulation -->
+<script src="{% static 'js/simulation.js' %}"></script>
 
 <body>
     <div class='w3-container w3-black' style='padding:0'>
@@ -67,6 +71,15 @@
             </div>
         </div>
     </div>
+    <div id="simulation" class='w3-display-container'>
+        <span class='exitBtn' style='z-index:1'><b>x</b></span>
+        <div id="cover_rate">
+        </div>
+        <div id="simul_hist">
+        </div>
+        <div id="simul_result">
+        </div>
+    </div>
     <div id='result'>
     </div>
     <div id='userJSON' class='w3-modal'>
@@ -74,7 +87,9 @@
             <div class='w3-container w3-black w3-padding-24' style='height:100%;overflow: scroll;'>
                 <span onclick="inputTeamJSON()" class='exitBtn'><b>x</b></span>
                 <span id='profile-title'><b>Team JSON:</b></span>
-                <a href='/team_strength/edit' style="text-decoration:none"><button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Manual</b></button></a>
+                <a href='/team_strength/edit' style="text-decoration:none">
+                    <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Manual</b></button>
+                </a>
                 <button id='importSIT' class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Import SIT</b></button>
                 <textarea class='w3-round-large profile w3-input w3-margin-top' required='required'></textarea>
                 <div class='output'>
@@ -177,7 +192,7 @@
         Master: '//r.llsif.win/assets/image/ui/event/e_button_17.png',
         ScoreUp: '//r.llsif.win/assets/image/ui/event/e_button_32.png',
         SkillUp: '//r.llsif.win/assets/image/ui/event/e_button_33.png',
-        UnlimitGem: '//r.llsif.win/assets/image/ui/profile/p_icon_01.png',
+        UnlimitGem: '//r.llsif.win/assets/flash/ui/live/img/e_icon_07.png',
         AutoMode: '//r.llsif.win/assets/image/ui/unit/u_button_10.png'
     };
     var default_cover_url = {
@@ -323,7 +338,8 @@
     $('#extraCond').html(temp);
     $('#autoMode').html("<img src='{0}' height=100%>".format(img_url['AutoMode']));
     $('#autoMode img').addClass('w3-grayscale-max');
-    $('#userJSON .profile').val(team_json)
+    $('#userJSON .profile').val(team_json);
+    $('#simulation').hide();
 
     // Initialize Swiper
     var swiper = new Swiper('.swiper-container', {
@@ -579,6 +595,7 @@
     }
 
     // calculate best team
+
     function calculate() {
         var user_json = localStorage.getItem('user_json'),
             team_json = localStorage.getItem('team_json')
@@ -641,14 +658,43 @@
             },
             data: POST_JSON,
             success: function(data) {
+                if (data['complete']) {
+                    $('#simulation').hide();
+                    $('#result').html(data['result']);
+                    if (live_selection['song_list'][0].indexOf('Default') == -1) {
+                        $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>Simulate</b></button>")
+                        var n_trial = 5000,
+                            P_rate = parseFloat(perfect_rate),
+                            live_group = group_arr[live_selection['group']],
+                            live_attr = live_selection['attr'],
+                            simul_card_info = JSON.parse(data.simul_base_info),
+                            simul_live_info = JSON.parse(data.note_list),
+                            skillup = 1 + 0.1 * skill_up,
+                            scoreup = 1 + 0.1 * score_up;
+                        $('#simulBtn').click(function() {
+                            var simul_res = MonteCarlo(n_trial, P_rate, live_group, live_attr, simul_card_info, simul_live_info, skillup, scoreup);
+                            draw_simul('simul_hist', 'cover_rate', simul_res);
+                            $('#simulation').show()
+                            $('#simul_hist').highcharts().reflow();
+                            $('#cover_rate').highcharts().reflow();
+                            show_simul_result('simul_result', simul_res, simul_card_info.icon_url);
+                            updateInfo('Finished simulation', false);
+                        })
+                    } else {
+                        $('#simulation').hide();
+                    }
+                    $('#userJSON .LLH').val(data['sd_file']);
+                    $('#userJSON .ieb').val(data['ieb_file']);
+                }
                 updateInfo(data['msg'], !data['complete']);
-                $('#result').html(data['result']);
-                $('#userJSON .LLH').val(data['sd_file']);
-                $('#userJSON .ieb').val(data['ieb_file']);
                 $('#calculate').prop('disabled', false);
             }
         });
     }
+
+    $('#simulation .exitBtn').click(function() {
+        $('#simulation').hide();
+    })
 
     // SIT importer
     var SIT = {
@@ -678,7 +724,7 @@
     var SIT_team_list = undefined;
     if (SIT_user_name != null) {
         $('#modalSIT input').val(SIT_user_name);
-        SIT.get_all("http://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+        SIT.get_all("//schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
             function(accountList) {
                 if (accountList.length === 0) {
                     alert("No SIT Accounts Found");
@@ -687,7 +733,7 @@
                 for (var i = 0; i < accountList.length; i++) {
                     $("#modalSIT .account").append("<option value=\"" + accountList[i].id + "\">[" + accountList[i].language + "] " + accountList[i].nickname + "</select>");
                     if (i == 0) {
-                        SIT.get_all("http://schoolido.lu/api/teams/?owner_account=" + accountList[i].id + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(teamList) {
+                        SIT.get_all("//schoolido.lu/api/teams/?owner_account=" + accountList[i].id + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(teamList) {
                             SIT_team_list = {};
                             $("#modalSIT .team").html('');
                             for (var j = 0; j < teamList.length; j++) {
@@ -708,7 +754,7 @@
     })
     $('#modalSIT input').change(function() {
         SIT_user_name = $(this).val()
-        SIT.get_all("http://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+        SIT.get_all("//schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
             function(accountList) {
                 if (accountList.length === 0) {
                     alert("No SIT Accounts Found");
@@ -723,7 +769,7 @@
     })
     $('#modalSIT .account').change(function() {
         var id = $("#modalSIT .account").val();
-        SIT.get_all("http://schoolido.lu/api/teams/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(teamList) {
+        SIT.get_all("//schoolido.lu/api/teams/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(teamList) {
             SIT_team_list = {};
             $("#modalSIT .team").html('');
             for (var i = 0; i < teamList.length; i++) {
@@ -751,25 +797,25 @@
     }
     $('#modalSIT button').click(function() {
         var team_name = $("#modalSIT .team").val();
-        if (team_name==null) {
+        if (team_name == null) {
             alert('There is no team selected.')
         } else {
             var team_sel = SIT_team_list[team_name],
                 team_info = Array(10).fill(0);
             for (var x = 1; x <= 9; x++) {
-                if (team_sel[x-1] == null) {
-                    team_info[x] = {"level":40,"love":100,"rank":1,"removable":[],"unit_id":49,"unit_skill_level":1,"unit_removable_skill_capacity":1}
+                if (team_sel[x - 1] == null) {
+                    team_info[x] = { "level": 40, "love": 100, "rank": 1, "removable": [], "unit_id": 49, "unit_skill_level": 1, "unit_removable_skill_capacity": 1 }
                 } else {
-                    var card = team_sel[x-1].card,
-                        idolized = team_sel[x-1].idolized;
+                    var card = team_sel[x - 1].card,
+                        idolized = team_sel[x - 1].idolized;
                     team_info[x] = {
                         level: idolized ? card.idolized_max_level : card.non_idolized_max_level,
                         love: max_bond_dict[idolized][card.rarity],
                         rank: 1 + idolized,
                         removable: [],
                         unit_id: card.game_id,
-                        unit_skill_level: team_sel[x-1].skill,
-                        unit_removable_skill_capacity: team_sel[x-1].skill_slots
+                        unit_skill_level: team_sel[x - 1].skill,
+                        unit_removable_skill_capacity: team_sel[x - 1].skill_slots
                     }
                 }
             }
