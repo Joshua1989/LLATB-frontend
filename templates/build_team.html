@@ -23,6 +23,25 @@
 <!-- Link SImulation -->
 <script src="{% static 'js/simulation.js' %}"></script>
 
+<head>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-103167041-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+</head>
+
 <body>
     <div class='w3-container w3-black' style='padding:0'>
         <div id='infoBox' class='infoBar w3-pale-green'>
@@ -148,11 +167,12 @@
                         </li>
                         <li>点击calulate按钮计算最优卡组</li>
                     </ol>
-                    <br/> 如果发现疑似bug请到
+                    如果发现疑似bug请到
                     <a href='//tieba.baidu.com/p/5225376536?pid=109423217170&cid=0#109423217170'>贴吧发布帖</a>进行反馈，说明具体问题并注明组卡时的<span style='color:red'>所有设置</span>。
                     <br/>
-                    <br/> Remark 1: 在极端情况下（各种宝石都很少）计算可能会比较慢，请耐心等待。
-                    <br/> Remark 2: 由于美服并没有类似数据站，Github代码提供了虽然从tshark抓包导入用户卡组的功能，但是由于抓包中<span style='color:red'>含有账户信息</span>所以考虑到安全问题网页版暂不支持该格式。
+                    <br/> Remark 1: 对计算特定卡组强度有需求的用户请移步<a href='../team_strength' style='color:red'><b>卡组强度计算器</b></a>。
+                    <br/> Remark 2: 在极端情况下（各种宝石都很少）计算可能会比较慢，请耐心等待。
+                    <br/> Remark 3: 由于美服并没有类似数据站，Github代码提供了虽然从tshark抓包导入用户卡组的功能，但是由于抓包中<span style='color:red'>含有账户信息</span>所以考虑到安全问题网页版暂不支持该格式。
                 </p>
             </div>
         </div>
@@ -674,7 +694,8 @@
                     $('#simulation').hide();
                     $('#result').html(data['result']);
                     if (live_selection['song_list'][0].indexOf('Default') == -1) {
-                        $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>Simulate</b></button>")
+                        $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>进行仿真</b></button>")
+                        setInterval(function() { $("#simulBtn").fadeTo('slow', 0.5).fadeTo('slow', 1); }, 2000);
                         var n_trial = 5000,
                             P_rate = parseFloat(perfect_rate),
                             live_group = group_arr[live_selection['group']],
@@ -779,7 +800,7 @@
             success: function(data) {
                 if (data['complete']) {
                     uriContent = "data:application/octet-stream;filename=submembers.sd," + encodeURIComponent(data.user_json);
-                    newWindow=window.open(uriContent, 'submembers.sd');
+                    newWindow = window.open(uriContent, 'submembers.sd');
                 }
                 updateInfo(data['msg'], !data['complete']);
             }

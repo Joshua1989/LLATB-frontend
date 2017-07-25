@@ -2,18 +2,37 @@
 <html>
 <title>LLATB-TeamStrengthCalculator Tutorial</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'> {% load staticfiles %}
-<style>
-body {
-    background-color: pink;
-    color: black;
-}
 
-img {
-    width: 80%;
-    display: block;
-    margin: 0 auto;
-}
-</style>
+<head>
+    <style>
+    body {
+        background-color: pink;
+        color: black;
+    }
+
+    img {
+        width: 80%;
+        display: block;
+        margin: 0 auto;
+    }
+    </style>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-103167041-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+</head>
 
 <body>
     <h1>Before You Use Team Strength Calculator</h1>
@@ -22,20 +41,20 @@ img {
     <h1>Directly Import Team</h1>
     <h2>Import from School Idol Tomodachi Account</h2>
     <p>If you have an account at <a href='http://schoolido.lu/'>School Idol Tomodachi</a>, then you can directly import your account.</p>
-    <img src="{% static 'tutorial_team_strength_5.png' %}" align='middle' style='width:60%''>
+    <img src="{% static 'tutorial_team_strength_5.png' %}" align='middle' style='width:60%' '>
     <p>Note: all cards imported are max level and max bond.</p>
     <h2>Import from Screenshot</h2>
-    <p style='color:red'><b>To enable this function, please visit LLATB using HTTP instead of HTTPS.</b></p>
-    <p>Thanks to <a href="https://github.com/liaocm" style='color:blue'><b>liaocm</b></a>, a much fancier feature now has been incorporated into LLATB, you can even import a team by screen shot! Due to the server load and the fact that image has to be uploaded, sometimes you need to be patient to wait the recognition result to arrive. And with small probability the team member CAN be recognized incorrectly.</p>
-    <img src="{% static 'tutorial_team_strength_6.png' %}" align='middle' style='width:50%''>
+    <p style='color:red '><b>To enable this function, please visit LLATB using HTTP instead of HTTPS.</b></p>
+    <p>Thanks to <a href="https://github.com/liaocm" style='color:blue '><b>liaocm</b></a>, a much fancier feature now has been incorporated into LLATB, you can even import a team by screen shot! Due to the server load and the fact that image has to be uploaded, sometimes you need to be patient to wait the recognition result to arrive. And with small probability the team member CAN be recognized incorrectly.</p>
+    <img src="{% static 'tutorial_team_strength_6.png ' %}" align='middle ' style='width:50% ''>
     <p>One thing you should keep in mind is the screen shot does not contain the information of skill level and skill slot number, by default all imported cards are max level and max bond, with skill level 1 and slot number same as normal idolization (if a card is unidolized, the slot number is the minimum possible number, if a card is idolized and is not promo, increase by one). So perhaps you still need to manually edit a bit.</p>
     <p>A typical input for this function should look like the picture below:</p>
-    <img src="{% static 'example.jpg' %}" align='middle' style='width:50%''>
+    <img src="{% static 'example.jpg' %}" align='middle' style='width:50%' '>
     <h1>Manually Edit Team</h1>
     <h2>Choose Card</h2>
     <p>The user interface of card filter (idol member, attribute, idolization) is same as profile editing page in LLATB, so I will skip it here. You can read more above it <a href="../../tutorial/en">here</a>.</p>
     <p>The only different part is that: when you click an icon, nothing will change in your team, the selected card is just highlighted to indicate you that this is the card you will use for card replacement. As you can tell from the card edit modal, the "Remove" button is replaced by the "Replace" button.</p>
-    <img src="{% static 'tutorial_team_strength_2.png' %}" align='middle' style='width:50%'>
+    <img src="{% static 'tutorial_team_strength_2.png ' %}" align='middle ' style='width:50% '>
     <h2>Edit SIS Owning Info</h2>
     <p>If you want to use the auto SIS allocation function, the SIS owning information is necessary. By default the SIS owning information is loaded from your user profile if you have one, the only thing worthing being aware of is that the changes you made here <b>WILL OVERWRITE</b> the SIS owning information in your user profile.</p>
     <h2>Equip SIS</h2>
@@ -47,7 +66,7 @@ img {
     </p>
     <p>If the total cost for equipped SIS exceed the card slot number, the header will turn red to indicate you are violating the constraints.</p>
     <p>For example, in the picture below, Umi is equipped with a Perfume and a Heal, since the center card is Smile, so in this case the equipped SISs are Smile Perfume and Empress Heal.</p>
-    <img src="{% static 'tutorial_team_strength_1.png' %}" align='middle'>
+    <img src="{% static 'tutorial_team_strength_1.png ' %}" align='middle '>
     <h2>Swap Position of Cards</h2>
     <p>To swap to cards in the team, simply click on the header cell, you will see the font color becomes green, it tells you this card is waiting for position swapping. You can click on the second header cell to finish the swap.</p>
     <p>Do not forget to <b>SAVE</b> your changes before clicking "Back" for computation.</p>
@@ -59,12 +78,12 @@ img {
             <li>If the button is ON: an auto SIS allocation will be performed, this will give an optimal SIS allocation and positioning based on your input and SIS owning information.</li>
         </ul>
     </p>
-    <img src="{% static 'tutorial_team_strength_3.png' %}" align='middle'>
+    <img src="{% static 'tutorial_team_strength_3.png ' %}" align='middle '>
     <h2>Output for Further Trial</h2>
     <p>Once you have new team from the auto mode, you may want to start from this one to make further changes. You can easily copy the output team JSON and paste it as input team JSON.</p>
-    <img src="{% static 'tutorial_team_strength_4.png' %}" align='middle' style='width:60%'>
+    <img src="{% static 'tutorial_team_strength_4.png ' %}" align='middle ' style='width:60% '>
     <h2>Validate Output by Simulation</h2>
-    <img src="{% static 'tutorial_en 13.png' %}" align='middle' style='width:70%'>
+    <img src="{% static 'tutorial_en 13.png ' %}" align='middle ' style='width:70% '>
     <p>This feature is add at July 24, 2017. As long as the live you are optimizing on is not default live (which does not have note list), you can run a simulation to see
         <ul>
             <li>The distribution of game scoring over 5000 trials.</li>
@@ -72,7 +91,7 @@ img {
             <li>The fraction of each note to be covered by P-lock over 5000 trials.</li>
         </ul>
     </p>
-    <img src="{% static 'tutorial_en 14.png' %}" align='middle'>
+    <img src="{% static 'tutorial_en 14.png ' %}" align='middle '>
 </body>
 
 </html>

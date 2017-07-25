@@ -46,6 +46,7 @@ function simulate(P_rate, live_group, live_attr, card_info, note_list, skillup, 
 
         combo++;
         perfect_count += is_perfect;
+        star_perfect_count += note_list[idx].star & is_perfect;
         total_score += tap_score;
         for (var x = 0; x < 9; x++) {
             if (PLocking) {
