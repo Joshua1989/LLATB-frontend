@@ -193,10 +193,10 @@ def calculate(request):
         try:
             if auto_mode:
                 sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
-                simul_base_info = json.dumps(tb.best_team.prepare_simulation())
+                simul_base_info = json.dumps(tb.best_team.prepare_simulation(opt))
             else:
                 sd_file, ieb_file = input_team.to_LLHelper(None), input_team.to_ieb(None)
-                simul_base_info = json.dumps(input_team.prepare_simulation())
+                simul_base_info = json.dumps(input_team.prepare_simulation(opt))
         except:
             print('Failed to export file.')
             message = {'complete':False, 'msg':strings[lang]['ERR_EXPORT']}

@@ -164,7 +164,7 @@ def calculate(request):
 		# Covert result to LL Helper and SIFStats
 		try:
 			sd_file, ieb_file = tb.best_team.to_LLHelper(None), tb.best_team.to_ieb(None)
-			simul_base_info = json.dumps(tb.best_team.prepare_simulation())
+			simul_base_info = json.dumps(tb.best_team.prepare_simulation(opt))
 		except:
 			print('Failed to export file.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_EXPORT']}
