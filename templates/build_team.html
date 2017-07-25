@@ -89,6 +89,7 @@
                 <a href='/edit_profile' style="text-decoration:none">
                     <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>手动编辑</b></button>
                 </a>
+                <button id='exportLLH' class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>导出至LLH</b></button>
                 <textarea class='w3-round-large profile w3-input w3-margin-top' required='required'></textarea>
                 <div class='output'>
                     <b>LL Helper 队伍信息sd文件</b>
@@ -760,6 +761,29 @@
             }
         }
         $('#modalLocal').hide();
+    })
+
+    $('#exportLLH').click(function() {
+        POST_JSON = {
+            lang: 'CN',
+            user_json: user_json,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+        $.ajax({
+            type: "POST",
+            url: "LLH_convert",
+            headers: {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            data: POST_JSON,
+            success: function(data) {
+                if (data['complete']) {
+                    uriContent = "data:application/octet-stream;filename=submembers.sd," + encodeURIComponent(data.user_json);
+                    newWindow=window.open(uriContent, 'submembers.sd');
+                }
+                updateInfo(data['msg'], !data['complete']);
+            }
+        });
     })
     </script>
 </body>

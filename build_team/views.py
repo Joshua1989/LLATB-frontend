@@ -308,6 +308,44 @@ def SIT_convert(request):
 	
 	return JsonResponse(message)
 
+@csrf_exempt
+def LLH_convert(request):
+	strings = {
+		'CN': {
+			'ERR_LLH': '导出至LL Helper sd格式失败...',
+			'SUCCESS': '成功导出至LL Helper sd格式',
+			'ERR_NONAJAX': '服务器接收请求不是AJAX'
+		},
+		'EN': {
+			'ERR_LLH': 'Failed export to LL Helper sd format...',
+			'SUCCESS': 'Successfully export to LL Helper sd format',
+			'ERR_NONAJAX': 'The request is not AJAX'
+		}
+	}
+
+	lang = request.POST['lang']
+	if request.is_ajax():
+		user_json = request.POST['user_json']
+		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info += 'Request to convert to LL Helper format.\n'
+		print(user_info)
+		try:
+			user_profile = GameData(user_json, file_type='pll', string_input=True)
+			user_json = user_profile.to_LLHelper(filename=None)
+		except:
+			print('Failed to convert LL Helper sd format.')
+			message = {'complete':False, 'msg':strings[lang]['ERR_LLH']}
+			return JsonResponse(message)
+
+		message = {
+			'complete': True,
+			'user_json': user_json,
+			'msg': strings[lang]['SUCCESS']
+		}
+	else:
+		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}
+	return JsonResponse(message)
+
 def receive_user_json(request):
 	return render(request, 'receive_user_json.html')
 
