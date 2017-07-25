@@ -137,6 +137,7 @@ def calculate(request):
 				base_attr, main_ratio = params[0], int(params[1][:-1])
 				bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
 				guest_cskill = CenterSkill(guest_center, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)
+				print('Guest skill specified to be', str(guest_cskill))
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':guest_cskill}
 			tb = TeamBuilder(live, user_profile, opt=opt)
 			

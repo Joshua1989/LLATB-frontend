@@ -667,6 +667,15 @@
             return
         }
         $('#calculate').prop('disabled', true);
+        $('#calculate').removeClass('w3-pink');
+        $('#calculate').addClass('w3-grey');
+        $('#calculate b').text('Running');
+        var i = 0;
+        var running = setInterval(function() {
+            i = ++i % 4;
+            $("#calculate b").html("Running" + Array(i + 1).join("."));
+        }, 500);
+
         POST_JSON = {
             lang: 'CN',
             song_list: JSON.stringify(live_selection['song_list']),
@@ -721,6 +730,10 @@
                 }
                 updateInfo(data['msg'], !data['complete']);
                 $('#calculate').prop('disabled', false);
+                $('#calculate').removeClass('w3-grey');
+                $('#calculate').addClass('w3-pink');
+                clearInterval(running);                
+                $('#calculate b').text('Calculate');
             }
         });
     }

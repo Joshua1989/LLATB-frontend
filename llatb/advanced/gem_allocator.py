@@ -81,6 +81,7 @@ class GemAllocator:
 				elif card.is_heal:
 					card_aux[i]['heal_idx'] = gem_idx_dict[card.attr2+' Heal']
 					heal_count[card.attr2] += 1
+
 		# Mark a gem type as unlimited if
 		# * the gem number is at least 9
 		# * ring, cross of a grade is larger than number of team member in that grade
@@ -96,6 +97,7 @@ class GemAllocator:
 			if gem_occupy[idx] >= charm_count[attr2]: gem_occupy[idx] = np.Inf
 			idx = gem_idx_dict[attr2+' Heal']
 			if gem_occupy[idx] >= heal_count[attr2]: gem_occupy[idx] = np.Inf
+
 		# Initialize trellis
 		trellis, current_max_score = [ {tuple(gem_occupy):[[],0]} ], 0
 		# Construct trellis

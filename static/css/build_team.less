@@ -1,4 +1,5 @@
 /* W3.CSS styles */
+
 @import (less) url("w3.css");
 .exitBtn {
     .w3-button;
@@ -48,7 +49,7 @@
     height: 40px;
     padding: 0;
     img {
-        height:100%;
+        height: 100%;
     }
 }
 
@@ -57,7 +58,7 @@
     .w3-border;
     .w3-border-white;
     padding: 5px;
-    background-color:pink;
+    background-color: pink;
 }
 
 .attrBtn {
@@ -68,7 +69,7 @@
 
 .diffBtn {
     .imgBtn;
-    float:none;
+    float: none;
 }
 
 .diffItem {
@@ -78,9 +79,14 @@
     padding: 0;
     height: 40px;
     img {
-        height:100%;
+        height: 100%;
     }
 }
+
+#calculate {
+    min-width: 120px;
+}
+
 
 /* Swiper styles */
 
@@ -102,7 +108,7 @@
         .w3-bar;
         .w3-center;
         position: absolute;
-        top:0;
+        top: 0;
         bottom: 100%;
         left: 0;
         right: 0;
@@ -115,7 +121,7 @@
         }
         z-index:2;
         .titleText {
-            white-space: nowrap; 
+            white-space: nowrap;
             position: absolute;
             overflow: hidden;
             top: 50%;
@@ -126,8 +132,8 @@
     }
     img {
         position: absolute;
-        top:25px;
-        width:250px;
+        top: 25px;
+        width: 250px;
     }
 }
 
@@ -137,9 +143,10 @@
     .w3-round-large;
     .w3-border;
     .w3-border-white;
-    height:40px;
-    padding:0 5px
+    height: 40px;
+    padding: 0 5px
 }
+
 
 /* Table styles */
 
@@ -166,7 +173,7 @@ td {
 
 #userJSON {
     .w3-animate-zoom;
-    background-color:rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     .w3-modal-content {
         .w3-pale-blue;
         .w3-border;
@@ -177,21 +184,22 @@ td {
         border-color: #e91e63!important;
     }
     #profile-title {
-        display:inline-block;
-        width:180px;
+        display: inline-block;
+        width: 180px;
     }
     .profile {
-        width:90%;
-        height:50%;
+        width: 90%;
+        height: 50%;
     }
     .output {
-        padding:15px 0;
-        width:45%;
-        height:40%;
-        display:inline-block;
+        padding: 15px 0;
+        width: 45%;
+        height: 40%;
+        display: inline-block;
     }
-    .LLH, .ieb {
-        height:70%;
+    .LLH,
+    .ieb {
+        height: 70%;
     }
 }
 
@@ -203,8 +211,8 @@ td {
     .w3-leftbar;
     .w3-rightbar;
     .w3-border-blue;
-    overflow:scroll; 
-    padding:0;
+    overflow: scroll;
+    padding: 0;
     p {
         white-space: normal;
     }
@@ -212,8 +220,8 @@ td {
 
 #liveStats {
     .w3-animate-zoom;
-    background-color:rgba(0,0,0,0);
-    overflow:scroll;
+    background-color: rgba(0, 0, 0, 0);
+    overflow: scroll;
     p {
         white-space: normal;
     }
@@ -225,7 +233,7 @@ td {
 #modalSIT,
 #modalLocal {
     .w3-animate-zoom;
-    background-color:rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     .w3-modal-content {
         .w3-pale-blue;
         .w3-border;
@@ -239,7 +247,7 @@ td {
 
 #about {
     .w3-animate-opacity;
-    background-color:rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     .w3-modal-content {
         .w3-pale-blue;
         .w3-border;
@@ -258,9 +266,18 @@ body.modal-open {
     height: 100%;
 }
 
-#simul,
-#simul_result,
+#simul_hist,
 #cover_rate {
+    @media (min-width: 601px) {
+        width:49%;
+        display: inline-block;
+    }
+    @media (max-width:600px) {
+        width:100%;
+    }
+}
+
+#simul_result {
     width: 100%;
     img {
         width: 75px;
