@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 import time, sys, urllib.request, json, pygeoip
 from mysite import settings
 sys.path.append(settings.BASE_DIR)
-from llatb import GameData, Live, DefaultLive, MFLive, TeamBuilder, html_view
+from llatb import GameData, Live, DefaultLive, MFLive, SMLive, TeamBuilder, html_view
 from llatb.skill import CenterSkill
 
 from my_log.models import Counter
@@ -69,20 +69,27 @@ def calculate(request):
 		group, attr, diff = [request.POST[x] for x in ['group', 'attribute', 'difficulty']]
 		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
+		is_sm, is_random = bool(request.POST['is_sm']=='true'), bool(request.POST['is_random']=='true')
 
 		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
-		user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)
+		if not is_sm:
+			user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)
+		else:
+			user_info += 'Live Info: {5} {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR, 'SM'+' random'*is_random)
 		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, unlimit_gem, extra_cond)
 		print(user_info)
 
 		# Load live
 		try:
-			if strings[lang]['DEFAULT'] not in song_list[0]:
+			if strings[lang]['DEFAULT'] not in song_list[0] and not is_sm:
 				live = MFLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR)
 				live_stats, note_list = html_view(live, lang='CN').data, json.dumps(live.web_note_list)
+			elif is_sm:
+				live = SMLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR, is_random=is_random)
+				live_stats, note_list = 'NA', '{}'
 			else:
 				song_name = song_list[0].replace(strings[lang]['DEFAULT'], 'Default')
-				live = DefaultLive(song_name, diff, perfect_rate=float(PR))
+				live = DefaultLive(song_name, diff, perfect_rate=PR)
 				live_stats, note_list = 'NA', '{}'
 			print('Successfully loaded live.')
 		except:

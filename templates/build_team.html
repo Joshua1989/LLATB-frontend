@@ -8,8 +8,9 @@
 <link rel='stylesheet' href="{% static 'css/w3.css' %}">
 <!-- Link JQuery -->
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-<!-- Load live basic data -->
+<!-- Load live basic data and SM song list -->
 <script type="text/javascript" src="{% static 'live_data_base.json' %}"></script>
+<script type="text/javascript" src="{% static 'sm_song_list.json' %}"></script>
 <!-- Swiper CSS -->
 <link rel='stylesheet' href="{% static 'css/swiper.min.css' %}">
 <!-- Swiper JS -->
@@ -199,7 +200,8 @@
     window.ondragstart = function() { return false; }
 
     // Load all live basic information
-    var live_info = JSON.parse(live_info_data);
+    var live_info = JSON.parse(live_info_data),
+        sm_info = JSON.parse(sm_songs);
     var img_url = {
         muse: '//r.llsif.win/assets/image/event/mission/ms_m_type_10.png',
         Aqours: '//r.llsif.win/assets/image/event/mission/ms_m_type_11.png',
@@ -293,7 +295,9 @@
         group: group_sel,
         attr: attr_sel,
         diff: diff_sel,
-        song_list: [song_name]
+        song_list: [song_name],
+        is_sm: false,
+        is_random: false
     }
 
     // Used for update MF selection
@@ -308,24 +312,41 @@
             };
         } else if (add_song) {
             if (live_selection['song_list'].length < 5) {
-                if (add_song.indexOf('默认') == -1) {
-                    if (live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('默认') > -1) {
-                        live_selection['song_list'].pop();
+                if (add_song.indexOf('默认') == -1 && add_song.indexOf('SM') == -1) {
+                    if ((live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('默认') > -1) || live_selection.is_sm) {
+                        live_selection['song_list'] = [add_song];
+                        live_selection.is_sm = false;
+                        live_selection.is_random = false;
+                    } else {
+                        live_selection['song_list'].push(add_song);
                     }
-                    live_selection['song_list'].push(add_song)
-                } else {
+                } else if (add_song.indexOf('默认') > -1) {
                     live_selection = {
                         group: group_sel,
                         attr: attr_sel,
                         diff: diff_sel,
-                        song_list: [add_song]
+                        song_list: [add_song],
+                        is_sm: false,
+                        is_random: false
+                    };
+                } else {
+                    var server = sm_info[add_song.slice(3,5)],
+                        stg_idx = parseInt(add_song[6])-1;
+                    live_selection = {
+                        group: group_sel,
+                        attr: attr_sel,
+                        diff: diff_sel,
+                        song_list: server.stages[stg_idx].song_list[attr_sel],
+                        is_sm: true,
+                        is_random: add_song.indexOf('随机') > -1
                     };
                 }
             } else {
                 updateInfo('选择Live数量已达到上限 5', true);
             }
         }
-        $("#liveSel span b").html('难度: {0}, 已选曲目: {1}'.format(live_selection['diff'], live_selection['song_list'].join(', ')));
+        var song_names = live_selection.is_sm ? add_song : live_selection['song_list'].join(', ')
+        $("#liveSel span b").html('难度: {0}, 已选曲目: {1}'.format(live_selection['diff'], song_names));
         $("#liveSel span b").css('color', attribute_color2[live_selection['attr']]);
     }
     updateLiveSel();
@@ -382,9 +403,35 @@
     // Fill live pond into swiper
     function updateLiveSwiper() {
         swiper.removeAllSlides()
+        // Default live
         var default_name = '默认谱面 {0} {1}'.format(group_arr[group_sel], attr_sel);
         var color_str = attribute_color[attr_sel];
         swiper.appendSlide("<div class='swiper-slide w3-{0} w3-border-{5} w3-hover-border-yellow'><div class='topBar w3-hover-{6} w3-{0}' onclick=\"chooseLive('{3}','{4}')\"><b class='titleText'>{1}</b></div><img src='{2}'></div>\n".format(color_str, default_name, default_cover_url[group_sel][attr_sel], default_name.replace("'", "\\\'"), diff_sel, color_str, color_str));
+        // SM live
+        if (diff_sel != 'Master') {
+            var date = new Date();
+            var date_UTC = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+            date_UTC = Date.parse(date_UTC);
+            for (var server_name in sm_info) {
+                var server = sm_info[server_name];
+                if (server.group == group_sel) {
+                    for (var stg_idx in server.stages) {
+                        var stage = server.stages[stg_idx];
+                        if (date_UTC >= Date.parse(stage.start) && date_UTC < Date.parse(stage.end)) {
+                            var sm_name = 'SM {2} {3}: {0} {1}'.format(group_arr[group_sel], attr_sel, server_name, parseInt(stg_idx) + 1);
+                            var song_list = stage.song_list[attr_sel];
+                            swiper.appendSlide("<div class='swiper-slide w3-{0} w3-border-{5} w3-hover-border-yellow'><div class='topBar w3-hover-{6} w3-{0}' onclick=\"chooseLive('{3}','{4}')\"><b class='titleText'>{1}</b></div><img src='{2}'></div>\n".format(color_str, sm_name, default_cover_url[group_sel][attr_sel], sm_name.replace("'", "\\\'"), diff_sel, color_str, color_str));
+                            // Random songs
+                            if (diff_sel == 'Expert') {
+                                sm_name = 'SM {2} {3} 随机: {0} {1}'.format(group_arr[group_sel], attr_sel, server_name, parseInt(stg_idx) + 1);
+                                swiper.appendSlide("<div class='swiper-slide w3-{0} w3-border-{5} w3-hover-border-yellow'><div class='topBar w3-hover-{6} w3-{0}' onclick=\"chooseLive('{3}','{4}')\"><b class='titleText'>{1}</b></div><img src='{2}'></div>\n".format(color_str, sm_name, default_cover_url[group_sel][attr_sel], sm_name.replace("'", "\\\'"), diff_sel, color_str, color_str));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Normal live
         for (x in live_info) {
             live = live_info[x];
             if (live['group'] == group_arr[group_sel] && live['attr'] == attr_sel && live['diff_level'] == diff_sel) {
@@ -421,6 +468,20 @@
         sn = e.target.parentNode.childNodes[0].getElementsByTagName("b")[0].innerHTML;
         if (sn.indexOf('默认') != -1) {
             return
+        } else if (sn.indexOf('SM') != -1) {
+            $('#liveStats').show();
+            $('body').addClass('modal-open');
+
+            var server = sm_info[sn.slice(3, 5)],
+                stg_idx = parseInt(sn[6])-1;
+            var songs = server.stages[stg_idx].song_list[attr_sel];
+            var start = server.stages[stg_idx].start,
+                end = server.stages[stg_idx].end;
+            temp = '<span onclick="closeLiveStats()" class="exitBtn"><b>x</b></span>'
+            temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], sn);
+            temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], 'From {0} to {1}'.format(start, end));
+            temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], songs.join('<br/>'));
+            $('#liveStats .w3-container').html(temp);
         } else {
             POST_JSON = {
                 lang: 'CN',
@@ -689,6 +750,8 @@
             unlimit_gem: unlimit_gem,
             extra_cond: extra_cond,
             user_profile: user_json,
+            is_sm: live_selection.is_sm,
+            is_random: live_selection.is_random,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         }
         $.ajax({
@@ -702,7 +765,7 @@
                 if (data['complete']) {
                     $('#simulation').hide();
                     $('#result').html(data['result']);
-                    if (live_selection['song_list'][0].indexOf('Default') == -1) {
+                    if (live_selection['song_list'][0].indexOf('Default') == -1 && !live_selection.is_sm) {
                         $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>进行仿真</b></button>")
                         setInterval(function() { $("#simulBtn").fadeTo('slow', 0.5).fadeTo('slow', 1); }, 2000);
                         var n_trial = 5000,
@@ -732,7 +795,7 @@
                 $('#calculate').prop('disabled', false);
                 $('#calculate').removeClass('w3-grey');
                 $('#calculate').addClass('w3-pink');
-                clearInterval(running);                
+                clearInterval(running);
                 $('#calculate b').text('Calculate');
             }
         });
