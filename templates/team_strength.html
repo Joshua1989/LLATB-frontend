@@ -305,7 +305,9 @@
                 group: group_sel,
                 attr: attr_sel,
                 diff: diff_sel,
-                song_list: ['Default {0} {1}'.format(group_arr[group_sel], attr_sel)]
+                song_list: ['Default {0} {1}'.format(group_arr[group_sel], attr_sel)],
+                is_sm: false,
+                is_random: false
             };
         } else if (add_song) {
             if (live_selection['song_list'].length < 5) {
@@ -327,8 +329,8 @@
                         is_random: false
                     };
                 } else {
-                    var server = sm_info[add_song.slice(3,5)],
-                        stg_idx = parseInt(add_song[6])-1;
+                    var server = sm_info[add_song.slice(3, 5)],
+                        stg_idx = parseInt(add_song[6]) - 1;
                     live_selection = {
                         group: group_sel,
                         attr: attr_sel,
@@ -472,7 +474,7 @@
             $('body').addClass('modal-open');
 
             var server = sm_info[sn.slice(3, 5)],
-                stg_idx = parseInt(sn[6])-1;
+                stg_idx = parseInt(sn[6]) - 1;
             var songs = server.stages[stg_idx].song_list[attr_sel];
             var start = server.stages[stg_idx].start,
                 end = server.stages[stg_idx].end;
@@ -736,7 +738,7 @@
             unlimit_gem: unlimit_gem,
             extra_cond: extra_cond,
             user_profile: JSON.stringify(temp_user_json),
-			is_sm: live_selection.is_sm,
+            is_sm: live_selection.is_sm,
             is_random: live_selection.is_random,
             auto_mode: auto_mode,
             csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -782,7 +784,7 @@
                 $('#calculate').prop('disabled', false);
                 $('#calculate').removeClass('w3-grey');
                 $('#calculate').addClass('w3-pink');
-                clearInterval(running);                
+                clearInterval(running);
                 $('#calculate b').text('Calculate');
             }
         });
@@ -856,6 +858,7 @@
                     alert("No SIT Accounts Found");
                     $("#modalSIT .account").html('');
                 }
+                $("#modalSIT .account").html('');
                 for (var i = 0; i < accountList.length; i++) {
                     localStorage.setItem('SIT_user_name', SIT_user_name);
                     $("#modalSIT .account").append("<option value=\"" + accountList[i].id + "\">[" + accountList[i].language + "] " + accountList[i].nickname + "</select>");
