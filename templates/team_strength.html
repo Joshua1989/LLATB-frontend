@@ -312,7 +312,7 @@
         } else if (add_song) {
             if (live_selection['song_list'].length < 5) {
                 if (add_song.indexOf('Default') == -1 && add_song.indexOf('SM') == -1) {
-                    if ((live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('默认') > -1) || live_selection.is_sm) {
+                    if ((live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('Default') > -1) || live_selection.is_sm) {
                         live_selection['song_list'] = [add_song];
                         live_selection.is_sm = false;
                         live_selection.is_random = false;
