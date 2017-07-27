@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from string import Template
 from django.views.decorators.csrf import csrf_exempt
-import json, time, sys, urllib.request
+import json, time, sys, urllib.request, pygeoip
 
 from . import settings
 sys.path.append(settings.BASE_DIR)
@@ -123,6 +123,7 @@ $author_memo
 	</table>
 </form>''')
 
+GEOIP = pygeoip.GeoIP(settings.BASE_DIR+"/static/GeoLiteCity.dat", pygeoip.MEMORY_CACHE)
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -134,7 +135,11 @@ def get_client_ip(request):
     else:
         # print("returning REMOTE_ADDR")
         ip = request.META.get('REMOTE_ADDR')
-    return ip
+    try:
+    	res = GEOIP.record_by_addr(str(ip))
+    	return '{0} {1} {2}'.format(str(ip), res['city'], res['country_name'])
+    except:
+    	return str(ip)
 
 @csrf_exempt
 def index(request):
@@ -196,7 +201,7 @@ def index(request):
 				# try:
 				start_time = time.time()
 				if 'detail' in json_str:
-					user_profile = GameData(json_str, file_type='sokka', string_input=True)
+					user_profile = GameData(json_str, file_type='pll', string_input=True)
 				else:
 					user_profile = GameData(json_str, file_type='ieb', string_input=True)
 				if extra_cond_sel == 'max_level_bond':
