@@ -89,6 +89,7 @@
             <div class='swiper-wrapper'>
                 <div class='swiper-slide'><b>Init</b></div>
             </div>
+            <div class="swiper-scrollbar"></div>
         </div>
     </div>
     <div id="simulation" class='w3-display-container'>
@@ -399,7 +400,10 @@
         loop: false,
         mousewheelControl: true,
         freeMode: true,
-        freeModeSticky: true
+        freeModeSticky: true,
+        scrollbar: '.swiper-scrollbar',
+        scrollbarDraggable: true,
+        scrollbarHide: false
     });
     // Fill live pond into swiper
     function updateLiveSwiper() {
@@ -443,6 +447,10 @@
         $('.swiper-slide img').on('click', function(e) {
             viewLiveStats(e);
         });
+
+        setTimeout(function() {
+            swiper.update();
+        }, 500);
     }
     updateLiveSwiper();
 
@@ -610,7 +618,7 @@
         } else {
             $('#unlimitGem img').addClass('w3-grayscale-max');
         }
-        updateInfo('Unlimited gem {0}'.format(unlimit_gem ? 'ON' : 'OFF'), false);
+        updateInfo('Unlimited SIS {0}'.format(unlimit_gem ? 'ON' : 'OFF'), false);
     }
 
     // Change perfect rate and extra condition

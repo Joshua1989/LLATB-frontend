@@ -88,6 +88,7 @@
             <div class='swiper-wrapper'>
                 <div class='swiper-slide'><b>Init</b></div>
             </div>
+            <div class="swiper-scrollbar"></div>
         </div>
     </div>
     <div id="simulation" class='w3-display-container'>
@@ -400,7 +401,10 @@
         loop: false,
         mousewheelControl: true,
         freeMode: true,
-        freeModeSticky: true
+        freeModeSticky: true,
+        scrollbar: '.swiper-scrollbar',
+        scrollbarDraggable: true,
+        scrollbarHide: false
     });
     // Fill live pond into swiper
     function updateLiveSwiper() {
@@ -444,6 +448,10 @@
         $('.swiper-slide img').on('click', function(e) {
             viewLiveStats(e);
         });
+
+        setTimeout(function() {
+            swiper.update();
+        }, 500);
     }
     updateLiveSwiper();
 
@@ -696,6 +704,8 @@
                         }
                     });
                 }
+            } else {
+                return true;
             }
         } else {
             $('#userJSON .profile').val(user_json);
@@ -836,9 +846,15 @@
     })
     $('#modalLocal .save').click(function() {
         var profile_name = $('#modalLocal select').val();
-        user_json_bucket[profile_name] = user_json;
-        localStorage.setItem('user_json_bucket', JSON.stringify(user_json_bucket));
-        updateInfo('覆盖已存在账户 [{0}]'.format(profile_name), false);
+        var valid = inputUserJSON()
+        console.log(valid,123)
+        if (valid) {
+            user_json_bucket[profile_name] = user_json;
+            localStorage.setItem('user_json_bucket', JSON.stringify(user_json_bucket));
+            updateInfo('覆盖已存在账户 [{0}]'.format(profile_name), false);
+        } else {
+            alert('Invalid JSON!')
+        }
         $('#modalLocal').hide();
     })
     $('#modalLocal .create').click(function() {
@@ -846,17 +862,19 @@
         if (profile_name == '') {
             alert('You must give an non-empty name!')
         } else {
-            var valid = inputUserJSON()
+            var valid = inputUserJSON();
             if (valid) {
-                var existing = user_json_bucket[profile_name] == undefined;
+                var not_existing = user_json_bucket[profile_name] == undefined;
                 user_json_bucket[profile_name] = user_json;
                 localStorage.setItem('user_json_bucket', JSON.stringify(user_json_bucket));
 
-                if (existing) {
+                if (not_existing) {
                     updateInfo('新建账户 [{0}] '.format(profile_name), false);
                 } else {
                     updateInfo('覆盖已存在账户 [{0}]'.format(profile_name), false);
                 }
+            } else {
+                alert('Invalid JSON!')
             }
         }
         $('#modalLocal').hide();
