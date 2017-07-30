@@ -425,12 +425,14 @@
     var max_level_dict = {
         // Normal unidolized
         false: {
+            R: 40,
             SR: 60,
             SSR: 70,
             UR: 80
         },
         // Normal idolized
         true: {
+            R: 60,
             SR: 80,
             SSR: 90,
             UR: 100
@@ -439,20 +441,24 @@
     var max_bond_dict = {
         // Unidolized
         false: {
+            R: 100,
             SR: 250,
             SSR: 375,
             UR: 500
         },
         // Idolized
         true: {
+            R: 200,
             SR: 500,
             SSR: 750,
             UR: 1000
         }
     }
     var slot_num_dict = {
+        promoR: [1, 1],
         promoSR: [1, 1],
         promoUR: [2, 2],
+        R: [1, 2],
         SR: [2, 4],
         SSR: [3, 6],
         UR: [4, 8]
@@ -747,7 +753,7 @@
             }
         }
         if (!is_valid) {
-            alert('所有宝石持有数量应为0～9的整数')
+            alert('所有宝石持有数量应为非负的整数')
             return
         }
         for (gem_id in gem_skill_id_dict) {

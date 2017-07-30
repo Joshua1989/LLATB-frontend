@@ -24,6 +24,7 @@
 <!-- Link SImulation -->
 <script src="{% static 'js/simulation.js' %}"></script>
 
+
 <head>
     <script>
     (function(i, s, o, g, r, a, m) {
@@ -777,7 +778,7 @@
                 if (data['complete']) {
                     $('#simulation').hide();
                     $('#result').html(data['result']);
-                    if (live_selection['song_list'][0].indexOf('Default') == -1 && !live_selection.is_sm) {
+                    if (live_selection['song_list'][0].indexOf('默认') == -1 && !live_selection.is_sm) {
                         $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>进行仿真</b></button>")
                         setInterval(function() { $("#simulBtn").fadeTo('slow', 0.5).fadeTo('slow', 1); }, 2000);
                         var n_trial = 5000,
