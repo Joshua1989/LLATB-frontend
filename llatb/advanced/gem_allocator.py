@@ -363,6 +363,7 @@ class GemAllocator:
 			return cskill_str
 
 		df_team = pd.DataFrame({'Center Skill':[format_cskill(team[4].cskill)], 'Guest Center Skill': [format_cskill(self.guest_cskill)]})
+		df_team['Mics/OP'] = '{0} / {1}'.format(*team.compute_mics())
 		df_team['Cover Rate'] = '{0:.2f}%'.format(self.team_CR*100)
 		df_team['Team STR'] = df['Team STR'].sum()
 		df_team['Amend Team STR'] = df['Amend STR'].sum()
@@ -373,7 +374,7 @@ class GemAllocator:
 		df_team.columns = ['<p>{0}</p>'.format(x) for x in list(df_team.columns)]
 		df_team = df_team.applymap(lambda x: x if type(x)==str and x[0]=='<' else '<p>{0}</p>'.format(round(x,3) if type(x)==float else ('-' if str(x)=='0' else x)))
 		if lang=='CN':
-			df_team.columns = ['<p>{0}</p>'.format(x) for x in ['Center技', '好友Center技', '判定覆盖率' ,'队伍强度', '判定修正队伍强度', '总技能强度', '期望得分']]
+			df_team.columns = ['<p>{0}</p>'.format(x) for x in ['Center技', '好友Center技', 'Mic数／援力', '判定覆盖率' ,'队伍强度', '判定修正队伍强度', '总技能强度', '期望得分']]
 		html_team = df_team.to_html(escape=False)
 
 		df.columns = ['<p>{0}</p>'.format(x) if '<p>' not in x else x for x in columns]		
