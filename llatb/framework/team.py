@@ -204,6 +204,7 @@ class Team:
 			full_mic_boundaries.append({
 				'min': mic_boundaries[i]['max'],
 				'max': mic_boundaries[i+1]['min'],
+				'mics': mic_boundaries[i]['mics'] + 0.5
 				})
 		full_mic_boundaries.append(mic_boundaries[9])
 		# Otasuke Power Ratio
