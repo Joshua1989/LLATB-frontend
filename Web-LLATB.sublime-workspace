@@ -1,0 +1,2779 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"df",
+				"df_team"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"date",
+				"date_UTC"
+			],
+			[
+				"guest",
+				"guest_cskill\tstatement"
+			],
+			[
+				"simul",
+				"simulBtn"
+			],
+			[
+				"fil",
+				"filename\tparam"
+			],
+			[
+				"PLo",
+				"PLock_score_detail"
+			],
+			[
+				"icon",
+				"icon_url"
+			],
+			[
+				"update",
+				"updateInfo"
+			],
+			[
+				"cover",
+				"cover_rate"
+			],
+			[
+				"fir",
+				"firstFunction"
+			],
+			[
+				"set",
+				"setTimeout"
+			],
+			[
+				"live",
+				"live_selection"
+			],
+			[
+				"PL",
+				"PLock_track"
+			],
+			[
+				"PLock",
+				"PLock_track"
+			],
+			[
+				"star",
+				"star_perfect_count"
+			],
+			[
+				"web",
+				"web_note_list\tstatement"
+			],
+			[
+				"input",
+				"inputUserJSON"
+			],
+			[
+				"Success",
+				"successfully"
+			],
+			[
+				"prof",
+				"profile_sel"
+			],
+			[
+				"profile",
+				"profile_name"
+			],
+			[
+				"user",
+				"user_json_bucket"
+			],
+			[
+				"user_js",
+				"user_json_bucket"
+			],
+			[
+				"sr",
+				"stringify"
+			],
+			[
+				"defa",
+				"default_user_json"
+			],
+			[
+				"over",
+				"overflow-x"
+			],
+			[
+				"fec",
+				"fetchImage"
+			],
+			[
+				"import",
+				"importImage"
+			],
+			[
+				"spot",
+				"stopPropagation"
+			],
+			[
+				"img",
+				"imgUpload"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"min-",
+				"min-width"
+			],
+			[
+				"w3",
+				"w3-margin-left"
+			],
+			[
+				"from",
+				"fromImage"
+			],
+			[
+				"uni",
+				"unit_removable_skill_capacity"
+			],
+			[
+				"SIT",
+				"SIT_user_name"
+			],
+			[
+				"local",
+				"localStorage"
+			],
+			[
+				"ge",
+				"getElementById"
+			],
+			[
+				"moda",
+				"modalSIT"
+			],
+			[
+				"own",
+				"owned_gem\tstatement"
+			],
+			[
+				"build",
+				"build_team"
+			],
+			[
+				"sis",
+				"sis_cost"
+			],
+			[
+				"fr",
+				"swap_from_pos"
+			],
+			[
+				"team",
+				"team-icon"
+			],
+			[
+				"sw",
+				"swap_to_pos-1"
+			],
+			[
+				"swa",
+				"swap_from_pos"
+			],
+			[
+				"loca",
+				"localStorage"
+			],
+			[
+				"edi",
+				"editTeam"
+			],
+			[
+				"auto",
+				"auto_mode"
+			],
+			[
+				"sing",
+				"single_plus\tstatement"
+			],
+			[
+				"eq",
+				"equip_gem\tfunction"
+			],
+			[
+				"equ",
+				"equipped_gems\tstatement"
+			],
+			[
+				"adv",
+				"adv_card_list\tstatement"
+			],
+			[
+				"all",
+				"alloc_method\tstatement"
+			],
+			[
+				"json",
+				"json_str\tstatement"
+			],
+			[
+				"gem",
+				"gem_skill_dict\tstatement"
+			],
+			[
+				"Fr",
+				"fromJSON\tfunction"
+			],
+			[
+				"au",
+				"auto_SIS_alloc"
+			],
+			[
+				"check",
+				"checkbox"
+			],
+			[
+				"cure",
+				"current_team"
+			],
+			[
+				"gra",
+				"grade_str"
+			],
+			[
+				"mem",
+				"member_info"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"idol",
+				"idolized_sel"
+			],
+			[
+				"ido",
+				"idolized_sel"
+			],
+			[
+				"slot",
+				"slot_limit"
+			],
+			[
+				"unit",
+				"unit_skill_level"
+			],
+			[
+				"curr",
+				"current_team"
+			],
+			[
+				"cs",
+				"cskill_str"
+			],
+			[
+				"gues",
+				"guest_center"
+			],
+			[
+				"w3-ma",
+				"w3-margin-right"
+			],
+			[
+				"bon",
+				"bonus_ratio"
+			],
+			[
+				"main",
+				"main_C_info"
+			],
+			[
+				"gue",
+				"guestCenter"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"mi",
+				"minaraishi_file\tparam"
+			],
+			[
+				"to",
+				"to_WebATB\tfunction"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"remo",
+				"unit_removable_skill_id"
+			],
+			[
+				"sk",
+				"unit_removable_skill_id"
+			],
+			[
+				"remov",
+				"removable_info"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"editGe",
+				"editGemModal"
+			],
+			[
+				"str",
+				"stringify"
+			],
+			[
+				"tem",
+				"temp_unit_info"
+			],
+			[
+				"owned",
+				"owned_index"
+			],
+			[
+				"temp_",
+				"temp_idolized"
+			],
+			[
+				"slo",
+				"slot_limit"
+			],
+			[
+				"id",
+				"idolized_sel"
+			],
+			[
+				"max",
+				"max_bond_dict"
+			],
+			[
+				"own_",
+				"owned_index"
+			],
+			[
+				"card",
+				"card_info"
+			],
+			[
+				"bool",
+				"boolKey"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"b",
+				"inline-block"
+			],
+			[
+				"temp",
+				"temp_dict"
+			],
+			[
+				"memb",
+				"member_sel"
+			],
+			[
+				"attr",
+				"attribute_arr"
+			],
+			[
+				"member",
+				"member_info"
+			],
+			[
+				"cho",
+				"chooseMember"
+			],
+			[
+				"ch",
+				"chooseMember"
+			],
+			[
+				"choose",
+				"chooseMuse"
+			],
+			[
+				"w3-bo",
+				"w3-bottombar"
+			],
+			[
+				"exr",
+				"extra_cond"
+			],
+			[
+				"att",
+				"attribute_color"
+			],
+			[
+				"song",
+				"song_list\tstatement"
+			],
+			[
+				"w3-mo",
+				"w3-mobile"
+			],
+			[
+				"backgr",
+				"background-color"
+			],
+			[
+				"w3-h",
+				"w3-hover-yellow"
+			],
+			[
+				"st",
+				"style\tTag"
+			],
+			[
+				"tim",
+				"elapsed_time"
+			],
+			[
+				"diff",
+				"diff_sel"
+			],
+			[
+				"un",
+				"unlimit_gem"
+			],
+			[
+				"unlimi",
+				"unlimit_gem"
+			],
+			[
+				"extr",
+				"extra_cond"
+			],
+			[
+				"w3-border-",
+				"w3-border-white"
+			],
+			[
+				"ext",
+				"extra_cond"
+			],
+			[
+				"extra",
+				"extraCond"
+			],
+			[
+				"ex",
+				"extra"
+			],
+			[
+				"per",
+				"perfect_rate"
+			],
+			[
+				"perf",
+				"perfect_rate"
+			],
+			[
+				"perfec",
+				"perfectRate"
+			],
+			[
+				"unl",
+				"unlimitGem"
+			],
+			[
+				"unli",
+				"unlimit_gem"
+			],
+			[
+				"class",
+				"class"
+			],
+			[
+				"w3-bar",
+				"w3-bar-item"
+			],
+			[
+				"w3-ba",
+				"w3-bar-item"
+			],
+			[
+				"color",
+				"color_old"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "team_strength/views.py",
+			"settings":
+			{
+				"buffer_size": 13569,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "llatb/framework/team.py",
+			"settings":
+			{
+				"buffer_size": 16182,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Anaconda Python Builder",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Anaconda Python Builder",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				"PdfLaTeX"
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				"Traditional"
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/HTML build.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				"Syntax Check"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					""
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					"knitr"
+				]
+			],
+			[
+				"Packages/R-Box/support/R Sweave.sublime-build",
+				"knitr"
+			]
+		],
+		[
+			[
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					""
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					"knitr"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/R-Box/support/R Sweave.sublime-build",
+				"knitr"
+			]
+		],
+		[
+			[
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					""
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					"knitr"
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					"my knitr"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/R-Box/support/R Sweave.sublime-build",
+				"my knitr"
+			]
+		],
+		[
+			[
+				[
+					"Packages/R/R.sublime-build",
+					""
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					""
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					"knitr"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				"PdfLaTeX"
+			]
+		],
+		[
+			[
+				[
+					"Packages/R/R.sublime-build",
+					""
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					""
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					"knitr"
+				],
+				[
+					"Packages/R-Box/support/R Sweave.sublime-build",
+					"my knitr"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/R-Box/support/R Sweave.sublime-build",
+				"my knitr"
+			]
+		],
+		[
+			[
+				[
+					"Packages/R/R.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/R/R.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/HTML build.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/HTML build.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 187.0,
+		"last_filter": "git log",
+		"selected_items":
+		[
+			[
+				"git log",
+				"Git: Log"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git lo",
+				"Git: Log"
+			],
+			[
+				"git statu",
+				"Git: Status"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"pre",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"css",
+				"Set Syntax: CSS"
+			],
+			[
+				"pretty",
+				"Pretty JSON: Format and Sort JSON"
+			],
+			[
+				"git diff",
+				"Git: Diff Current File"
+			],
+			[
+				"fil",
+				"FileDiffs: Menu"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"gitstatus",
+				"Git: Status"
+			],
+			[
+				"diff",
+				"FileDiffs: Menu"
+			],
+			[
+				"compre",
+				"Pretty JSON: Minify (compress) JSON"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"javasc",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"git ",
+				"Git: Status"
+			],
+			[
+				"git",
+				"Git: Status"
+			],
+			[
+				"git sta",
+				"Git: Status"
+			],
+			[
+				"json",
+				"Pretty JSON: Format and Sort JSON"
+			],
+			[
+				"wrap",
+				"Word Wrap: Toggle"
+			],
+			[
+				"indent",
+				"Change Indent/Tab Size"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"open",
+				"Open URL"
+			],
+			[
+				"w3",
+				"W3C Validators: Validate HTML5"
+			],
+			[
+				"htmp",
+				"HTMLPrettify"
+			],
+			[
+				"enco",
+				"HTML: Encode Special Characters"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"htmlpre",
+				"HTMLPrettify"
+			],
+			[
+				"CSS",
+				"Set Syntax: CSS"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"filedi",
+				"FileDiffs: Menu"
+			],
+			[
+				"git stt",
+				"Git: Status"
+			],
+			[
+				"git p",
+				"Git: Push"
+			],
+			[
+				"git pu",
+				"Git: Push"
+			],
+			[
+				"prett",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"python ",
+				"SublimeREPL: Python"
+			],
+			[
+				"python re",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"git di",
+				"Git: Diff"
+			],
+			[
+				"inden",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"indent ",
+				"Change Indent/Tab Size"
+			],
+			[
+				"pyt",
+				"Set Syntax: Python"
+			],
+			[
+				"p re",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"pretty ",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"fold",
+				"Code Folding: Fold Tag Attributes"
+			],
+			[
+				"latex",
+				"LaTeXTools: Check system"
+			],
+			[
+				"matlab",
+				"SublimeREPL: Matlab"
+			],
+			[
+				"ip",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"indent si",
+				"Change Indent/Tab Size"
+			],
+			[
+				"reint",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"ipy",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"matla",
+				"SublimeREPL: Matlab"
+			],
+			[
+				"mat",
+				"SublimeREPL: Matlab"
+			],
+			[
+				"indent size",
+				"Change Indent/Tab Size"
+			],
+			[
+				"rein",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"live",
+				"AlignTab: Live Preview Mode"
+			],
+			[
+				"inde",
+				"Change Indent/Tab Size"
+			],
+			[
+				"repl py",
+				"SublimeREPL: Python"
+			],
+			[
+				"js",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"pyth",
+				"SublimeREPL: Python"
+			],
+			[
+				"lint",
+				"Anaconda: Disable linting on this file"
+			],
+			[
+				"pre js",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"lin",
+				"Anaconda: Disable linting on this file"
+			],
+			[
+				"lin t",
+				"Anaconda: Disable linting on this file"
+			],
+			[
+				"R",
+				"Build With: R Sweave"
+			],
+			[
+				"repl",
+				"SublimeREPL: R"
+			],
+			[
+				"replmat",
+				"SublimeREPL: Matlab"
+			],
+			[
+				"repl r",
+				"SublimeREPL: R"
+			],
+			[
+				"indte size",
+				"Change Indent/Tab Size"
+			],
+			[
+				"conda lin",
+				"Anaconda: Disable linting on this file"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"package",
+				"Package Control: Disable Package"
+			],
+			[
+				"repl mat",
+				"SublimeREPL: Matlab"
+			],
+			[
+				"repl R",
+				"SublimeREPL: R"
+			],
+			[
+				"in",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"ana",
+				"Anaconda: Find object usage"
+			],
+			[
+				"extr",
+				"PackageResourceViewer: Extract Package"
+			],
+			[
+				"syntax R s",
+				"Set Syntax: R Sweave"
+			],
+			[
+				"syntax mar",
+				"Set Syntax: knitr (Markdown)"
+			],
+			[
+				"syntax R",
+				"Set Syntax: R"
+			],
+			[
+				"syntex",
+				"Set Syntax: LaTeX"
+			],
+			[
+				"fi",
+				"FileDiffs: Menu"
+			],
+			[
+				"extra",
+				"PackageResourceViewer: Extract Package"
+			],
+			[
+				"pytho",
+				"SublimeREPL: Python"
+			],
+			[
+				"rep",
+				"SublimeREPL: Python"
+			],
+			[
+				"plug",
+				"Plugin Development: Profile Events"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"syntax ob",
+				"Set Syntax: Objective-C"
+			],
+			[
+				"git pus",
+				"Git: Push"
+			],
+			[
+				"live ",
+				"AlignTab: Live Preview Mode"
+			],
+			[
+				"utf",
+				"ConvertToUTF8: Reload with Encoding"
+			],
+			[
+				"ipython",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"ip y",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"py",
+				"Build With: Python"
+			],
+			[
+				"git sna",
+				"Git: Snapshot"
+			],
+			[
+				"git qui",
+				"Git: Quick Commit"
+			],
+			[
+				"e x t",
+				"PackageResourceViewer: Extract Package"
+			],
+			[
+				"ins t",
+				"Package Control: Install Package"
+			],
+			[
+				"repl she",
+				"SublimeREPL: Shell"
+			],
+			[
+				"sublime",
+				"Build With: sublimerepl_build_system_hack"
+			],
+			[
+				"set sy pay",
+				"Set Syntax: Python"
+			],
+			[
+				"ext",
+				"PackageResourceViewer: Extract Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				" ex",
+				"Snippet: Try/Except"
+			],
+			[
+				"ex",
+				"PackageResourceViewer: Extract Package"
+			],
+			[
+				"re",
+				"PackageResourceViewer: Extract Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Boldface text"
+			],
+			[
+				"Snippet: figure",
+				"Snippet: Figure"
+			],
+			[
+				"align",
+				"AlignTab: Table Mode"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"ut f",
+				"ConvertToUTF8: Reload with Encoding"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"pa k",
+				"Package Control: Add Channel"
+			],
+			[
+				"file",
+				"FileDiffs: Menu"
+			],
+			[
+				"filediff",
+				"FileDiffs: Menu"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"PackageResourceViewer:",
+				"PackageResourceViewer: Extract Package"
+			],
+			[
+				"PackageResourceViewer: Open Resource ",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"",
+				"About"
+			]
+		],
+		"width": 593.0
+	},
+	"console":
+	{
+		"height": 477.0,
+		"history":
+		[
+			"view.run_command('fg_helper')",
+			"fg_helper()",
+			"fg_helper",
+			"import numpy",
+			"import genxword",
+			"batch_operation()",
+			"batch_operation",
+			"a",
+			"a+1",
+			"a = 1",
+			"2+3",
+			"1",
+			"string",
+			"a",
+			"ls",
+			"cd"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/JoshuaLian/Documents/mysite",
+		"/Users/JoshuaLian/Documents/mysite/assets",
+		"/Users/JoshuaLian/Documents/mysite/build_team",
+		"/Users/JoshuaLian/Documents/mysite/mysite",
+		"/Users/JoshuaLian/Documents/mysite/templates"
+	],
+	"file_history":
+	[
+		"/Users/JoshuaLian/Dropbox (Work)/Duke Research/Optical/GA-SDBP.tex",
+		"/Users/JoshuaLian/Dropbox (Work)/literature_optics/optical code/OpticalDecoder.py",
+		"/Users/JoshuaLian/Documents/mysite/templates/build_team.html",
+		"/Users/JoshuaLian/Documents/mysite/llatb/framework/team.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/advanced/gem_allocator.py",
+		"/Users/JoshuaLian/Documents/mysite/templates/tutorial_en.html",
+		"/Users/JoshuaLian/Documents/mysite/templates/tutorial_team_strength.html",
+		"/Users/JoshuaLian/Documents/mysite/templates/tutorial_cn.html",
+		"/Users/JoshuaLian/Documents/mysite/build_team/views.py",
+		"/Users/JoshuaLian/Documents/mysite/templates/build_team_en.html",
+		"/Users/JoshuaLian/Documents/mysite/templates/edit_profile.html",
+		"/Users/JoshuaLian/Documents/mysite/templates/edit_team.html",
+		"/Users/JoshuaLian/Documents/mysite/templates/team_strength.html",
+		"/Users/JoshuaLian/Documents/mysite/static/js/build_team.js",
+		"/Users/JoshuaLian/Documents/mysite/static/js/swiper.js",
+		"/Users/JoshuaLian/Documents/mysite/static/live_data_base.json",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/sokka_sample.json",
+		"/Users/JoshuaLian/Downloads/下载",
+		"/Users/JoshuaLian/Documents/mysite/static/sm_song_list.json",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/packet_to_json.json",
+		"/Users/JoshuaLian/Documents/mysite/templates/theoretical_material.html",
+		"/Users/JoshuaLian/Documents/mysite/llatb/importer/game_data.py",
+		"/Users/JoshuaLian/Documents/mysite/templates/receive_user_json.html",
+		"/Users/JoshuaLian/Documents/mysite/mysite/teambuilderApp.py",
+		"/Users/JoshuaLian/Documents/mysite/static/css/build_team.less",
+		"/Users/JoshuaLian/Documents/mysite/llatb/common/display.py",
+		"/Users/JoshuaLian/Downloads/index.html",
+		"/Users/JoshuaLian/Documents/mysite/templates/LLproxy_user_json.html",
+		"/Users/JoshuaLian/Documents/mysite/team_strength/views.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/__init__.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/framework/__init__.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/framework/live.py",
+		"/Users/JoshuaLian/Downloads/sif-data.txt",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/minaraishi_sample.json",
+		"/Users/JoshuaLian/Documents/mysite/static/css/edit_profile.less",
+		"/Users/JoshuaLian/Documents/mysite/static/css/w3.css",
+		"/Users/JoshuaLian/Documents/mysite/llatb/simulator/simulator.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/advanced/advanced_card.py",
+		"/Users/JoshuaLian/Documents/mysite/templates/edit_profile_en.html",
+		"/Users/JoshuaLian/Documents/mysite/static/js/simulation.js",
+		"/Users/JoshuaLian/Downloads/download",
+		"/Users/JoshuaLian/Documents/mysite/build_team/urls.py",
+		"/Users/JoshuaLian/Downloads/submembers (7).sd",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/submembers.sd",
+		"/Users/JoshuaLian/Documents/mysite/requirements.txt",
+		"/Users/JoshuaLian/Downloads/test.txt",
+		"/Users/JoshuaLian/Documents/mysite/edit_profile/views.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/common/config.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/advanced/team_builder.py",
+		"/Users/JoshuaLian/Downloads/ieb_simul.html",
+		"/Users/JoshuaLian/Downloads/ieb_simul.js",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/ieb_sample.json",
+		"/Users/JoshuaLian/Documents/mysite/llatb/advanced/judge_coverage.py",
+		"/Users/JoshuaLian/Documents/mysite/static/js/highcharts.js",
+		"/Users/JoshuaLian/Documents/mysite/static/js/highstock.js",
+		"/Users/JoshuaLian/Documents/mysite/llatb/common/global_var.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/common/util.py",
+		"/Users/JoshuaLian/Downloads/submembers.sd",
+		"/Users/JoshuaLian/Downloads/localResizeIMG-master/test/index.html",
+		"/Users/JoshuaLian/Downloads/localResizeIMG-master/test/index.js",
+		"/Users/JoshuaLian/Downloads/localResizeIMG-master/dist/lrz.bundle.js",
+		"/Users/JoshuaLian/Downloads/untitled.html",
+		"/Users/JoshuaLian/Downloads/localResizeIMG-master/dist/那么多文件，应该引用哪个？.txt",
+		"/Users/JoshuaLian/Documents/mysite/static/js/canvas-to-blob.min.js",
+		"/Users/JoshuaLian/Documents/mysite/mysite/urls.py",
+		"/Users/JoshuaLian/Documents/mysite/static/js/bootstrap.min.js",
+		"/Users/JoshuaLian/Documents/mysite/llatb/framework/card.py",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/sit_sample.json",
+		"/Users/JoshuaLian/Documents/mysite/templates/fecth_sit_account.html",
+		"/Users/JoshuaLian/Downloads/untitled",
+		"/Users/JoshuaLian/Documents/mysite/team_strength/urls.py",
+		"/Users/JoshuaLian/Documents/mysite/templates/team_strength.less",
+		"/Users/JoshuaLian/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/JoshuaLian/Documents/mysite/static/css/edit_team.less",
+		"/Users/JoshuaLian/Documents/mysite/llatb/importer/formatter.py",
+		"/Users/JoshuaLian/Documents/mysite/llatb/skill/center_skill.py",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/m_profile.json",
+		"/Users/JoshuaLian/Documents/mysite/static/card_data_base.json",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/static/uid_cid_dict.json",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/static/card_data_base.json",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/minaraishi.json",
+		"/Users/JoshuaLian/Downloads/m_profile.json",
+		"/Users/JoshuaLian/Documents/minaraishi.json",
+		"/Users/JoshuaLian/Documents/mysite/mysite/settings.py",
+		"/Users/JoshuaLian/Documents/mysite/edit_profile/urls.py",
+		"/Users/JoshuaLian/Documents/mysite/receive_user_json.html",
+		"/Users/JoshuaLian/Documents/mysite/static/js/less.min.js",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/mysokka.json",
+		"/Users/JoshuaLian/Documents/mysite/static/uid_cid_dict.json",
+		"/Users/JoshuaLian/Documents/mysite/edit_team/views.py",
+		"/Users/JoshuaLian/Documents/mysite/build_team/tests.py",
+		"/Users/JoshuaLian/https",
+		"/Users/JoshuaLian/Library/Application Support/Sublime Text 3/Settings/SideBarEnhancements.json",
+		"/Users/JoshuaLian/Documents/mysite/static/css/swiper.css",
+		"/Users/JoshuaLian/Documents/mysite/templates/index.html",
+		"/Users/JoshuaLian/Downloads/{\"deck_info\":[{\"deck_name\":\"\\u30e6\\u30cb\\u30c3\\u30",
+		"/Users/JoshuaLian/Documents/mysite/assets/live_data_base.json",
+		"/Users/JoshuaLian/Downloads/require.js",
+		"/Users/JoshuaLian/Documents/mysite/build_team/index.html",
+		"/Users/JoshuaLian/Documents/mysite/build_team/models.py",
+		"/Users/JoshuaLian/Library/Application Support/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc",
+		"/Users/JoshuaLian/.bashrc",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/assets/data_base.json",
+		"/Users/JoshuaLian/Downloads/registration-by-face.css",
+		"/Users/JoshuaLian/Downloads/form.css",
+		"/Users/JoshuaLian/Downloads/icomoon.css",
+		"/Users/JoshuaLian/Downloads/common.css",
+		"/Users/JoshuaLian/Downloads/registration-by-face.min.js",
+		"/Users/JoshuaLian/Downloads/common.css?_=20170710.css",
+		"/Users/JoshuaLian/Downloads/registration-by-face.css?_=20170710",
+		"/Users/JoshuaLian/Documents/mysite/form.css",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/advanced/gem_allocator.py",
+		"/Users/JoshuaLian/Downloads/test.sd",
+		"/Users/JoshuaLian/Documents/mysite/my_log/models.py",
+		"/Users/JoshuaLian/Documents/mysite/mysite/models.py",
+		"/Users/JoshuaLian/Documents/mysite/data_log/models.py",
+		"/Users/JoshuaLian/Documents/mysite/static/count.txt",
+		"/Users/JoshuaLian/Documents/mysite/assets/live.db_",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/advanced/team_builder.py",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/advanced/judge_coverage.py",
+		"/Users/JoshuaLian/Documents/mysite/assets/CoverageCalculator.js",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/advanced/advanced_card.py",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/framework/card.py",
+		"/Users/JoshuaLian/Downloads/865384_17-07-07_12.666",
+		"/Users/JoshuaLian/Documents/mysite/Procfile",
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/framework/team.py",
+		"/Users/JoshuaLian/Documents/mysite/mysite/docs.py",
+		"/Users/JoshuaLian/Documents/mysite/mysite/doc.py"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"",
+			"*.py",
+			"<project>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"total stats",
+			"Mics",
+			"Max",
+			"Min",
+			"mics",
+			"max",
+			"min",
+			"援力",
+			"png",
+			"png ",
+			"编辑",
+			"Manage",
+			"manage ",
+			"unit_owning_user_id",
+			"随机",
+			"extra_cond_text",
+			"extra_cond",
+			"{\n",
+			"extra_cond_text",
+			"lang",
+			"extraCond",
+			"song_name",
+			"ダイスキだったらダイジョウブ！",
+			"\"level\": 1,",
+			"level",
+			"is_sm",
+			"updateInfo",
+			"inputUserJSON",
+			"existing",
+			"ingold",
+			"unlimited gem",
+			"print",
+			"get_client_ip",
+			"sokka",
+			"start",
+			"server.",
+			"    ",
+			"                        ",
+			"                       ",
+			"                      ",
+			"                     ",
+			"                    ",
+			"                   ",
+			"                  ",
+			"                 ",
+			"                ",
+			"               ",
+			"              ",
+			"             ",
+			"            ",
+			"           ",
+			"          ",
+			"         ",
+			"        ",
+			"       ",
+			"      ",
+			"     ",
+			"    ",
+			"Pops heartで踊るんだもん!",
+			"ダイスキだったらダイジョウブ!",
+			"夜空はなんでも知ってるの?",
+			"君のこころは輝いてるかい?",
+			"?",
+			"is_random",
+			"live_selection",
+			"updateLiveSel",
+			"div",
+			"viewLiveStats",
+			"stage_idx",
+			"sm_songs",
+			"d1",
+			"SM_name",
+			"y",
+			"x",
+			"08/",
+			"07/",
+			"ow: hov",
+			"grey",
+			"calculate",
+			"loaded live",
+			"Alloc",
+			"http:",
+			"simulate",
+			"</head",
+			"(function(i, s, o, g, r, a, m) {\n        i['GoogleAnalyticsObject'] = r;\n        i[r] = i[r] || function() {\n            (i[r].q = i[r].q || []).push(arguments)\n        }, i[r].l = 1 * new Date();\n        a = s.createElement(o),\n            m = s.getElementsByTagName(o)[0];\n        a.async = 1;\n        a.src = g;\n        m.parentNode.insertBefore(a, m)\n    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');\n\n    ga('create', 'UA-103167041-2', 'auto');\n    ga('send', 'pageview');",
+			"(function(i, s, o, g, r, a, m) {\n        i['GoogleAnalyticsObject'] = r;\n        i[r] = i[r] || function() {\n            (i[r].q = i[r].q || []).push(arguments)\n        }, i[r].l = 1 * new Date();\n        a = s.createElement(o),\n            m = s.getElementsByTagName(o)[0];\n        a.async = 1;\n        a.src = g;\n        m.parentNode.insertBefore(a, m)\n    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');\n\n    ga('create', 'UA-103167041-1', 'auto');\n    ga('send', 'pageview');",
+			"header",
+			"<style>\nbody {\n    background-color: pink;\n    color: black;\n}\n\nimg {\n    width: 80%;\n    display: block;\n    margin: 0 auto;\n}\n</style>",
+			"trigger",
+			"SIT_json_str",
+			"SIT",
+			"minaraishi",
+			"guest_cskill",
+			"prepare_simulation",
+			"IP Address",
+			"get_client_ip",
+			"modalLocal",
+			"profile-title",
+			"modalLocal",
+			"#simul",
+			"console.log",
+			"PLock_",
+			"card_full_score",
+			"skill_",
+			"simal_res",
+			"cover_rate",
+			"td",
+			"hide",
+			"this",
+			"cb",
+			"team_CR",
+			"self.team_CR",
+			"update_gem_score",
+			"team_CR",
+			"compute_coverage",
+			"updateLiveSel",
+			"roundBtn",
+			"white",
+			"style='height:200px'",
+			"skill.odds/",
+			"});\n",
+			"MonteCarlo",
+			"Map_draw",
+			".point",
+			"point",
+			".point",
+			"point",
+			"marker"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"μ\\'s",
+			"view_cards",
+			"}",
+			"{",
+			"",
+			":",
+			" }",
+			" {",
+			" ",
+			"\"effect_type\": \"Score Up\"",
+			"\"Strong Judge\"",
+			"\"Stamina Restore\"",
+			"resource",
+			"} ",
+			"\"",
+			"\\rdbrs",
+			"\\sqbrs",
+			"\\clbrs",
+			"\\sqbrs",
+			"\\rdbrs",
+			"\\beta_{\\mathrm{c}}",
+			"\\\\tilde{u}_{\\\\to k-j}^{\\\\sigma_j}",
+			"\\tilde{u}_{\\to k-j}^{\\sigma_j}",
+			"subname",
+			">\\n",
+			"\\bs{0}",
+			"epsilon",
+			"&\\n",
+			"z \\sqrt{\\omega}",
+			"\\udl{\\sigma}^",
+			":",
+			"\\kappa_{\\mathrm{c}}",
+			"m m^\\\\prime",
+			"\\\\rdbrs\\{m m^\\\\prime\\}\\^2",
+			"m m^\\\\prime",
+			"m m^\\prime",
+			"N-N_+",
+			"q_{\\mathrm{tot}}",
+			", \\1",
+			"rdbrs",
+			"sqbrs",
+			"clbrs",
+			"$ \\mathcal{G} $",
+			"Exercise",
+			"Exercise3",
+			"agbrs",
+			"\\textbf{Page}",
+			"sqbrs",
+			"clbrs",
+			"agbrs",
+			"rdbrs",
+			"clbrs",
+			"sqbrs",
+			"clbrs",
+			"agbrs",
+			"rdbrs",
+			"sqbrs",
+			"clbrs",
+			"sqbrs",
+			"rdbrs",
+			"agbrs",
+			"clbrs",
+			"sqbrs",
+			"rdbrs",
+			"clbrs",
+			"sqbrs",
+			"rdbrs",
+			"clbrs",
+			"sqbrs",
+			"rdbrs",
+			"sqbrs",
+			"clbrs",
+			"sqbrs",
+			"rdbrs",
+			"agbrs",
+			"clbrs",
+			"sqbrs",
+			"rdbrs",
+			"sqbrs",
+			"clbrs",
+			"\\n",
+			" ",
+			"\\n",
+			"\\r",
+			"",
+			"w",
+			"\\alpha",
+			"equation",
+			"\\mathcal{B}_\\beta",
+			"",
+			"\\\"",
+			"",
+			"\\n\\1//\\n\\1\\2",
+			"//\\n\\1",
+			"\\0\\1\\2ac",
+			"\\1\\2ac",
+			"\\1ac",
+			"\\b\\1ac",
+			"\\b\\w*:",
+			"\":",
+			"mathbb",
+			"mathcal",
+			"\\$",
+			"clbrs",
+			"sqbrs",
+			"rdbrs"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "team_strength/views.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13569,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7026,
+								7026
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"is_init_dirty_state": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1747.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "llatb/framework/team.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16182,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10600,
+								10600
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".",
+									"selector": "source.python - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										10725,
+										10726
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"brackethighlighter.curly"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										10599,
+										10600
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content"
+							],
+							"is_init_dirty_state": false,
+							"origin_encoding": "ASCII",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2394.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 289.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git-commit":
+	{
+		"height": 100.0
+	},
+	"output.git-push":
+	{
+		"height": 100.0
+	},
+	"output.latextools":
+	{
+		"height": 176.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/LLSIF-TeamBuilder.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"team",
+				"llatb/framework/team.py"
+			],
+			[
+				"view",
+				"team_strength/views.py"
+			],
+			[
+				"gem",
+				"llatb/advanced/gem_allocator.py"
+			],
+			[
+				"tut",
+				"templates/tutorial_team_strength.html"
+			],
+			[
+				"tu",
+				"templates/tutorial_cn.html"
+			],
+			[
+				"tuto",
+				"templates/tutorial_team_strength.html"
+			],
+			[
+				"build",
+				"templates/build_team.html"
+			],
+			[
+				"tutor",
+				"templates/tutorial_cn.html"
+			],
+			[
+				"bui",
+				"templates/build_team.html"
+			],
+			[
+				"edit",
+				"templates/edit_team.html"
+			],
+			[
+				"sw",
+				"static/js/swiper.js"
+			],
+			[
+				"live_data",
+				"static/live_data_base.json"
+			],
+			[
+				"sm",
+				"static/sm_song_list.json"
+			],
+			[
+				"buil",
+				"templates/build_team.html"
+			],
+			[
+				"mat",
+				"templates/theoretical_material.html"
+			],
+			[
+				"game",
+				"llatb/importer/game_data.py"
+			],
+			[
+				"dis",
+				"llatb/common/display.py"
+			],
+			[
+				"app",
+				"mysite/teambuilderApp.py"
+			],
+			[
+				"team_s",
+				"templates/team_strength.html"
+			],
+			[
+				"llatb",
+				"llatb/__init__.py"
+			],
+			[
+				"frameinit",
+				"llatb/framework/__init__.py"
+			],
+			[
+				"live",
+				"llatb/framework/live.py"
+			],
+			[
+				"bu",
+				"templates/build_team.html"
+			],
+			[
+				"w3",
+				"static/css/w3.css"
+			],
+			[
+				"simu",
+				"llatb/simulator/simulator.py"
+			],
+			[
+				"ad",
+				"llatb/advanced/advanced_card.py"
+			],
+			[
+				"bul",
+				"templates/build_team.html"
+			],
+			[
+				"html",
+				"templates/edit_profile_en.html"
+			],
+			[
+				"sim",
+				"llatb/simulator/simulator.py"
+			],
+			[
+				"simul",
+				"static/js/simulation.js"
+			],
+			[
+				"pro",
+				"static/css/edit_profile.less"
+			],
+			[
+				"turot",
+				"templates/tutorial_en.html"
+			],
+			[
+				"config",
+				"llatb/common/config.py"
+			],
+			[
+				"confi",
+				"llatb/common/config.py"
+			],
+			[
+				"vie",
+				"team_strength/views.py"
+			],
+			[
+				"advan",
+				"llatb/advanced/advanced_card.py"
+			],
+			[
+				"hig",
+				"static/js/highcharts.js"
+			],
+			[
+				"gaa",
+				"llatb/advanced/gem_allocator.py"
+			],
+			[
+				"gloa",
+				"llatb/common/global_var.py"
+			],
+			[
+				"con",
+				"llatb/common/config.py"
+			],
+			[
+				"util",
+				"llatb/common/util.py"
+			],
+			[
+				"conf",
+				"llatb/common/config.py"
+			],
+			[
+				"turo",
+				"templates/tutorial_team_strength.html"
+			],
+			[
+				"edit_pro",
+				"templates/edit_profile_en.html"
+			],
+			[
+				"glo",
+				"llatb/common/global_var.py"
+			],
+			[
+				"ut",
+				"llatb/common/util.py"
+			],
+			[
+				"card",
+				"llatb/framework/card.py"
+			],
+			[
+				"fet",
+				"templates/fecth_sit_account.html"
+			],
+			[
+				"bulen",
+				"templates/build_team_en.html"
+			],
+			[
+				"edit_team",
+				"templates/edit_team.html"
+			],
+			[
+				"tea",
+				"llatb/advanced/team_builder.py"
+			],
+			[
+				"url",
+				"team_strength/urls.py"
+			],
+			[
+				"teamall",
+				"llatb/advanced/gem_allocator.py"
+			],
+			[
+				"en",
+				"templates/edit_profile_en.html"
+			],
+			[
+				"editpro",
+				"templates/edit_profile_en.html"
+			],
+			[
+				"gl",
+				"llatb/common/global_var.py"
+			],
+			[
+				"forma",
+				"llatb/importer/formatter.py"
+			],
+			[
+				"var",
+				"llatb/common/global_var.py"
+			],
+			[
+				"edi",
+				"static/css/edit_profile.less"
+			],
+			[
+				"cent",
+				"llatb/skill/center_skill.py"
+			],
+			[
+				"vi",
+				"build_team/views.py"
+			],
+			[
+				"gam",
+				"llatb/importer/game_data.py"
+			],
+			[
+				"tutoria",
+				"templates/tutorial_en.html"
+			],
+			[
+				"uti",
+				"llatb/common/util.py"
+			],
+			[
+				"user",
+				"templates/LLproxy_user_json.html"
+			],
+			[
+				"rec",
+				"templates/receive_user_json.html"
+			],
+			[
+				"b",
+				"templates/build_team.html"
+			],
+			[
+				"form",
+				"llatb/importer/formatter.py"
+			],
+			[
+				"ed",
+				"static/css/edit_profile.less"
+			],
+			[
+				"ui",
+				"static/uid_cid_dict.json"
+			],
+			[
+				"card_da",
+				"static/card_data_base.json"
+			],
+			[
+				"all",
+				"llatb/advanced/gem_allocator.py"
+			],
+			[
+				"set",
+				"mysite/settings.py"
+			],
+			[
+				"les",
+				"static/js/less.min.js"
+			],
+			[
+				"swi",
+				"static/css/swiper.css"
+			],
+			[
+				"live_",
+				"assets/live_data_base.json"
+			],
+			[
+				"index",
+				"templates/index.html"
+			],
+			[
+				"sett",
+				"mysite/settings.py"
+			],
+			[
+				"regis",
+				"~/Downloads/registration-by-face.min.js"
+			],
+			[
+				"coun",
+				"static/count.txt"
+			],
+			[
+				"allo",
+				"llatb/advanced/gem_allocator.py"
+			],
+			[
+				"jud",
+				"llatb/advanced/judge_coverage.py"
+			],
+			[
+				"adan",
+				"llatb/advanced/advanced_card.py"
+			],
+			[
+				"judge",
+				"llatb/advanced/judge_coverage.py"
+			],
+			[
+				"cov",
+				"assets/CoverageCalculator.js"
+			],
+			[
+				"liv",
+				"llatb/framework/live.py"
+			],
+			[
+				"ju",
+				"advanced/judge_coverage.py"
+			],
+			[
+				"tra",
+				"simulator/skill_tracker.py"
+			],
+			[
+				"o",
+				"common/config.py"
+			],
+			[
+				"si",
+				"simulator/simulator.py"
+			],
+			[
+				"ga",
+				"importer/game_data.py"
+			],
+			[
+				"for",
+				"importer/formatter.py"
+			],
+			[
+				"u",
+				"common/util.py"
+			],
+			[
+				"init",
+				"__init__.py"
+			],
+			[
+				"ski",
+				"skill/card_skill.py"
+			],
+			[
+				"cen",
+				"skill/center_skill.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 458.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 175.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

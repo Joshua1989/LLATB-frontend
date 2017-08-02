@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-import time, sys, urllib.request, json, pygeoip
+import time, sys, urllib.request, json, pygeoip, html
 from mysite import settings
 sys.path.append(settings.BASE_DIR)
 from llatb import GameData, Live, DefaultLive, MFLive, SMLive, TeamBuilder, Team, html_view
@@ -300,7 +300,7 @@ def live_stats(request):
 	}
 	lang = request.POST['lang']
 	if request.is_ajax():
-		song_name, diff, PR = request.POST['song_name'], request.POST['difficulty'], request.POST['perfect_rate']
+		song_name, diff, PR = html.unescape(request.POST['song_name']), request.POST['difficulty'], request.POST['perfect_rate']
 		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'View Live Info: {0} {1}'.format(song_name, diff)
 		print(user_info)

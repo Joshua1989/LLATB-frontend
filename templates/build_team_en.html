@@ -332,38 +332,38 @@
                 is_random: false
             };
         } else if (add_song) {
-            if (live_selection['song_list'].length < 5) {
-                if (add_song.indexOf('Default') == -1 && add_song.indexOf('SM') == -1) {
-                    if ((live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('Default') > -1) || live_selection.is_sm) {
-                        live_selection['song_list'] = [add_song];
-                        live_selection.is_sm = false;
-                        live_selection.is_random = false;
-                    } else {
-                        live_selection['song_list'].push(add_song);
-                    }
-                } else if (add_song.indexOf('Default') > -1) {
-                    live_selection = {
-                        group: group_sel,
-                        attr: attr_sel,
-                        diff: diff_sel,
-                        song_list: [add_song],
-                        is_sm: false,
-                        is_random: false
-                    };
+            if (add_song.indexOf('Default') == -1 && add_song.indexOf('SM') == -1) {
+                if ((live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf('Default') > -1) || live_selection.is_sm) {
+                    live_selection['song_list'] = [add_song];
+                    live_selection.is_sm = false;
+                    live_selection.is_random = false;
                 } else {
-                    var server = sm_info[add_song.slice(3, 5)],
-                        stg_idx = parseInt(add_song[6]) - 1;
-                    live_selection = {
-                        group: group_sel,
-                        attr: attr_sel,
-                        diff: diff_sel,
-                        song_list: server.stages[stg_idx].song_list[attr_sel],
-                        is_sm: true,
-                        is_random: add_song.indexOf('RND') > -1
-                    };
+                    if (live_selection['song_list'].length < 5) {
+                        live_selection['song_list'].push(add_song);
+                    } else {
+                        updateInfo('Selected Live number reached upper bound 5', true);
+                    }
                 }
+            } else if (add_song.indexOf('Default') > -1) {
+                live_selection = {
+                    group: group_sel,
+                    attr: attr_sel,
+                    diff: diff_sel,
+                    song_list: [add_song],
+                    is_sm: false,
+                    is_random: false
+                };
             } else {
-                updateInfo('Selected Live number reached upper bound 5', true);
+                var server = sm_info[add_song.slice(3, 5)],
+                    stg_idx = parseInt(add_song[6]) - 1;
+                live_selection = {
+                    group: group_sel,
+                    attr: attr_sel,
+                    diff: diff_sel,
+                    song_list: server.stages[stg_idx].song_list[attr_sel],
+                    is_sm: true,
+                    is_random: add_song.indexOf('RND') > -1
+                };
             }
         }
         var song_names = live_selection.is_sm ? add_song : live_selection['song_list'].join(', ')
@@ -962,7 +962,7 @@
     $('#modalLocal .save').click(function() {
         var profile_name = $('#modalLocal select').val();
         var valid = inputUserJSON()
-        console.log(valid,123)
+        console.log(valid, 123)
         if (valid) {
             user_json_bucket[profile_name] = user_json;
             localStorage.setItem('user_json_bucket', JSON.stringify(user_json_bucket));
