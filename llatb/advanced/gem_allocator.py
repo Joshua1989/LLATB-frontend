@@ -172,7 +172,7 @@ class GemAllocator:
 				peeled = [[ x for x in alloc_list if scarce_gem not in x.gems] for alloc_list in alloc_info]
 				# Split current case into subproblems
 				x_opt, Qmax = [Alloc([],0)]*9, Qmax_init
-				for ind in itertools.combinations(list(range(9)), self.owned_gem[scarce_gem]):
+				for ind in itertools.combinations(valid_card_index[scarce_gem], self.owned_gem[scarce_gem]):
 					# Construct subproblem
 					sub_alloc_info = [alloc_info[i] if i in ind else peeled[i] for i in range(9)]
 					# Compute the best allocation of subproblem
@@ -186,6 +186,16 @@ class GemAllocator:
 			alloc_info = [card.gem_alloc_list for card in self.card_list]
 		else:
 			alloc_info = [[alloc for alloc in card.gem_alloc_list if 'Trick' not in str(alloc.gems)] for card in self.card_list]
+		# For each considered SIS, compute list of card indices that can equip it
+		valid_card_index = dict()
+		for ind, alloc_list in enumerate(alloc_info):
+			for alloc in alloc_list:
+				if len(alloc.gems) == 1:
+					gem = alloc.gems[0]
+					if valid_card_index.get(gem) is None:
+						valid_card_index[gem] = [ind]
+					else:
+						valid_card_index[gem].append(ind)
 		x_opt, Qmax = recursion(alloc_info)
 		return x_opt, Qmax
 

@@ -163,7 +163,8 @@ def calculate(request):
 			    temp_dict[x+' Charm'] = user_profile.owned_gem[x+' Charm']
 			    temp_dict[x+' Heal'] = user_profile.owned_gem[x+' Heal']
 			    temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
-			alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
+			# alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
+			alloc_method = 'DC'
 
 			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method, time_limit=24)
 			result = ''
