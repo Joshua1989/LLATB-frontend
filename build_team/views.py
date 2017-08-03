@@ -48,6 +48,7 @@ def calculate(request):
 			'ERR_EXCOND': '应用附加条件失败...',
 			'ERR_SOLVE': '求解最佳卡组失败，请检查该色是否有13张卡',
 			'ERR_EXPORT': '导出文件失败...',
+			'IMCOMPLETE': '由于服务器响应时间限制，返回算法中断前最有结果，算法完成度 {0}/{1}，请尝试多次计算取最好结果',
 			'SUCCESS': '#{0} 组队成功，共耗时{1:.2f}秒',
 			'ERR_NONAJAX': '服务器接收请求不是AJAX'
 		},
@@ -58,6 +59,7 @@ def calculate(request):
 			'ERR_EXCOND': 'Failed to apply extra condition...',
 			'ERR_SOLVE': 'Failed to solve optimal team, please check whether there are at least 13 cards have current attribute',
 			'ERR_EXPORT': 'Failed to export result into other formats...',
+			'IMCOMPLETE': 'Due to server response time limit, algorithm terminated with progress {0}/{1}, please try multiple times and take the best one',
 			'SUCCESS': '#{0} Team builded, used {1:.2f} secs',
 			'ERR_NONAJAX': 'The request is not AJAX'
 		}
@@ -163,8 +165,11 @@ def calculate(request):
 			    temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
 			alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
 
-			tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method)
-			result = tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
+			_, (num_calc, num_total) = tb.build_team(K=16, method='4-suboptimal', alloc_method=alloc_method, time_limit=24)
+			result = ''
+			if num_calc < num_total:
+				result += '<p style="text-align:center; color:red"><b>{0}</b></p>'.format(strings[lang]['IMCOMPLETE'].format(num_calc, num_total))
+			result += tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
 		except:
 			print('Failed to compute optimal team.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_SOLVE']}
