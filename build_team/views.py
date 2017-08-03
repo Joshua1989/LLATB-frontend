@@ -165,7 +165,7 @@ def calculate(request):
 			    temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
 			alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
 
-			_, (num_calc, num_total) = tb.build_team(K=16, method='4-suboptimal', alloc_method=alloc_method, time_limit=24)
+			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method, time_limit=24)
 			result = ''
 			if num_calc < num_total:
 				result += '<p style="text-align:center; color:red"><b>{0}</b></p>'.format(strings[lang]['IMCOMPLETE'].format(num_calc, num_total))
