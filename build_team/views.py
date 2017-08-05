@@ -71,7 +71,7 @@ def calculate(request):
 		group, attr, diff = [request.POST[x] for x in ['group', 'attribute', 'difficulty']]
 		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
-		is_sm, is_random = bool(request.POST['is_sm']=='true'), bool(request.POST['is_random']=='true')
+		is_sm, is_random = bool(request.POST.get('is_sm', 'false')=='true'), bool(request.POST.get('is_random', 'false')=='true')
 
 		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		if not is_sm:

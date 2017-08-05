@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Cookbook of Team Building</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Hentyclopedia">
+    <meta name="description" content="Everything you want to know about LLSIF team building">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: { extensions: ["color.js"] },
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-103167041-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+</head>
+<style>
+html,
+body {
+    /*background: url(images/bg.gif) left top repeat-y white;*/
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    font-family: "Trebuchet MS", Tahoma, Lucida Sans, Arial, Verdana, Helvetica, sans-serif;
+}
+
+abbr,
+abbr {
+    border-bottom: 1px dotted #FFE6F0;
+}
+
+.sidebar h3 {
+    display: none;
+}
+
+.wrapper {
+    display: block;
+}
+
+.supporting {
+    margin-left: 230px;
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 50px;
+    padding-bottom: 0;
+}
+
+.supporting h1,
+.supporting h2,
+.supporting h3 {
+    display: block;
+    padding: 5px;
+    color: white;
+    width:100%;
+}
+
+.supporting h1 {
+    background-color: blue;
+}
+
+.supporting h2 {
+    background-color: green;
+}
+
+.supporting h3 {
+    background-color: orange;
+}
+
+.supporting p {
+    font-size: 14px;
+    color: #000;
+    line-height: 1.5em;
+}
+
+.supporting li {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.supporting a:hover {
+    color: black;
+}
+
+.supporting abbr,
+.supporting abbr {
+    border-bottom: 1px dotted #000;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 230px;
+    background-color: black;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    border-bottom: 1px solid #CCC;
+}
+
+.sidebar ul li .sec {
+    display: block;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar ul li .subsec {
+    display: block;
+    padding: 5px;
+    padding-left: 25px;
+    padding-right: 20px;
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar ul li .subsubsec {
+    display: block;
+    padding: 5px;
+    padding-left: 50px;
+    padding-right: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar ul li:hover {
+    background-color: #F06;
+    color: black;
+}
+
+.sidebar div.section-navi {
+    display: block;
+    margin-top: 10px;
+}
+
+.sidebar div.section-navi h3 {
+    display: block;
+    height: 35px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar div.section-navi h3 {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+</style>
+
+<body id="css-zen-garden">
+    <div class="page-wrapper">
+        <aside class="sidebar" role="complementary">
+            <div class="wrapper">
+                <div class="section-navi" id="section-navi">
+                    <ul>
+                        <li><a href="#introcution" class='sec'>Introduction</a></li>
+                        <li><a href="#notation" class='sec'>Notations</a></li>
+                        <li><a href="#section-1" class='sec'>Single Card Attribute</a></li>
+                        <li><a href="#section-2" class='sec'>Team Attribute</a></li>
+                        <li><a href="#section-3" class='sec'>Basic Parameters</a></li>
+                        <li><a href="#section-4" class='sec'>Advanced Live Stats</a></li>
+                        <li><a href="#section-5" class='sec'>Game Scoring I: Single Tap</a></li>
+                        <li><a href="#section-6" class='sec'>Expected Skill Gain</a></li>
+                        <li><a href="#section-6-1" class='subsec'>Concept of Skill Gain</a></li>
+                        <li><a href="#section-6-2" class='subsec'>Scorers</a></li>
+                        <li><a href="#section-6-3" class='subsec'>Healers</a></li>
+                        <li><a href="#section-6-4" class='subsec'>P-Lockers</a></li>
+                        <li><a href="#section-7" class='sec'>Game Scoring II: Total Score</a></li>
+                        <li><a href="#section-8" class='sec'>Card Rough Strength</a></li>
+                        <li><a href="#section-9" class='sec'>SIS Allocation for Given Team</a></li>
+                        <li><a href="#section-9-1" class='subsec'>Compute the Score of a Card Plan</a></li>
+                        <li><a href="#section-9-2" class='subsec'>Search Optimal Team Plan</a></li>
+                        <li><a href="#section-10" class='sec'>Optimal Team Building</a></li>
+                        <li><a href="#section-10-1" class='subsec'>The $K$ Choose $8$ Problem</a></li>
+                        <li><a href="#section-10-2" class='subsec'>Search Optimal Team</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        <div class="supporting" role="main">
+            <div id="introcution" role="section">
+                <h1>Introduction</h1>
+                <p>
+                    This page aims to introduce how to compute the team strength in LLSIF and explain some algorithm in LLATB. <br>
+                    I heard some users doubting the reliableness of LLATB, so I hope all your suspects will be wiped out after you read this material.
+                    I will try my best to convince you the correctness of my algorithm by given rigorous mathematical language description, thus perhaps some sections require some math and computer science background.
+                </p>
+            </div>
+            <div id="notation" role="section">
+                <h1>Notation</h1>
+                <p>Through this page, all the math notation will be in blue color. I will use square bracket as the "property" operator, the syntax is $ \color{blue} \text{Object}[\text{property}] $, for example, given a card $ \color{blue} c $, $ \color{blue} c[\text{Smile}] $ denotes its Smile attribute value.</p>
+                <p>
+                    For instance, a card may has following properties:
+                    <ul>
+                        <li>$ \color{blue} \text{attr} $: The main attribute of the card, should be one of Smile, Pure, and Cool</li>
+                        <li>$ \color{blue} \text{group} $: Which group the member belongs to, Muse, Aqours or neither</li>
+                        <li>$ \color{blue} \text{bond} $: The bond of the card, should be non-negative integer and smaller than the upper bound</li>
+                        <li>$ \color{blue} \text{smile, pure, cool} $: the corresponding attribute value of the card, should be non-negative integer</li>
+                        <li>$ \color{blue} \text{slot} $: The SIS slot number of the card, should be an integer between lower bound and upper bound</li>
+                        <li>$ \color{blue} \text{slevel} $: The skill level of the card, equals $ \color{blue} 0 $ if the card is an N card, else should be in $ \color{blue} \{1, \ldots, 8\} $</li>
+                        <li>$ \color{blue} \text{cskill} $: The center skill of the card</li>
+                        <li>$ \color{blue} \text{scorer, healer, p-locker} $: Boolean variable (True or False, and equivalently 1 or 0), indicating the skill effect type of the card</li>
+                        <li>$ \color{blue} \text{tag} $: the tag of the card member, e.g. Honoka has tag $ \color{blue} \{ \text{Muse, 2nd-year, Printemps} \} $</li>
+                        <li>$ \color{blue} \text{any SIS name} $: Boolean variable, indicating whether the card <b>equips</b> the corresponding SIS, for skill-SIS (Charm, Heal, Trick) since they restrict the attribute of the card, so the prefix (Princess, Angel, Empress) will be omitted, similarly the grade in Ring and Cross will also be omitted.</li>
+                    </ul>
+                </p>
+                <p>Other types of objects will be introduced later and all their properties are listed in the section where they first occur.</p>
+            </div>
+            <div id="section-1" role="section">
+                <h1>1 Single Card Attribute</h1>
+                <p>
+                    <b style="color:red">Terminologies</b>: given card $ \color{blue} c $ and $ \color{blue} x \in \{ \text{smile, pure, cool} \} $, define the following types of attributes
+                    <ul>
+                        <li>
+                            <p><b>raw strength</b>: this is the card attribute value $ \color{blue} c[x] $ that you can find on <a href="https://sif.kirara.ca/checklist">kirara</a></p>
+                        </li>
+                        <li>
+                            <p><b>bonded strength</b>: the bond of the card will be added to its main attribute value, i.e.</p>
+                            <p>$$ \color{blue} c[\text{bonded } x] = c[x] + c[\text{bond}] \times \mathbb{I}(x=c[\text{attr}]) $$</p>
+                        </li>
+                        <li>
+                            <p><b>panel strength</b>: this is the final attribute value displayed in the game, it consist the raw strength, bond and single-SIS (Kiss, Perfume, Ring, Cross)</p>
+                            <p>$$ \color{blue} c[\text{panel } x] = c[\text{bonded } x] + 200 \times c[x \text{ Kiss}] + 450 \times c[x \text{ Perfume}] + \text{ceil}(0.1 \times c[\text{bonded } x] \times c[x \text{ Ring}]) + \text{ceil}(0.16 \times c[\text{bonded } x] \times c[x \text{ Cross}]) $$</p>
+                        </li>
+                    </ul>
+                </p>
+                <p>Let's start with this Chika card and see how the panel strength is computed</p>
+                <img src="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder/raw/0a6d553a5ddbd5ad953e1e63571b4ec42f8e793e/doc/Card_Detail_UI.png" width=60%>
+                <p>From kirara you can find the raw strength at level 100 is</p>
+                <p>$$ \color{blue} c[\text{smile}] = 5340, \quad c[\text{pure}] = 4240, \quad c[\text{cool}] = 4320 $$</p>
+                <p>After adding the bond, the bonded strength are</p>
+                <p>$$ \color{blue} c[\text{bonded smile}] = 6340, \quad c[\text{bonded pure}] = 4240, \quad c[\text{bonded cool}] = 4320 $$</p>
+                <p>Finally, take all SIS into account we have</p>
+                <p>
+                \[
+                    \color{blue}
+                    \begin{align}
+                        c[\text{panel smile}] &= c[\text{bonded smile}] + 450 + \text{ceil}(0.16 \times c[\text{bonded smile}]) = 7805 \\
+                        c[\text{panel pure}] &= c[\text{bonded pure}] = 4240 \\
+                        c[\text{panel cool}] &= c[\text{bonded cool}] = 4320
+                    \end{align}
+                \]
+                </p>
+            </div>
+            <div id="section-2" role="section">
+                <h1>2 Team Attribute</h1>
+                <p>When you have chosen nine cards to form a team, the effect of center skills (team center and guest) and team-SIS (Aura, Veil) will give you extra strength.</p>
+                <p>For center skill, note that the center skill for non-promo SSR and UR cards contains two parts, the first part apply to all cards while the second part only apply to a subset of cards (restricted on group, grade, and subunit), here I call them main part and vice part and format all center skills in the syntax</p>
+                <p>
+                $$ 
+                    \text{Raise team's } \textcolor{blue}{\text{main-attr}} \text{ by } \textcolor{blue}{\text{main-ratio}} \text{ of its } \textcolor{blue}{\text{base-attr}}. \text{Raise the } \textcolor{blue}{\text{main-attr}} \text{ contribution of } \textcolor{blue}{\text{vice-tag}} \text{ member by } \textcolor{blue}{\text{vice-ratio}} 
+                $$
+                </p>
+                <p>Therefore, when computing the effect of center skills, there will be at most four components: team center skill main part, team center skill vice part, guest center skill main part, and guest center skill vice part.</p>
+                <p>
+                    <b style="color:red">Terminologies</b>: given card $ \color{blue} c $ and $ \color{blue} x \in \{ \text{smile, pure, cool} \} $, define the following types of attributes
+                    <ul>
+                        <li>
+                            <p><b>before-cskill strength</b>: this is an intermediate strength for computing team strength, it contains <b>both</b> single-SIS and team-SIS </p>
+                            <p>$$ \color{blue} c[\text{before-cskill } x] = c[\text{panel } x] + \sum_{c^\prime \in \text{cards}} \left\{ c^\prime[x \text{ Aura}] \times \text{ceil}(0.018 \times c[\text{bonded } x] + c^\prime[x \text{ Veil}] \times \text{ceil}(0.024 \times c[\text{bonded } x] \right\} $$</p>
+                        </li>
+                        <li>
+                            <p><b>in-team strength</b>: the final card strength in team strength computation, including everything, denote the team center skill and guest center skill to be ${CS}_1$ and ${CS}_2$, respectively</p>
+                            <p>
+                            \[
+                                \color{blue}
+                                \begin{align}
+                                    c[\text{in-team } x] 
+                                    &= c[\text{before-cskill } x] \\
+                                    &\quad+ \text{ceil} \left( {CS}_1[\text{main-ratio}] \times c[\text{before-cskill } {CS}_1[\text{base-attr}]] \right) \times \mathbb{I}(x={CS}_1[\text{main-attr}]) \\
+                                    &\quad+ \text{ceil} \left( {CS}_1[\text{vice-ratio}] \times c[\text{before-cskill } {CS}_1[\text{main-attr}]] \right) \times \mathbb{I}(x={CS}_1[\text{main-attr}]) \times \mathbb{I}({CS}_1[\text{vice-tag}] \in c[\text{tag}]) \\
+                                    &\quad+ \text{ceil} \left( {CS}_2[\text{main-ratio}] \times c[\text{before-cskill } {CS}_2[\text{base-attr}]] \right) \times \mathbb{I}(x={CS}_2[\text{main-attr}]) \\
+                                    &\quad+ \text{ceil} \left( {CS}_2[\text{vice-ratio}] \times c[\text{before-cskill } {CS}_2[\text{main-attr}]] \right) \times \mathbb{I}(x={CS}_2[\text{main-attr}]) \times \mathbb{I}({CS}_2[\text{vice-tag}] \in c[\text{tag}])
+                                \end{align}
+                            \]
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>p-lock strength</b>: the card strength when the P-Lock is active, notice that the Trick SIS <b>DO NOT</b> receive the benefit of team-SIS and center skill, thus</p>
+                            <p>$$ \color{blue} c[\text{p-lock } x] = c[\text{in-team } x] + 0.33 \times c[\text{panel } x] \times c[x \text{ Trick}] $$</p>
+                        </li>
+                    </ul>
+                </p>
+                <p>The <b>Center SIS Bonus</b> is the extra attribute value contributed by team-SIS based on panel strength, i.e. for $ \color{blue} x \in \{ \text{smile, pure, cool} \} $</p>
+                <p>$$ \color{blue}\text{Center SIS Bonus}[x] = \sum_{c \in \text{cards}} \left\{ c[\text{before-cskill } x] - c[\text{panel } x] \right\} $$</p>
+                <p>The <b>Center Skill Bonus</b> is the extra attribute value contributed by center skills based on before-cskill strength, i.e. for $ \color{blue} x \in \{ \text{smile, pure, cool} \} $</p>
+                <p>$$ \color{blue} \text{Center Skill Bonus}[x] = \sum_{c \in \text{cards}} \left\{ c[\text{in-team } x] - c[\text{before-cskill } x] \right\} $$</p>
+                <p>The <b>Team Total</b> strength is the sum of in-team strength of nine cards, i.e. for $ \color{blue} x \in \{ \text{smile, pure, cool} \} $</p>
+                <p>$$ \color{blue} \text{Team Total}[x] = \sum_{c \in \text{cards}} c[\text{in-team } x] $$</p>
+                <p>The <b>Team P-Lock Total</b> strength is the sum of in-team strength of nine cards, i.e. for $ \color{blue} x \in \{ \text{smile, pure, cool} \} $</p>
+                <p>$$ \color{blue} \text{Team P-Lock Total}[x] = \sum_{c \in \text{cards}} c[\text{p-lock } x] $$</p>
+            </div>
+            <div id="section-3" role="section">
+                <h1>3 Basic Parameters</h1>
+                <p>Before we go into the computation, first I should mention that I use a different set of parameter with <a href="http://decaf.kouhi.me/lovelive/index.php?title=Scoring">Decaf Wiki</a>, however it does not affect the final answer.</p>
+                <p>
+                    <ul>
+                        <li>
+                            <p><b>base coefficient</b> $ \color{blue} \theta $: the base coefficient to convert team strength to game score point.</p>
+                            <p>$$ \color{blue} \theta = 0.01 $$</p>
+                        </li>
+                        <li>
+                            <p><b>accuracy factor</b> $ \color{blue} \alpha(\text{accuracy}) $: the factor accounting for accuracy of each tap.</p>
+                            <p>$$ \color{blue} \alpha(\text{Perfect}) = 1.25, \quad \alpha(\text{Great}) = 1.10, \quad \alpha(\text{Good}) = 1.00, \quad \alpha(\text{Bad}) = 0.50, \quad \alpha(\text{Miss}) = 0.00 $$</p>
+                            <p><b>Remark</b>: for long note, the whole accuracy factor is the product of the accuracy factor of its head and tail.</p>
+                        </li>
+                        <li>
+                            <p><b>note type factor</b> $ \color{blue} \tau(\text{type}) $: the factor accounting for note type of each note.</p>
+                            <p>$$ \color{blue} \tau(\text{tap}) = 1, \quad \tau(\text{long}) = 1, \quad \tau(\text{swing}) = 0.5 $$</p>
+                        </li>
+                        <li>
+                            <p><b>combo factor</b> $ \color{blue} \chi(\text{combo}) $: the factor accounting for bonus of long combo.</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                \chi(\text{combo}) = 
+                                \begin{cases}
+                                1.00, \quad &\text{if } 1 \le \text{combo} \le 50 \\
+                                1.10, \quad &\text{if } 51 \le \text{combo} \le 100 \\
+                                1.15, \quad &\text{if } 101 \le \text{combo} \le 200 \\
+                                1.20, \quad &\text{if } 201 \le \text{combo} \le 400 \\
+                                1.25, \quad &\text{if } 401 \le \text{combo} \le 600 \\
+                                1.30, \quad &\text{if } 601 \le \text{combo} \le 800 \\
+                                1.35, \quad &\text{if } \text{combo} \ge 801 \\
+                                \end{cases}
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>Same group factor</b> $ \color{blue} \mu_{\text{group}} $ and <b>same attribute factor</b> $ \color{blue} \mu_{\text{attribute}} $: when a note arrives, the member towards which the note is directed will affect the scoring: if the member has same group/attribute as the song, then $ \color{blue} \mu_{\text{group}} $/$ \color{blue} \mu_{\text{attribute}} $ will be multiplied to the score of this tap.</p>
+                            <p>$$ \color{blue} \mu_{\text{group}} = 1.1, \qquad \mu_{\text{attribute}} = 1.1 $$</p>
+                        </li>
+                        <li>
+                            <p><b>Score up boost factor</b> $ \color{blue} \beta_{\text{score}} $ and <b>Skill up boost factor</b> $ \color{blue} \beta_{\text{skill}} $: this are what we can purchase in Medley Festival and Challenge Festival.</p>
+                            <p>$$ \color{blue} \beta_{\text{score}} = 0.1, \qquad \beta_{\text{skill}} = 0.1 $$</p>
+                            <p><b>Remark</b>: for Friendly Match with score task, $ \color{blue} \beta_{\text{score}} $ equals to $ \color{blue} 0.01 $ times the total number of microphones of four participants.</p>
+                        </li>
+                    </ul>
+                </p>
+            </div> 
+            <div id="section-4" role="section">
+                <h1>4 Advanced Live Stats</h1>
+                <p>
+                    A live is an object that containing the following basic properties
+                    <ul>
+                        <li>$ \color{blue} \text{attr} $: The attribute of the live, smile, pure, or cool</li>
+                        <li>$ \color{blue} \text{group} $: The group of the live, Muse or Aqours</li>
+                        <li>$ \color{blue} \text{note-list} $: The note list of the live, each note contains
+                            <ul>
+                                <li>$ \color{blue} \text{time} $: the <b>END TIME</b> of the note</li>
+                                <li>$ \color{blue} \text{pos} $: the position of the note</li>
+                                <li>$ \color{blue} \text{type} $: the type of the note, but for simplicity a long swing will be counted as a swing</li>
+                                <li>$ \color{blue} \text{star} $: if the note has a star icon</li>
+                                <li>$ \color{blue} \text{index} $: the index of the note ordered by its <b>END TIME</b></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+                <p><b style="color:red">Terminologies</b>: All the advanced stats of live can be derived from the note list, but we need presume the <b>perfect rate without P-Lock</b> $ \color{blue} \pi $
+                    <ul>
+                        <li>
+                            <p><b>Total note number </b>$ \color{blue} N $: simple the length of note list, used for computing note-based and combo-based skills</p>
+                        </li>
+                        <li>
+                            <p><b>Duration </b>$ \color{blue} T $: the end time of the last note, used for computing time-based skills</p>
+                        </li>
+                        <li>
+                            <p><b>Notes per second </b>$ \color{blue} \epsilon = N/T $</p>
+                        </li>
+                        <li>
+                            <p><b>Star density </b>$ \color{blue} \rho_{\text{star}} = \frac{1}{N} \sum_{i=1}^N \text{note}_i[\text{star}] $</p>
+                        </li>
+                        <li>
+                            <p><b>Combo weight of a note</b> $ \color{blue} w_{\text{combo}}(\text{note}) $: the <b>EXPECTED</b> product of accuracy factor, type factor, and combo factor</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                w_{\text{combo}}(\text{Note})
+                                = \left\{ \pi \alpha(\text{Perfect}) + (1-\pi) \alpha(\text{Great}) \right\}^{ 1 + \mathbb{I}(\text{note}(\text{type})=\text{long}) } \times \tau(\text{note}(\text{type})) \times \chi(\text{note}(\text{index}))
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>Type/Combo weight on a position</b> $ \color{blue} W_{\text{type}}(\text{pos}), W_{\text{combo}}(\text{pos}) $: the cumulated type/combo weight of a position</p>
+                            <p>
+                            $$ 
+                                \color{blue} 
+                                W_{\text{type}}(\text{pos}) = \sum_{i=1}^N \{ \tau(\text{note}_i[\text{type}]) \times \mathbb{I}(\text{pos}=\text{note}_i[\text{pos}]) \}, \quad
+                                W_{\text{combo}}(\text{pos}) = \sum_{i=1}^N \{ w_{\text{combo}}(\text{note}_i) \times \mathbb{I}(\text{pos}=\text{note}_i[\text{pos}]) \}, \quad
+                                \forall\, \text{pos} \in \{1, \ldots, 9\}
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>Weight fraction</b> $ \color{blue} \zeta(\text{pos}) $: the fraction of combo weight on one position vs. total combo weight </p>
+                            <p>$$ \color{blue} \zeta(\text{pos}) = W_{\text{combo}}(\text{pos}) \,{\Large/} \sum_{\text{pos}^\prime=1}^9 W_{\text{combo}}(\text{pos}^\prime), \quad \forall\, \text{pos} \in \{1, \ldots, 9\} $$</p>
+                        </li>
+                        <li>
+                            <p><b>Pts per strength per note </b> $ \color{blue} \Delta $: The expected score associated to unit strength, <b>WITHOUT</b> considering same group/color factor.</p>
+                            <p>$$ \color{blue} \Delta = \frac{\theta}{N} \times \sum_{\text{pos}=1}^9 W_{\text{combo}}(\text{pos}) $$</p>
+                        </li>
+                        <li>
+                            <p>When the team is given, I define the <b>position factor</b> $ \color{blue} \mu(\text{pos}) $ and <b>average position factor</b> $ \color{blue} \bar{\mu} $ as</p>
+                            <p>
+                            $$ 
+                                \color{blue} 
+                                \mu(\text{pos}) 
+                                = \mu_{\text{group}}^{ \mathbb{I}( \text{live}[\text{group}] = \text{card}_{\text{pos}}[\text{group}] ) } \times \mu_{\text{attribute}}^{ \mathbb{I}( \text{live}[\text{attr}] = \text{card}_{\text{pos}}[\text{attr}] ) }, \quad
+                                \forall\, \text{pos} \in \{1, \ldots, 9\}, \qquad
+                                \bar{\mu} = \sum_{ \text{pos}=1 }^9 \{ \mu(\text{pos}) \times \zeta(\text{pos}) \}
+                            $$
+                            </p>
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    For default lives, I choose duration $ \color{blue} T = 120 $ seconds and $ \color{blue} T = 110, 200, 350, 500, 700 $ for difficulties Easy, Normal, Hard, Expert, and Master.
+                    10% notes have star icons, 8% notes are long note and 4% notes are swing notes.
+                    All positions have same weight fraction.
+                </p>
+            </div> 
+            <div id="section-5" role="section">
+                <h1>5 Game Scoring I: Single Tap</h1>
+                <p>In this section we consider the score obtained from a single note, the condition we know are the nine team member, the live, whether P-Lock is active now, and whether the player purchased the score up boost.</p>
+                <p>Let the arriving note is denoted as $ \color{blue} \text{note} $, then the tap score can be computed as</p>
+                <p>
+                $$
+                    \color{blue}
+                    \text{Tap Score}
+                    = \text{floor} \left( S \times \theta \times \alpha^* \times \tau(\text{note}[\text{type}]) \times \chi(\text{note}[\text{index}]) \times \mu(\text{note}[\text{pos}]) \times (1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased})) \right)
+                $$
+                </p>
+                <p>where</p>
+                <p>
+                $$
+                    \color{blue}
+                    S = 
+                    \begin{cases}
+                        \text{Team Total}[\text{live}[\text{attr}]], &\text{if P-Lock is off} \\
+                        \text{Team P-Lock Total}[\text{live}[\text{attr}]], &\text{if P-Lock is on} \\
+                    \end{cases}, \qquad
+                    \alpha^* = 
+                    \begin{cases}
+                        \alpha(\text{accuracy}), &\text{if } \text{note}[\text{type}] \text{ is not long} \\
+                        \alpha(\text{head-accuracy}) \times \alpha(\text{tail-accuracy}), &\text{if } \text{note}[\text{type}] \text{ is long}
+                    \end{cases}
+                $$
+                </p>
+            </div>
+            <div id="section-6" role="section">
+                <h1>6 Expected Skill Gain</h1>
+                <p>In SIF there are mainly three types of skills (Score Up, Stamina Restore, P-Lock, here the strong P-Lock and weak P-Lock are combined), and six types of skill triggers (Time, Note, Combo, Perfect, Score, Star-Perfect).</p>
+                <p>All the computations are based on <b>FULL COMBO</b> assumptions, under this assumption for Time/Note/Combo-based Score Up and Stamina Restore skills the trigger moment are deterministic.</p>
+                <p>Furthermore it should be noticed that at the end of the game, there are some loss of skill, for example if the skill is triggered every 20 notes and the live note list contains 519 notes, the last 19 notes should not be considered in the skill computation.</p>
+                <div id="section-6-1" role="section">
+                    <h2>6.1 Concept of Skill Gain</h2>
+                    <p>Each skill is in the syntax: Every $ \color{blue} m$ <b>skill trigger type</b>, increase <b>skill reward type</b> $ \color{blue} r $ with <b>skill trigger probability</b> $ \color{blue} p $. One thing should be noticed is that if you are in an MF or CF and purchased the skill up boost, then you should replace $ \color{blue} p $ by $ \color{blue} p \times (1+\beta_{\text{skill}}) $.</p>
+                    <p>For the three types of skills, I define skill gain as
+                        <ul>
+                            <li>
+                                <p>Score Up Skills $ \color{blue} G_{\text{S}} $: the expected score points obtained from the skill <b>PER NOTE</b>.</p>
+                                <p>The skill strength of a scorer card $ \color{blue} c $ can be computed as</p>
+                                <p>$$ \color{blue} \frac{G_{\text{S}}}{\Delta} \times ( 1 + 1.5 \times c[\text{Charm}] ) $$</p>
+                            </li>
+                            <li>
+                                <p>Stamina Restore Skills $ \color{blue} G_{\text{H}} $: the expected heal <b>PER NOTE</b>.</p>
+                                <p>The skill strength of a healer card $ \color{blue} c $ can be computed as</p>
+                                <p>$$ \color{blue} \frac{G_{\text{H}}}{\Delta} \times 480 \times c[\text{Heal}] $$</p>
+                            </li>
+                            <li>
+                                <p>P-Lock Skills $ \color{blue} G_{\text{P}} $: the expected fraction of note that will be covered by P-Lock.</p>
+                                <p>The skill strength of a P-Locker card $ \color{blue} c $ <b>CANNOT</b> be computed easily since it may benefit from other P-Lockers in the team, however we can compute the <b>LOWER BOUND</b> by assuming this card is the <b>ONLY</b> P-Locker in the team</p>
+                                <p>$$ \color{blue} G_{\text{P}} \times 0.33 \times c[\text{panel } c[\text{attr}]] \times c[\text{Trick}] $$</p>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+                <div id="section-6-2" role="section">
+                    <h2>6.2 Scorers</h2>
+                    <div id="section-6-2-1" role="section">
+                        <h3>6.2.1 Time-based Scorer</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ seconds, increase the game score by $ \color{blue} r$ points with probability $ \color{blue} p $</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \frac{ \text{Expected pts per sec} }{ \text{Note per sec} } = \frac{pr/m}{\epsilon}
+                        $$
+                        </p>
+                        <p>However, at the end of live, actually there are $ \color{blue} \text{mod}(T,m) $ seconds should not be taken into account, thus</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \text{Expected pts per note} = \frac{pr}{m\epsilon} \times \left( 1 - \frac{\text{mod}(T,m)}{T} \right)
+                        $$
+                        </p>
+                    </div>
+                    <div id="section-6-2-2" role="section">
+                        <h3>6.2.2 Note/Combo-based Scorer</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ notes/combo, increase the game score by $ \color{blue} r$ points with probability $ \color{blue} p $</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \text{Expected pts per note} = \frac{pr}{m}
+                        $$
+                        </p>
+                        <p>However, at the end of live, actually there are $ \color{blue} \text{mod}(N,m) $ notes should not be taken into account, thus</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \frac{pr}{m} \times \left( 1 - \frac{\text{mod}(N,m)}{N} \right)
+                        $$
+                        </p>
+                    </div>
+                    <div id="section-6-2-3" role="section">
+                        <h3>6.2.3 Perfect-based Scorer</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ perfects, increase the game score by $ \color{blue} r$ points with probability $ \color{blue} p $</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \text{Expected pts per note} = \text{Expected pts per perfect} \times \text{Perfect rate} = \frac{pr}{m} \times \pi
+                        $$
+                        </p>
+                        <p>The tail case of perfect-based skills is not deterministic since you only know the perfect rate of each note, here I approximate by assuming the remainder distributes uniformly between $ \color{blue} \{0, \ldots, m\} $, hence there are $ \color{blue} m/2 $ perfects ($ \color{blue} m/(2\pi) $ notes) should not be taken into account, thus</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \frac{pr}{m} \times \pi \times \left( 1 - \frac{m}{2\pi N} \right)
+                        $$
+                        </p>
+                    </div>
+                    <div id="section-6-2-4" role="section">
+                        <h3>6.2.4 Score-based Scorer</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ score points, increase the game score by $ \color{blue} r$ points with probability $ \color{blue} p $</p>
+                        <p>This is skill is a headache since it depends on the final scoring ability of the whole team, and it can be self-activated (once the skill is activated it will speed up the next trigger to come).</p>
+                        <p>I have to admit that I deal with this case very sloppy, in LLATB I simply assume the team strength is $ \color{blue} S = 80000 $, and the <b>average position factor</b> $ \color{blue} \bar{\mu} = 1.15 $.</p>
+                        <p>Note that because of the self-activating behavior, on average the skill gives $ \color{blue} pr $ points for every $ \color{blue} (m-pr) $ points.</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \text{Expected pts per note} = \text{Expected pts per pt} \times \text{Pts per note} = \frac{pr}{m-pr} \times \omega
+                        $$
+                        </p>
+                        <p>where the $ \color{blue} \text{Pts per note} $ is computed by</p>
+                        <p>$$ \color{blue} \omega =\bar{\mu} \times S \times \Delta \times (1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased})) $$</p>
+                        <p>The tail case again is non-deterministic, hence there are $ \color{blue} m/2 $ pts ($ \color{blue} m/(2\omega) $ notes) should not be taken into account, thus</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \frac{pr}{m-pr} \times \omega \times \left( 1 - \frac{m}{2\omega N} \right)
+                        $$
+                        </p>
+                    </div>
+                    <div id="section-6-2-5" role="section">
+                        <h3>6.2.5 Star-Perfect-based Scorer</h3>
+                        <p>There is only <a href="https://sif.kirara.ca/card/206">one card</a> has this type of skill.</p>                        
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ star perfects, increase the game score by $ \color{blue} r$ points with probability $ \color{blue} p $</p>
+                        <p>Since for the only card $ \color{blue} m = 1 $, there is no need to consider the case at the end of live.</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{S}} = \text{Expected pts per note} 
+                            = \text{Expected pts per star perfect} \times \text{Star density} \times \text{Perfect rate} 
+                            = \frac{pr}{m} \times \rho_{\text{star}} \times \pi
+                        $$
+                        </p>
+                    </div>
+                </div>
+                <div id="section-6-3" role="section">
+                    <h2>6.3 Healers</h2>
+                    <div id="section-6-3-1" role="section">
+                        <h3>6.3.1 Time-based Healer</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ seconds, restore the stamina by $ \color{blue} r$ with probability $ \color{blue} p $</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{H}} = \frac{ \text{Expected heal per sec} }{ \text{Note per sec} } = \frac{pr/m}{\epsilon}
+                        $$
+                        </p>
+                        <p>However, at the end of live, actually there are $ \color{blue} \text{mod}(T,m) $ seconds should not be taken into account, thus</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{H}} = \text{Expected heal per note} = \frac{pr}{m\epsilon} \times \left( 1 - \frac{\text{mod}(T,m)}{T} \right)
+                        $$
+                        </p>
+                    </div>
+                    <div id="section-6-3-2" role="section">
+                        <h3>6.3.2 Note/Combo-based Healer</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ notes/combo, restore the stamina by $ \color{blue} r$ with probability $ \color{blue} p $</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{H}} = \text{Expected heal per note} = \frac{pr}{m}
+                        $$
+                        </p>
+                        <p>However, at the end of live, actually there are $ \color{blue} \text{mod}(N,m) $ notes should not be taken into account, thus</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{H}} = \frac{pr}{m} \times \left( 1 - \frac{\text{mod}(N,m)}{N} \right)
+                        $$
+                        </p>
+                    </div>
+                    <div id="section-6-3-3" role="section">
+                        <h3>6.3.3 Perfect-based Healer</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ perfects, restore the stamina by $ \color{blue} r$ with probability $ \color{blue} p $</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{H}} = \text{Expected heal per note} = \text{Expected heal per perfect} \times \text{Perfect rate} = \frac{pr}{m} \times \pi
+                        $$
+                        </p>
+                        <p>The tail case of perfect-based skills is not deterministic since you only know the perfect rate of each note, here I approximate by assuming the remainder distributes uniformly between $ \color{blue} \{0, \ldots, m\} $, hence there are $ \color{blue} m/2 $ perfects ($ \color{blue} m/(2\pi) $ notes) should not be taken into account, thus</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{H}} = \frac{pr}{m} \times \pi \times \left( 1 - \frac{m}{2\pi N} \right)
+                        $$
+                        </p>
+                    </div>
+                </div>
+                <div id="section-6-4" role="section">
+                    <h2>6.4 P-Lockers</h2>
+                    <p>In this section all the skill gain computed is a very coarse estimator of coverage rate, LLATB <b>DO NOT</b> use this for computation, instead there is <a href="https://lovelivewiki.com/w/%E5%88%A4%E5%AE%9A%E8%A6%86%E7%9B%96%E7%8E%87%E5%92%8C%E5%88%A4%E5%8D%A1%E5%9F%B9%E5%85%BB">a more accurate, yet much more complicated way</a> to compute the P-Locks, I will not discuss about this here since it is too technical, what I want you to believe it that using the method in the link above I can compute the cover probability of <b>EACH SINGLE NOTE</b> theoretically.</p>
+                    <p>Besides, in this section I will assume that the note are <b>uniformly distributed</b> in the time line, so the fraction of note covered by P-Lock equals the fraction of time covered by P-Lock.</p>
+                    <div id="section-6-4-1" role="section">
+                        <h3>6.4.1 Time-based P-Locker</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ seconds, with probability $ \color{blue} p $ the following $ \color{blue} r $ seconds will be P-Lock covered</p>
+                        <p>It should be noticed that for this type of skill, when the P-Lock is on, the cool down does not decrease, which means on average for every $ \color{blue} (m+pr) $ seconds, there are $ \color{blue} pr $ seconds is covered by P-Lock.</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{P}} = \text{Fraction of time covered by P-Lock} = \frac{pr}{m+pr}
+                        $$
+                        </p>
+                        <p>However, at the end of live, there are two possible cases causing the waste of skill
+                            <ul>
+                                <li>
+                                    <p>After the last note, the P-Lock keeps on for some time, again assume the remainder is uniform, the rough waste (in seconds) is</p>
+                                    <p>$$\color{blue}\frac{pr}{m+pr} \times \frac{r}{2}$$</p>
+                                </li>
+                                <li>
+                                    <p>The remainder of the time is smaller than $ \color{blue} m $ to trigger, the rough waste (in seconds) is</p>
+                                    <p>$$\color{blue}\frac{m}{m+pr} \times \frac{m}{2}$$</p>
+                                </li>
+                            </ul>
+                        </p>
+                        <p>In summary, the estimated cover rate is</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{P}} = \frac{1}{T} \left\{ \frac{pr}{m+pr} \left( T - \frac{m}{m+pr} \times \frac{m}{2} \right) - \frac{pr}{m+pr} \times \frac{r}{2} \right\}
+                        $$
+                        </p>
+                    </div>
+                    <div id="section-6-4-2" role="section">
+                        <h3>6.4.2 Note/Combo-based P-Locker</h3>
+                        <p><b>Syntax</b>: Every $ \color{blue} m $ notes/combo, with probability $ \color{blue} p $ the following $ \color{blue} r $ seconds will be P-Lock covered</p>
+                        <p>This type of skill is special because when the $ \color{blue} \text{note per seconds} $ is very high, it is possible to satisfy the trigger condition multiple times when the P-Lock is on. The details of P-Lock skill is also discussed in the link provided at the beginning of this section.</p>
+                        <p>Briefly speaking, if the trigger condition is satisfied when the P-Lock is still on, the skill will enter <b>self-coverage state</b>, when the previous P-Lock finishes, the skill will leave <b>self-coverage state</b> and trigger the skill with probability $ \color{blue} p $. Therefore even if the trigger condition is satisfied multiple times, the skill will only attempt to trigger once when the previous P-Lock ends, this behavior is called <b>self-coverage loss</b>.</p>
+                        <p>We discuss this type of skill in two cases
+                            <ul>
+                                <li>
+                                    <p>$ \color{blue} m > r \epsilon $: in this case the self-coverage state does not exist, thus</p>
+                                    <p>
+                                    $$
+                                        \color{blue}
+                                        G_{\text{P}}
+                                        = \text{Fraction of time covered by P-Lock} 
+                                        = \text{Expected P-Lock times per note} \times \text{Note per sec}
+                                        = \frac{pr}{m} \times \epsilon
+                                    $$
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>$ \color{blue} m \le r \epsilon $: in this case the self-coverage state exists. At the beginning of each P-Lock interval, the self-coverage state is $ \color{blue} \text{False} $, the expected number to satisfy trigger condition is $ \color{blue} r \epsilon / m $. Hence, compare to the cases where <b>self-coverage loss</b> does not exists, on average due to <b>self-coverage loss</b> $ \color{blue} \left( \frac{r\epsilon}{m} - 1 \right) p $ P-Lock intervals are wasted per P_lock interval.</p>
+                                    <p>
+                                    $$
+                                        \color{blue}
+                                        G_{\text{P}}
+                                        = \text{Fraction of time covered by P-Lock} 
+                                        = \text{Expected P-Lock times per note} \times \text{Note per sec} \times \frac{1}{ 1 + \left( \frac{r\epsilon}{m} - 1 \right) p }
+                                        = \frac{ pr \epsilon }{ pr \epsilon + (1-p)m }
+                                    $$
+                                    </p>
+                                </li>
+                            </ul>
+                        </p>
+                        <p>Finally, at the end of live, actually there are $ \color{blue} \text{mod}(N,m) $ notes should not be taken into account, thus</p>
+                        <p>
+                        $$
+                            \color{blue}
+                            G_{\text{P}} = \frac{ pr \epsilon }{ m + p \times \max(r \epsilon - m, 0) } \times \left( 1 - \frac{ \text{mod}(N,m) }{N} \right)
+                        $$
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="section-7" role="section">
+                <h1>7 Game Scoring II: Total Score</h1>
+                <p>The computation of total score consists of the following steps:
+                    <ol>
+                        <li>
+                            <p><b>Estimate Team P-Lock Cover Rate</b> $ \color{blue} \text{CR} $: P-Lockers in the team actually do not affect each other, which mean the skills trigger independently, therefore the team P-Lock cover rate can be computed as</p>
+                            <p>$$ \color{blue} \text{CR} = 1 - \prod_{ c \in \text{P-Locker cards} } ( 1 - c[G_{\text{P}}] ) $$</p>
+                        </li>
+                        <li>
+                            <p><b>Compute Amend Perfect Rate</b> $ \color{blue} \pi^* $ and <b>Amend Team Strength</b> $ \color{blue} S^* $:</p>
+                            <p>The amend perfect rate considering both player performance and P-Lock skills, thus is the true perfect rate in the game.</p>
+                            <p>$$ \color{blue} \pi^* = 1 - (1-\pi)(1-\text{CR}) $$</p>
+                            <p>The amend team strength considers the average team strength by incorporating P-Lock skills and Trick SIS</p>
+                            <p>$$ \color{blue} S^* = (1-\text{CR}) \times \text{Team Total}[\text{live}[\text{attr}]] + \text{CR} \times \text{Team P-Lock Total}[\text{live}[\text{attr}]] $$</p>
+                            <p>The pts per strength per note $ \color{blue} \Delta $ is also affected by perfect rate, however in LLATB I did not update it since it takes time to compute and does not make huge change <b>if $ \color{blue} \pi $ is not extremely small</b>.</p>
+                        </li>
+                        <li>
+                            <p><b>Total Skill Strength</b> $ \color{blue} S_{\text{skill}} $:</p>
+                            <p>Using the amend perfect rate $ \color{blue} \pi^* $ and amend team strength $ \color{blue} S^* $, we can compute the skill strength of all scorers and healers</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                S_{\text{skill}}
+                                = \sum_{ c \in \text{Scorer cards} } \left\{ \frac{c[G_{\text{S}}]}{\Delta} \times \left( 1 + 1.5 \times c[\text{Charm}] \right) \right\}
+                                + \sum_{ c \in \text{Healer cards} } \left\{ \frac{c[G_{\text{H}}]}{\Delta} \times 480 \times c[\text{Heal}] \right\}
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p>The <b>Expected Total Score</b> $ \color{blue} \Omega $ can be computed as</p>
+                            <p>
+                            \[
+                                \color{blue}
+                                \begin{align}
+                                    \Omega
+                                    &= \left( \text{Amend Team Strength} \times \text{Average position factor} \times \text{Score up boost} + \text{Total Skill Strength} \right) \times \text{Total note number} \times \text{Pt per strength per note} \\
+                                    &= \left( S^* \times \bar{\mu} \times (1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased})) + S_{\text{skill}} \right) \times N \times \Delta
+                                \end{align}
+                            \]
+                            </p>
+                        </li>
+                    </ol>
+                </p>
+            </div>
+            <div id="section-8" role="section">
+                <h1>8 Card Rough Strength</h1>
+                <p>Suppose you have hundreds of cards and you want to pick up nine of them to form the optimal team, enumerating all possible choices is intractable.
+                Instead, when live, center and other conditions are given, I first compute a rough strength for each card and pick out the best $ \color{blue} K $ (in Web LLATB $ \color{blue} K = 12 $) to form the <b>candidate card set</b>, and then look for the best eight (since the center is given) card out of the <b>candidate card set</b>.
+                </p>
+                <p>
+                    What we know before computation: the team center skill $ \color{blue} {CS}_1 $, the guest center skill $ \color{blue} {CS}_2 $, the live $ \color{blue} \text{live} $, whether skill up and score up are purchased.
+                    The <b>rough strength</b> is the approximation of highest possible strength of a non-center card under the above settings.
+                </p>
+                <p>Ignoring Kiss and Perfume SIS since they are weak, notice for non-skill-SIS, the bonus ratio per slot are
+                    <ul>
+                        <li>Ring: $ \color{blue} 10\%/2 = 5\% $</li>
+                        <li>Cross: $ \color{blue} 16\%/3 = 5.33\% $</li>
+                        <li>Aura: $ \color{blue} 1.8\% \times 9/3 = 5.4\% $</li>
+                        <li>Veil: $ \color{blue} 2.4\% \times 9/4 = 5.4\% $</li>
+                    </ul>
+                    <p>Following LL Helper, I estimate each slot as $ \color{blue} 5.2\% $ boost.</p>
+                </p >
+                <p>
+                    <b style="color:red">Terminologies</b>: given a card $ \color{blue} \text{card} $
+                    <ul>
+                        <li>
+                            <p><b>position factor</b> $ \color{blue} \mu(\text{card}) $ </p>
+                            <p>
+                            $$
+                                \color{blue} 
+                                \mu(\text{card}) 
+                                = \mu_{\text{group}}^{ \mathbb{I}( \text{live}[\text{group}] = \text{card}[\text{group}] ) } \times \mu_{\text{attribute}}^{ \mathbb{I}( \text{live}[\text{attr}] = \text{card}[\text{attr}] ) }
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>estimated panel strength without skill-SIS</b> $ \color{blue} s_0 $</p>
+                            <p>
+                            $$
+                                \color{blue} 
+                                s_0 = \text{card}[\text{bounded } \text{live}[\text{attr}]] \times ( 1 + \text{card}[\text{slot}] \times 5.2\% )
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>estimated panel strength with skill-SIS</b> $ \color{blue} s_1 $ (only apply for card with at least four slots)</p>
+                            <p>
+                            $$
+                                \color{blue} 
+                                s_1 = \text{card}[\text{bounded } \text{live}[\text{attr}]] \times ( 1 + (\text{card}[\text{slot}]-4) \times 5.2\% )
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>center skill strength</b> $ \color{blue} \text{CS}(\text{strength}) $</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                \begin{align}
+                                    \text{CS}(s)
+                                    &= \text{ceil} \left( {CS}_1[\text{main-ratio}] \times s \right) \times \mathbb{I}(\text{live}[\text{attr}]={CS}_1[\text{main-attr}]) \\
+                                    &\quad+ \text{ceil} \left( {CS}_1[\text{vice-ratio}] \times s \right) \times \mathbb{I}(\text{live}[\text{attr}]={CS}_1[\text{main-attr}]) \times \mathbb{I}({CS}_1[\text{vice-tag}] \in \text{card}[\text{tag}]) \\
+                                    &\quad+ \text{ceil} \left( {CS}_2[\text{main-ratio}] \times s \right) \times \mathbb{I}(\text{live}[\text{attr}]={CS}_2[\text{main-attr}]) \\
+                                    &\quad + \text{ceil} \left( {CS}_2[\text{vice-ratio}] \times s \right) \times \mathbb{I}(\text{live}[\text{attr}]={CS}_2[\text{main-attr}]) \times \mathbb{I}({CS}_2[\text{vice-tag}] \in \text{card}[\text{tag}])
+                                \end{align}
+                            $$
+                            </p>
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Now we can compute the rough strength of a card, we discuss this into the following four cases:
+                    <ul>
+                        <li>
+                            <p>Cards with less than four slots</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                \text{Rough Strength}
+                                = (s_0 + \text{CS}(s_0)) \times \mu(\text{card}) \times \frac{\Delta}{\theta} + \frac{\text{card}[G_{\text{S}}]}{\Delta} \times \mathbb{I}(\text{card is a scorer})
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p>Scorer cards with at least four slots: need to check whether it is worth to spend four slot for Charm SIS</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                \text{Rough Strength}
+                                = \max
+                                \begin{cases}
+                                    (s_0 + \text{CS}(s_0)) \times \mu(\text{card}) \times \frac{\Delta}{\theta} + \frac{\text{card}[G_{\text{S}}]}{\Delta} \\
+                                    (s_1 + \text{CS}(s_1)) \times \mu(\text{card}) \times \frac{\Delta}{\theta} + 2.5 \times \frac{\text{card}[G_{\text{S}}]}{\Delta}
+                                \end{cases}
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p>Healer cards with at least four slots: need to check whether it is worth to spend four slot for Heal SIS</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                \text{Rough Strength}
+                                = \max
+                                \begin{cases}
+                                    (s_0 + \text{CS}(s_0)) \times \mu(\text{card}) \times \frac{\Delta}{\theta} \\
+                                    (s_1 + \text{CS}(s_1)) \times \mu(\text{card}) \times \frac{\Delta}{\theta} + 480 \times \frac{\text{card}[G_{\text{H}}]}{\Delta}
+                                \end{cases}
+                            $$
+                            </p>
+                        </li>
+                        <li>
+                            <p>P-Locker cards with at least four slots: need to check whether it is worth to spend four slot for Trick SIS</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                \text{Rough Strength}
+                                = \max
+                                \begin{cases}
+                                    (s_0 + \text{CS}(s_0)) \times \mu(\text{card}) \times \frac{\Delta}{\theta} \\
+                                    (s_1 + \text{CS}(s_1)) \times \mu(\text{card}) \times \frac{\Delta}{\theta} + 0.33 \times s_1 \times \text{card}[G_{\text{P}}]
+                                \end{cases}
+                            $$
+                            </p>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+            <div id="section-9" role="section">
+                <h1>9 SIS Allocation for Given Team</h1>
+                <p>One basic problem is that given nine cards and SIS inventory, what is the best way to equip them? This section will tell you how an optimal SIS allocation is computed.</p>
+                <p>Given the live, for non-skill-SIS and Trick SIS, only those matching the live attribute will be considered, for Charm and Heal SIS there is no attribute constraint, but I will not consider equip a Charm SIS to a healer or vise versa since it is useless.</p>
+                <p>
+                    <b style="color:red">Terminologies</b>
+                    <ul>
+                        <li>
+                            <p><b>card plan</b>: one valid case for equipping the card, for example if the live attribute is Pure, then Pure Kiss + Pure Aura is a valid card plan for a four-slot card</p>
+                            <p>The <b>score</b> of a card plan is the expected <b>EXTRA</b> score points compare to a nude card.</p>
+                        </li>
+                        <li>
+                            <p><b>card plan tier</b>: for one card there may be multiply card plans, for example if the live attribute is Pure, a four-slot Pure Ruby Scorer has card plans:</p>
+                            <p>Kiss, Perfume, Ring, Kiss + Perfume, Kiss + Ring, Aura, Cross, Perfume + Ring, Kiss + Aura, Kiss + Cross, Veil, Angel Charm, Angel Trick.</p>
+                            <p>The card plan score is computed for each of the 13 card plans, then the card plan tier is formed by sorting them in descending order, i.e. if we do not consider the SIS inventory, the plan $ \color{blue} \text{tier}[a] $ is always better than $ \color{blue} \text{tier}[b] $ if $ \color{blue} a < b $.</p>
+                        </li>
+                        <li>
+                            <p><b>team plan</b>: the collection of nine cards' card plans is called team plan, a team plan is <b>feasible</b> if and only if its SIS does not violate the SIS inventory.</p>
+                            <p>The <b>score</b> of a team plan is the sum of all its card plans.</p>
+                        </li>
+                        <li>
+                            <p><b>vector representation of a team plan</b>: given the card plan tier of each card $ \{ \text{tier}_i \}_{i=1}^9 $, the card plan for each card can be represented by its index in its card plan tier and therefore the team plan can be represented by a length-9 vector</p>
+                            <p>
+                            $$
+                                \color{blue}
+                                \text{team plan}
+                                \triangleq [ j_1, j_2, \ldots, j_9 ] \in \bigotimes_{i=1}^9 \{ 1, \ldots, \text{length of } \text{tier}_i \}
+                            $$
+                            </p>
+                            <p>According to the definition of card plan tier, for two different team plans
+                                <ul>
+                                    <li>team plan A overwhelm team plan B if the score of team plan A is higher</li>
+                                    <li>team plan A is precedent to team plan B if the vector representation of team plan A <b>ELEMENT-WISELY</b> not larger than that of team plan B</li>
+                                    <li>The precedence implies overwhelm but the converse it not true, since the precedence is a partial order there exists two vectors that are not comparable.</li>
+                                </ul>
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>maximal feasible team plan</b>: a feasible team plan is maximal if and only if there is no feasible team plan is precedent to it. To search for the <b>optimal feasible team plan</b>, it is a good idea to first find all <b>maximal feasible team plan</b> and pick the one with highest <b>score</b>.</p>
+                        </li>
+                    </ul>
+                </p>
+                <div id="section-9-1" role="section">
+                    <h2>9.1 Compute the Score of a Card Plan</h2>
+                    <p>According to the definition, the score of a card plan is just the expected <b>EXTRA</b> score points compare to a nude card. For all of the SIS except Trick, their contribution to the game score are independent. For the Trick SIS, since it will be affected by single-SIS, its score will depend on whether the card also equips Kiss, Perfume, Ring, or Cross.</p>
+                    <p>
+                        <p>Let the function $ \color{blue} \text{ACS}(s) \triangleq s + \text{CS}(s) $ denote the strength after considering center skill</p>
+                        <ul>
+                            <li> The score of Kiss SIS can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Kiss})
+                                    = \text{ACS}(200) \times \Delta \times N \times \bar{\mu} \times ( 1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased}) )
+                                $$
+                                </p>
+                            </li>
+                            <li> The score of Perfume SIS can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Perfume})
+                                    = \text{ACS}(450) \times \Delta \times N \times \bar{\mu} \times ( 1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased}) )
+                                $$
+                                </p>
+                            </li>
+                            <li> The score of Ring SIS can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Ring})
+                                    = \text{ACS}(0.1 \times \text{card}[\text{bonded } \text{live}[\text{attr}]]) \times \Delta \times N \times \bar{\mu} \times ( 1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased}) )
+                                $$
+                                </p>
+                            </li>
+                            <li> The score of Cross SIS can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Cross})
+                                    = \text{ACS}(0.16 \times \text{card}[\text{bonded } \text{live}[\text{attr}]]) \times \Delta \times N \times \bar{\mu} \times ( 1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased}) )
+                                $$
+                                </p>
+                            </li>
+                            <li> The score of Aura SIS can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Aura})
+                                    = \text{ACS} \left( 0.018 \times \sum_{i=1}^9 \text{card}_i[\text{bonded } \text{live}[\text{attr}]] \right) \times \Delta \times N \times \bar{\mu} \times ( 1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased}) )
+                                $$
+                                </p>
+                            </li>
+                            <li> The score of Veil SIS can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Veil})
+                                    = \text{ACS} \left( 0.024 \times \sum_{i=1}^9 \text{card}_i[\text{bonded } \text{live}[\text{attr}]] \right) \times \Delta \times N \times \bar{\mu} \times ( 1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased}) )
+                                $$
+                                </p>
+                            </li>
+                            <li> The score of Charm SIS can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Charm})
+                                    = \text{card}[G_{\text{S}}] \times 1.5 \times N
+                                $$
+                                </p>
+                            </li>
+                            <li> The score of Heal SIS can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Heal})
+                                    = \text{card}[G_{\text{H}}] \times 480 \times N
+                                $$
+                                </p>
+                            </li>
+                            <li> The score of Trick SIS depends on other single-SIS in the card plan, or equivalently the card's panel strength when the card equipped the card plan, it can be computed as
+                                <p>
+                                $$
+                                    \color{blue}
+                                    \text{score}(\text{Trick})
+                                    = 0.33 \times \text{CR} \times \text{card}[\text{panel } \text{live}[\text{attr}]] \times \Delta \times N \times \bar{\mu} \times ( 1 + \beta_{\text{score}} \times \mathbb{I}(\text{score up purchased}) )
+                                $$
+                                </p>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+                <div id="section-9-2" role="section">
+                    <h2>9.2 Search for Optimal Team Plan</h2>
+                    <p>The naive way for searching the optimal team plan is to to exhaustive enumeration, however this is super inefficient. Multiple algorithm are proposed to speed up this procedure by avoiding unnecessary computation, such as breadth-first search (BFS), dynamical programming (DP), divide and conquer (DC). After two weeks of testing, LLATB finally uses the DC algorithm because this is the fastest algorithm for most of the case.</p>
+                    <p>The basic idea is recursive but quite straightforward: Every time regardless of SIS inventory, pick the maximal team plan and see if it is feasible
+                        <ul>
+                            <li>If it is feasible, the we find one <b>maximal feasible team plan</b> and store it, and there is no need to check team plans that it precedent to.</li>
+                            <li>If it is infeasible, find the scarcest SIS type, let $ \color{blue} n_{\text{valid}} $ is the number of card <b>CAN</b> equip the scarcest SIS, and $ \color{blue} n_{\text{scarce}} $ is the number of the scarcest SIS in the SIS inventory. Then the current problem is divided into $ \color{blue} \binom{n_{\text{valid}}}{n_{\text{scarce}}} $ subproblems by forcing the scarcest SIS only equipped to the chosen $ \color{blue} n_{\text{scarce}} $ cards</li>
+                        </ul>
+                    </p>
+                    <p>When the recursion stops, all the <b>maximal feasible team plan</b> will be found, and the <b>optimal team plan</b> is the <b>maximal feasible team plan</b> with highest score.</p>
+                </div>
+            </div>
+            <div id="section-10" role="section">
+                <h1>10 Optimal Team Building</h1>
+                <p>
+                    The team building algorithm in LLATB is a center skill based algorithm and can be summarized into following steps:
+                    <ul>
+                        <li>Find all available center skills of highest rarity cards</li>
+                        <li>For each center skill, compute rough strength of all cards according to Section 8, choose the strongest card with same center skill as the center, and pick out first $ \color{blue} K $ ($ \color{blue} K=12 $ for Web LLATB) in the rest cards as the <b>candidate card set</b>.</li>
+                        <li>For each center skill and its associated <b>candidate card set</b>, choose eight non-center cards from the <b>candidate card set</b> to form the optimal team under the current center skill.</li>
+                    </ul>
+                </p>
+                <div id="section-10-1" role="section">
+                    <h2>10.1 The $K$ Choose $8$ Problem</h2>
+                    <p>Given the center card and a size $ \color{blue} K $ candidate card set, the next task is to choose eight cards out of the candidate card set and form the best team together with the center card. If we do this in brute force way, there are $ \color{blue} \binom{K}{8} $ cases, to reduce the computation, LLATB use a suboptimal way to solve this problem, however in most of the case it is good enough (the expected score is withing $ \color{blue} 1000$ comparing to the real optimal one).</p>
+                    <p>
+                        <b style="color:red">Terminologies</b>
+                        <ul>
+                            <li>
+                                team A and team B are each other's $ \color{blue} t\text{-neighbor team} $ if and only if they have at most $\color{blue} t$ distinct cards.
+                            </li>
+                            <li>
+                                A team is $ \color{blue} t\text{-suboptimal} $ if and only if all its $ \color{blue} t\text{-neighbor teams} $ do not have high score.
+                            </li>
+                        </ul>
+                    </p>
+                    <p>
+                        The <b> $t$-suboptimal algorithm </b>:
+                        <ol>
+                            <li>
+                                Choose the strongest eight cards in the candidate card set, form a team together with the center card and push it to the queue
+                            </li>
+                            <li>
+                                Pop the first team in the queue, call it $ \color{blue} \text{team} $, enumerate all its $ \color{blue} t\text{-neighbor teams} $, for each one $ \color{blue} \text{team}^\prime $
+                                <ul>
+                                    <li>If $ \color{blue} \text{team}^\prime $ has already been visited, do nothing</li>
+                                    <li>If $ \color{blue} \text{team}^\prime $ has not been visited, apply algorithm in Section 9 to compute its optimal team plan and the score</li>
+                                    <ul>
+                                        <li>If $ \color{blue} \text{team}^\prime $ is weaker than $ \color{blue} \text{team} $, do nothing</li>
+                                        <li>If $ \color{blue} \text{team}^\prime $ is stronger than $ \color{blue} \text{team} $, add it to the queue. Moreover, if it is stronger than current best team, update the current best team.</li>
+                                    </ul>
+                                </ul>
+                            </li>
+                            <li>
+                                Repeat step 2 until the queue is empty.
+                            </li>
+                        </ol>
+                    </p>
+                    <p><b>Remark</b>: when $ \color{blue} t = 8 $, the algorithm degenerates to brute force method, in Web LLATB I choose $ \color{blue} t = 1 $ because it is fast.</p>
+                </div>
+                <div id="section-10-2" role="section">
+                    <h2>10.2 Search for Optimal Team</h2>
+                    <p>For each center skill, run algorithm in Section 10.1 will give a optimal team with that center skill. The final optimal team is the best team among these teams.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
