@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^LLH_convert', views.LLH_convert, name='LLH_convert'),
     url(r'^receive_user_json', views.receive_user_json, name='receive_user_json'),
     url(r'^LLproxy_user_json', views.LLproxy_user_json, name='LLproxy_user_json'),
+    url(r'^filter_cards', views.filter_cards, name='filter_cards'),
 ]

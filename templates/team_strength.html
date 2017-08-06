@@ -8,7 +8,7 @@
 <link rel='stylesheet' href="{% static 'css/w3.css' %}">
 <!-- Link JQuery -->
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-<!-- Load live basic data -->
+<!-- Load live basic data and SM song list -->
 <script type="text/javascript" src="{% static 'live_data_base.json' %}"></script>
 <script type="text/javascript" src="{% static 'sm_song_list.json' %}"></script>
 <!-- Swiper CSS -->
@@ -71,15 +71,14 @@
             <div class="w3-bar-item w3-margin-left" style='width:75px;height:40px;padding:0;'>
                 <input id='perfectRate' class='w3-input w3-round-large' type='number' min='0.01' max='1' step='0.01' placeholder='Perfect Rate' required='required' onchange="changePerfectRate()">
             </div>
-            <button id='unlimitGem' class='imgBtn' onclick="toggleUnlimitGem()"></button>
-            <select id='extraCond' class='w3-bar-item w3-select w3-margin-right' style='height:40px;padding:0' onchange="changeExtraCondition()">
+            <button id='unlimitGem' class='imgBtn w3-margin-left' onclick="toggleUnlimitGem()"></button>
+            <select id='extraCond' class='w3-bar-item w3-select w3-margin-left' style='height:40px;padding:0' onchange="changeExtraCondition()">
             </select>
-            </select>
-            <button id='autoMode' class='imgBtn' onclick="toggleAutoMode()"></button>
+            <button id='autoMode' class='imgBtn w3-margin-left' onclick="toggleAutoMode()"></button>
             <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left w3-margin-right' style='padding:0 0' onclick="openUTeamJSON()"><b>Team JSON</b></button>
             <select id='guestCenter' class='w3-bar-item w3-select w3-mobile' style='height:40px;padding:0' onchange="changeGuestCenter()">
             </select>
-            <button id='calculate' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
+            <button id='calculate' class='w3-bar-item w3-green w3-hover-yellow roundBtn w3-margin-left w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
         </div>
         <div id='liveSel' class='infoBar w3-black' style='height:auto'>
             <span> <b> </b> </span>
@@ -214,7 +213,8 @@
         Master: '//r.llsif.win/assets/image/ui/event/e_button_17.png',
         ScoreUp: '//r.llsif.win/assets/image/ui/event/e_button_32.png',
         SkillUp: '//r.llsif.win/assets/image/ui/event/e_button_33.png',
-        UnlimitGem: '//r.llsif.win/assets/flash/ui/live/img/e_icon_07.png',
+        UnlimitGem: '//i.imgur.com/yfSH0FD.png',
+        Pin: '//i.imgur.com/sy4Rxqv.png',
         AutoMode: '//r.llsif.win/assets/image/ui/unit/u_button_10.png'
     };
     var default_cover_url = {
@@ -545,7 +545,6 @@
             $("#infoBox").addClass('w3-pale-red');
         } else {
             $("#infoBox").addClass('w3-pale-green');
-
         }
         prefix = is_error ? 'ERROR - ' : 'INFO - '
         $("#infoBox span:last").html(prefix + msg);
@@ -791,7 +790,7 @@
                 updateInfo(data['msg'], !data['complete']);
                 $('#calculate').prop('disabled', false);
                 $('#calculate').removeClass('w3-grey');
-                $('#calculate').addClass('w3-pink');
+                $('#calculate').addClass('w3-green');
                 clearInterval(running);
                 $('#calculate b').text('Calculate');
             }

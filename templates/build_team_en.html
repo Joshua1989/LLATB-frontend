@@ -8,7 +8,7 @@
 <link rel='stylesheet' href="{% static 'css/w3.css' %}">
 <!-- Link JQuery -->
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-<!-- Load live basic data -->
+<!-- Load live basic data and SM song list -->
 <script type="text/javascript" src="{% static 'live_data_base.json' %}"></script>
 <script type="text/javascript" src="{% static 'sm_song_list.json' %}"></script>
 <!-- Swiper CSS -->
@@ -74,11 +74,18 @@
             <button id='unlimitGem' class='imgBtn w3-margin-left w3-margin-right' onclick="toggleUnlimitGem()"></button>
             <select id='extraCond' class='w3-bar-item w3-select w3-margin-right' style='height:40px;padding:0' onchange="changeExtraCondition()">
             </select>
-            </select>
             <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-right' style='padding:0 0' onclick="openUserJSON()"><b>User JSON</b></button>
+            <button id='pin' class='imgBtn w3-margin-right' onclick="togglePin()"></button>
             <select id='guestCenter' class='w3-bar-item w3-select w3-mobile' style='height:40px;padding:0' onchange="changeGuestCenter()">
             </select>
-            <button id='calculate' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
+            <button id='calculate' class='w3-bar-item w3-green w3-hover-yellow roundBtn w3-margin-left w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
+        </div>
+        <div id='pinCard' class='w3-bar'>
+            <button id='pin-choose' class='w3-pink w3-hover-yellow roundBtn w3-mobile'><b>Choose Pinned Cards</b></button>
+            <div class='icon-list'>
+                <div class='container'>
+                </div>
+            </div>
         </div>
         <div id='liveSel' class='infoBar w3-black' style='height:auto'>
             <span> <b> </b> </span>
@@ -165,6 +172,19 @@
             </div>
         </div>
     </div>
+	 <div id='modalPin' class='w3-modal'>
+        <div class='w3-modal-content'>
+            <div class='w3-container w3-black w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
+                <span class='exitBtn'><b>x</b></span>
+                <button id='pin-heal' class='imgBtn w3-margin-right'><img src='//card.niconi.co.ni/static/images/skilllifeup.png'></button>
+                <button id='pin-plock' class='imgBtn w3-margin-right'><img src='//card.niconi.co.ni/static/images/skilldai.png'></button>
+                <button id='pin-all' class='roundBtn w3-pink w3-hover-yellow w3-margin-right'><b>All</b></button>
+                <button id='pin-clear' class='roundBtn w3-pink w3-hover-yellow w3-margin-right'><b>Clear</b></button>
+                <div class='w3-display-container' style='margin-top:40px'>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id='about' class='w3-modal'>
         <div class='w3-modal-content'>
             <div class='w3-container w3-padding-24'>
@@ -234,7 +254,8 @@
         Master: '//r.llsif.win/assets/image/ui/event/e_button_17.png',
         ScoreUp: '//r.llsif.win/assets/image/ui/event/e_button_32.png',
         SkillUp: '//r.llsif.win/assets/image/ui/event/e_button_33.png',
-        UnlimitGem: '//r.llsif.win/assets/flash/ui/live/img/e_icon_07.png',
+        UnlimitGem: '//i.imgur.com/yfSH0FD.png',
+        Pin: '//i.imgur.com/sy4Rxqv.png',
     };
     var default_cover_url = {
         muse: {
@@ -290,6 +311,8 @@
     var group_sel = 'muse',
         attr_sel = 'Smile',
         diff_sel = 'Expert',
+        pin_sel = false,
+        pin_cards = {},
         score_up = false,
         skill_up = false,
         unlimit_gem = false,
@@ -340,6 +363,8 @@
                 } else {
                     if (live_selection['song_list'].length < 5) {
                         live_selection['song_list'].push(add_song);
+                        live_selection.is_sm = false;
+                        live_selection.is_random = false;
                     } else {
                         updateInfo('Selected Live number reached upper bound 5', true);
                     }
@@ -380,6 +405,8 @@
         $('#attr' + attr + ' img').addClass('w3-grayscale-max');
     }
     $('#attr' + attr_sel + ' img').removeClass('w3-grayscale-max');
+    $('#pin').html("<img src='{0}'>".format(img_url['Pin']));
+    $('#pin img').addClass('w3-grayscale-max');
     var temp = '';
     for (x in difficulty_arr) {
         diff = difficulty_arr[x];
@@ -402,6 +429,7 @@
     $('#extraCond').html(temp);
     $('#userJSON .profile').val(user_json);
     $('#simulation').hide();
+    $('#pinCard').hide();
 
     // Initialize Swiper
     var swiper = new Swiper('.swiper-container', {
@@ -564,7 +592,6 @@
             $("#infoBox").addClass('w3-pale-red');
         } else {
             $("#infoBox").addClass('w3-pale-green');
-
         }
         prefix = is_error ? 'ERROR - ' : 'INFO - '
         $("#infoBox span:last").html(prefix + msg);
@@ -663,6 +690,105 @@
         updateInfo('Set guest center as {0}'.format($('#guestCenter').val()), false);
     }
 
+    function togglePin() {
+        pin_sel = !pin_sel;
+        if (pin_sel) {
+            $('#pin img').removeClass('w3-grayscale-max');
+            $('#pinCard').show();
+        } else {
+            $('#pin img').addClass('w3-grayscale-max');
+            $('#pinCard').hide();
+        }
+    }
+
+    function filter_cards(condition) {
+        POST_JSON = {
+            lang: 'EN',
+            condition: condition,
+            user_profile: user_json,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+        $.ajax({
+            type: "POST",
+            url: "filter_cards",
+            headers: {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            data: POST_JSON,
+            success: function(data) {
+                if (data['complete']) {
+                    $('#modalPin .w3-display-container').html(data['result']);
+                    $('#modalPin .w3-display-container tr').each(function(i, obj) {
+                        if ($(obj).attr('style') != undefined)
+                            return
+                        var index = $(obj).children()[0].innerText;
+                        if (Object.keys(pin_cards).indexOf(index) > -1) {
+                            $(obj).addClass('selected');
+                        }
+                        $(obj).on("click", function() {
+                            if ($(obj).attr('class') == undefined || $(obj).attr('class').indexOf('selected') == -1) {
+                                if (Object.keys(pin_cards).length < 8) {
+                                    var icon = $($(obj).children()[2]).find('img')[0].src,
+                                        slot = $(obj).children()[9].innerText,
+                                        skill = $(obj).children()[8].innerText[3],
+                                        level = $(obj).children()[3].innerText.split('\n')[0],
+                                        bond = $(obj).children()[4].innerText.split('\n')[0];
+                                    pin_cards[index] = {str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon}
+                                    $(obj).addClass('selected');
+                                } else {
+                                    alert('You can choose at most 8 pinned cards')
+                                }
+                                
+                            } else {
+                                delete pin_cards[index]
+                                $(obj).removeClass('selected');
+                            }
+                        })
+                    })
+                }
+            }
+        });
+    }
+
+    function pin_reset() {
+        pin_sel = false;
+        $('#pin img').addClass('w3-grayscale-max');
+        $('#pinCard').hide();
+        $('#modalPin').hide()
+        pin_cards = {};
+        $('.icon-list .container').html('');
+    }
+
+    $('#pin-choose').click(function() {
+        filter_cards('all')
+        $('#modalPin').show()
+        $('body').addClass('modal-open')
+    })
+    $('#modalPin .exitBtn').click(function() {
+        $('#modalPin').hide()
+        $('body').removeClass('modal-open')
+        var temp = '';
+        for (var x in pin_cards) {
+            temp += "<div class='icon'><div class='stats_bar'>{0}</div><img src='{1}'></div>".format(pin_cards[x].str, pin_cards[x].src)
+        }
+        $('.icon-list .container').html(temp);
+    })
+    $('#pin-heal').click(function() {
+        filter_cards('heal');
+    })
+    $('#pin-plock').click(function() {
+        filter_cards('plock');
+    })
+    $('#pin-all').click(function() {
+        filter_cards('all');
+    })
+    $('#pin-clear').click(function() {
+        pin_cards = {};
+        $('#modalPin .w3-display-container tr').each(function() {
+            $(this).removeClass('selected');
+        })
+    })
+
     // Check whether input user JSON is valid
     function openUserJSON() {
         $('#userJSON').show();
@@ -694,6 +820,7 @@
                     user_json_bucket['auto save'] = user_json;
                     localStorage.setItem('user_json_bucket', JSON.stringify(user_json_bucket));
                     updateInfo('User profile JSON successfully updated', false);
+                    pin_reset();
                     return true;
                 } else if (minaraishi_valid) {
                     POST_JSON = {
@@ -718,6 +845,7 @@
                                 localStorage.setItem('user_json_bucket', JSON.stringify(user_json_bucket));
                             }
                             updateInfo(data['msg'], !data['complete']);
+                            pin_reset();
                             return data['complete']
                         }
                     });
@@ -782,6 +910,7 @@
             user_profile: user_json,
             is_sm: live_selection.is_sm,
             is_random: live_selection.is_random,
+            pin_index: pin_sel ? JSON.stringify(Object.keys(pin_cards)) : '[]',
             csrfmiddlewaretoken: '{{ csrf_token }}'
         }
         $.ajax({
@@ -824,7 +953,7 @@
                 updateInfo(data['msg'], !data['complete']);
                 $('#calculate').prop('disabled', false);
                 $('#calculate').removeClass('w3-grey');
-                $('#calculate').addClass('w3-pink');
+                $('#calculate').addClass('w3-green');
                 clearInterval(running);
                 $('#calculate b').text('Calculate');
             }
@@ -958,6 +1087,7 @@
         $('#userJSON .profile').val(user_json);
         updateInfo('Successfully import the local profile [{0}].'.format(profile_name), false);
         $('#modalLocal').hide();
+        pin_reset();
     })
     $('#modalLocal .save').click(function() {
         var profile_name = $('#modalLocal select').val();
@@ -967,6 +1097,7 @@
             user_json_bucket[profile_name] = user_json;
             localStorage.setItem('user_json_bucket', JSON.stringify(user_json_bucket));
             updateInfo('Overwrite existing account [{0}]'.format(profile_name), false);
+            pin_reset();
         } else {
             alert('Invalid JSON!')
         }
@@ -988,6 +1119,9 @@
                 } else {
                     updateInfo('Existing local profile [{0}] has been overwritten.'.format(profile_name), false);
                 }
+                pin_reset();
+            } else {
+                alert('Invalid JSON!')
             }
         }
         $('#modalLocal').hide();

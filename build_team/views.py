@@ -72,6 +72,7 @@ def calculate(request):
 		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
 		is_sm, is_random = bool(request.POST.get('is_sm', 'false')=='true'), bool(request.POST.get('is_random', 'false')=='true')
+		pin_index = [int(x) for x in json.loads(request.POST['pin_index'])]
 
 		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		if not is_sm:
@@ -165,8 +166,7 @@ def calculate(request):
 			    temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
 			# alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
 			alloc_method = 'DC'
-
-			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method, time_limit=24)
+			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method, time_limit=24, pin_index=pin_index)
 			result = ''
 			if num_calc < num_total:
 				result += '<p style="text-align:center; color:red"><b>{0}</b></p>'.format(strings[lang]['IMCOMPLETE'].format(num_calc, num_total))
@@ -365,3 +365,64 @@ def receive_user_json(request):
 
 def LLproxy_user_json(request):
 	return render(request, 'LLproxy_user_json.html')
+
+@csrf_exempt
+def filter_cards(request):
+	strings = {
+		'CN': {
+			'ERR_PROFILE': '载入用户卡组信息失败...',
+			'ERR_CONDITION': '非法的筛选条件...',
+			'SUCCESS': '成功筛选卡牌',
+			'ERR_NONAJAX': '服务器接收请求不是AJAX'
+		},
+		'EN': {
+			'ERR_PROFILE': 'Failed to read user profile...',
+			'ERR_CONDITION': 'Invalid filter condition...',
+			'SUCCESS': 'Successfully filter the cards',
+			'ERR_NONAJAX': 'The request is not AJAX'
+		}
+	}
+
+	lang = request.POST['lang']
+	if request.is_ajax():
+		cond, json_str = request.POST['condition'], request.POST['user_profile']
+
+		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info += 'Request to filter cards with condition: {0}'.format(cond)
+		print(user_info)
+
+		try:
+			if 'detail' in json_str:
+				user_profile = GameData(json_str, file_type='pll', string_input=True)
+			else:
+				user_profile = GameData(json_str, file_type='ieb', string_input=True)
+			print('Successfully loaded user profile.')
+			if cond == 'all':
+				sel_func = lambda x: x.rarity not in ['N','R'] and not x.promo
+				sort_func = lambda x: ['SR', 'SSR', 'UR'].index(x.rarity)
+			elif cond == 'heal':
+				sel_func = lambda x: x.rarity not in ['N','R'] and not x.promo and x.skill.effect_type=='Stamina Restore'
+				sort_func = lambda x: x.skill.skill_gain()
+			elif cond == 'plock':
+				sel_func = lambda x: x.rarity not in ['N','R'] and not x.promo and x.skill.effect_type=='Strong Judge'
+				sort_func = lambda x: x.skill.skill_gain()
+			else:
+				print('Invalid filter condition')
+				message = {'complete':False, 'msg':strings[lang]['ERR_CONDITION']}
+				return JsonResponse(message)
+
+			df = user_profile.filter(sel_func, sort_func)
+			result = html_view(df, extra_col=['slot_num']).data.replace('http:','').replace('https:','')
+		except:
+			print('Failed to load user profile.')
+			message = {'complete':False, 'msg':strings[lang]['ERR_PROFILE']}
+			return JsonResponse(message)
+
+		message = {
+			'complete': True,
+			'result': result,
+			'msg': strings[lang]['SUCCESS']
+		}
+	else:
+		message = {'complete':False, 'msg':strings[lang]['ERR_NONAJAX']}
+	return JsonResponse(message)
