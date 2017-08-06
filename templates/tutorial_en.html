@@ -34,25 +34,29 @@
 </head>
 
 <body>
-    <h1>Edit Your User Profile</h1>
-    <h2>Using Third-Party Proxy</h2>
+    <h1 id='section-1'>Edit Your User Profile</h1>
+
+    <h2 id='section-1-1'>Using Third-Party Proxy</h2>
     <p>If you are using a third-party proxy <a href='//stats.llsif.win/'>SIFStats (JP)</a>, <a href='http://pll.sokka.cn/user'>LLproxy (CN)</a>, then you can directly copy the user profile JSON to input your card list.</p>
     <div style='display: block;margin: 0 auto' style='width:100%'>
         <img src="{% static 'tutorial_en 2.jpg' %}" style='width:48%;display:inline-block;'>
         <img src="{% static 'tutorial_en 3.jpg' %}" style='width:48%;display:inline-block;'>
     </div>
-    <h2>Using School Idol Tomodachi Account</h2>
+
+    <h2 id='section-1-2'>Using School Idol Tomodachi Account</h2>
     <p>If you have an account at <a href='http://schoolido.lu/'>School Idol Tomodachi</a>, then you can directly import your account.</p>
     <div style='display: block;margin: 0 auto' align='middle' style='width:60%'>
         <img src="{% static 'tutorial_en 9.jpg' %}" style='width:48%;display:inline-block;'>
     </div>
+
     <p>One thing you should keep in mind is that SIT does not contain the information of level and bond, by default all imported cards are max level and max bond.</p>
-    <h2>Using Minaraishi's Team Builder Profile</h2>
+    <h2 id='section-1-3'>Using Minaraishi's Team Builder Profile</h2>
     <p>If you have used <a href='https://designedfor.sakura.ne.jp/nikuma-n/'>Minaraishi's team builder</a>, then you can directly copy the exported file as user JSON, the LLATB will convert the format automatically.</p>
     <div style='display: block;margin: 0 auto' align='middle' style='width:60%'>
         <img src="{% static 'tutorial_en 10.jpg' %}" style='width:60%;display:inline-block;'>
     </div>
-    <h2>Manually Edit Card Profile</h2>
+
+    <h2 id='section-1-4'>Manually Edit Card Profile</h2>
     <p>If you are not use a third-party proxy, you can still use this tool by editing your profile manually. The editing is incremental, if you first copy user profile JSON and then edit manually, you will start from the profile in the JSON.</p>
     <p>Or if you have the data from minaraishi's team builder, you can also copy it here, now LLATB supports minaraishi's format!</p>
     <img src="{% static 'tutorial_en 4.jpg' %}" align='middle'>
@@ -70,14 +74,16 @@
     <p>After you finished editing all your cards, you may want to edit the number of all gems, simply click "Edit Gem" button and input the numbers.</p>
     <img src="{% static 'tutorial_en 7.jpg' %}" align='middle' style='width:60%'>
     <p>Now you are done, it is simple right? Do not forget to click "Save" before you click "Build" to build your optimal team. And I highly recommend you to save the user JSON locally in case of losing information.</p>
-    <h1>Manage Your Profile</h1> 
+
+    <h1 id='section-2'>Manage Your Profile</h1> 
     <p>The newest version allows you to conveniently switch different user profiles. To import/overwrite an existing user profile, or create a new user profile, simple click <b>"User JSON"</b> button, and then hover on the text <b>User Profile JSON</b>, then you can see the text turns green and becomes <b>Switch Local Profile</b>. You can open the local profile manager by clicking on this text.</p>
     <img src="{% static 'tutorial_en 11.jpg' %}" align='middle' style='width:40%'>
     <img src="{% static 'tutorial_en 12.jpg' %}" align='middle' style='width:60%'>
     <p><b>Note:</b> The local profile management is only available in team building page, there is no such function in team strength page.</p>
-    <h1>Build Optimal Team</h1>
+
+    <h1 id='section-3'>Build Optimal Team</h1>
     <img src="{% static 'tutorial_en 1.jpg' %}" align='middle'>
-    <h2>Configure Settings</h2>
+    <h2 id='section-3-1'>Configure Settings</h2>
     <p>Once you created a valid user profile, simply choose all parameters:
         <ul>
             <li>Live List: the live(s) you want to optimize over: this team builder support Medley Festival, under same group, attribute and difficulty, you can add at most 5 songs</li>
@@ -94,7 +100,22 @@
             </li>
         </ul>
     </p>
-    <h2>Team Build Results</h2>
+
+    <h2 id='section-3-2'>Choose Pinned Cards</h2>
+    <p>Sometime the team builder gives a team without healer and P-Locker, although under the FC assumption this is optimal, it will be less meaningful if you cannot get an FC or even feel hard to survive. Now LLATB enables you to pin some healers and P-Lockers to the final output and tries to optimize under the given pinned cards.</p>
+    <p>Click the lock icon to toggle "Pinned card mode", this mode is initially disabled when you open the page and when you change user JSON. Once you turn on this mode, a new bar will occur under the tool bar to show what cards you already chose as pinned cards.</p>
+    <img src="{% static 'tutorial_en 15.jpg' %}" align='middle'>
+    <p>You can add at most 8 cards as pinned cards by click "Choose Pinned Cards" to open the modal. Click "Clear" will remove all chosen pinned cards
+        <ul>
+            <li>Healers：This will list all healer cards with rarity at least SR, in the descending order of healing ability.</li>
+            <li>P-Lockers: This will list all P-Locker cards with rarity at least SR, in the descending order of P-Lock coverage rate.</li>
+            <li>All Cards: This will list all cards with rarity at least SR, in the descending order of rarity.</li>
+        </ul>
+        Click on a row to choose, once a card is chosen its corresponding row will be highlighted in yellow, click it again will cancel the select.
+    </p>
+    <img src="{% static 'tutorial_en 16.jpg' %}" align='middle' style='width:70%'>
+
+    <h2 id='section-3-3'>Team Build Results</h2>
     <p>Whew, finally you can press the "Calculate" button, there is no error showing, congratulations your optimal team is available! Enjoy!!!</p>
     <p>Here is an example output. For ordinary users, what you may be interested in are:
         <ul>
@@ -106,7 +127,8 @@
     </p>
     <p>For technical users, I am open to discussion and glad to share idea. Feel free to contact me.</p>
     <img src="{% static 'tutorial_en 8.jpg' %}" align='middle'>
-    <h2>Validate Output by Simulation</h2>
+
+    <h2 id='section-3-4'>Validate Output by Simulation</h2>
     <img src="{% static 'tutorial_en 13.jpg' %}" align='middle' style='width:70%'>
     <p>This feature is add at July 24, 2017. As long as the live you are optimizing on is not default live (which does not have note list), you can run a simulation to see
         <ul>

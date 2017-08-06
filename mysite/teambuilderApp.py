@@ -21,7 +21,7 @@ Nyan~ 欢迎使用网页版LLSIF-AutoTeamBuilder全自动组卡器，目前已�
 <br/>
 在以上设定下<span style="color:red">并不能保证找到最优解</span>，但是期望得分大多数情况只比最优解少1000分以内。
 <br/>
-寻求更优解请移步<a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="doc">Love Live SIF 卡组强度导论</a>。
+寻求更优解请移步<a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="doc/cn">Love Live SIF 卡组强度导论</a>。
 <br/><br/>
 使用方法: 1.选择歌曲; 2.从<a href="http://stats.llsif.win/">SIFStats(日服)</a> 或者 <a href="http://pll.sokka.cn/user">LLproxy(国服)</a> 粘贴社员信息卡组Json; 3: 点击calulate按钮
 <br/>
