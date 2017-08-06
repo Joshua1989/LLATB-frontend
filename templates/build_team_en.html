@@ -313,6 +313,7 @@
         diff_sel = 'Expert',
         pin_sel = false,
         pin_cards = {},
+        pin_cache = {},
         score_up = false,
         skill_up = false,
         unlimit_gem = false,
@@ -702,52 +703,84 @@
     }
 
     function filter_cards(condition) {
-        POST_JSON = {
-            lang: 'EN',
-            condition: condition,
-            user_profile: user_json,
-            csrfmiddlewaretoken: '{{ csrf_token }}'
-        }
-        $.ajax({
-            type: "POST",
-            url: "filter_cards",
-            headers: {
-                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
-            },
-            data: POST_JSON,
-            success: function(data) {
-                if (data['complete']) {
-                    $('#modalPin .w3-display-container').html(data['result']);
-                    $('#modalPin .w3-display-container tr').each(function(i, obj) {
-                        if ($(obj).attr('style') != undefined)
-                            return
-                        var index = $(obj).children()[0].innerText;
-                        if (Object.keys(pin_cards).indexOf(index) > -1) {
-                            $(obj).addClass('selected');
-                        }
-                        $(obj).on("click", function() {
-                            if ($(obj).attr('class') == undefined || $(obj).attr('class').indexOf('selected') == -1) {
-                                if (Object.keys(pin_cards).length < 8) {
-                                    var icon = $($(obj).children()[2]).find('img')[0].src,
-                                        slot = $(obj).children()[9].innerText,
-                                        skill = $(obj).children()[8].innerText[3],
-                                        level = $(obj).children()[3].innerText.split('\n')[0],
-                                        bond = $(obj).children()[4].innerText.split('\n')[0];
-                                    pin_cards[index] = {str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon}
-                                    $(obj).addClass('selected');
-                                } else {
-                                    alert('You can choose at most 8 pinned cards')
-                                }
-                                
-                            } else {
-                                delete pin_cards[index]
-                                $(obj).removeClass('selected');
-                            }
-                        })
-                    })
-                }
+        if (pin_cache[condition]==undefined) {
+            POST_JSON = {
+                lang: 'EN',
+                condition: condition,
+                user_profile: user_json,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
             }
-        });
+            $.ajax({
+                type: "POST",
+                url: "filter_cards",
+                headers: {
+                    'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                data: POST_JSON,
+                success: function(data) {
+                    if (data['complete']) {
+                        pin_cache[condition] = data['result'];
+                        $('#modalPin .w3-display-container').html(data['result']);
+                        $('#modalPin .w3-display-container tr').each(function(i, obj) {
+                            if ($(obj).attr('style') != undefined)
+                                return
+                            var index = $(obj).children()[0].innerText;
+                            if (Object.keys(pin_cards).indexOf(index) > -1) {
+                                $(obj).addClass('selected');
+                            }
+                            $(obj).on("click", function() {
+                                if ($(obj).attr('class') == undefined || $(obj).attr('class').indexOf('selected') == -1) {
+                                    if (Object.keys(pin_cards).length < 8) {
+                                        var icon = $($(obj).children()[2]).find('img')[0].src,
+                                            slot = $(obj).children()[9].innerText,
+                                            skill = $(obj).children()[8].innerText[3],
+                                            level = $(obj).children()[3].innerText.split('\n')[0],
+                                            bond = $(obj).children()[4].innerText.split('\n')[0];
+                                        pin_cards[index] = {str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon}
+                                        $(obj).addClass('selected');
+                                    } else {
+                                        alert('You can choose at most 8 pinned cards')
+                                    }
+                                    
+                                } else {
+                                    delete pin_cards[index]
+                                    $(obj).removeClass('selected');
+                                }
+                            })
+                        })
+                    }
+                }
+            });
+        } else {
+            $('#modalPin .w3-display-container').html(pin_cache[condition]);
+            $('#modalPin .w3-display-container tr').each(function(i, obj) {
+                if ($(obj).attr('style') != undefined)
+                    return
+                var index = $(obj).children()[0].innerText;
+                if (Object.keys(pin_cards).indexOf(index) > -1) {
+                    $(obj).addClass('selected');
+                }
+                $(obj).on("click", function() {
+                    if ($(obj).attr('class') == undefined || $(obj).attr('class').indexOf('selected') == -1) {
+                        if (Object.keys(pin_cards).length < 8) {
+                            var icon = $($(obj).children()[2]).find('img')[0].src,
+                                slot = $(obj).children()[9].innerText,
+                                skill = $(obj).children()[8].innerText[3],
+                                level = $(obj).children()[3].innerText.split('\n')[0],
+                                bond = $(obj).children()[4].innerText.split('\n')[0];
+                            pin_cards[index] = {str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon}
+                            $(obj).addClass('selected');
+                        } else {
+                            alert('最多可选8张卡强制进入卡组，您已达到上限')
+                        }
+                        
+                    } else {
+                        delete pin_cards[index]
+                        $(obj).removeClass('selected');
+                    }
+                })
+            })
+        }
     }
 
     function pin_reset() {
@@ -756,6 +789,7 @@
         $('#pinCard').hide();
         $('#modalPin').hide()
         pin_cards = {};
+        pin_cache = {};
         $('.icon-list .container').html('');
     }
 
