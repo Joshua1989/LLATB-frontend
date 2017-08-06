@@ -72,7 +72,7 @@ def calculate(request):
 		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
 		is_sm, is_random = bool(request.POST.get('is_sm', 'false')=='true'), bool(request.POST.get('is_random', 'false')=='true')
-		pin_index = [int(x) for x in json.loads(request.POST['pin_index'])]
+		pin_index = [int(x) for x in json.loads(request.POST.get('pin_index', '[]'))]
 
 		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
 		if not is_sm:
