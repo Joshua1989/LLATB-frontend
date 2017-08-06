@@ -74,11 +74,11 @@ def calculate(request):
 		is_sm, is_random = bool(request.POST.get('is_sm', 'false')=='true'), bool(request.POST.get('is_random', 'false')=='true')
 		pin_index = [int(x) for x in json.loads(request.POST.get('pin_index', '[]'))]
 
-		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info  = 'User Information: {0} from {1} team building page\n'.format(str(get_client_ip(request)), lang)
 		if not is_sm:
-			user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)
+			user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}, {5} pinned cards\n'.format(song_list, group, attr, diff, PR, len(pin_index))
 		else:
-			user_info += 'Live Info: {5} {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR, 'SM'+' random'*is_random)
+			user_info += 'Live Info: {5} {0} {1} {2} {3}, P Rate={4}, {6} pinned cards\n'.format(song_list, group, attr, diff, PR, 'SM'+' random'*is_random, len(pin_index))
 		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, unlimit_gem, extra_cond)
 		print(user_info)
 
