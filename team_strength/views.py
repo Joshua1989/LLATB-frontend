@@ -68,7 +68,7 @@ def calculate(request):
 			'ERR_NONAJAX': 'The request is not AJAX'
 		}
 	}
-	lang = request.POST['lang']
+	lang = request.POST.get('lang', 'EN')
 	if request.is_ajax():
 		start_time = time.time()
 		song_list, PR = eval(request.POST['song_list']), float(request.POST['perfect_rate'])
@@ -298,7 +298,7 @@ def live_stats(request):
 			'ERR_NONAJAX': 'The request is not AJAX'
 		}
 	}
-	lang = request.POST['lang']
+	lang = request.POST.get('lang', 'EN')
 	if request.is_ajax():
 		song_name, diff, PR = html.unescape(request.POST['song_name']), request.POST['difficulty'], request.POST['perfect_rate']
 		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
