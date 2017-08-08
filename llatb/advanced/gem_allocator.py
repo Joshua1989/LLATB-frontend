@@ -259,7 +259,7 @@ class GemAllocator:
 
 		def get_summary(index, card):
 			res = { 'CID':'<p>{0}</p>'.format(card.card_id), 
-					'Icon': '<img src="{0}" style="width:100%" />'.format(icon_path(card.card_id, card.idolized)),
+					'Icon': '<img src="{0}" style="width:100%;max-width:75px;" />'.format(icon_path(card.card_id, card.idolized)),
 					'Gem':gem_slot_pic(card, show_cost=show_cost, gem_size=25)}
 
 			# Skill gain information
