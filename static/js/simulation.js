@@ -149,8 +149,10 @@ function MonteCarlo(n_trial, P_rate, live_group, live_attr, card_info, note_list
     }
     var game_score_data = [],
         PLock_data = [];
-    for (var x in hist)
-        game_score_data.push([x * 1000, hist[x]]);
+    for (var x in hist) {
+        var cum_prob = ((game_score_data.length == 0) ? 0 : game_score_data[game_score_data.length - 1].cum) + hist[x] / n_trial;
+        game_score_data.push({ x: x * 1000, y: hist[x], cum: cum_prob });
+    }
     for (var x = 0; x < note_list.length; x++) {
         PLock_data.push({ x: parseFloat(note_list[x].timing_sec.toFixed(3)), y: PLock_track[x] / n_trial, index: x + 1 })
     }
@@ -192,6 +194,22 @@ function draw_simul(simal_name, CR_name, res) {
                 }
             }
         }],
+        tooltip: {
+            crosshairs: true,
+            formatter: function() {
+                return 'Score Interval [{0}k, {1}k) <br></br>Frequency = {2} <br></br>Cumulate Probability = {3}%'.format(this.point.x / 1000 - 0.5, this.point.x / 1000 + 0.5, this.point.y, Math.round(10000 * this.point.cum) / 100);
+            }
+        },
+        plotOptions: {
+            column: {
+                states: {
+                    hover: {
+                        color: '#F60'
+                    }
+                }
+
+            }
+        },
         series: [{
             name: 'Frequency',
             data: res.game_score_data,
@@ -199,7 +217,11 @@ function draw_simul(simal_name, CR_name, res) {
             borderWidth: .5,
             pointPadding: .015,
             groupPadding: 0,
-            showInLegend: false
+            showInLegend: false,
+            marker: {
+                fillColor: 'red',
+                lineWidth: 2,
+            }
         }]
     });
 
@@ -293,10 +315,10 @@ function show_simul_result(simul_result, res, icons) {
         table[x][0] = '<b>' + row_header[x] + '</n>';
         for (var i = 1; i <= 9; i++) {
             if (x == 0) {
-                table[x][i] = '<img src="' + icons[i-1] + '">';
+                table[x][i] = '<img src="' + icons[i - 1] + '">';
             } else {
-                table[x][i] = res[field_name[x]][i-1];
-                table[x][10] += parseFloat(res[field_name[x]][i-1]);
+                table[x][i] = res[field_name[x]][i - 1];
+                table[x][10] += parseFloat(res[field_name[x]][i - 1]);
             }
         }
         if (x == 0) {
@@ -317,5 +339,5 @@ function show_simul_result(simul_result, res, icons) {
     }
     temp += '</tbody></table>'
 
-    $('#'+simul_result).html(title+temp);
+    $('#' + simul_result).html(title + temp);
 }

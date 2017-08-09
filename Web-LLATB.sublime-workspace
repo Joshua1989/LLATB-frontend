@@ -519,24 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "team_strength/views.py",
-			"settings":
-			{
-				"buffer_size": 13569,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "llatb/framework/team.py",
-			"settings":
-			{
-				"buffer_size": 16182,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -1650,14 +1632,12 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/JoshuaLian/Documents/mysite",
-		"/Users/JoshuaLian/Documents/mysite/assets",
-		"/Users/JoshuaLian/Documents/mysite/build_team",
-		"/Users/JoshuaLian/Documents/mysite/mysite",
-		"/Users/JoshuaLian/Documents/mysite/templates"
+		"/Users/JoshuaLian/Documents/Web-LLATB"
 	],
 	"file_history":
 	[
+		"/Users/JoshuaLian/Documents/Web-LLATB/team_strength/views.py",
+		"/Users/JoshuaLian/Documents/Web-LLATB/llatb/framework/team.py",
 		"/Users/JoshuaLian/Dropbox (Work)/Duke Research/Optical/GA-SDBP.tex",
 		"/Users/JoshuaLian/Dropbox (Work)/literature_optics/optical code/OpticalDecoder.py",
 		"/Users/JoshuaLian/Documents/mysite/templates/build_team.html",
@@ -1783,9 +1763,7 @@
 		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/framework/card.py",
 		"/Users/JoshuaLian/Downloads/865384_17-07-07_12.666",
 		"/Users/JoshuaLian/Documents/mysite/Procfile",
-		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/framework/team.py",
-		"/Users/JoshuaLian/Documents/mysite/mysite/docs.py",
-		"/Users/JoshuaLian/Documents/mysite/mysite/doc.py"
+		"/Users/JoshuaLian/Dropbox (Personal)/LLSIF related/LLSIF-AutoTeamBuilder/llatb/framework/team.py"
 	],
 	"find":
 	{
@@ -2058,235 +2036,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "team_strength/views.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13569,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7026,
-								7026
-							]
-						],
-						"settings":
-						{
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-								},
-								"icon":
-								{
-								},
-								"open":
-								{
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content"
-							],
-							"is_init_dirty_state": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1747.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "llatb/framework/team.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16182,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10600,
-								10600
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": ".",
-									"selector": "source.python - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								}
-							],
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-									"1":
-									[
-										10725,
-										10726
-									]
-								},
-								"icon":
-								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"brackethighlighter.curly"
-									]
-								},
-								"open":
-								{
-									"1":
-									[
-										10599,
-										10600
-									]
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content"
-							],
-							"is_init_dirty_state": false,
-							"origin_encoding": "ASCII",
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2394.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -2770,7 +2521,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 175.0,
 	"status_bar_visible": true,
 	"template_settings":

@@ -101,17 +101,26 @@
         </ul>
     </p>
 
-    <h2 id='section-3-2'>Choose Pinned Cards</h2>
+    <h2 id='section-3-2'>Choose Pinned/Excluded Cards</h2>
     <p>Sometime the team builder gives a team without healer and P-Locker, although under the FC assumption this is optimal, it will be less meaningful if you cannot get an FC or even feel hard to survive. Now LLATB enables you to pin some healers and P-Lockers to the final output and tries to optimize under the given pinned cards.</p>
-    <p>Click the lock icon to toggle "Pinned card mode", this mode is initially disabled when you open the page and when you change user JSON. Once you turn on this mode, a new bar will occur under the tool bar to show what cards you already chose as pinned cards.</p>
+    <p>Similarly, if you have a off-color scorer UR with more than 4 slots, placing it in the team means you cannot fully utilize the remaining slots after equipping charm SIS. This is in some cases unwanted since you cannot edit the SIS equipment in Score Match.</p>
+    <p>Click the lock icon to toggle "Pinned card mode", this mode is initially disabled when you open the page and when you change user JSON. Once you turn on this mode, a new bar will occur under the tool bar to show what cards you already chose as pinned/excluded cards.</p>
     <img src="{% static 'tutorial_en 15.jpg' %}" align='middle'>
-    <p>You can add at most 8 cards as pinned cards by click "Choose Pinned Cards" to open the modal. Click "Clear" will remove all chosen pinned cards
+    <p>You can add at most 8 pinned cards and at most 8 excluded cards by click "Choose Pinned Cards" to open the modal. Click "Clear" will remove all chosen pinned cards
         <ul>
             <li>Healers：This will list all healer cards with rarity at least SR, in the descending order of healing ability.</li>
             <li>P-Lockers: This will list all P-Locker cards with rarity at least SR, in the descending order of P-Lock coverage rate.</li>
             <li>All Cards: This will list all cards with rarity at least SR, in the descending order of rarity.</li>
         </ul>
         Click on a row to choose, once a card is chosen its corresponding row will be highlighted in yellow, click it again will cancel the select.
+    </p>
+    <p>
+        By clicking on a row the corresponding card will circularly alternate its states in following order:
+        <ul>
+            <li>A row in white background means it is neither a pinned card nor an excluded card</li>
+            <li>A row in yellow background means it is a pinned card</li>
+            <li>A row in dark gray background means it is an excluded card</li>
+        </ul>
     </p>
     <img src="{% static 'tutorial_en 16.jpg' %}" align='middle' style='width:70%'>
 
@@ -132,7 +141,7 @@
     <img src="{% static 'tutorial_en 13.jpg' %}" align='middle' style='width:70%'>
     <p>This feature is add at July 24, 2017. As long as the live you are optimizing on is not default live (which does not have note list), you can run a simulation to see
         <ul>
-            <li>The distribution of game scoring over 5000 trials.</li>
+            <li>The distribution of game scoring over 5000 trials, as well as the empirical cumulated probability function values.</li>
             <li>The average score obtained by the base attribute, and skill for each card, the average score obtained by Trick SIS for each card.</li>
             <li>The fraction of each note to be covered by P-lock over 5000 trials.</li>
         </ul>

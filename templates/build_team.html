@@ -81,7 +81,7 @@
             <button id='calculate' class='w3-bar-item w3-green w3-hover-yellow roundBtn w3-margin-left w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
         </div>
         <div id='pinCard' class='w3-bar'>
-            <button id='pin-choose' class='w3-pink w3-hover-yellow roundBtn w3-mobile'><b>选择强制入队的卡牌</b></button>
+            <button id='pin-choose' class='w3-pink w3-hover-yellow roundBtn w3-mobile'><b>选择强制入队/出队的卡牌</b></button>
             <div class='icon-list'>
                 <div class='container'>
                 </div>
@@ -132,6 +132,10 @@
     </div>
     <div id='liveStats' class='w3-modal'>
         <div class='w3-modal-content'>
+            <div class='w3-bar'>
+                <button id='addCurrentSong' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-mobile' style="max-width:50%;"><b>添加曲目</b></button>
+                <span onclick="closeLiveStats()" class="exitBtn"><b>x</b></span>
+            </div>
             <div class='w3-container w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
             </div>
         </div>
@@ -295,7 +299,8 @@
         diff_sel = 'Expert',
         pin_sel = false,
         pin_cards = {},
-        pin_cache = {},
+        exclude_cards = {},
+        filter_cache = {},
         score_up = false,
         skill_up = false,
         unlimit_gem = false,
@@ -487,7 +492,7 @@
     function updateGuestCenter() {
         guest_center = 'None'
         temp = "<option disabled style='color:black;'><b>选择好友Center技</b></option>";
-        temp += "<option value='None'>无</option>";
+        temp += "<option value='None'>无好友Center技</option>";
         for (x in attribute_arr) {
             var main_attr = attr_sel,
                 base_attr = attribute_arr[x];
@@ -506,7 +511,12 @@
     function viewLiveStats(e) {
         sn = e.target.parentNode.childNodes[0].getElementsByTagName("b")[0].innerHTML;
         if (sn.indexOf('默认') != -1) {
-            return
+            $('#liveStats').show();
+            $('body').addClass('modal-open');
+            var note_number = { 'Easy': 110, 'Normal': 200, 'Hard': 350, 'Expert': 500, 'Master': 700 }
+            temp = "<p align='center' style='color:{0};'>{1} {2}</p>".format(attribute_color[attr_sel], sn, diff_sel);
+            temp += "<p align='center' style='color:{0};'>Note数{1}, 时长120秒, 星标10%, 长按8%</p>".format(attribute_color[attr_sel], note_number[diff_sel]);
+            $('#liveStats .w3-container').html(temp);
         } else if (sn.indexOf('SM') != -1) {
             $('#liveStats').show();
             $('body').addClass('modal-open');
@@ -516,7 +526,7 @@
             var songs = server.stages[stg_idx].song_list[attr_sel];
             var start = server.stages[stg_idx].start,
                 end = server.stages[stg_idx].end;
-            temp = '<span onclick="closeLiveStats()" class="exitBtn"><b>x</b></span>'
+            temp = ''
             temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], sn);
             temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], 'From {0} to {1}'.format(start, end));
             temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], songs.join('<br/>'));
@@ -547,6 +557,10 @@
                 }
             });
         }
+        $('#addCurrentSong').off('click').click(function() {
+            chooseLive(sn, diff_sel);
+            closeLiveStats();
+        })
     }
 
     function closeLiveStats() {
@@ -685,7 +699,7 @@
     }
 
     function filter_cards(condition) {
-        if (pin_cache[condition]==undefined) {
+        if (filter_cache[condition] == undefined) {
             POST_JSON = {
                 lang: 'CN',
                 condition: condition,
@@ -701,7 +715,7 @@
                 data: POST_JSON,
                 success: function(data) {
                     if (data['complete']) {
-                        pin_cache[condition] = data['result'];
+                        filter_cache[condition] = data['result'];
                         $('#modalPin .w3-display-container').html(data['result']);
                         $('#modalPin .w3-display-container tr').each(function(i, obj) {
                             if ($(obj).attr('style') != undefined)
@@ -709,24 +723,26 @@
                             var index = $(obj).children()[0].innerText;
                             if (Object.keys(pin_cards).indexOf(index) > -1) {
                                 $(obj).addClass('selected');
+                            } else if (Object.keys(exclude_cards).indexOf(index) > -1) {
+                                $(obj).addClass('excluded');
                             }
                             $(obj).on("click", function() {
-                                if ($(obj).attr('class') == undefined || $(obj).attr('class').indexOf('selected') == -1) {
-                                    if (Object.keys(pin_cards).length < 8) {
-                                        var icon = $($(obj).children()[2]).find('img')[0].src,
-                                            slot = $(obj).children()[9].innerText,
-                                            skill = $(obj).children()[8].innerText[3],
-                                            level = $(obj).children()[3].innerText.split('\n')[0],
-                                            bond = $(obj).children()[4].innerText.split('\n')[0];
-                                        pin_cards[index] = {str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon}
-                                        $(obj).addClass('selected');
-                                    } else {
-                                        alert('最多可选8张卡强制进入卡组，您已达到上限')
-                                    }
-                                    
-                                } else {
+                                if ($(obj).attr('class') == undefined || $(obj).attr('class') == '' ) {
+                                    var icon = $($(obj).children()[2]).find('img')[0].src,
+                                        slot = $(obj).children()[9].innerText,
+                                        skill = $(obj).children()[8].innerText[3],
+                                        level = $(obj).children()[3].innerText.split('\n')[0],
+                                        bond = $(obj).children()[4].innerText.split('\n')[0];
+                                    pin_cards[index] = { str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon }
+                                    $(obj).addClass('selected');
+                                } else if ($(obj).attr('class').indexOf('selected') > -1) {
+                                    exclude_cards[index] = JSON.parse(JSON.stringify(pin_cards[index]))
                                     delete pin_cards[index]
                                     $(obj).removeClass('selected');
+                                    $(obj).addClass('excluded');
+                                } else {
+                                    delete exclude_cards[index]
+                                    $(obj).removeClass('excluded');
                                 }
                             })
                         })
@@ -736,31 +752,33 @@
                 }
             });
         } else {
-            $('#modalPin .w3-display-container').html(pin_cache[condition]);
+            $('#modalPin .w3-display-container').html(filter_cache[condition]);
             $('#modalPin .w3-display-container tr').each(function(i, obj) {
                 if ($(obj).attr('style') != undefined)
                     return
                 var index = $(obj).children()[0].innerText;
                 if (Object.keys(pin_cards).indexOf(index) > -1) {
                     $(obj).addClass('selected');
+                } else if (Object.keys(exclude_cards).indexOf(index) > -1) {
+                    $(obj).addClass('excluded');
                 }
                 $(obj).on("click", function() {
-                    if ($(obj).attr('class') == undefined || $(obj).attr('class').indexOf('selected') == -1) {
-                        if (Object.keys(pin_cards).length < 8) {
-                            var icon = $($(obj).children()[2]).find('img')[0].src,
-                                slot = $(obj).children()[9].innerText,
-                                skill = $(obj).children()[8].innerText[3],
-                                level = $(obj).children()[3].innerText.split('\n')[0],
-                                bond = $(obj).children()[4].innerText.split('\n')[0];
-                            pin_cards[index] = {str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon}
-                            $(obj).addClass('selected');
-                        } else {
-                            alert('最多可选8张卡强制进入卡组，您已达到上限')
-                        }
-                        
-                    } else {
+                    if ($(obj).attr('class') == undefined || $(obj).attr('class')=='') {
+                        var icon = $($(obj).children()[2]).find('img')[0].src,
+                            slot = $(obj).children()[9].innerText,
+                            skill = $(obj).children()[8].innerText[3],
+                            level = $(obj).children()[3].innerText.split('\n')[0],
+                            bond = $(obj).children()[4].innerText.split('\n')[0];
+                        pin_cards[index] = { str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon }
+                        $(obj).addClass('selected');
+                    } else if ($(obj).attr('class').indexOf('selected') > -1) {
+                        exclude_cards[index] = JSON.parse(JSON.stringify(pin_cards[index]))
                         delete pin_cards[index]
                         $(obj).removeClass('selected');
+                        $(obj).addClass('excluded');
+                    } else {
+                        delete exclude_cards[index]
+                        $(obj).removeClass('excluded');
                     }
                 })
             })
@@ -773,7 +791,8 @@
         $('#pinCard').hide();
         $('#modalPin').hide()
         pin_cards = {};
-        pin_cache = {};
+        exclude_cards = {};
+        filter_cache = {};
         $('.icon-list .container').html('');
     }
 
@@ -783,13 +802,22 @@
         $('body').addClass('modal-open')
     })
     $('#modalPin .exitBtn').click(function() {
-        $('#modalPin').hide()
-        $('body').removeClass('modal-open')
-        var temp = '';
-        for (var x in pin_cards) {
-            temp += "<div class='icon'><div class='stats_bar'>{0}</div><img src='{1}'></div>".format(pin_cards[x].str, pin_cards[x].src)
+        var pin_len = Object.keys(pin_cards).length,
+            exclude_len = Object.keys(exclude_cards).length
+        if (pin_len <= 8 && exclude_len <= 8) {
+            $('#modalPin').hide()
+            $('body').removeClass('modal-open')
+            var temp = '';
+            for (var x in pin_cards) {
+                temp += "<div class='icon'><div class='stats_bar'>{0}</div><img src='{1}'></div>".format(pin_cards[x].str, pin_cards[x].src)
+            }
+            for (var x in exclude_cards) {
+                temp += "<div class='icon'><div class='stats_bar'>{0}</div><img class='w3-grayscale-max' src='{1}'></div>".format(exclude_cards[x].str, exclude_cards[x].src)
+            }
+            $('.icon-list .container').html(temp);
+        } else {
+            alert('最多可选8张强制入队卡牌，目前你有{0}张\n最多可选8强制出队卡牌，目前你有{1}张\n请返回修改选择'.format(pin_len, exclude_len))
         }
-        $('.icon-list .container').html(temp);
     })
     $('#pin-heal').click(function() {
         filter_cards('heal');
@@ -901,6 +929,7 @@
         }
         if (user_json_obj['unit_info'].length < 13) {
             updateInfo('组卡至少要有13张卡，您目前有{0}张，请继续添加卡组'.format(user_json_obj['unit_info'].length), true);
+            alert('请检查你的卡组是否有13张卡以上，且至少有一张与歌曲同色稀有度N以上的卡，如果开启了锁卡模式则需要更多的卡')
             return
         }
         $('#calculate').prop('disabled', true);
@@ -929,6 +958,7 @@
             is_sm: live_selection.is_sm,
             is_random: live_selection.is_random,
             pin_index: pin_sel ? JSON.stringify(Object.keys(pin_cards)) : '[]',
+            exclude_index: pin_sel ? JSON.stringify(Object.keys(exclude_cards)) : '[]',
             csrfmiddlewaretoken: '{{ csrf_token }}'
         }
         $.ajax({

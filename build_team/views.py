@@ -73,12 +73,13 @@ def calculate(request):
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
 		is_sm, is_random = bool(request.POST.get('is_sm', 'false')=='true'), bool(request.POST.get('is_random', 'false')=='true')
 		pin_index = [int(x) for x in json.loads(request.POST.get('pin_index', '[]'))]
+		exclude_index = [int(x) for x in json.loads(request.POST.get('exclude_index', '[]'))]
 
 		user_info  = 'User Information: {0} from {1} team building page\n'.format(str(get_client_ip(request)), lang)
 		if not is_sm:
-			user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}, {5} pinned cards\n'.format(song_list, group, attr, diff, PR, len(pin_index))
+			user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}, {5}/{6} pinned cards\n'.format(song_list, group, attr, diff, PR, len(pin_index), len(exclude_index))
 		else:
-			user_info += 'Live Info: {5} {0} {1} {2} {3}, P Rate={4}, {6} pinned cards\n'.format(song_list, group, attr, diff, PR, 'SM'+' random'*is_random, len(pin_index))
+			user_info += 'Live Info: {5} {0} {1} {2} {3}, P Rate={4}, {6}/{7} pinned cards\n'.format(song_list, group, attr, diff, PR, 'SM'+' random'*is_random, len(pin_index), len(exclude_index))
 		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, unlimit_gem, extra_cond)
 		print(user_info)
 
@@ -166,7 +167,7 @@ def calculate(request):
 			    temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
 			# alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
 			alloc_method = 'DC'
-			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method, time_limit=24, pin_index=pin_index)
+			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method, time_limit=24, pin_index=pin_index, exclude_index=exclude_index)
 			result = ''
 			if num_calc < num_total:
 				result += '<p style="text-align:center; color:red"><b>{0}</b></p>'.format(strings[lang]['IMCOMPLETE'].format(num_calc, num_total))
