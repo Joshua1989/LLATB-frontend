@@ -69,7 +69,7 @@ def calculate(request):
 		start_time = time.time()
 		song_list, PR = eval(request.POST['song_list']), float(request.POST['perfect_rate'])
 		group, attr, diff = [request.POST[x] for x in ['group', 'attribute', 'difficulty']]
-		score_up, skill_up = 0.1*float(request.POST['score_up']=='true'), 0.1*float(request.POST['skill_up']=='true')
+		score_up, skill_up = float(request.POST['score_up']), float(request.POST['skill_up'])
 		unlimit_gem, extra_cond, json_str = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond'], request.POST['user_profile']
 		is_sm, is_random = bool(request.POST.get('is_sm', 'false')=='true'), bool(request.POST.get('is_random', 'false')=='true')
 		pin_index = [int(x) for x in json.loads(request.POST.get('pin_index', '[]'))]

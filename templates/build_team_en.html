@@ -319,8 +319,8 @@
         pin_cards = {},
         exclude_cards = {},
         filter_cache = {},
-        score_up = false,
-        skill_up = false,
+        score_up = 0,
+        skill_up = 0,
         unlimit_gem = false,
         perfect_rate = 0.95,
         extra_cond = 'default',
@@ -653,23 +653,23 @@
 
     // Toggle score up, skill up and unlimited gem
     function toggleScoreUp() {
-        score_up = !score_up;
+        score_up = (Math.round(100*score_up+10) % 50)/100;
         if (score_up) {
             $('#scoreUp img').removeClass('w3-grayscale-max');
         } else {
             $('#scoreUp img').addClass('w3-grayscale-max');
         }
-        updateInfo('Score Up 10% {0}'.format(score_up ? 'ON' : 'OFF'), false);
+        updateInfo('Score Up {0}'.format(score_up ? '+'+Math.round(100*score_up)+'% ON' : 'OFF'), false);
     }
 
     function toggleSkillUp() {
-        skill_up = !skill_up;
+        skill_up = (Math.round(100*skill_up+10) % 50)/100;
         if (skill_up) {
             $('#skillUp img').removeClass('w3-grayscale-max');
         } else {
             $('#skillUp img').addClass('w3-grayscale-max');
         }
-        updateInfo('Skill Up 10% {0}'.format(skill_up ? 'ON' : 'OFF'), false);
+        updateInfo('Skill Up {0}'.format(skill_up ? '+'+Math.round(100*skill_up)+'% ON' : 'OFF'), false);
     }
 
     function toggleUnlimitGem() {

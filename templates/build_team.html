@@ -301,8 +301,8 @@
         pin_cards = {},
         exclude_cards = {},
         filter_cache = {},
-        score_up = false,
-        skill_up = false,
+        score_up = 0,
+        skill_up = 0,
         unlimit_gem = false,
         perfect_rate = 0.95,
         extra_cond = 'default',
@@ -635,23 +635,23 @@
 
     // Toggle score up, skill up and unlimited gem
     function toggleScoreUp() {
-        score_up = !score_up;
+        score_up = (Math.round(100*score_up+10) % 50)/100;
         if (score_up) {
             $('#scoreUp img').removeClass('w3-grayscale-max');
         } else {
             $('#scoreUp img').addClass('w3-grayscale-max');
         }
-        updateInfo('{0} 打击得分+10%'.format(score_up ? '启用' : '取消'), false);
+        updateInfo('{0} 打击得分{1}'.format(score_up ? '启用' : '取消', score_up ? '+'+Math.round(100*score_up)+'%' : '加成'), false);
     }
 
     function toggleSkillUp() {
-        skill_up = !skill_up;
+        skill_up = (Math.round(100*skill_up+10) % 50)/100;
         if (skill_up) {
             $('#skillUp img').removeClass('w3-grayscale-max');
         } else {
             $('#skillUp img').addClass('w3-grayscale-max');
         }
-        updateInfo('{0} 技能触发+10%'.format(skill_up ? '启用' : '取消'), false);
+        updateInfo('{0} 技能触发{1}'.format(skill_up ? '启用' : '取消', skill_up ? '+'+Math.round(100*skill_up)+'%' : '加成'), false);
     }
 
     function toggleUnlimitGem() {
@@ -981,8 +981,8 @@
                             live_attr = live_selection['attr'],
                             simul_card_info = JSON.parse(data.simul_base_info),
                             simul_live_info = JSON.parse(data.note_list),
-                            skillup = 1 + 0.1 * skill_up,
-                            scoreup = 1 + 0.1 * score_up;
+                            skillup = 1 + skill_up,
+                            scoreup = 1 + score_up;
                         $('#simulBtn').click(function() {
                             var simul_res = MonteCarlo(n_trial, P_rate, live_group, live_attr, simul_card_info, simul_live_info, skillup, scoreup);
                             draw_simul('simul_hist', 'cover_rate', simul_res);

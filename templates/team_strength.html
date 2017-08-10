@@ -125,6 +125,10 @@
     </div>
     <div id='liveStats' class='w3-modal'>
         <div class='w3-modal-content'>
+            <div class='w3-bar'>
+                <button id='addCurrentSong' class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-mobile' style="max-width:50%;"><b>Add Song</b></button>
+                <span onclick="closeLiveStats()" class="exitBtn"><b>x</b></span>
+            </div>
             <div class='w3-container w3-padding-24 w3-border w3-topbar w3-bottombar w3-leftbar w3-rightbar w3-border-blue'>
             </div>
         </div>
@@ -271,13 +275,13 @@
     var group_sel = 'muse',
         attr_sel = 'Smile',
         diff_sel = 'Expert',
-        score_up = false,
-        skill_up = false,
+        score_up = 0,
+        skill_up = 0,
         unlimit_gem = false,
         perfect_rate = 0.95,
         extra_cond = 'default',
-        guest_center = 'None'
-    auto_mode = false;
+        guest_center = 'None',
+    	auto_mode = false;
     var user_json = localStorage.getItem("user_json");
     if (user_json == null) {
         user_json = '{"unit_info":[],"deck_info":[],"removable_info":{"equipment_info":{},"owning_info":[{"total_amount":9,"unit_removable_skill_id":1},{"total_amount":9,"unit_removable_skill_id":2},{"total_amount":9,"unit_removable_skill_id":3},{"total_amount":9,"unit_removable_skill_id":4},{"total_amount":9,"unit_removable_skill_id":5},{"total_amount":9,"unit_removable_skill_id":6},{"total_amount":9,"unit_removable_skill_id":7},{"total_amount":9,"unit_removable_skill_id":8},{"total_amount":9,"unit_removable_skill_id":9},{"total_amount":9,"unit_removable_skill_id":10},{"total_amount":9,"unit_removable_skill_id":11},{"total_amount":9,"unit_removable_skill_id":12},{"total_amount":9,"unit_removable_skill_id":13},{"total_amount":9,"unit_removable_skill_id":14},{"total_amount":9,"unit_removable_skill_id":15},{"total_amount":9,"unit_removable_skill_id":16},{"total_amount":9,"unit_removable_skill_id":17},{"total_amount":9,"unit_removable_skill_id":18},{"total_amount":9,"unit_removable_skill_id":19},{"total_amount":9,"unit_removable_skill_id":20},{"total_amount":9,"unit_removable_skill_id":21},{"total_amount":9,"unit_removable_skill_id":22},{"total_amount":9,"unit_removable_skill_id":23},{"total_amount":9,"unit_removable_skill_id":24},{"total_amount":9,"unit_removable_skill_id":25},{"total_amount":9,"unit_removable_skill_id":26},{"total_amount":9,"unit_removable_skill_id":27},{"total_amount":9,"unit_removable_skill_id":28},{"total_amount":9,"unit_removable_skill_id":29},{"total_amount":9,"unit_removable_skill_id":30},{"total_amount":9,"unit_removable_skill_id":31},{"total_amount":9,"unit_removable_skill_id":32},{"total_amount":9,"unit_removable_skill_id":33},{"total_amount":9,"unit_removable_skill_id":34},{"total_amount":9,"unit_removable_skill_id":35},{"total_amount":9,"unit_removable_skill_id":36},{"total_amount":9,"unit_removable_skill_id":37},{"total_amount":9,"unit_removable_skill_id":38},{"total_amount":9,"unit_removable_skill_id":39}]}}';
@@ -319,6 +323,8 @@
                 } else {
                     if (live_selection['song_list'].length < 5) {
                         live_selection['song_list'].push(add_song);
+                        live_selection.is_sm = false;
+                        live_selection.is_random = false;
                     } else {
                         updateInfo('Selected Live number reached upper bound 5', true);
                     }
@@ -476,7 +482,12 @@
     function viewLiveStats(e) {
         sn = e.target.parentNode.childNodes[0].getElementsByTagName("b")[0].innerHTML;
         if (sn.indexOf('Default') != -1) {
-            return
+            $('#liveStats').show();
+            $('body').addClass('modal-open');
+            var note_number = { 'Easy': 110, 'Normal': 200, 'Hard': 350, 'Expert': 500, 'Master': 700 }
+            temp = "<p align='center' style='color:{0};'>{1} {2}</p>".format(attribute_color[attr_sel], sn, diff_sel);
+            temp += "<p align='center' style='color:{0};'>Note Number {1}, Duration 120s, Star Percentage 10%, Long Note Percentage 8%</p>".format(attribute_color[attr_sel], note_number[diff_sel]);
+            $('#liveStats .w3-container').html(temp);
         } else if (sn.indexOf('SM') != -1) {
             $('#liveStats').show();
             $('body').addClass('modal-open');
@@ -486,7 +497,7 @@
             var songs = server.stages[stg_idx].song_list[attr_sel];
             var start = server.stages[stg_idx].start,
                 end = server.stages[stg_idx].end;
-            temp = '<span onclick="closeLiveStats()" class="exitBtn"><b>x</b></span>'
+            temp = ''
             temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], sn);
             temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], 'From {0} to {1}'.format(start, end));
             temp += "<p align='center' style='color:{0};'>{1}</p>".format(attribute_color[attr_sel], songs.join('<br/>'));
@@ -517,6 +528,10 @@
                 }
             });
         }
+        $('#addCurrentSong').off('click').click(function() {
+            chooseLive(sn, diff_sel);
+            closeLiveStats();
+        })
     }
 
     function closeLiveStats() {
@@ -591,23 +606,23 @@
 
     // Toggle score up, skill up and unlimited gem
     function toggleScoreUp() {
-        score_up = !score_up;
+        score_up = (Math.round(100*score_up+10) % 50)/100;
         if (score_up) {
             $('#scoreUp img').removeClass('w3-grayscale-max');
         } else {
             $('#scoreUp img').addClass('w3-grayscale-max');
         }
-        updateInfo('Score Up 10% {0}'.format(score_up ? 'ON' : 'OFF'), false);
+        updateInfo('Score Up {0}'.format(score_up ? '+'+Math.round(100*score_up)+'% ON' : 'OFF'), false);
     }
 
     function toggleSkillUp() {
-        skill_up = !skill_up;
+        skill_up = (Math.round(100*skill_up+10) % 50)/100;
         if (skill_up) {
             $('#skillUp img').removeClass('w3-grayscale-max');
         } else {
             $('#skillUp img').addClass('w3-grayscale-max');
         }
-        updateInfo('Skill Up 10% {0}'.format(skill_up ? 'ON' : 'OFF'), false);
+        updateInfo('Skill Up {0}'.format(skill_up ? '+'+Math.round(100*skill_up)+'% ON' : 'OFF'), false);
     }
 
     function toggleUnlimitGem() {
@@ -770,8 +785,8 @@
                             live_attr = live_selection['attr'],
                             simul_card_info = JSON.parse(data.simul_base_info),
                             simul_live_info = JSON.parse(data.note_list),
-                            skillup = 1 + 0.1 * skill_up,
-                            scoreup = 1 + 0.1 * score_up;
+                            skillup = 1 + skill_up,
+                            scoreup = 1 + score_up;
                         $('#simulBtn').click(function() {
                             var simul_res = MonteCarlo(n_trial, P_rate, live_group, live_attr, simul_card_info, simul_live_info, skillup, scoreup);
                             draw_simul('simul_hist', 'cover_rate', simul_res);
