@@ -665,7 +665,7 @@
             $('#scoreup').val('');
         } else if (score_up < 0 || score_up > 0.4) {
             score_up = 0;
-            alert('打击得分加成合法范围为0%至40%')
+            alert('The valid range for score up is 0% to 40%')
             $('#scoreup').val('');
         }
         if (score_up) {
@@ -673,7 +673,7 @@
         } else {
             $('#scoreup').css('filter', 'grayscale(100%)')
         }
-        updateInfo('{0} 打击得分{1}'.format(score_up ? '启用' : '取消', score_up ? '+'+Math.round(100*score_up)+'%' : '加成'), false);
+        updateInfo('Score Up {0}'.format(score_up ? '+'+Math.round(100*score_up)+'% ON' : 'OFF'), false);
     }
 
     function changeSkillUp() {
@@ -683,7 +683,7 @@
             $('#skillup').val('');
         } else if (skill_up < 0 || skill_up > 0.4) {
             skill_up = 0;
-            alert('打击得分加成合法范围为0%至40%')
+            alert('The valid range for skill up is 0% to 40%')
             $('#skillup').val('');
         }
         if (skill_up) {
@@ -691,7 +691,7 @@
         } else {
             $('#skillup').css('filter', 'grayscale(100%)')
         }
-        updateInfo('{0} 技能触发{1}'.format(skill_up ? '启用' : '取消', skill_up ? '+'+Math.round(100*skill_up)+'%' : '加成'), false);
+        updateInfo('Skill Up {0}'.format(skill_up ? '+'+Math.round(100*skill_up)+'% ON' : 'OFF'), false);
     }
 
     function toggleUnlimitGem() {
