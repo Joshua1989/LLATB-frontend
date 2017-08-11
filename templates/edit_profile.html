@@ -515,10 +515,8 @@
         var temp = ''
         for (var ownIdx in owned_bucket[member_sel][attr_sel]) {
             var CI = owned_bucket[member_sel][attr_sel][ownIdx]
-            if (CI['idolized'] == idolized_sel) {
-                var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
-                temp += '<div class=\'own_icon\'><div class=\'stats_bar\'>{2}</div><img src=\'{0}\' alt=\'own-{1}\'></div>'.format(icon_path(CI['card_id'], CI['idolized']), ownIdx, stats_str);
-            }
+            var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
+            temp += '<div class=\'own_icon\'><div class=\'stats_bar\'>{2}</div><img src=\'{0}\' alt=\'own-{1}\'></div>'.format(icon_path(CI['card_id'], CI['idolized']), ownIdx, stats_str);
         }
         $('#owned').html(temp);
         $(".own_icon img").each(function(index) {
@@ -686,7 +684,6 @@
         }
         updateInfo('选择觉醒状态为 {0}觉醒'.format(idolized_sel ? '' : '未'), false);
         showCardPond();
-        showOwned();
     })
 
     // Edit gem number

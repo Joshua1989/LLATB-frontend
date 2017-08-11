@@ -66,8 +66,12 @@
                 <div class='w3-dropdown-content w3-bar-block' style='z-index:2;min-width:40px;background-color:rgba(0,0,0,0);'>
                 </div>
             </div>
-            <button id='scoreUp' class='imgBtn w3-margin-left' onclick="toggleScoreUp()"></button>
-            <button id='skillUp' class='imgBtn' onclick="toggleSkillUp()"></button>
+            <div class="w3-bar-item w3-margin-left" style='width:55px;height:40px;padding:0;margin-right:5px;'>
+                <input id='scoreup' class='w3-input w3-round-large boostInput' type='number' inputmode="numeric" pattern="[0-9]*" min='0' max='40' step='1' required='required' onchange="changeScoreUp()">
+            </div>
+            <div class="w3-bar-item" style='width:55px;height:40px;padding:0;'>
+                <input id='skillup' class='w3-input w3-round-large boostInput' type='number' inputmode="numeric" pattern="[0-9]*" min='0' max='40' step='1' required='required' onchange="changeSkillUp()">
+            </div>
             <div class="w3-bar-item w3-margin-left" style='width:75px;height:40px;padding:0;'>
                 <input id='perfectRate' class='w3-input w3-round-large' type='number' min='0.01' max='1' step='0.01' placeholder='Perfect Rate' required='required' onchange="changePerfectRate()">
             </div>
@@ -78,7 +82,7 @@
             <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left w3-margin-right' style='padding:0 0' onclick="openUTeamJSON()"><b>Team JSON</b></button>
             <select id='guestCenter' class='w3-bar-item w3-select w3-mobile' style='height:40px;padding:0' onchange="changeGuestCenter()">
             </select>
-            <button id='calculate' class='w3-bar-item w3-green w3-hover-yellow roundBtn w3-margin-left w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
+            <button id='calculate' class='w3-bar-item w3-green w3-hover-yellow roundBtn w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
         </div>
         <div id='liveSel' class='infoBar w3-black' style='height:auto'>
             <span> <b> </b> </span>
@@ -372,10 +376,12 @@
     }
     $('#difficulty div').html(temp);
     $('#difficulty>button').html("<img src='{0}' height=100%>".format(img_url[diff_sel]));
-    $('#scoreUp').html("<img src='{0}' height=100%>".format(img_url['ScoreUp']));
-    $('#scoreUp img').addClass('w3-grayscale-max');
-    $('#skillUp').html("<img src='{0}' height=100%>".format(img_url['SkillUp']));
-    $('#skillUp img').addClass('w3-grayscale-max');
+    $('#scoreup').css('background-image', 'url("{0}")'.format(img_url['ScoreUp']));
+    $('#scoreup').css('background-size', 'auto 100%');
+    $('#scoreup').css('filter', 'grayscale(100%)');
+    $('#skillup').css('background-image', 'url("{0}")'.format(img_url['SkillUp']));
+    $('#skillup').css('background-size', 'auto 100%');
+    $('#skillup').css('filter', 'grayscale(100%)');
     $('#unlimitGem').html("<img src='{0}' height=100%>".format(img_url['UnlimitGem']));
     $('#unlimitGem img').addClass('w3-grayscale-max');
     $('#perfectRate').val(perfect_rate);
@@ -604,25 +610,41 @@
         updateLiveSel(song_name);
     }
 
-    // Toggle score up, skill up and unlimited gem
-    function toggleScoreUp() {
-        score_up = (Math.round(100*score_up+10) % 50)/100;
-        if (score_up) {
-            $('#scoreUp img').removeClass('w3-grayscale-max');
-        } else {
-            $('#scoreUp img').addClass('w3-grayscale-max');
+    // Change score up, skill up and unlimited gem
+    function changeScoreUp() {
+        score_up = Math.round($('#scoreup').val())/100;
+        if (isNaN(score_up) || score_up == 0) {
+            score_up = 0;
+            $('#scoreup').val('');
+        } else if (score_up < 0 || score_up > 0.4) {
+            score_up = 0;
+            alert('打击得分加成合法范围为0%至40%')
+            $('#scoreup').val('');
         }
-        updateInfo('Score Up {0}'.format(score_up ? '+'+Math.round(100*score_up)+'% ON' : 'OFF'), false);
+        if (score_up) {
+            $('#scoreup').css('filter', 'grayscale(0%)')
+        } else {
+            $('#scoreup').css('filter', 'grayscale(100%)')
+        }
+        updateInfo('{0} 打击得分{1}'.format(score_up ? '启用' : '取消', score_up ? '+'+Math.round(100*score_up)+'%' : '加成'), false);
     }
 
-    function toggleSkillUp() {
-        skill_up = (Math.round(100*skill_up+10) % 50)/100;
-        if (skill_up) {
-            $('#skillUp img').removeClass('w3-grayscale-max');
-        } else {
-            $('#skillUp img').addClass('w3-grayscale-max');
+    function changeSkillUp() {
+        skill_up = Math.round($('#skillup').val())/100;
+        if (isNaN(skill_up) || skill_up == 0) {
+            skill_up = 0;
+            $('#skillup').val('');
+        } else if (skill_up < 0 || skill_up > 0.4) {
+            skill_up = 0;
+            alert('打击得分加成合法范围为0%至40%')
+            $('#skillup').val('');
         }
-        updateInfo('Skill Up {0}'.format(skill_up ? '+'+Math.round(100*skill_up)+'% ON' : 'OFF'), false);
+        if (skill_up) {
+            $('#skillup').css('filter', 'grayscale(0%)')
+        } else {
+            $('#skillup').css('filter', 'grayscale(100%)')
+        }
+        updateInfo('{0} 技能触发{1}'.format(skill_up ? '启用' : '取消', skill_up ? '+'+Math.round(100*skill_up)+'%' : '加成'), false);
     }
 
     function toggleUnlimitGem() {
