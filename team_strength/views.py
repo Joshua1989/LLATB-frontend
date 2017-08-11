@@ -73,7 +73,7 @@ def calculate(request):
 		start_time = time.time()
 		song_list, PR = eval(request.POST['song_list']), float(request.POST['perfect_rate'])
 		group, attr, diff = [request.POST[x] for x in ['group', 'attribute', 'difficulty']]
-		score_up, skill_up = float(request.POST['score_up']), float(request.POST['skill_up'])
+		score_up, skill_up = float(request.POST.get('score_up',0)), float(request.POST.get('skill_up',0))
 		unlimit_gem, extra_cond = bool(request.POST['unlimit_gem']=='true'), request.POST['extra_cond']
 		auto_mode, json_str = request.POST['auto_mode']=='true', request.POST['user_profile']
 		is_sm, is_random = bool(request.POST['is_sm']=='true'), bool(request.POST['is_random']=='true')
