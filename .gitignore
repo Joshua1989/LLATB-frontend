@@ -101,8 +101,5 @@ ENV/
 *.sublime-project
 *.sublime-workspace
 
-
-build_team/__pycache__/views.cpython-35.pyc
-llatb/advanced/__pycache__/team_builder.cpython-35.pyc
 templates/LLSIF-AutoTeamBuilder Tutorial.html
 static/exception.txt
