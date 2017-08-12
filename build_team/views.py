@@ -171,6 +171,13 @@ def calculate(request):
 			result = ''
 			if num_calc < num_total:
 				result += '<p style="text-align:center; color:red"><b>{0}</b></p>'.format(strings[lang]['IMCOMPLETE'].format(num_calc, num_total))
+				# Save user request if there is a timeout for debug
+				with open(settings.BASE_DIR+'/static/exception.txt', 'a') as fp:
+					fp.write('='*100+'\n')
+					fp.write(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())+'\n')
+					fp.write(user_info+'\n')
+					fp.write('='*100+'\n')
+					fp.write(json.dumps(request.POST) + '\n'*2)
 			result += tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
 		except:
 			print('Failed to compute optimal team.')
