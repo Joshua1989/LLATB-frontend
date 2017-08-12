@@ -17,6 +17,7 @@ with open('static/card_data_base.json', 'w') as fp:
 	fp.write('card_info_data = \'{0}\''.format(json.dumps(card_info).replace("'","\\'")))
 # uid cid data
 uid_cid_dict = {str(k):str(v) for k,v in sqlite3.connect(unit_db_dir).cursor().execute("SELECT unit_id, unit_number FROM unit_m").fetchall()}
+for i, x in enumerate(range(1243,1252),1): uid_cid_dict[str(x)] = str(2000+i)
 with open('static/uid_cid_dict.json', 'w') as fp:
 	fp.write('uid_cid_dict = \'{0}\''.format(json.dumps(uid_cid_dict)))
 # live data
