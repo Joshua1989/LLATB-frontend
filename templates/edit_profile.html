@@ -467,7 +467,22 @@
 
     // Display all filtered card
     function icon_path(cid, idolized) {
-        return '//gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup' : 'normal', cid);
+        if (parseInt(cid) < 2000)
+            return '//gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup' : 'normal', cid);
+        else {
+            temp_path = {
+                2001: 'http://i.schoolido.lu/c/2001RoundIdolizedChika.png',
+                2002: 'http://i.schoolido.lu/c/2002RoundIdolizedRiko.png',
+                2003: 'http://i.schoolido.lu/c/2003RoundIdolizedKanan.png',
+                2004: 'http://i.schoolido.lu/c/2004RoundIdolizedDia.png',
+                2005: 'http://i.schoolido.lu/c/2005RoundIdolizedYou.png',
+                2006: 'http://i.schoolido.lu/c/2006RoundIdolizedYoshiko.png',
+                2007: 'http://i.schoolido.lu/c/2007RoundIdolizedHanamaru.png',
+                2008: 'http://i.schoolido.lu/c/2008RoundIdolizedMari.png',
+                2009: 'http://i.schoolido.lu/c/2009RoundIdolizedRuby.png',
+            }
+            return temp_path[cid]
+        }
     }
 
     function showCardPond() {
@@ -496,7 +511,7 @@
                     level: max_level_dict[idolized_sel][CI['rarity']],
                     bond: max_bond_dict[idolized_sel][CI['rarity']],
                     idolized: idolized_sel,
-                    slot: slot_num_dict[CI['promo'] ? 'promo'+CI['rarity'] : CI['rarity']][0],
+                    slot: slot_num_dict[CI['promo'] ? 'promo' + CI['rarity'] : CI['rarity']][0],
                     skill: 1,
                     rarity: CI['rarity'],
                     promo: CI['promo']
@@ -563,7 +578,7 @@
         $('#editLevel').val(CI['level']);
         $('#editBond').attr('max', max_bond_dict[CI['idolized']][CI['rarity']]);
         $('#editBond').val(CI['bond']);
-        var slot_limit = slot_num_dict[CI['promo'] ? 'promo'+CI['rarity'] : CI['rarity']]
+        var slot_limit = slot_num_dict[CI['promo'] ? 'promo' + CI['rarity'] : CI['rarity']]
         for (var x = 1; x <= 8; x++) {
             $('#slot-' + x).show();
             $('#slot-' + x).removeClass('checked');
