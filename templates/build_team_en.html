@@ -1079,7 +1079,7 @@
     var SIT_user_name = localStorage.getItem('SIT_user_name');
     if (SIT_user_name != null) {
         $('#modalSIT input').val(SIT_user_name);
-        SIT.get_all("//schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+        SIT.get_all("https://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
             function(accountList) {
                 if (accountList.length === 0) {
                     alert("No SIT Accounts Found");
@@ -1099,7 +1099,7 @@
     })
     $('#modalSIT input').change(function() {
         SIT_user_name = $(this).val()
-        SIT.get_all("//schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+        SIT.get_all("https://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
             function(accountList) {
                 if (accountList.length === 0) {
                     alert("No SIT Accounts Found");
@@ -1115,7 +1115,7 @@
     })
     $('#modalSIT button').click(function() {
         var id = $("#modalSIT select").val();
-        SIT.get_all("//schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
+        SIT.get_all("https://schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
             POST_JSON = {
                 lang: 'EN',
                 username: $("#modalSIT input").val(),
