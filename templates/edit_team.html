@@ -556,22 +556,7 @@
 
     // Display all filtered card
     function icon_path(cid, idolized) {
-        if (parseInt(cid) < 2000)
-            return '//gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup' : 'normal', cid);
-        else {
-            temp_path = {
-                2001: 'http://i.schoolido.lu/c/2001RoundIdolizedChika.png',
-                2002: 'http://i.schoolido.lu/c/2002RoundIdolizedRiko.png',
-                2003: 'http://i.schoolido.lu/c/2003RoundIdolizedKanan.png',
-                2004: 'http://i.schoolido.lu/c/2004RoundIdolizedDia.png',
-                2005: 'http://i.schoolido.lu/c/2005RoundIdolizedYou.png',
-                2006: 'http://i.schoolido.lu/c/2006RoundIdolizedYoshiko.png',
-                2007: 'http://i.schoolido.lu/c/2007RoundIdolizedHanamaru.png',
-                2008: 'http://i.schoolido.lu/c/2008RoundIdolizedMari.png',
-                2009: 'http://i.schoolido.lu/c/2009RoundIdolizedRuby.png',
-            }
-            return temp_path[cid]
-        }
+        return '//gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup' : 'normal', cid);
     }
 
     var CI_sel = undefined;

@@ -31,4 +31,7 @@ for item in live_info:
 	if not Path(file_name).exists():
 		opener = urllib.request.URLopener()
 		opener.addheader('User-Agent', 'whatever')
-		opener.retrieve(item['file_dir'], file_name)
+		try:
+			opener.retrieve(item['file_dir'], file_name)
+		except:
+			print(item['file_dir'], file_name)

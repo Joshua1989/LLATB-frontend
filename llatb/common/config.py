@@ -18,21 +18,7 @@ minaraishi_json_url = 'https://designedfor.sakura.ne.jp/nikuma-n/school-idol-fes
 
 # Path function for saving downloaded resources and HTML image embedding
 def icon_path(card_id, idolized):
-	if card_id < 2000:
-		return 'http://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format('rankup' if idolized else 'normal', card_id)
-	else:
-		temp_path = {
-			2001: 'http://i.schoolido.lu/c/2001RoundIdolizedChika.png',
-			2002: 'http://i.schoolido.lu/c/2002RoundIdolizedRiko.png',
-			2003: 'http://i.schoolido.lu/c/2003RoundIdolizedKanan.png',
-			2004: 'http://i.schoolido.lu/c/2004RoundIdolizedDia.png',
-			2005: 'http://i.schoolido.lu/c/2005RoundIdolizedYou.png',
-			2006: 'http://i.schoolido.lu/c/2006RoundIdolizedYoshiko.png',
-			2007: 'http://i.schoolido.lu/c/2007RoundIdolizedHanamaru.png',
-			2008: 'http://i.schoolido.lu/c/2008RoundIdolizedMari.png',
-			2009: 'http://i.schoolido.lu/c/2009RoundIdolizedRuby.png',
-		}
-		return temp_path[card_id]
+	return 'http://gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format('rankup' if idolized else 'normal', card_id)
 def gem_path(name):
 	if name == 'empty':
 		return 'https://r.llsif.win/assets/image/ui/common/com_etc_66.png'
