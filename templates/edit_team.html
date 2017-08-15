@@ -770,6 +770,11 @@
             $('#editCard').hide();
             $('body').removeClass('modal-open');
             showTeam();
+            if (total_cost[team_id] > current_team[team_id]['slot']) {
+                $('#header-' + team_id).css('background-color', 'red');
+            } else {
+                $('#header-' + team_id).css('background-color', 'grey');
+            }
             var stats_str = '{0}/{1}/{2}/{3}'.format(CI['slot'], CI['skill'], CI['level'], CI['bond']);
             var idol_str = CI['idolized'] ? 'Idolized' : 'Unidolized';
             updateInfo('Position {1}: CID {0} change data to {2} {3}'.format(CI['card_id'], position[team_id], idol_str, stats_str));
