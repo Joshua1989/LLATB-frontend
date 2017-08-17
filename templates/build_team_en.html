@@ -316,19 +316,47 @@
     }
 
     // Initialize selections
-    var group_sel = 'muse',
-        attr_sel = 'Smile',
-        diff_sel = 'Expert',
+    var local_vars = JSON.parse(localStorage.getItem('local_vars'));
+    if (local_vars == null) {
+        local_vars = {
+            group_sel: 'muse',
+            attr_sel: 'Smile',
+            diff_sel: 'Expert',
+            score_up: 0,
+            skill_up: 0,
+            unlimit_gem: false,
+            perfect_rate: 0.95,
+            extra_cond: 'default',
+        };
+    }
+    var group_sel = local_vars.group_sel,
+        attr_sel = local_vars.attr_sel,
+        diff_sel = local_vars.diff_sel,
         pin_sel = false,
         pin_cards = {},
         exclude_cards = {},
         filter_cache = {},
-        score_up = 0,
-        skill_up = 0,
-        unlimit_gem = false,
-        perfect_rate = 0.95,
-        extra_cond = 'default',
+        score_up = local_vars.score_up,
+        skill_up = local_vars.skill_up,
+        unlimit_gem = local_vars.unlimit_gem,
+        perfect_rate = local_vars.perfect_rate,
+        extra_cond = local_vars.extra_cond,
         guest_center = 'None';
+
+    function save_local_vars() {
+        var temp = JSON.stringify({
+            group_sel: group_sel,
+            attr_sel: attr_sel,
+            diff_sel: diff_sel,
+            score_up: score_up,
+            skill_up: skill_up,
+            unlimit_gem: unlimit_gem,
+            perfect_rate: perfect_rate,
+            extra_cond: extra_cond,
+        });
+        localStorage.setItem('local_vars', temp);
+    }
+
     var user_json = localStorage.getItem("user_json");
     var user_json_bucket = localStorage.getItem("user_json_bucket");
     var default_user_json = '{"unit_info":[],"deck_info":[],"removable_info":{"equipment_info":{},"owning_info":[{"total_amount":9,"unit_removable_skill_id":1},{"total_amount":9,"unit_removable_skill_id":2},{"total_amount":9,"unit_removable_skill_id":3},{"total_amount":9,"unit_removable_skill_id":4},{"total_amount":9,"unit_removable_skill_id":5},{"total_amount":9,"unit_removable_skill_id":6},{"total_amount":9,"unit_removable_skill_id":7},{"total_amount":9,"unit_removable_skill_id":8},{"total_amount":9,"unit_removable_skill_id":9},{"total_amount":9,"unit_removable_skill_id":10},{"total_amount":9,"unit_removable_skill_id":11},{"total_amount":9,"unit_removable_skill_id":12},{"total_amount":9,"unit_removable_skill_id":13},{"total_amount":9,"unit_removable_skill_id":14},{"total_amount":9,"unit_removable_skill_id":15},{"total_amount":9,"unit_removable_skill_id":16},{"total_amount":9,"unit_removable_skill_id":17},{"total_amount":9,"unit_removable_skill_id":18},{"total_amount":9,"unit_removable_skill_id":19},{"total_amount":9,"unit_removable_skill_id":20},{"total_amount":9,"unit_removable_skill_id":21},{"total_amount":9,"unit_removable_skill_id":22},{"total_amount":9,"unit_removable_skill_id":23},{"total_amount":9,"unit_removable_skill_id":24},{"total_amount":9,"unit_removable_skill_id":25},{"total_amount":9,"unit_removable_skill_id":26},{"total_amount":9,"unit_removable_skill_id":27},{"total_amount":9,"unit_removable_skill_id":28},{"total_amount":9,"unit_removable_skill_id":29},{"total_amount":9,"unit_removable_skill_id":30},{"total_amount":9,"unit_removable_skill_id":31},{"total_amount":9,"unit_removable_skill_id":32},{"total_amount":9,"unit_removable_skill_id":33},{"total_amount":9,"unit_removable_skill_id":34},{"total_amount":9,"unit_removable_skill_id":35},{"total_amount":9,"unit_removable_skill_id":36},{"total_amount":9,"unit_removable_skill_id":37},{"total_amount":9,"unit_removable_skill_id":38},{"total_amount":9,"unit_removable_skill_id":39}]}}';
@@ -426,17 +454,28 @@
     $('#difficulty>button').html("<img src='{0}' height=100%>".format(img_url[diff_sel]));
     $('#scoreup').css('background-image', 'url("{0}")'.format(img_url['ScoreUp']));
     $('#scoreup').css('background-size', 'auto 100%');
-    $('#scoreup').css('filter', 'grayscale(100%)');
+    $('#scoreup').val(parseInt(100*score_up));
+    if (score_up==0) {
+        $('#scoreup').val('');
+        $('#scoreup').css('filter', 'grayscale(100%)');
+    }
+
     $('#skillup').css('background-image', 'url("{0}")'.format(img_url['SkillUp']));
     $('#skillup').css('background-size', 'auto 100%');
-    $('#skillup').css('filter', 'grayscale(100%)');
+    $('#skillup').val(parseInt(100*skill_up));
+    if (skill_up==0) {
+        $('#skillup').val('');
+        $('#skillup').css('filter', 'grayscale(100%)');
+    }
+
     $('#unlimitGem').html("<img src='{0}' height=100%>".format(img_url['UnlimitGem']));
-    $('#unlimitGem img').addClass('w3-grayscale-max');
+    if (!unlimit_gem)
+        $('#unlimitGem img').addClass('w3-grayscale-max');
     $('#perfectRate').val(perfect_rate);
     temp = '';
     for (x in extra_cond_arr) {
         ec = extra_cond_arr[x]
-        temp += "<option value='{0}'>{1}</option>".format(ec, extra_cond_text[ec]);
+        temp += "<option value='{0}'{2}>{1}</option>".format(ec, extra_cond_text[ec], ec==extra_cond ? ' selected' : '');
     }
     $('#extraCond').html(temp);
     $('#userJSON .profile').val(user_json);
@@ -529,6 +568,7 @@
             }
         }
         $('#guestCenter').html(temp);
+        save_local_vars();
     }
     updateGuestCenter();
 
@@ -625,6 +665,7 @@
         updateLiveSwiper();
         updateInfo('Choose group as {0}'.format(group_arr[group_sel]), false);
         updateLiveSel();
+        save_local_vars();
     }
 
     // Choose attribute of live
@@ -638,7 +679,9 @@
         updateInfo('Choose attribute as {0}'.format(attr_sel), false);
         updateLiveSel();
         updateGuestCenter();
+        save_local_vars();
     }
+    switchColor(attr_sel);
 
     // Choose difficulty of live
     function switchDifficulty(diff) {
@@ -648,7 +691,9 @@
         updateInfo('Choose difficulty as {0}'.format(diff_sel), false);
         $('#difficulty>button').html("<img src='{0}'>".format(img_url[diff_sel]));
         updateLiveSel();
+        save_local_vars();
     }
+    switchDifficulty(diff_sel);
 
     // Choose live
     function chooseLive(name, diff) {
@@ -659,7 +704,7 @@
 
     // Change score up, skill up and unlimited gem
     function changeScoreUp() {
-        score_up = Math.round($('#scoreup').val())/100;
+        score_up = Math.round($('#scoreup').val()) / 100;
         if (isNaN(score_up) || score_up == 0) {
             score_up = 0;
             $('#scoreup').val('');
@@ -674,10 +719,11 @@
             $('#scoreup').css('filter', 'grayscale(100%)')
         }
         updateInfo('Score Up {0}'.format(score_up ? '+'+Math.round(100*score_up)+'% ON' : 'OFF'), false);
+        save_local_vars();
     }
 
     function changeSkillUp() {
-        skill_up = Math.round($('#skillup').val())/100;
+        skill_up = Math.round($('#skillup').val()) / 100;
         if (isNaN(skill_up) || skill_up == 0) {
             skill_up = 0;
             $('#skillup').val('');
@@ -692,6 +738,7 @@
             $('#skillup').css('filter', 'grayscale(100%)')
         }
         updateInfo('Skill Up {0}'.format(skill_up ? '+'+Math.round(100*skill_up)+'% ON' : 'OFF'), false);
+        save_local_vars();
     }
 
     function toggleUnlimitGem() {
@@ -702,6 +749,7 @@
             $('#unlimitGem img').addClass('w3-grayscale-max');
         }
         updateInfo('Unlimited SIS {0}'.format(unlimit_gem ? 'ON' : 'OFF'), false);
+        save_local_vars();
     }
 
     // Change perfect rate and extra condition
@@ -710,6 +758,7 @@
         if (!isNaN(temp) && temp >= 0.01 && temp <= 1) {
             perfect_rate = temp;
             updateInfo('Change prior perfect rate to {0}%'.format(parseInt(perfect_rate * 100)), false);
+            save_local_vars();
         } else {
             $('#perfectRate').val(perfect_rate);
             updateInfo('Invalid prior perfect rate, return to {0}%'.format(parseInt(perfect_rate * 100)), true);
@@ -720,6 +769,7 @@
     function changeExtraCondition() {
         extra_cond = $('#extraCond').val();
         updateInfo('Set extra condition as {0}'.format(extra_cond_text[extra_cond]), false);
+        save_local_vars();
     }
 
     function changeGuestCenter() {
@@ -767,7 +817,7 @@
                                 $(obj).addClass('excluded');
                             }
                             $(obj).on("click", function() {
-                                if ($(obj).attr('class') == undefined || $(obj).attr('class') == '' ) {
+                                if ($(obj).attr('class') == undefined || $(obj).attr('class') == '') {
                                     var icon = $($(obj).children()[2]).find('img')[0].src,
                                         slot = $(obj).children()[9].innerText,
                                         skill = $(obj).children()[8].innerText[3],
@@ -803,7 +853,7 @@
                     $(obj).addClass('excluded');
                 }
                 $(obj).on("click", function() {
-                    if ($(obj).attr('class') == undefined || $(obj).attr('class')=='') {
+                    if ($(obj).attr('class') == undefined || $(obj).attr('class') == '') {
                         var icon = $($(obj).children()[2]).find('img')[0].src,
                             slot = $(obj).children()[9].innerText,
                             skill = $(obj).children()[8].innerText[3],
