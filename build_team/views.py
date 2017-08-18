@@ -225,7 +225,7 @@ def live_stats(request):
 	lang = request.POST.get('lang', 'EN')
 	if request.is_ajax():
 		song_name, diff, PR = html.unescape(request.POST['song_name']), request.POST['difficulty'], request.POST['perfect_rate']
-		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
+		user_info  = 'User Information: {0} from {1} live stats page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'View Live Info: {0} {1}'.format(song_name, diff)
 		print(user_info)
 
@@ -265,8 +265,7 @@ def minaraishi_convert(request):
 	lang = request.POST.get('lang', 'EN')
 	if request.is_ajax():
 		minaraishi_json_str = request.POST['minaraishi_json']
-		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
-		user_info += 'Request to convert minaraishi\'s format.'
+		user_info  = 'User Information: {0} from {1} minaraishi\'s convert page'.format(str(get_client_ip(request)), lang)
 		print(user_info)
 		try:
 			user_profile = GameData(minaraishi_json_str, file_type='minaraishi', string_input=True)
@@ -304,8 +303,7 @@ def SIT_convert(request):
 	lang = request.POST.get('lang', 'EN')
 	if request.is_ajax():
 		SIT_json_str, user_name, account_name = request.POST['SIT_json'], request.POST['username'], request.POST['account']
-		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
-		user_info += 'Request to convert School Idol Tomodachi format.\n'
+		user_info  = 'User Information: {0} from {1} SIT convert page\n'.format(str(get_client_ip(request)), lang)
 		user_info += 'SIT username: {0}, SIT account: {1}'.format(user_name, account_name)
 		print(user_info)
 		try:
@@ -344,8 +342,7 @@ def LLH_convert(request):
 	lang = request.POST.get('lang', 'EN')
 	if request.is_ajax():
 		user_json = request.POST['user_json']
-		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
-		user_info += 'Request to convert to LL Helper format.\n'
+		user_info  = 'User Information: {0} from {1} LLH convert page\n'.format(str(get_client_ip(request)), lang)
 		print(user_info)
 		try:
 			user_profile = GameData(user_json, file_type='pll', string_input=True)
@@ -374,14 +371,20 @@ def LLproxy_user_json(request):
 def filter_cards(request):
 	strings = {
 		'CN': {
+			'DEFAULT': '默认谱面',
+			'ERR_LIVE': '载入谱面信息失败...',
 			'ERR_PROFILE': '载入用户卡组信息失败...',
-			'ERR_CONDITION': '非法的筛选条件...',
+			'ERR_EXCOND': '应用附加条件失败...',
+			'ERR_TIER': '计算卡牌强度天梯失败...',
 			'SUCCESS': '成功筛选卡牌',
 			'ERR_NONAJAX': '服务器接收请求不是AJAX'
 		},
 		'EN': {
+			'DEFAULT': 'Default',
+			'ERR_LIVE': 'Failed to load live notes...',
 			'ERR_PROFILE': 'Failed to read user profile...',
-			'ERR_CONDITION': 'Invalid filter condition...',
+			'ERR_EXCOND': 'Failed to apply extra condition...',
+			'ERR_TIER': 'Failed to compute card strength tier...',
 			'SUCCESS': 'Successfully filter the cards',
 			'ERR_NONAJAX': 'The request is not AJAX'
 		}
@@ -389,37 +392,86 @@ def filter_cards(request):
 
 	lang = request.POST.get('lang', 'EN')
 	if request.is_ajax():
-		cond, json_str = request.POST['condition'], request.POST['user_profile']
+		start_time = time.time()
+		song_list, PR = eval(request.POST['song_list']), float(request.POST['perfect_rate'])
+		group, attr, diff = [request.POST[x] for x in ['group', 'attribute', 'difficulty']]
+		score_up, skill_up = float(request.POST.get('score_up',0)), float(request.POST.get('skill_up',0))
+		extra_cond, json_str = request.POST['extra_cond'], request.POST['user_profile']
+		is_sm, is_random = bool(request.POST.get('is_sm', 'false')=='true'), bool(request.POST.get('is_random', 'false')=='true')
 
-		user_info  = 'User Information: {0} from {1} page\n'.format(str(get_client_ip(request)), lang)
-		user_info += 'Request to filter cards with condition: {0}'.format(cond)
+		user_info  = 'User Information: {0} from {1} card filtering page\n'.format(str(get_client_ip(request)), lang)
+		if not is_sm:
+			user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR)
+		else:
+			user_info += 'Live Info: {5} {0} {1} {2} {3}, P Rate={4}\n'.format(song_list, group, attr, diff, PR, 'SM'+' random'*is_random)
+		user_info += 'ScoreUp={0}, SkillUp={1}, ExtraCond={2}'.format(score_up, skill_up, extra_cond)
 		print(user_info)
 
+		# Load live
+		try:
+			if strings[lang]['DEFAULT'] not in song_list[0] and not is_sm:
+				live = MFLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR)
+				live_stats, note_list = html_view(live, lang='CN').data, json.dumps(live.web_note_list)
+			elif is_sm:
+				live = SMLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR, is_random=is_random)
+				live_stats, note_list = 'NA', '{}'
+			else:
+				song_name = song_list[0].replace(strings[lang]['DEFAULT'], 'Default')
+				live = DefaultLive(song_name, diff, perfect_rate=PR)
+				live_stats, note_list = 'NA', '{}'
+			print('Successfully loaded live.')
+		except:
+			print('Failed to load live.')
+			message = {'complete':False, 'msg':strings[lang]['ERR_LIVE']}
+			return JsonResponse(message)
+		# Load user profile
 		try:
 			if 'detail' in json_str:
 				user_profile = GameData(json_str, file_type='pll', string_input=True)
 			else:
 				user_profile = GameData(json_str, file_type='ieb', string_input=True)
 			print('Successfully loaded user profile.')
-			if cond == 'all':
-				sel_func = lambda x: x.rarity not in ['N','R'] and not x.promo
-				sort_func = lambda x: ['SR', 'SSR', 'UR'].index(x.rarity)
-			elif cond == 'heal':
-				sel_func = lambda x: x.rarity not in ['N','R'] and not x.promo and x.skill.effect_type=='Stamina Restore'
-				sort_func = lambda x: x.skill.skill_gain()
-			elif cond == 'plock':
-				sel_func = lambda x: x.rarity not in ['N','R'] and not x.promo and x.skill.effect_type=='Strong Judge'
-				sort_func = lambda x: x.skill.skill_gain()
-			else:
-				print('Invalid filter condition')
-				message = {'complete':False, 'msg':strings[lang]['ERR_CONDITION']}
-				return JsonResponse(message)
-
-			df = user_profile.filter(sel_func, sort_func)
-			result = html_view(df, extra_col=['slot_num']).data.replace('http:','').replace('https:','')
 		except:
 			print('Failed to load user profile.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_PROFILE']}
+			return JsonResponse(message)
+		# Modify user profile
+		try:
+			if extra_cond == 'current_max':
+				for i, card in user_profile.raw_card.items():
+					card.idolize(idolized=card.idolized, reset_slot=False)
+			elif extra_cond == 'idolized_max':
+				for i, card in user_profile.raw_card.items():
+					card.idolize(idolized=True, reset_slot=False)
+			elif extra_cond == 'ultimate':
+				for i, card in user_profile.raw_card.items():
+					card.idolize(idolized=True)
+					card.slot_num = card.max_slot_num
+					if card.skill is not None:
+						card.skill.level = 8
+			if extra_cond != 'default':
+				print('Successfully applied extra condition.')
+		except:
+			print('Failed to apply extra condition.')
+			message = {'complete':False, 'msg':strings[lang]['ERR_EXCOND']}
+			return JsonResponse(message)
+		try:
+			guest_center = request.POST.get('guest_center', 'None')
+			if guest_center == 'None':
+				guest_cskill = None
+			else:
+				main_attr = guest_center.split(': ')[0]
+				params = guest_center.split(': ')[1].split(' ')
+				base_attr, main_ratio = params[0], int(params[1][:-1])
+				bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
+				guest_cskill = CenterSkill(guest_center, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)
+				print('Guest skill specified to be', str(guest_cskill))
+			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':guest_cskill}
+			tb = TeamBuilder(live, user_profile, opt=opt)
+			result = {k:v.data.replace('http:','').replace('https:','') for k, v in tb.show_rough_strength().items()}
+		except:
+			print('Failed to filter cards.')
+			message = {'complete':False, 'msg':strings[lang]['ERR_TIER']}
 			return JsonResponse(message)
 
 		message = {

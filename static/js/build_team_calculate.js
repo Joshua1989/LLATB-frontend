@@ -20,11 +20,37 @@ function togglePin() {
 }
 
 function filter_cards(condition) {
-    if (filter_cache[condition] == undefined) {
+    var setting_changed = filter_cache['settings'] == undefined;
+    if (!setting_changed) {
+        setting_changed |= filter_cache['settings'].song_list != JSON.stringify(live_selection['song_list'])
+        setting_changed |= filter_cache['settings'].group != live_selection['group']
+        setting_changed |= filter_cache['settings'].attribute != live_selection['attr']
+        setting_changed |= filter_cache['settings'].difficulty != live_selection['diff']
+        setting_changed |= filter_cache['settings'].guest_center != guest_center
+        setting_changed |= filter_cache['settings'].score_up != score_up
+        setting_changed |= filter_cache['settings'].skill_up != skill_up
+        setting_changed |= filter_cache['settings'].perfect_rate != perfect_rate
+        setting_changed |= filter_cache['settings'].extra_cond != extra_cond
+        setting_changed |= filter_cache['settings'].user_profile != user_json
+        setting_changed |= filter_cache['settings'].is_sm != live_selection.is_sm
+        setting_changed |= filter_cache['settings'].is_random != live_selection.is_random
+    }
+
+    if (setting_changed) {
         POST_JSON = {
             lang: lang,
-            condition: condition,
+            song_list: JSON.stringify(live_selection['song_list']),
+            group: live_selection['group'],
+            attribute: live_selection['attr'],
+            difficulty: live_selection['diff'],
+            guest_center: guest_center,
+            score_up: score_up,
+            skill_up: skill_up,
+            perfect_rate: perfect_rate,
+            extra_cond: extra_cond,
             user_profile: user_json,
+            is_sm: live_selection.is_sm,
+            is_random: live_selection.is_random,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         }
         $.ajax({
@@ -36,8 +62,24 @@ function filter_cards(condition) {
             data: POST_JSON,
             success: function(data) {
                 if (data['complete']) {
-                    filter_cache[condition] = data['result'];
-                    $('#modalPin .w3-display-container').html(data['result']);
+                    filter_cache['settings'] = {
+                        song_list: JSON.stringify(live_selection['song_list']),
+                        group: live_selection['group'],
+                        attribute: live_selection['attr'],
+                        difficulty: live_selection['diff'],
+                        guest_center: guest_center,
+                        score_up: score_up,
+                        skill_up: skill_up,
+                        perfect_rate: perfect_rate,
+                        extra_cond: extra_cond,
+                        user_profile: user_json,
+                        is_sm: live_selection.is_sm,
+                        is_random: live_selection.is_random,
+                    }
+                    filter_cache['all'] = data['result']['all'];
+                    filter_cache['healer'] = data['result']['healer'];
+                    filter_cache['plocker'] = data['result']['plocker'];
+                    $('#modalPin .w3-display-container').html(data['result'][condition]);
                     $('#modalPin .w3-display-container tr').each(function(i, obj) {
                         if ($(obj).attr('style') != undefined)
                             return
@@ -50,8 +92,8 @@ function filter_cards(condition) {
                         $(obj).on("click", function() {
                             if ($(obj).attr('class') == undefined || $(obj).attr('class') == '') {
                                 var icon = $($(obj).children()[2]).find('img')[0].src,
-                                    slot = $(obj).children()[9].innerText,
-                                    skill = $(obj).children()[8].innerText[3],
+                                    slot = $(obj).children()[8].innerText,
+                                    skill = $(obj).children()[9].innerText[3],
                                     level = $(obj).children()[3].innerText.split('\n')[0],
                                     bond = $(obj).children()[4].innerText.split('\n')[0];
                                 pin_cards[index] = { str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon }
@@ -89,8 +131,8 @@ function filter_cards(condition) {
             $(obj).on("click", function() {
                 if ($(obj).attr('class') == undefined || $(obj).attr('class') == '') {
                     var icon = $($(obj).children()[2]).find('img')[0].src,
-                        slot = $(obj).children()[9].innerText,
-                        skill = $(obj).children()[8].innerText[3],
+                        slot = $(obj).children()[8].innerText,
+                        skill = $(obj).children()[9].innerText[3],
                         level = $(obj).children()[3].innerText.split('\n')[0],
                         bond = $(obj).children()[4].innerText.split('\n')[0];
                     pin_cards[index] = { str: '{0}/{1}/{2}/{3}'.format(slot, skill, level, bond), src: icon }
@@ -147,10 +189,10 @@ $('#modalPin .exitBtn').click(function() {
     }
 })
 $('#pin-heal').click(function() {
-    filter_cards('heal');
+    filter_cards('healer');
 })
 $('#pin-plock').click(function() {
-    filter_cards('plock');
+    filter_cards('plocker');
 })
 $('#pin-all').click(function() {
     filter_cards('all');
