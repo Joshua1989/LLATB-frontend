@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<title>LLSIF-AutoTeamBuilder Tutorial</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'> 
+{% load staticfiles %}
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+
+<head>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-103167041-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+</head>
+
+<body>
+    <h3>Quick Link / 快速链接</h3>
+    <ul>
+        <li>Team Building page / 组队页面:
+            <a href="/build_team/en">EN</a>，
+            <a href="/build_team">CN</a>，
+            <a href="/old_ver">旧版页面</a>
+        </li>
+        <li>Team Strength Calculator page / 队伍强度计算器页面:
+            <a href="/team_strength">EN</a>，
+            <a href="/team_strength/tutorial">Tutorial/教程</a>
+        </li>
+        <li>Detailed Tutorial / 详细教程:
+            <a href="/tutorial/en">EN</a>，
+            <a href="/tutorial/cn">CN</a>
+        </li>
+        <li>Theoretical Material / 理论文档:
+            <a href="/doc/en">EN</a>，
+            <a href="/doc/cn">CN</a>
+        </li>
+    </ul>
+
+    <h3>About / 关于</h3>
+    <div style='margin-bottom: 10px'>
+    <button onclick="show_about('CN')">中文</button>
+    <button onclick="show_about('EN')">English</button>
+    </div>
+    <div id='CN_about'>
+        <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ 欢迎使用新版UI网页LLSIF-AutoTeamBuilder全自动组卡器，目前已帮助大家成功组卡 {{ count }} 队
+        <br/>
+        <br/> 网页版LLSIF-AutoTeamBuilder考虑到运算量以及稳定性，使用如下参数：
+        <br/> 预设所有吻宝石为9，预备卡组大小为12，使用1-suboptimal算法
+        <br/> 在以上设定下
+        <span style='color:red'>并不能保证找到最优解</span>，但是期望得分大多数情况只比最优解少1000分以内。
+        <br/> 寻求更优解请移步
+        <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github源码</a>自行尝试，算法细节请参考<a href='../doc/cn'>Love Live SIF 卡组强度导论</a>。
+        <br/>
+        <br/> 使用方法:<a href='../tutorial/cn'>详细教程</a>
+        <ol>
+            <li>选择歌曲（点击封面上方歌名，点击封面为查看谱面详细信息），以及选择附加条件</li>
+            <li>从<a href='//stats.llsif.win/'>SIFStats(日服)</a>， <a href='http://pll.sokka.cn/user'>LLproxy(国服)</a> 粘贴社员信息卡组JSON。
+                <br/> 目前已支持本地存储，关闭网页下一次访问时可以直接载入之前输入的卡组。
+                <br/> 没有连接数据站的用户可以使用<span style='color:red'><b>手动编辑</b></span>功能来输入卡组信息，编辑完成后<span style='color:red'><b>建议本地保存</b></span>用户JSON以免丢失。
+            </li>
+            <li>点击calculate按钮计算最优卡组</li>
+        </ol>
+        如果发现疑似bug请到
+        <a href='//tieba.baidu.com/p/5225376536?pid=109423217170&cid=0#109423217170'>贴吧发布帖</a>进行反馈，说明具体问题并注明组卡时的<span style='color:red'>所有设置</span>。
+        <br/>
+    </div>
+    <div id='EN_about' style='display:none'>
+        <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ Welcome to the web LLSIF-AutoTeamBuilder, now it has formed {{ count }} teams for SIF players.
+        <br/>
+        <br/> For efficiency and stability, Web LLSIF-AutoTeamBuilder uses the following parameters:
+        <br/> Set all kiss gems to 9, the candidate card pond has size 12, 1-suboptimal DP algorithm is applied.
+        <br/> Under above assumption
+        <span style='color:red'>optimal solution is not GUARANTEED</span>，but by experience most of the case the expected total score is within 1000 points to the optimal one.
+        <br/> You can run a more accurate algorithm locally by using
+        <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'><b>Github source</b></a>，more detail for the algorithm please refer to <a href='../../doc/en'><b>Cookbook of Team Building</b></a>.
+        <br/>
+        <br/> User Guide: <a href='../../tutorial/en'><b>detailed tutorial here</b></a>
+        <ol>
+            <li>Choose song (Click on song name to add to live list, click cover to look at live details), and extra conditions</li>
+            <li> If you are using a third-party proxy <a href='//stats.llsif.win/' style='color:blue'><b>SIFStats (JP)</b></a>, <a href='http://pll.sokka.cn/user' style='color:blue'><b>LLproxy (CN)</b></a>, then you can directly copy the user profile JSON to input your card list.
+                <br/> If you have used <a href="https://designedfor.sakura.ne.jp/nikuma-n/" style='color:blue'><b>minaraishi's team builder</b></a>, you can copy the exported file here.
+                <br/> If you have a <a href="http://schoolido.lu/" style='color:blue'><b>School Idol Tomodachi</b></a> account, you can also import your user profile here.
+                <br/> If you are in EN server or not linked to any proxy stats site, you can edit your profile <span style='color:red'><b>manually</b></span>, once you are done I highly recommend you to <span style='color:red'><b>save the JSON locally</b></span> in case of lost.
+                <br/> The input user JSON is stored in local storage, so next time you open this page you do not need to copy your JSON again.
+            </li>
+            <li>Click calculate button to solve for optimal team and gem allocation.</li>
+        </ol>
+        To check the best SIS allocation and team strength details for user custom teams, check <a href='../../team_strength'><b style='color:red'>team strength page</b></a>.
+        <br/> If you found a bug, please <a href="https://www.reddit.com/user/Hentyclopedia/"><b>report it to me</b></a>, please describe the situation with <span style='color:red'>ALL SETTINGS</span>.
+        <br/>
+    </div>
+
+    <h3>Contact / 联系方式</h3>
+    <span style="margin-right: 20px"><img src="//www.redditstatic.com/favicon.ico" height="25px" style="margin-right:10px"><a href="//www.reddit.com/user/Hentyclopedia/">@hentyclopedia</a></span>
+    <span style="margin-right: 20px"><img src="//tb1.bdstatic.com/tb/favicon.ico" height="25px" style="margin-right:10px"><a href="http://tieba.baidu.com/home/main?id=57344a6f736875613139383930363231fd21">@Joshua1989</a></span> 
+    <span style="margin-right: 20px"><img src="//assets-cdn.github.com/favicon.ico" height="25px" style="margin-right:10px"><a href="//github.com/Joshua1989">@Joshua1989</a></span>
+    <span style="margin-right: 20px"><img src="//discordapp.com/assets/07dca80a102d4149e9736d4b162cff6f.ico" height="25px" style="margin-right:10px">@Hentyclopedia#1457</span>
+    <span style="margin-right: 20px"><img src="//sqimg.qq.com/qq_product_operations/im/2015/pc_icon.png" height="25px" style="margin-right:10px">@276364504</span>
+
+    <h3>Change Log / 更新日志</h3>
+    <textarea cols="110" rows="15" style="font-size:14px; margin-bottom: 50px" type="text" readonly>
+## 2017.08.20:
+- Abandon the old team building page, change the root directory as portal page
+  转移旧版组队界面，将根地址改为门板页面
+- Improve style of tutorial pages
+  美化教程页面
+
+## 2017.08.19:
+- Improve the card ordering in "pinned card mode", now users can use this feature as an advanced card strength tier.
+  在锁卡模式下查看“全部”卡时按照大致强度排序，用户可以将这个功能当作更精确的卡牌强度天梯
+- Improve code structure, page in various languages import same file, easier for maintenance and adding new features 
+  改善代码结构，中英文页面共用一套底层代码，便于维护和添加新功能
+
+## 2017.08.16:
+- New feature requested by tieba @鈴木太太: Now users choices of group, attribute, boost, perfect rate, and extra condition are saved automatically, no need to enter again.
+  浏览器本地记录用户选择的团体、属性、P率和各种加成，下次使用时无需重新输入
+
+## 2017.08.15:
+- Added Worldwide Poster Girl promo UR card set
+  增加了新特典UR地区女孩套卡
+- Fix bug of slot number validation in team strength editing team page
+  修复了强度计算页面改变卡技能槽数之后没有合法状态检测的问题
+
+## 2017.08.10:
+- The score up and skill up rate now can be edited freely between 0% to 40%
+  键分加成和技能加成可以选择为0%到40%之间的任何数值了，方便协力活动开黑时计算
+- Change requested by tieba @我不知道要等谁 and tieba @老花: In profile edit page, the owned card will not be filtered by idolization, thus once you idolize a card it won't "disappear" again
+  手动编辑用户卡组页面下不再对觉醒状态进行筛选，不会再出现觉醒一张卡后该卡"消失"的情况了
+
+## 2017.08.09:
+- The score up and skill up rate now can be switched circularly to be 0, 10%, 20%, 30%, and 40%.
+  键分加成和技能加成可以循环选择为0%，10%，20%，30%，40%
+
+## 2017.08.08:
+- New feature requested by tieba @esper_: now you can choose "excluded cards" for team building.
+  新功能添加：反向锁卡模式，组卡时你可以强制选中的卡不出现在队伍中
+  For example you can force some off-color UR with X (X>4) slots to enter the final team when it is in Score Match event, since you may waste the (X-4) slots.
+  在SM活动中，如果你有大于X槽的异色UR (X>4)，由于歌曲颜色随机，剩下的 (X-4) 槽无法完全利用导致队伍强度变弱
+  组卡时可以对比把这些卡排除前后的队伍强度，看看是否值得把异色卡加入队伍牺牲这 (X-4) 槽
+- Now in the simulation result, there is empirical cumulated probability function values, this will tell you what is the probability to have a score less than it.
+  现在在模拟结果中可以查看经验分布的累计概率了，这样可以大致估计打出某个分数的概率是多大
+- Add an "Add song" button in advanced live stats panel, in case of some users do not know how to add song. 
+  在谱面进阶信息的窗口中加入了“添加歌曲”的按钮，避免新用户不会添加歌曲的情况
+- Fix the mistake for converting JP time to UTC for JP Score Match song rotation update.
+  修正了日服SM歌曲更新的时间
+- Change requested by tieba @渗血碎冰: Change some translation in SIS name in CN page
+  将直译的“魅力”、“治愈”、“诡计”改为更加直观的“爆分”、“奶分”、“判定”
+
+## 2017.08.06:
+- Fix bug discovered by reddit @MrMoogle314
+  Multiple trials under same settings may give different optimal team.
+  修复了不超时的前提下多次组队结果不同的bug
+- New feature added
+  Now you can choose "pinned cards" for team building. 
+  For example you can force some P-Locker cards enter the final team.
+  新增锁卡模式功能，用户可以强制一两张判卡入队来提高FC的可能性
+
+## 2017.08.05:
+- Finally translated the theoretical material of LLATB.
+  Now the "Cookbook of Team Building" is available in the top right "about" modal.
+  英文版理论文档"Cookbook of Team Building"已完成，在英文版组队页面点击右上角"about"按钮可以找到
+
+## 2017.08.03:
+- Some users encountered the problem that the calculation got stuck at "Running..." stage.
+  This is because the Heroku platform has a 30s http response time limit. 
+  有些用户组队时卡在了"Running..."阶段，这是因为计算超过了Heroku平台30秒的HTTP响应时限
+  If your case is complicated and the backend computation takes more than 30s then this problem will occur. 
+  如果你的情况比较复杂（很多多高技能UR，很少宝石），则有可能出现这个情况
+  Currently I have a partial remedy: I randomized the order of computation and will return the running max result once the algorithm takes more than 24s
+  目前我部分解决了这个问题：将计算顺序随机化，如果24秒内算法没有结束，则返回当前最优的队伍结果
+  So if you have this problem, you can run multiple times and take the best result.
+  因此如果你遇到了这个问题，可以尝试多次组队取最优的结果
+- Greatly improve divide & conquer based SIS allocation algorithm, so the problem in point one is more rare.
+  大幅度优化了基于分治的宝石分配算法，使上述问题更难出现
+
+## 2017.08.02:
+- Fix bug in unescaped special characters and adding song when SM bundle has at least five songs.
+  修复歌名中存在特殊符号时的bug，修复SM谱面至少添加5首歌的bug
+- Smarter way to speed up SIS allocation algorithm: when team PL coverage is less than 60%, do not consider 
+  Trick SIS in computation.
+  小幅优化算法效率：当队伍的判定覆盖率低于60%时，不考虑判定宝石
+
+## 2017.07.30:
+- Add Otasuke Power computation
+  增加了队伍援力的计算
+
+## 2017.07.28:
+- Minor change of UI: Add a slider to the swiper
+  选歌界面增加了滑条
+- Fix bug in local account management
+  修复本地账户管理的bug
+
+## 2017.07.26:
+- Kernel algorithm bug fix reported by reddit @Tetsu_no_Tesujin:
+  修复了核心算法的bug
+  - Fix the bug that sometimes the output recommend SIS that you do not own.
+    算法不再推荐你没有的宝石
+  - Fix the bug in computing base scoring for scorer card when it has less than 4 slots.
+    修复4槽以下分卡强度的计算
+- Bug fix in simulation function when a star-perfect trigger card is in the team.
+  修复模拟功能下星标Perfect触发技能的计算
+- New feature: build your optimal team using the average statistics of Score Match song list.
+  新增SM活动下的计算：可以根据曲池中谱面的平均数据进行最优组队
+
+## 2017.07.25:
+- Change the image of toggling unlimited SIS into a diamond.
+  更改无限宝石按钮的图片为一颗钻石
+- Fix the bug for computing the P-lock cover rate when skill up is turned on.
+  修复技能加成条件下覆盖率的计算
+- Add simulation function to both team strength and team build pages, now once you got a team.
+  新增模拟功能，在队伍强度计算器页面和组队页面，当你组出了一个队伍
+  As long as the live is not the DEFAULT/SM one, you can run a simulation to see:
+  只要歌曲是有Note List的（默认谱面和SM谱面没有），用户就可以进行模拟来查看
+  - The distribution of game scoring over 5000 trials.
+    5000次仿真得到的得分分布
+  - The average score obtained by the base attribute, and skill for each card, the average score obtained by 
+    Trick SIS for each card.
+    平均的基础属性得分、技能得分、判定得分，以及总得分
+  - The fraction of each note to be covered by P-lock over 5000 trials.
+    每一个Note被判定覆盖的概率
+
+## 2017.07.24:
+- New feature requested by reddit @MrMoogle314: Multi-account management.
+  新功能添加：本地多账户管理
+
+## 2017.07.23:
+- Fixed the bug in minaraishi's importer caused by user owning cards that are not in minaraishi's card list.
+  修复从minaraishi组卡器导入时缺少技能等级和槽数的bug
+- New feature: Now in both team builder page and team strength page you can import user profile and team from School Idol Tomodachi account!
+  新功能添加：英文版界面下可以直接通过School Idol Tomodachi的账户导入用户卡组
+- FANCY feature provided by [liaocm](https://github.com/liaocm): 
+  You can import a team from a screenshot of team formation interface!!!
+  队伍强度计算器页面下炫酷新功能：从截屏直接导入队伍
+
+## 2017.07.21:
+- New feature requested by reddit @MikanOrangePawaaa: 
+  Add a new page specifically for computing detailed stats for custom teams
+  新增队伍强度计算器页面，用来让用户计算特定队伍的强度
+  This new page can also give the optimal SIS allocation and positioning if you switch on the "Auto Mode".
+  如果选中了“Auto Mode”，可以激活自动分配宝石的功能，根据用户持有的宝石
+- New feature requested by reddit @MikanOrangePawaaa & reddit @yaycupcake: 
+  Let user to select guest center skill correspondingly.
+  新功能添加：用户可以选色好友Center技能了
+- Use smarter way to choose different algorithms for different cases, if the number of most of your SIS is larger than 5, perhaps it will be a bit faster.
+  小幅度优化底层算法效率
+- Minor change in information of status bar
+  Every time you build a new team, the status bar will show how many teams already built by LLATB.
+  每次自动组队后，信息栏会显示当前已经组多多少队了
+
+
+## 2017.07.20:
+- Finished English team building page
+  完成了英文版组队页面
+- New feature requested by reddit @yaycupcake: 
+  Add support to minaraishi's team builder format, you can directly copy minaraishi's export JSON into LLATB
+  Once you close the modal the minaraishi's JSON is automatically converted into LLATB format. 
+  新功能添加：支持minaraishi组卡器格式的输入，直接粘贴进用户JSON文本框，关闭窗口后会自动完成转换
+- New feature requested by reddit @cooed: 
+  Add R cards in manual edit page, except for A-Rise and Saint Snow members. 
+  新功能添加：手动编辑页面添加了除A-Rise和Saint Snow成员外的所有R卡
+- Bug discovered by reddit @MrMoogle314: 
+  Minor user interface change, fix the bug in card editing modal. Change 'Gem' into 'SIS' to avoid confusion.
+  修改宝石的翻译，从"Gem"改为"SIS"，避免与国际服的心混淆
+
+## 2017.07.18
+
+- Users of LLproxy can jump directly from the user profile tab, no need to copy & paste the user JSON
+  现在AutoTeamBuilder已直连PLL，在社员信息一栏里可以直接跳转了，这样就省去了复制用户JSON的操作
+
+## 2017.07.17:
+- Fix bug that the Unlimited SIS is locked
+  修复怎么选都是开启无限宝石的bug
+- Minor UI modification
+  少许界面优化
+- New feature added: now users can edit their profile manually in the profile editing page
+  新增手动编辑卡组的功能
+
+## 2017.07.16:
+- Finished new UI for team building page
+  完成了自动组卡器新版界面
+- Load utility resources in static way, avoid display error
+  静态加载资源文件，避免页面显示错误
+
+## 2017.07.10:
+- Add default song for general use
+  增添默认曲目，用来对所有歌曲而不是某一首组队
+- Now users can set perfect rate freely
+  支持用户自设P率
+- Minor UI modification
+  些许界面优化
+- New feature requested by tieba 729271290: add quick shortcut to max level and bond for all cards, idolize all cards with max level and bond, or maximize slots and skill level of all cards.
+  组卡时可以选择现有状态、满级满绊以及贴纸觉醒后满级满绊，以及觉醒满技能满槽的状态
+
+## 2017.07.09:
+- The first version of LLATB is deployed on Heroku
+  初版LLATB登录Heroku云端App平台
+- Fix the bug that same card affects each other caused by shallow copy
+  修复了shallow copy导致的多张相同卡牌相互干扰的bug
+- Change requested by tieba @xuanyizhou: translate tables in Chinese
+  将界面汉化
+
+## 2017.07.07:
+- Use more accurate method in LL Helper to compute the P-Lock coverage
+  使用LL Helper的dp算法更精确地计算判卡覆盖率
+- When there is no guest center skill, give the most recommended one.
+  在组卡时如果没有指定好友center技能会自动算出推荐的好友center技能
+
+## 2017.07.03:
+- The kernel computation python module is pushed to Github
+  LLATB底层计算代码项目被添加到了Github
+    </textarea>
+    <script>
+    function show_about(lang) {
+        if (lang=='CN') {
+            $('#CN_about').show();
+            $('#EN_about').hide();
+        } else if (lang=='EN') {
+            $('#CN_about').hide();
+            $('#EN_about').show();
+        }
+    }
+    var userLang = navigator.language || navigator.userLanguage;
+    show_about(userLang.indexOf('zh') == -1 ? 'EN' : 'CN')
+    </script>
+</body>
+
+</html>

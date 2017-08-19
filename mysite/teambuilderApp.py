@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.http import HttpResponse
 from string import Template
 from django.views.decorators.csrf import csrf_exempt
@@ -143,6 +144,11 @@ def get_client_ip(request):
 
 @csrf_exempt
 def index(request):
+	context = { 'count': Counter.objects.get_or_create()[0].TeamCount }
+	return render(request, 'portal.html', context)
+
+@csrf_exempt
+def old_UI(request):
 	counter, _ = Counter.objects.get_or_create()
 	count = counter.TeamCount
 	result, live, live_info, timing, output_file = '', '', '', '', llatb.config.html_template.format('')

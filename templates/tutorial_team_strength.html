@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html>
-<title>LLATB-TeamStrengthCalculator Tutorial</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'> {% load staticfiles %}
-
+{% load staticfiles %}
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Team Strength Calculator Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
     <style>
     body {
-        background-color: pink;
-        color: black;
+        font-family: "Helvetica", "微软雅黑", "黑体", 'Glyphicons Halflings', sans-serif;
+        margin: 20px;
+        color: rgb(36, 41, 46) !important;
     }
 
     img {
-        width: 80%;
+        width: 100%;
         display: block;
-        margin: 0 auto;
+        padding: 10px 5vw;
+        /*border: 3px solid rgb(235,237,239);*/
+    }
+
+    h2 {
+        padding: 10px 0;
+        border-bottom: 1px solid rgb(214, 216, 219);
+        margin-bottom: 10px;
+    }
+
+    h4 {
+        padding: 10px 0;
+        margin: 0;
+    }
+
+    p {
+        padding: 8px 0;
+        margin: 0 1rem;
+    }
+
+    li {
+        padding: 5px 0;
+        margin: 0 1rem;
     }
     </style>
     <script>
@@ -35,63 +60,98 @@
 </head>
 
 <body>
-    <h1>Before You Use Team Strength Calculator</h1>
+    <h2>※ Before You Use Team Strength Calculator</h2>
     <p>If you have used LLSIF-AutoTeamBuilder before, our SIS owning information will be load automatically, otherwise all SIS numbers are set to 9.</p>
     <p>Besides, if this is the first time you use the team strength calculator, a default team will be given, you can edit it afterwards.</p>
-    <h1>Directly Import Team</h1>
-    <h2>Import from School Idol Tomodachi Account</h2>
-    <p>If you have an account at <a href='http://schoolido.lu/'>School Idol Tomodachi</a>, then you can directly import your account.</p>
-    <img src="{% static 'tutorial_team_strength_5.jpg' %}" align='middle' style='width:60%' '>
-    <p>Note: all cards imported are max level and max bond.</p>
-    <h2>Import from Screenshot</h2>
-    <p style='color:red '><b>To enable this function, please visit LLATB using HTTP instead of HTTPS.</b></p>
-    <p>Thanks to <a href="https://github.com/liaocm" style='color:blue '><b>liaocm</b></a>, a much fancier feature now has been incorporated into LLATB, you can even import a team by screen shot! Due to the server load and the fact that image has to be uploaded, sometimes you need to be patient to wait the recognition result to arrive. And with small probability the team member CAN be recognized incorrectly.</p>
-    <img src="{% static 'tutorial_team_strength_6.jpg' %}" align='middle ' style='width:50% ''>
-    <p>One thing you should keep in mind is the screen shot does not contain the information of skill level and skill slot number, by default all imported cards are max level and max bond, with skill level 1 and slot number same as normal idolization (if a card is unidolized, the slot number is the minimum possible number, if a card is idolized and is not promo, increase by one). So perhaps you still need to manually edit a bit.</p>
-    <p>A typical input for this function should look like the picture below:</p>
-    <img src="{% static 'example.jpg' %}" align='middle' style='width:50%' '>
-    <h1>Manually Edit Team</h1>
-    <h2>Choose Card</h2>
-    <p>The user interface of card filter (idol member, attribute, idolization) is same as profile editing page in LLATB, so I will skip it here. You can read more above it <a href="../../tutorial/en">here</a>.</p>
-    <p>The only different part is that: when you click an icon, nothing will change in your team, the selected card is just highlighted to indicate you that this is the card you will use for card replacement. As you can tell from the card edit modal, the "Remove" button is replaced by the "Replace" button.</p>
-    <img src="{% static 'tutorial_team_strength_2.jpg' %}" align='middle ' style='width:50% '>
-    <h2>Edit SIS Owning Info</h2>
-    <p>If you want to use the auto SIS allocation function, the SIS owning information is necessary. By default the SIS owning information is loaded from your user profile if you have one, the only thing worthing being aware of is that the changes you made here <b>WILL OVERWRITE</b> the SIS owning information in your user profile.</p>
-    <h2>Equip SIS</h2>
-    <p>You can simply equip SIS by checking the check boxes. From the picture below you can see for different SIS types, I did not specify the attribute:
-        <ul>
-            <li>For SIS type that is not charm, heal and trick: the SIS has no constraint on the attribute, so the SIS has <b>same attribute as the center card</b>.</li>
-            <li>For SIS type that is charm, heal or trick: the SIS has constraint on the attribute, so the SIS has same attribute as the card equipping it.</li>
-        </ul>
-    </p>
-    <p>If the total cost for equipped SIS exceed the card slot number, the header will turn red to indicate you are violating the constraints.</p>
-    <p>For example, in the picture below, Umi is equipped with a Perfume and a Heal, since the center card is Smile, so in this case the equipped SISs are Smile Perfume and Empress Heal.</p>
-    <img src="{% static 'tutorial_team_strength_1.jpg' %}" align='middle '>
-    <h2>Swap Position of Cards</h2>
-    <p>To swap to cards in the team, simply click on the header cell, you will see the font color becomes green, it tells you this card is waiting for position swapping. You can click on the second header cell to finish the swap.</p>
-    <p>Do not forget to <b>SAVE</b> your changes before clicking "Back" for computation.</p>
-    <h1>Compute Team Strength Details</h1>
-    <h2>Start the Calculation</h2>
-    <p>Again the user interface is almost same as the AutoTeamBuilder, the only difference is the "Auto Mode" button:
-        <ul>
-            <li>If the button is OFF: the computation is exactly based on the team you edited</li>
-            <li>If the button is ON: an auto SIS allocation will be performed, this will give an optimal SIS allocation and positioning based on your input and SIS owning information.</li>
-        </ul>
-    </p>
-    <img src="{% static 'tutorial_team_strength_3.jpg' %}" align='middle '>
-    <h2>Output for Further Trial</h2>
-    <p>Once you have new team from the auto mode, you may want to start from this one to make further changes. You can easily copy the output team JSON and paste it as input team JSON.</p>
-    <img src="{% static 'tutorial_team_strength_4.jpg' %}" align='middle ' style='width:60% '>
-    <h2>Validate Output by Simulation</h2>
-    <img src="{% static 'tutorial_en 13.jpg' %}" align='middle ' style='width:70% '>
-    <p>This feature is add at July 24, 2017. As long as the live you are optimizing on is not default live (which does not have note list), you can run a simulation to see
-        <ul>
-            <li>The distribution of game scoring over 5000 trials.</li>
-            <li>The average score obtained by the base attribute, and skill for each card, the average score obtained by Trick SIS for each card.</li>
-            <li>The fraction of each note to be covered by P-lock over 5000 trials.</li>
-        </ul>
-    </p>
-    <img src="{% static 'tutorial_en 14.jpg' %}" align='middle '>
+    <h2>※ Directly Import Team</h2>
+    <ul>
+        <li>
+            <h4>Import from School Idol Tomodachi Account</h4>
+            <p>If you have an account at <a href='http://schoolido.lu/'>School Idol Tomodachi</a>, then you can directly import your account.</p>
+            <img src="{% static 'tutorial_team_strength_5.jpg' %}" align='middle'>
+            <p>Note: all cards imported are max level and max bond.</p>
+            <hr />
+        </li>
+        <li>
+            <h4>Import from Screenshot</h4>
+            <p style='color:red '><b>To enable this function, please visit LLATB using HTTP instead of HTTPS.</b></p>
+            <p>Thanks to <a href="https://github.com/liaocm" style='color:blue '><b>liaocm</b></a>, a much fancier feature now has been incorporated into LLATB, you can even import a team by screen shot! Due to the server load and the fact that image has to be uploaded, sometimes you need to be patient to wait the recognition result to arrive. And with small probability the team member CAN be recognized incorrectly.</p>
+            <img src="{% static 'tutorial_team_strength_6.jpg' %}" align='middle'>
+            <p>One thing you should keep in mind is the screen shot does not contain the information of skill level and skill slot number, by default all imported cards are max level and max bond, with skill level 1 and slot number same as normal idolization (if a card is unidolized, the slot number is the minimum possible number, if a card is idolized and is not promo, increase by one). So perhaps you still need to manually edit a bit.</p>
+            <p>A typical input for this function should look like the picture below:</p>
+            <img src="{% static 'example.jpg' %}" align='middle'>
+            <hr />
+        </li>
+    </ul>
+    <br />
+    <h2>※ Manually Edit Team</h2>
+    <ul>
+        <li>
+            <h4>Choose Card</h4>
+            <p>The user interface of card filter (idol member, attribute, idolization) is same as profile editing page in LLATB, so I will skip it here. You can read more above it <a href="../../tutorial/en">here</a>.</p>
+            <p>The only different part is that: when you click an icon, nothing will change in your team, the selected card is just highlighted to indicate you that this is the card you will use for card replacement. As you can tell from the card edit modal, the "Remove" button is replaced by the "Replace" button.</p>
+            <img src="{% static 'tutorial_team_strength_2.jpg' %}" align='middle'>
+            <hr />
+        </li>
+        <li>
+            <h4>Edit SIS Owning Info</h4>
+            <p>If you want to use the auto SIS allocation function, the SIS owning information is necessary. By default the SIS owning information is loaded from your user profile if you have one, the only thing worthing being aware of is that the changes you made here <b>WILL OVERWRITE</b> the SIS owning information in your user profile.</p>
+            <hr />
+        </li>
+        <li>
+            <h4>Equip SIS</h4>
+            <p>You can simply equip SIS by checking the check boxes. From the picture below you can see for different SIS types, I did not specify the attribute:
+                <ul>
+                    <li>For SIS type that is not charm, heal and trick: the SIS has no constraint on the attribute, so the SIS has <b>same attribute as the center card</b>.</li>
+                    <li>For SIS type that is charm, heal or trick: the SIS has constraint on the attribute, so the SIS has same attribute as the card equipping it.</li>
+                </ul>
+            </p>
+            <p>If the total cost for equipped SIS exceed the card slot number, the header will turn red to indicate you are violating the constraints.</p>
+            <p>For example, in the picture below, Umi is equipped with a Perfume and a Heal, since the center card is Smile, so in this case the equipped SISs are Smile Perfume and Empress Heal.</p>
+            <img src="{% static 'tutorial_team_strength_1.jpg' %}" align='middle '>
+            <hr />
+        </li>
+        <li>
+            <h4>Swap Position of Cards</h4>
+            <p>To swap to cards in the team, simply click on the header cell, you will see the font color becomes green, it tells you this card is waiting for position swapping. You can click on the second header cell to finish the swap.</p>
+            <p>Do not forget to <b>SAVE</b> your changes before clicking "Back" for computation.</p>
+            <hr />
+        </li>
+    </ul>
+    <br />
+    <h2>※ Compute Team Strength Details</h2>
+    <ul>
+        <li>
+            <h4>Start the Calculation</h4>
+            <p>Again the user interface is almost same as the AutoTeamBuilder, the only difference is the "Auto Mode" button:
+                <ul>
+                    <li>If the button is OFF: the computation is exactly based on the team you edited</li>
+                    <li>If the button is ON: an auto SIS allocation will be performed, this will give an optimal SIS allocation and positioning based on your input and SIS owning information.</li>
+                </ul>
+            </p>
+            <img src="{% static 'tutorial_team_strength_3.jpg' %}" align='middle '>
+            <hr />
+        </li>
+        <li>
+            <h4>Output for Further Trial</h4>
+            <p>Once you have new team from the auto mode, you may want to start from this one to make further changes. You can easily copy the output team JSON and paste it as input team JSON.</p>
+            <img src="{% static 'tutorial_team_strength_4.jpg' %}" align='middle '>
+            <h4>Validate Output by Simulation</h4>
+            <img src="{% static 'tutorial_en 13.jpg' %}" align='middle '>
+            <p>This feature is add at July 24, 2017. As long as the live you are optimizing on is not default live (which does not have note list), you can run a simulation to see
+                <ul>
+                    <li>The distribution of game scoring over 5000 trials.</li>
+                    <li>The average score obtained by the base attribute, and skill for each card, the average score obtained by Trick SIS for each card.</li>
+                    <li>The fraction of each note to be covered by P-lock over 5000 trials.</li>
+                </ul>
+            </p>
+            <img src="{% static 'tutorial_en 14.jpg' %}" align='middle '>
+            <hr />
+        </li>
+    </ul>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 </body>
 
 </html>

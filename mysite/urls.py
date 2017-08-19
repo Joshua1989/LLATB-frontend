@@ -22,6 +22,7 @@ from . import teambuilderApp
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', teambuilderApp.index),
+    url(r'^old_ver/', teambuilderApp.old_UI),
     url(r'^build_team/', include('build_team.urls')),
     url(r'^edit_profile/', include('edit_profile.urls')),
     url(r'^team_strength/', include('team_strength.urls')),
