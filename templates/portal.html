@@ -109,6 +109,12 @@
 
     <h3>Change Log / 更新日志</h3>
     <textarea cols="110" rows="15" style="font-size:14px; margin-bottom: 50px" type="text" readonly>
+## 2017.08.21:
+- Slightly improve efficiency of DP SIS allocation algorithm
+  稍许优化了DP宝石分配算法的计算效率
+- Change strategy to choose DP vs DC algorithm
+  修改了判断使用DP算法还是DC算法的逻辑
+
 ## 2017.08.20:
 - Abandon the old team building page, change the root directory as portal page
   转移旧版组队界面，将根地址改为门板页面
@@ -116,6 +122,8 @@
   美化教程页面
 - Set user JSON to a valid empty profile when the user JSON input is empty
   当用户JSON输入为空时，将其设置为合理的空用户信息
+- Fix bug in DP SIS allocation algorithm for Trick SIS
+  修正了DP宝石分配算法下判定宝石超出持有量的bug
 
 ## 2017.08.19:
 - Improve the card ordering in "pinned card mode", now users can use this feature as an advanced card strength tier.
