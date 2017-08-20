@@ -619,6 +619,18 @@ $('#simulation .exitBtn').click(function() {
 })
 
 if (lang == 'CN') {
+    function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
     $('#exportLLH').click(function() {
         POST_JSON = {
             lang: 'CN',
@@ -634,8 +646,7 @@ if (lang == 'CN') {
             data: POST_JSON,
             success: function(data) {
                 if (data['complete']) {
-                    uriContent = "data:application/octet-stream;filename=submembers.sd," + encodeURIComponent(data.user_json);
-                    newWindow = window.open(uriContent, 'submembers.sd');
+                    download('submembers.sd', data.user_json);
                 }
                 updateInfo(data['msg'], !data['complete']);
             }

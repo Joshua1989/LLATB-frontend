@@ -342,7 +342,7 @@ def LLH_convert(request):
 	lang = request.POST.get('lang', 'EN')
 	if request.is_ajax():
 		user_json = request.POST['user_json']
-		user_info  = 'User Information: {0} from {1} LLH convert page\n'.format(str(get_client_ip(request)), lang)
+		user_info  = 'User Information: {0} from {1} LLH convert page'.format(str(get_client_ip(request)), lang)
 		print(user_info)
 		try:
 			user_profile = GameData(user_json, file_type='pll', string_input=True)
