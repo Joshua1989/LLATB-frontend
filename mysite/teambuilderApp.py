@@ -18,11 +18,11 @@ author_memo = '''
 <img src="http://pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg" height=60 style="display:inline;vertical-align: middle;">
 Nyan~ 欢迎使用网页版LLSIF-AutoTeamBuilder全自动组卡器，目前已帮助大家成功组卡{0}队
 <br/><br/>
-网页版LLSIF-AutoTeamBuilder考虑到运算量以及稳定性，预设所有吻宝石为9，预备卡组大小为12，使用1-suboptimal DP算法。
+网页版LLSIF-AutoTeamBuilder考虑到运算量以及稳定性，预设所有吻宝石为9，预备卡组大小为12，使用1-suboptimal算法。
 <br/>
 在以上设定下<span style="color:red">并不能保证找到最优解</span>，但是期望得分大多数情况只比最优解少1000分以内。
 <br/>
-寻求更优解请移步<a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="doc/cn">Love Live SIF 卡组强度导论</a>。
+寻求更优解请移步<a href="https://github.com/Joshua1989/LLSIF-AutoTeamBuilder">Github源码</a>自行尝试，算法细节请参考<a href="../doc/cn">Love Live SIF 卡组强度导论</a>。
 <br/><br/>
 使用方法: 1.选择歌曲; 2.从<a href="http://stats.llsif.win/">SIFStats(日服)</a> 或者 <a href="http://pll.sokka.cn/user">LLproxy(国服)</a> 粘贴社员信息卡组Json; 3: 点击calulate按钮
 <br/>
@@ -32,7 +32,7 @@ Remark 1: 在极端情况下（各种宝石都很少）计算可能会比较慢�
 <br/>
 Remark 2: 由于美服并没有类似数据站，Github代码提供了虽然从tshark抓包导入用户卡组的功能，但是由于抓包中<span style="color:red">含有账户信息</span>所以考虑到安全问题网页版暂不支持该格式。
 <br/><br/>
-<span style="color:red"><b><a href="/build_team">新版页面入口</a> 支持本地保存用户JSON以及JSON正确性检查，MF模式多曲组卡，手动编辑用户JSON</b></span>
+<span style="color:red"><b><a href="../build_team">新版页面入口</a> 支持本地保存用户JSON以及JSON正确性检查，MF模式多曲组卡，手动编辑用户JSON</b></span>
 <br/>
 <b>注：</b>当前旧版页面当用户JSON有问题时会跳转到错误页面，但是因为代码结构原因本页面不再更新维护，强烈推荐使用新版页面
 </p>
@@ -62,7 +62,7 @@ html_template = Template('''
     </script>
 </head>
 $author_memo
-<form method="post" action="/">
+<form method="post" action="/old_ver/">
 	<table>
 	<tbody>
 		<tr>
