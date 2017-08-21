@@ -858,6 +858,12 @@ if (lang == 'CN') {
 
         })
         $('#modalSIT button').click(function() {
+            if (window.location.protocol == 'https:') {
+                alert('You are visiting LLATB via https protocol, if you want to use this function, please use http protocol to visit')
+                e.preventDefault();
+                e.stopPropagation();
+                return
+            }
             var id = $("#modalSIT select").val();
             SIT.get_all("//schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
                 POST_JSON = {
@@ -891,10 +897,7 @@ if (lang == 'CN') {
                         }
                     },
                     error: function(data) {
-                        if (window.location.protocol == 'https:')
-                            alert('You are visiting LLATB via https protocol, if you want to use this function properly, please use http protocol');
-                        else
-                            alert('Failed to import SIT account');
+                        alert('Failed to import SIT account');
                     }
                 });
             });
