@@ -26,10 +26,10 @@ urlpatterns = [
     url(r'^build_team/', include('build_team.urls')),
     url(r'^edit_profile/', include('edit_profile.urls')),
     url(r'^team_strength/', include('team_strength.urls')),
-    url(r'^doc/cn$', TemplateView.as_view(template_name='theoretical_material.html')),
-    url(r'^doc/en$', TemplateView.as_view(template_name='theoretical_material_en.html')),
-    url(r'^tutorial/cn$', TemplateView.as_view(template_name='tutorial_cn.html')),
-    url(r'^tutorial/en$', TemplateView.as_view(template_name='tutorial_en.html')),
+    url(r'^doc/cn/', TemplateView.as_view(template_name='theoretical_material.html')),
+    url(r'^doc/en/', TemplateView.as_view(template_name='theoretical_material_en.html')),
+    url(r'^tutorial/cn/', TemplateView.as_view(template_name='tutorial_cn.html')),
+    url(r'^tutorial/en/', TemplateView.as_view(template_name='tutorial_en.html')),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
     url(r'^apple-touch-icon\.png$', RedirectView.as_view(url='/static/apple-touch-icon.png'))
 ]
