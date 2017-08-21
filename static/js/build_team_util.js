@@ -857,7 +857,7 @@ if (lang == 'CN') {
                 });
 
         })
-        $('#modalSIT button').click(function() {
+        $('#modalSIT button').click(function(e) {
             if (window.location.protocol == 'https:') {
                 alert('You are visiting LLATB via https protocol, if you want to use this function, please use http protocol to visit')
                 e.preventDefault();
