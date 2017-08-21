@@ -115,6 +115,12 @@ function filter_cards(condition) {
                     else
                         alert('Failed to read card list and filter, please verify that you have input valid user JSON.')
                 }
+            },
+            error: function(data) {
+                if (lang == 'CN')
+                    alert('筛选卡牌失败，请确认是否有合法的用户JSON，并且至少有一张卡')
+                else
+                    alert('Failed to filter cards, please check if there is at least one card in the user profile.')
             }
         });
     } else {
@@ -280,6 +286,9 @@ function inputUserJSON() {
                         updateInfo(data['msg'], !data['complete']);
                         pin_reset();
                         return data['complete']
+                    },
+                    error: function(data) {
+                        alert('Failed to import minaraishi\'s format')
                     }
                 });
             }
@@ -408,6 +417,12 @@ function calculate() {
             $('#calculate').addClass('w3-green');
             clearInterval(running);
             $('#calculate b').text('Calculate');
+        },
+        error: function(data) {
+            if (lang == 'CN')
+                alert('计算最优组队失败!')
+            else
+                alert('Failed to compute optimal team arrangement.')
         }
     });
 }

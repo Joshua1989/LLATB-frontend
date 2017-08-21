@@ -152,6 +152,12 @@ function calculate() {
             $('#calculate').addClass('w3-green');
             clearInterval(running);
             $('#calculate b').text('Calculate');
+        },
+        error: function(data) {
+            if (lang == 'CN')
+                alert('计算队伍强度失败!')
+            else
+                alert('Failed to compute team strength.')
         }
     });
 }

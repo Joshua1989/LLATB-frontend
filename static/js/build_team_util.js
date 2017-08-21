@@ -417,6 +417,12 @@ function viewLiveStats(e) {
                 temp = '<span onclick="closeLiveStats()" class="exitBtn"><b>x</b></span>'
                 temp += data['live_stats'];
                 $('#liveStats .w3-container').html(temp)
+            },
+            error: function(data) {
+                if (lang == 'CN')
+                    alert('获取谱面进阶信息失败!')
+                else
+                    alert('Failed to fetch advanced stats for live song.')
             }
         });
     }
@@ -649,6 +655,9 @@ if (lang == 'CN') {
                     download('submembers.sd', data.user_json);
                 }
                 updateInfo(data['msg'], !data['complete']);
+            },
+            error: function(data) {
+                alert('导出LL Helper格式失败');
             }
         });
     })
@@ -814,7 +823,7 @@ if (lang == 'CN') {
         var SIT_user_name = localStorage.getItem('SIT_user_name');
         if (SIT_user_name != null) {
             $('#modalSIT input').val(SIT_user_name);
-            SIT.get_all("https://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+            SIT.get_all("//schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
                 function(accountList) {
                     if (accountList.length === 0) {
                         alert("No SIT Accounts Found");
@@ -834,7 +843,7 @@ if (lang == 'CN') {
         })
         $('#modalSIT input').change(function() {
             SIT_user_name = $(this).val()
-            SIT.get_all("https://schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
+            SIT.get_all("//schoolido.lu/api/accounts/?owner__username=" + encodeURIComponent(SIT_user_name),
                 function(accountList) {
                     if (accountList.length === 0) {
                         alert("No SIT Accounts Found");
@@ -850,7 +859,7 @@ if (lang == 'CN') {
         })
         $('#modalSIT button').click(function() {
             var id = $("#modalSIT select").val();
-            SIT.get_all("https://schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
+            SIT.get_all("//schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
                 POST_JSON = {
                     lang: 'EN',
                     username: $("#modalSIT input").val(),
@@ -880,6 +889,12 @@ if (lang == 'CN') {
                             alert('Import SIT account failed.')
                             updateInfo(data['msg'], !data['complete']);
                         }
+                    },
+                    error: function(data) {
+                        if (window.location.protocol == 'https:')
+                            alert('You are visiting LLATB via https protocol, if you want to use this function properly, please use http protocol');
+                        else
+                            alert('Failed to import SIT account');
                     }
                 });
             });
