@@ -55,7 +55,7 @@ function filter_cards(condition) {
         }
         $.ajax({
             type: "POST",
-            url: "filter_cards",
+            url: "/build_team/filter_cards",
             headers: {
                 'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
             },
@@ -269,7 +269,7 @@ function inputUserJSON() {
                 }
                 $.ajax({
                     type: "POST",
-                    url: "minaraishi_convert",
+                    url: "/build_team/minaraishi_convert",
                     headers: {
                         'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
                     },
@@ -373,7 +373,7 @@ function calculate() {
     }
     $.ajax({
         type: "POST",
-        url: "calculate",
+        url: "/build_team/calculate",
         headers: {
             'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
         },

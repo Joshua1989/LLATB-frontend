@@ -404,7 +404,7 @@ function viewLiveStats(e) {
         }
         $.ajax({
             type: "POST",
-            url: "live_stats",
+            url: "/build_team/live_stats",
             headers: {
                 'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
             },
@@ -645,7 +645,7 @@ if (lang == 'CN') {
         }
         $.ajax({
             type: "POST",
-            url: "LLH_convert",
+            url: "/build_team/LLH_convert",
             headers: {
                 'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
             },
@@ -875,7 +875,7 @@ if (lang == 'CN') {
                 }
                 $.ajax({
                     type: "POST",
-                    url: "SIT_convert",
+                    url: "/build_team/SIT_convert",
                     headers: {
                         'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
                     },
