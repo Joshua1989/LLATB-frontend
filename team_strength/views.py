@@ -155,23 +155,9 @@ def calculate(request):
 		tb = TeamBuilder(live, user_profile, opt=opt)
 
 		# Choose alloc method wisely
-		temp_dict = dict()
-		for x in [live.attr]: 
-			temp_dict[x+' Perfume'] = user_profile.owned_gem[x+' Perfume']
-			temp_dict[x+' Aura'] = user_profile.owned_gem[x+' Aura']
-			temp_dict[x+' Veil'] = user_profile.owned_gem[x+' Veil']
-			for y in ['(1st)', '(2nd)', '(3rd)']:
-				temp_dict[x+' Ring '+y] = user_profile.owned_gem[x+' Ring '+y]
-				temp_dict[x+' Cross '+y] = user_profile.owned_gem[x+' Cross '+y]
-		for x in ['Princess', 'Angel', 'Empress']:
-			temp_dict[x+' Charm'] = user_profile.owned_gem[x+' Charm']
-			temp_dict[x+' Heal'] = user_profile.owned_gem[x+' Heal']
-			temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
-		alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
-
 		if auto_mode:
 			try:
-				tb.build_team(K=8, method='1-suboptimal', alloc_method=alloc_method)
+				tb.build_team(K=8, method='1-suboptimal', alloc_method='auto')
 				result = tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
 			except:
 				print('Failed to achieve auto SIS allocation.')

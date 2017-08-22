@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-<title>LLSIF-AutoTeamBuilder Tutorial</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'> 
-{% load staticfiles %}
+<title>LLATB Portal Page</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'> {% load staticfiles %}
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 
 <head>
@@ -22,34 +21,44 @@
     ga('create', 'UA-103167041-2', 'auto');
     ga('send', 'pageview');
     </script>
+    <style>
+    .contact {
+        margin-right: 20px;
+        display: inline;
+    }
+    @media screen and (max-width: 900px) {
+        .contact {
+            display: block;
+        }
+    }
+    </style>
 </head>
 
 <body>
     <h3>Quick Link / 快速链接</h3>
     <ul>
         <li>Team Building page / 组队页面:
-            <a href="/build_team/en">EN</a>，
-            <a href="/build_team">CN</a>，
-            <a href="/old_ver">旧版页面</a>
+            <a href="/build_team/en/">EN</a>，
+            <a href="/build_team/">CN</a>，
+            <a href="/old_ver/">旧版页面</a>
         </li>
         <li>Team Strength Calculator page / 队伍强度计算器页面:
-            <a href="/team_strength">EN</a>，
-            <a href="/team_strength/tutorial">Tutorial/教程</a>
+            <a href="/team_strength/">EN</a>，
+            <a href="/team_strength/tutorial/">Tutorial/教程</a>
         </li>
         <li>Detailed Tutorial / 详细教程:
-            <a href="/tutorial/en">EN</a>，
-            <a href="/tutorial/cn">CN</a>
+            <a href="/tutorial/en/">EN</a>，
+            <a href="/tutorial/cn/">CN</a>
         </li>
         <li>Theoretical Material / 理论文档:
-            <a href="/doc/en">EN</a>，
-            <a href="/doc/cn">CN</a>
+            <a href="/doc/en/">EN</a>，
+            <a href="/doc/cn/">CN</a>
         </li>
     </ul>
-
     <h3>About / 关于</h3>
     <div style='margin-bottom: 10px'>
-    <button onclick="show_about('CN')">中文</button>
-    <button onclick="show_about('EN')">English</button>
+        <button onclick="show_about('CN')">中文</button>
+        <button onclick="show_about('EN')">English</button>
     </div>
     <div id='CN_about'>
         <img src='//pic.xiami.net/images/avatar_new/49/2486368_1419132611.jpeg@1e_1c_0i_1o_100Q_200w.jpg' height=60 style='display:inline;vertical-align: middle;'> Nyan~ 欢迎使用新版UI网页LLSIF-AutoTeamBuilder全自动组卡器，目前已帮助大家成功组卡 {{ count }} 队
@@ -59,9 +68,9 @@
         <br/> 在以上设定下
         <span style='color:red'>并不能保证找到最优解</span>，但是期望得分大多数情况只比最优解少1000分以内。
         <br/> 寻求更优解请移步
-        <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github源码</a>自行尝试，算法细节请参考<a href='../doc/cn'>Love Live SIF 卡组强度导论</a>。
+        <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'>Github源码</a>自行尝试，算法细节请参考<a href='../doc/cn/'>Love Live SIF 卡组强度导论</a>。
         <br/>
-        <br/> 使用方法:<a href='../tutorial/cn'>详细教程</a>
+        <br/> 使用方法:<a href='../tutorial/cn/'>详细教程</a>
         <ol>
             <li>选择歌曲（点击封面上方歌名，点击封面为查看谱面详细信息），以及选择附加条件</li>
             <li>从<a href='//stats.llsif.win/'>SIFStats(日服)</a>， <a href='http://pll.sokka.cn/user'>LLproxy(国服)</a> 粘贴社员信息卡组JSON。
@@ -82,9 +91,9 @@
         <br/> Under above assumption
         <span style='color:red'>optimal solution is not GUARANTEED</span>，but by experience most of the case the expected total score is within 1000 points to the optimal one.
         <br/> You can run a more accurate algorithm locally by using
-        <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'><b>Github source</b></a>，more detail for the algorithm please refer to <a href='../../doc/en'><b>Cookbook of Team Building</b></a>.
+        <a href='//github.com/Joshua1989/LLSIF-AutoTeamBuilder'><b>Github source</b></a>，more detail for the algorithm please refer to <a href='../../doc/en/'><b>Cookbook of Team Building</b></a>.
         <br/>
-        <br/> User Guide: <a href='../../tutorial/en'><b>detailed tutorial here</b></a>
+        <br/> User Guide: <a href='../../tutorial/en/'><b>detailed tutorial here</b></a>
         <ol>
             <li>Choose song (Click on song name to add to live list, click cover to look at live details), and extra conditions</li>
             <li> If you are using a third-party proxy <a href='//stats.llsif.win/' style='color:blue'><b>SIFStats (JP)</b></a>, <a href='http://pll.sokka.cn/user' style='color:blue'><b>LLproxy (CN)</b></a>, then you can directly copy the user profile JSON to input your card list.
@@ -95,23 +104,23 @@
             </li>
             <li>Click calculate button to solve for optimal team and gem allocation.</li>
         </ol>
-        To check the best SIS allocation and team strength details for user custom teams, check <a href='../../team_strength'><b style='color:red'>team strength page</b></a>.
+        To check the best SIS allocation and team strength details for user custom teams, check <a href='../../team_strength/'><b style='color:red'>team strength page</b></a>.
         <br/> If you found a bug, please <a href="https://www.reddit.com/user/Hentyclopedia/"><b>report it to me</b></a>, please describe the situation with <span style='color:red'>ALL SETTINGS</span>.
         <br/>
     </div>
-
     <h3>Contact / 联系方式</h3>
-    <span style="margin-right: 20px"><img src="//www.redditstatic.com/favicon.ico" height="25px" style="margin-right:10px"><a href="//www.reddit.com/user/Hentyclopedia/">@hentyclopedia</a></span>
-    <span style="margin-right: 20px"><img src="//tb1.bdstatic.com/tb/favicon.ico" height="25px" style="margin-right:10px"><a href="http://tieba.baidu.com/home/main?id=57344a6f736875613139383930363231fd21">@Joshua19890621</a></span> 
-    <span style="margin-right: 20px"><img src="//assets-cdn.github.com/favicon.ico" height="25px" style="margin-right:10px"><a href="//github.com/Joshua1989">@Joshua1989</a></span>
-    <span style="margin-right: 20px"><img src="//discordapp.com/assets/07dca80a102d4149e9736d4b162cff6f.ico" height="25px" style="margin-right:10px">@Hentyclopedia#1457</span>
-    <span style="margin-right: 20px"><img src="//sqimg.qq.com/qq_product_operations/im/2015/pc_icon.png" height="25px" style="margin-right:10px">@276364504</span>
-
+    <div class="contact"><span><img src="//www.redditstatic.com/favicon.ico" height="25px" style="margin-right:10px"><a href="//www.reddit.com/user/Hentyclopedia/">@hentyclopedia</a></span></div>
+    <div class="contact"><span><img src="//tb1.bdstatic.com/tb/favicon.ico" height="25px" style="margin-right:10px"><a href="http://tieba.baidu.com/home/main?id=57344a6f736875613139383930363231fd21">@Joshua19890621</a></span></div>
+    <div class="contact"><span><img src="//assets-cdn.github.com/favicon.ico" height="25px" style="margin-right:10px"><a href="//github.com/Joshua1989">@Joshua1989</a></span></div>
+    <div class="contact"><span><img src="//discordapp.com/assets/07dca80a102d4149e9736d4b162cff6f.ico" height="25px" style="margin-right:10px">@Hentyclopedia#1457</span></div>
+    <div class="contact"><span><img src="//sqimg.qq.com/qq_product_operations/im/2015/pc_icon.png" height="25px" style="margin-right:10px">@276364504</span></div>
     <h3>Change Log / 更新日志</h3>
-    <textarea cols="110" rows="15" style="font-size:14px; margin-bottom: 50px" type="text" readonly>
+    <textarea cols="110" rows="15" style="font-size:14px; margin-bottom: 50px; width:95%;" type="text" readonly>
 ## 2017.08.22:
 - Fix border of Otasuke Power computation
   修正援力计算边界
+- Choose SIS allocation algorithm smartly for each team
+  根据队伍智能选择宝石分配算法，缩短平均计算时间
 
 ## 2017.08.21:
 - Slightly improve efficiency of DP SIS allocation algorithm
@@ -295,7 +304,6 @@
   修改宝石的翻译，从"Gem"改为"SIS"，避免与国际服的心混淆
 
 ## 2017.07.18
-
 - Users of LLproxy can jump directly from the user profile tab, no need to copy & paste the user JSON
   现在AutoTeamBuilder已直连PLL，在社员信息一栏里可以直接跳转了，这样就省去了复制用户JSON的操作
 
@@ -343,10 +351,10 @@
     </textarea>
     <script>
     function show_about(lang) {
-        if (lang=='CN') {
+        if (lang == 'CN') {
             $('#CN_about').show();
             $('#EN_about').hide();
-        } else if (lang=='EN') {
+        } else if (lang == 'EN') {
             $('#CN_about').hide();
             $('#EN_about').show();
         }

@@ -153,20 +153,7 @@ def calculate(request):
 			tb = TeamBuilder(live, user_profile, opt=opt)
 			
 			# Choose alloc method wisely
-			temp_dict = dict()
-			for x in [live.attr]: 
-			    temp_dict[x+' Perfume'] = user_profile.owned_gem[x+' Perfume']
-			    temp_dict[x+' Aura'] = user_profile.owned_gem[x+' Aura']
-			    temp_dict[x+' Veil'] = user_profile.owned_gem[x+' Veil']
-			    for y in ['(1st)', '(2nd)', '(3rd)']:
-			        temp_dict[x+' Ring '+y] = user_profile.owned_gem[x+' Ring '+y]
-			        temp_dict[x+' Cross '+y] = user_profile.owned_gem[x+' Cross '+y]
-			for x in ['Princess', 'Angel', 'Empress']:
-			    temp_dict[x+' Charm'] = user_profile.owned_gem[x+' Charm']
-			    temp_dict[x+' Heal'] = user_profile.owned_gem[x+' Heal']
-			    temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
-			alloc_method = 'DC' if min(temp_dict.values()) > 1 else 'DP'
-			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method=alloc_method, time_limit=24, pin_index=pin_index, exclude_index=exclude_index)
+			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method='auto', time_limit=24, pin_index=pin_index, exclude_index=exclude_index)
 			result = ''
 			if num_calc < num_total:
 				result += '<p style="text-align:center; color:red"><b>{0}</b></p>'.format(strings[lang]['IMCOMPLETE'].format(num_calc, num_total))
