@@ -230,14 +230,13 @@ class GemAllocator:
 
 	def allocate(self, alloc_method='auto', max_score=0, add_trick_thresh=0.67):
 		# Update score of gems
-		team_base_score, best_gem_score = self.update_gem_score(sort=alloc_method=='DC')
+		team_base_score, best_gem_score = self.update_gem_score(sort=True)
 		add_trick = int(self.team_CR > add_trick_thresh)
 		# # If for unlimited gem the choice is worse than max_score, drop it
 		if team_base_score + best_gem_score < max_score: return None
 		# Solve for best gem allocation
 		if alloc_method == 'auto':
 			alloc_method = self.choose_algorithm(add_trick, thresh=2.5e7)
-		# alloc_method = 'DC'
 		if alloc_method == 'DP':
 			optimal_alloc, alloc_score = self.find_optimal_gem_allocation_DP(add_trick)
 		elif alloc_method == 'DC':
