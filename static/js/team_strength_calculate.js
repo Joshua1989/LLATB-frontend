@@ -111,7 +111,7 @@ function calculate() {
     }
     $.ajax({
         type: "POST",
-        url: "calculate",
+        url: "/team_strength/calculate",
         headers: {
             'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
         },
