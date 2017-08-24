@@ -20,6 +20,7 @@
 <script src="{% static 'js/less.min.js' %}"></script>
 
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
     (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -66,7 +67,7 @@
         <div id='pond' class='w3-container w3-black'>
         </div>
     </div>
-    <div class='w3-container w3-black' style='margin-bottom: 10%'>
+    <div class='w3-container w3-black' style='margin-bottom: 15px'>
         <div style='padding:15px 0'>
             <b class='w3-margin-right'>Your Team: </b>
             <div class='roundBtn w3-pink w3-hover-yellow roundBtn w3-margin-left' style='height:25px;vertical-align: middle;min-width: 150px;'>
@@ -102,6 +103,17 @@
                 <tr id='sis-Heal'></tr>
                 <tr id='sis-Trick'></tr>
             </table>
+        </div>
+    </div>
+    <div class='w3-container w3-black' style='margin-bottom: 10%;'>
+        <b style='padding: 15px 0;'>Team List:</b>
+        <div id="team-list" style="margin-top: 10px">
+            <div class="input-group">
+                <input id="new-team-name" type="text" placeholder="Team Name">
+                <button id='add-team'><b>Add Team</b></button>
+            </div>
+            <div id='team-units'>
+            </div>
         </div>
     </div>
     <div id='chooseMember' class='w3-modal'>
@@ -335,6 +347,7 @@
         user_json = JSON.parse(default_user_json);
         localStorage.setItem("user_json", default_user_json)
     }
+
     var team_json = JSON.parse(localStorage.getItem("team_json"));
     if (team_json == null) {
         team_json = [0]
@@ -348,6 +361,10 @@
                 "unit_skill_level": 1
             })
         }
+    }
+    var team_json_bucket = JSON.parse(localStorage.getItem("team_json_bucket"));
+    if (team_json_bucket == null) {
+        team_json_bucket = {}
     }
 
     var temp_dict = JSON.parse(uid_cid_dict);
@@ -459,43 +476,47 @@
     var position = [null, 'L1', 'L2', 'L3', 'L4', 'C', 'R4', 'R3', 'R2', 'R1'];
     var current_team = {},
         total_cost = Array(10).fill(0);
-    for (var x = 1; x <= 9; x++) {
-        var team_card = team_json[x];
-        var CI = card_info[U2C_dict[team_card['unit_id']]];
-        var rarity = CI['rarity'];
-        var slot_limit = slot_num_dict[CI['promo'] ? 'promo' + CI['rarity'] : CI['rarity']];
-        var slot_num = 0;
-        for (var y in team_card['removable']) {
-            var sis_type = gem_skill_id_dict[team_card['removable'][y]].split(' ')[1]
-            slot_num += sis_cost[sis_type]
-        }
-        total_cost[x] = slot_num;
-        current_team[x] = {
-            level: team_card['level'],
-            bond: team_card['love'],
-            removable: team_card['removable'],
-            unit_id: team_card['unit_id'],
-            skill: team_card['unit_skill_level'],
-            card_id: U2C_dict[team_card['unit_id']],
-            idolized: team_card['rank'] == 2,
-            promo: CI['promo'],
-            rarity: CI['rarity'],
-            main_attr: CI['main_attr'],
-            member_name: CI['member_name']
-        }
-        if (team_card['unit_removable_skill_capacity'] == undefined) {
-            if (slot_num < slot_limit[0]) {
-                current_team[x]['slot'] = slot_limit[0];
-            } else if (slot_num > slot_limit[1]) {
-                current_team[x]['slot'] = slot_limit[1];
-            } else {
-                current_team[x]['slot'] = slot_num;
-            }
-        } else {
-            current_team[x]['slot'] = team_card['unit_removable_skill_capacity'];
-        }
 
+    function init(team_json) {
+        for (var x = 1; x <= 9; x++) {
+            total_cost[x] = 0;
+            var team_card = team_json[x];
+            var CI = card_info[U2C_dict[team_card['unit_id']]];
+            var rarity = CI['rarity'];
+            var slot_limit = slot_num_dict[CI['promo'] ? 'promo' + CI['rarity'] : CI['rarity']];
+            var slot_num = 0;
+            for (var y in team_card['removable']) {
+                var sis_type = gem_skill_id_dict[team_card['removable'][y]].split(' ')[1]
+                slot_num += sis_cost[sis_type]
+            }
+            total_cost[x] = slot_num;
+            current_team[x] = {
+                level: team_card['level'],
+                bond: team_card['love'],
+                removable: team_card['removable'],
+                unit_id: team_card['unit_id'],
+                skill: team_card['unit_skill_level'],
+                card_id: U2C_dict[team_card['unit_id']],
+                idolized: team_card['rank'] == 2,
+                promo: CI['promo'],
+                rarity: CI['rarity'],
+                main_attr: CI['main_attr'],
+                member_name: CI['member_name']
+            }
+            if (team_card['unit_removable_skill_capacity'] == undefined) {
+                if (slot_num < slot_limit[0]) {
+                    current_team[x]['slot'] = slot_limit[0];
+                } else if (slot_num > slot_limit[1]) {
+                    current_team[x]['slot'] = slot_limit[1];
+                } else {
+                    current_team[x]['slot'] = slot_num;
+                }
+            } else {
+                current_team[x]['slot'] = team_card['unit_removable_skill_capacity'];
+            }
+        }
     }
+    init(team_json);
 
     // Info bar
     $('#infoBox .exitBtn').click(function() {
@@ -1027,8 +1048,9 @@
     for (var x in gem_skill_id_dict) {
         rev_sis_dict[gem_skill_id_dict[x]] = x;
     }
-    // Save team
-    $('#saveTeam').click(function() {
+
+    // Check validity of a team
+    function team_validation() {
         var total_cost = Array(10).fill(0);
         for (var x = 1; x <= 9; x++) {
             for (var sis_type in sis_cost) {
@@ -1042,6 +1064,10 @@
             if (total_cost[x] > current_team[x]['slot']) {
                 invalid_pos.push(position[x])
             }
+        }
+        if (invalid_pos.length > 0) {
+            alert('SIS exceeds slot number for positions ' + invalid_pos.join(', '));
+            return false;
         }
         var main_attr = current_team[5]['main_attr'];
         for (var x = 1; x <= 9; x++) {
@@ -1069,14 +1095,61 @@
                 "unit_removable_skill_capacity": current_team[x]['slot']
             }
         }
+        return true;
+    }
 
-        if (invalid_pos.length > 0) {
-            updateInfo('SIS exceeds slot number for positions ' + invalid_pos.join(', '), true);
-            return
-        }
+    // Save team
+    $('#saveTeam').click(function() {
+        if (!team_validation()) return;
         localStorage.setItem('team_json', JSON.stringify(team_json));
+        localStorage.setItem('team_json_bucket', JSON.stringify(team_json_bucket));
         localStorage.setItem('user_json', JSON.stringify(user_json));
         updateInfo('Saved current settings to user profile JSON', false);
+    });
+
+    // Update click event
+    function create_team_unit(team_name) {
+        var $new_li = $( "<li class='team-unit' data-name={0}></li>".format(team_name));
+        var content = '<a href="javascript:;" class="team-name">{0}</a>'.format(team_name);
+        content += '<a href="javascript:;" class="team-delete"><i class="material-icons">delete</i></a>';
+        content += '<a href="javascript:;" class="team-update"><i class="material-icons">cached</i></a>';
+        $new_li.html(content);
+        $('#team-units').prepend($new_li);
+
+        $('.team-name').click(function() {
+            var name = $(this).parent().attr('data-name');
+            team_json = team_json_bucket[name];
+            init(team_json);
+            showTeam(true);
+        });
+        $('.team-update').click(function() {
+            var name = $(this).parent().attr('data-name');
+            if (!team_validation()) return;
+            team_json_bucket[name] = team_json;
+        });
+        $('.team-delete').click(function() {
+            var name = $(this).parent().attr('data-name');
+            delete team_json_bucket[name];
+            $(this).parent().detach();
+        });
+    }
+
+    for (var x in team_json_bucket) {
+        create_team_unit(x)
+    }
+
+    // Add new team
+    $('#add-team').click(function() {
+        if (!team_validation()) return;
+        var name = $('#new-team-name').val() == '' ? new Date().toLocaleString().replace(',', '') : $('#new-team-name').val();
+        if (team_json_bucket[name] == undefined) {
+            create_team_unit(name);
+            team_json_bucket[name] = JSON.parse(JSON.stringify(team_json));
+            updateInfo('Add new team {0}'.format(name), false);
+        } else {
+            team_json_bucket[name] = team_json;
+            updateInfo('Update existing team {0}'.format(name), false);
+        }
     });
 
     // Import team from screen shot
@@ -1085,6 +1158,11 @@
             var card_id = image_team_info[x - 1].cardid,
                 idolized = image_team_info[x - 1].mezame > 0;
             var CI = card_info[card_id];
+            if (CI == undefined) {
+                alert('There is an detection error, or there is N card in team');
+                $("#fromImage").attr("disabled", false);
+                return
+            }
             var rarity = CI['rarity'];
             var slot_limit = slot_num_dict[CI['promo'] ? 'promo' + CI['rarity'] : CI['rarity']];
             var slot_num = 0;
