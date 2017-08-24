@@ -147,9 +147,9 @@ class MFLive:
 				temp = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
 			else:
 				try:
-					temp = json.loads(open(local_dir+info.file_dir.split('/')[-1]).read())
+					temp = json.loads(open(local_dir+file_dir.split('/')[-1]).read())
 				except:
-					req = urllib.request.Request(info.file_dir, data=None, headers={'User-Agent': 'whatever'})
+					req = urllib.request.Request(file_dir, data=None, headers={'User-Agent': 'whatever'})
 					temp = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
 			df = pd.DataFrame(temp, index=list(range(1,len(temp)+1)))
 			df = df.assign(token=df.effect==2, long=df.effect.apply(lambda x: x == 3), 
