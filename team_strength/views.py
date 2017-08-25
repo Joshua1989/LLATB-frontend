@@ -141,43 +141,6 @@ def calculate(request):
 			message = {'complete':False, 'msg':strings[lang]['ERR_EXCOND']}
 			return JsonResponse(message)
 		# Solve for optimal SIS allocation or compute the team strength
-		guest_center = request.POST.get('guest_center', 'None')
-		if guest_center == 'None':
-			guest_cskill = None
-		else:
-			main_attr = guest_center.split(': ')[0]
-			params = guest_center.split(': ')[1].split(' ')
-			base_attr, main_ratio = params[0], int(params[1][:-1])
-			bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
-			guest_cskill = CenterSkill(guest_center, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)
-			print('Guest skill specified to be', str(guest_cskill))
-		opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':guest_cskill}
-		tb = TeamBuilder(live, user_profile, opt=opt)
-
-		# Choose alloc method wisely
-		if auto_mode:
-			try:
-				tb.build_team(K=8, method='1-suboptimal', alloc_method='auto')
-				result = tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
-			except:
-				print('Failed to achieve auto SIS allocation.')
-				message = {'complete':False, 'msg':strings[lang]['ERR_AUTOSIS']}
-				return JsonResponse(message)
-		else:
-			# Construct team by placing the given SIS
-			try:
-				adv_card_list = sorted(tb.cards, key=lambda x: x.index)
-				for card, info in zip(adv_card_list, json.loads(json_str)['unit_info']):
-					gems = [gem_skill_id_dict[x] for x in info['removable']]
-					card.equip_gem(gems)
-				print('Successfully equipped team.')
-			except:
-				print('Failed to equip team.')
-				message = {'complete':False, 'msg':strings[lang]['ERR_TEAM']}
-				return JsonResponse(message)
-			input_team = Team(adv_card_list)
-			result = tb.team_strength_detail(input_team, show_cost=True).data.replace('http:','').replace('https:','')
-			print('Successfully computed team strength details.')
 		try:
 			guest_center = request.POST.get('guest_center', 'None')
 			if guest_center == 'None':
@@ -192,24 +155,9 @@ def calculate(request):
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':guest_cskill}
 			tb = TeamBuilder(live, user_profile, opt=opt)
 
-			# Choose alloc method wisely
-			temp_dict = dict()
-			for x in [live.attr]: 
-				temp_dict[x+' Perfume'] = user_profile.owned_gem[x+' Perfume']
-				temp_dict[x+' Aura'] = user_profile.owned_gem[x+' Aura']
-				temp_dict[x+' Veil'] = user_profile.owned_gem[x+' Veil']
-				for y in ['(1st)', '(2nd)', '(3rd)']:
-					temp_dict[x+' Ring '+y] = user_profile.owned_gem[x+' Ring '+y]
-					temp_dict[x+' Cross '+y] = user_profile.owned_gem[x+' Cross '+y]
-			for x in ['Princess', 'Angel', 'Empress']:
-				temp_dict[x+' Charm'] = user_profile.owned_gem[x+' Charm']
-				temp_dict[x+' Heal'] = user_profile.owned_gem[x+' Heal']
-				temp_dict[x+' Trick'] = user_profile.owned_gem[x+' Trick']
-			alloc_method = 'DC' if min(temp_dict.values()) >= 6 else 'DP'
-
 			if auto_mode:
 				try:
-					tb.build_team(K=8, method='1-suboptimal', alloc_method=alloc_method)
+					tb.build_team(K=8, method='1-suboptimal', alloc_method='auto')
 					result = tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
 				except:
 					print('Failed to achieve auto SIS allocation.')
