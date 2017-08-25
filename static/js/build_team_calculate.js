@@ -205,8 +205,10 @@ $('#pin-all').click(function() {
 })
 $('#pin-clear').click(function() {
     pin_cards = {};
+    exclude_cards = {};
     $('#modalPin .w3-display-container tr').each(function() {
         $(this).removeClass('selected');
+        $(this).removeClass('excluded');
     })
 })
 
