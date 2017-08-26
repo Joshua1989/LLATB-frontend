@@ -345,7 +345,7 @@ function calculate() {
         return
     }
     $('#calculate').prop('disabled', true);
-    $('#calculate').removeClass('w3-pink');
+    $('#calculate').removeClass('w3-green');
     $('#calculate').addClass('w3-grey');
     $('#calculate b').text('Running');
     var i = 0;

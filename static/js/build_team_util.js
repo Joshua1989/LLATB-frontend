@@ -864,6 +864,9 @@ if (lang == 'CN') {
                 e.stopPropagation();
                 return
             }
+            $(this).prop('disabled', true);
+            $(this).removeClass('w3-pink');
+            $(this).addClass('w3-grey');
             var id = $("#modalSIT select").val();
             SIT.get_all("//schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
                 POST_JSON = {
@@ -895,9 +898,15 @@ if (lang == 'CN') {
                             alert('Import SIT account failed.')
                             updateInfo(data['msg'], !data['complete']);
                         }
+                        $(this).prop('disabled', false);
+                        $(this).removeClass('w3-grey');
+                        $(this).addClass('w3-pink');
                     },
                     error: function(data) {
                         alert('Failed to import SIT account');
+                        $(this).prop('disabled', false);
+                        $(this).removeClass('w3-grey');
+                        $(this).addClass('w3-pink');
                     }
                 });
             });
