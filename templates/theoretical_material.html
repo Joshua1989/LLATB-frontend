@@ -16704,7 +16704,9 @@ Adapted from GitHub theme
                     <div class="text_cell_render border-box-sizing rendered_html">
                         <h2 id="7.4-&#26399;&#26395;&#24635;&#24471;&#20998;">7.4 &#26399;&#26395;&#24635;&#24471;&#20998;<a class="anchor-link" href="#7.4-&#26399;&#26395;&#24635;&#24471;&#20998;">&#182;</a></h2>
                         <p>由于不同位置的同色同团加成以及权重占比不同，我们需要计算【加权平均位置加成】$ \bar{\mu} = \sum_{i=1}^9 \mu(i) \zeta(i) $。 于是，【期望总得分】$\Omega$ 可以计算为为</p>
+                        $$
                         \begin{align} \Omega &= 【通过点击获得的得分】+【通过技能获得的得分】\\ &=【修正后团队强度】 \times 【单位强度得分】\times 【加权平均位置加成】\times 【应援分数加成系数】\\ &\quad +【总回复\&加分技能强度】\times 【单位强度得分】\\ &= \,\, S_{队} \times \gamma \times \bar{\mu} \times \xi_{分} + S_{技} \times \gamma \end{align}
+                        $$
                     </div>
                 </div>
             </div>
@@ -16744,11 +16746,17 @@ Adapted from GitHub theme
                         <p>接下来，对每一张卡的每一种可能的宝石分配，计算宝石带来的额外得分。</p>
                         <p>对于每张卡我们可以列举它所有可能装备的技能宝石组合（包括所有同色宝石和技能宝石，不考虑异色宝石，虽然异色宝石可能会通过异色Center技带来额外得分，但是大多数情况下比同色差很多，考虑它只会大大增加计算量），比如一个有5个技能槽的分卡可能的组合有：</p>
                         <p>魅力+吻，诡计+吻，面纱+吻，光环+香水，光环+指环，十字+香水，十字+指环，指环+香水+吻，魅力，诡计，面纱，光环+吻，十字+吻，指环+香水，光环，十字，香水+吻，指环+吻，香水，指环，吻</p>
-                        <p>根据之前对期望得分的计算公式，我们可以把所有项都展开，由于只有同色宝石，整个公式可以写成： \begin{align} &amp;【总期望得分】\ &amp;= \gamma \times \bar{\mu} \times \chi<em>{分} \times {\huge{} \sum</em>{i=1}^9 {\Large{} {\large[} 卡i的【含绊三围】(\text{Live}属性) \times (1 + 【指环十字加成】+【光环面纱加成】) + 【吻香水增加】{\large]} \ &amp;\quad \times (1+【\text{Live}属性 \text{Center}技加成】) + \sum<em>{其他属性} 卡i的【含绊三围】(其他属性) \times 【其他属性 \text{Center}技加成】\
-  &amp; \quad + {\large[} 卡i的【含绊三围】(\text{Live}属性) \times (1 + 【指环十字加成】) + 【吻香水增加】{\large]} \times \mathbb{I}(卡i装备有诡计宝石) \times \text{CR} \times 33\% {\Large}} {\huge}} \
-  &amp;\quad + \gamma \times {\large{} \sum</em>{\text{card} \in 卡组中的分卡} \text{card} 的 G<em>{分} \times {2.5}^{\mathbb{I}(\text{card}装备有魅力宝石)} \qquad + \sum</em>{\text{card} \in 卡组中的奶卡} \text{card} 的 G<em>{奶} \times 480 \times \mathbb{I}(\text{card}装备有治愈宝石) {\large}} \times \Delta
-\end{align}
-其中每张分卡奶卡的 $G</em>{分},G_{奶}$ 都是在修正后的Perfect率及团队强度下计算的。</p>
+                        <p>根据之前对期望得分的计算公式，我们可以把所有项都展开，由于只有同色宝石，整个公式可以写成： 
+                        $$
+                        \begin{align}
+                            &【总期望得分】\\
+                            &= \gamma \times \bar{\mu} \times \chi_{分} \times {\huge\{} \sum_{i=1}^9  {\Large\{} {\large[} 卡i的【含绊三围】(\text{Live}属性) \times (1 + 【指环十字加成】+【光环面纱加成】) + 【吻香水增加】{\large]} \\
+                            &\quad \times (1+【\text{Live}属性 \text{Center}技加成】) + \sum_{其他属性} 卡i的【含绊三围】(其他属性) \times 【其他属性 \text{Center}技加成】\\
+                            & \quad + {\large[} 卡i的【含绊三围】(\text{Live}属性) \times (1 + 【指环十字加成】) + 【吻香水增加】{\large]} \times \mathbb{I}(卡i装备有诡计宝石) \times \text{CR} \times 33\% {\Large\}} {\huge\}} \\
+                            &\quad + \gamma \times {\large\{} \sum_{\text{card} \in 卡组中的分卡} \text{card} 的 G_{分} \times {2.5}^{\mathbb{I}(\text{card}装备有魅力宝石)} \qquad + \sum_{\text{card} \in 卡组中的奶卡} \text{card} 的 G_{奶} \times 480 \times \mathbb{I}(\text{card}装备有治愈宝石) {\large\}} \times \Delta
+                        \end{align}
+                        $$
+                        其中每张分卡奶卡的 $G_{分},G_{奶}$ 都是在修正后的Perfect率及团队强度下计算的。</p>
                     </div>
                 </div>
             </div>
