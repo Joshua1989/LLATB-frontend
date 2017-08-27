@@ -501,6 +501,13 @@ function showTeam(init) {
                 $('#header-' + pos).css('background-color', 'grey');
             }
         })
+        for (var pos = 1; pos <= 9; pos++) {
+            if (total_cost[pos] > current_team[pos]['slot']) {
+                $('#header-' + pos).css('background-color', 'red');
+            } else {
+                $('#header-' + pos).css('background-color', 'grey');
+            }
+        }
     }
 }
 showTeam(true);
@@ -935,7 +942,7 @@ function create_team_unit(team_name) {
     var $new_li = $("<li class='team-unit' data-name={0}></li>".format(team_name));
     var content = '<a href="javascript:;" class="team-name">{0}</a>'.format(team_name);
     content += '<a href="javascript:;" class="team-delete"><i class="material-icons">delete</i></a>';
-    content += '<a href="javascript:;" class="team-update"><i class="material-icons">cached</i></a>';
+    content += '<a href="javascript:;" class="team-update"><i class="material-icons">save</i></a>';
     $new_li.html(content);
     $('#team-units').prepend($new_li);
 
