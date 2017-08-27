@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>LLATB-TeamStrength</title>
+<title>LLATB-AdvancedSimulator</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <!-- Load static resources -->
 {% load staticfiles %}
@@ -21,10 +21,11 @@
 <script src="{% static 'js/less.min.js' %}"></script>
 
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
     lang = 'EN';
-    TS_page = true;
-    AS_page = false;
+    TS_page = false;
+    AS_page = true;
     (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function() {
@@ -74,14 +75,12 @@
             <div class="w3-bar-item w3-margin-left" style='width:75px;height:40px;padding:0;'>
                 <input id='perfectRate' class='w3-input w3-round-large' type='number' min='0.01' max='1' step='0.01' placeholder='Perfect Rate' required='required' onchange="changePerfectRate()">
             </div>
-            <button id='unlimitGem' class='imgBtn w3-margin-left' onclick="toggleUnlimitGem()"></button>
             <select id='extraCond' class='w3-bar-item w3-select w3-margin-left' style='height:40px;padding:0' onchange="changeExtraCondition()">
             </select>
-            <button id='autoMode' class='imgBtn w3-margin-left' onclick="toggleAutoMode()"></button>
             <button class='w3-bar-item w3-pink w3-hover-yellow roundBtn w3-margin-left w3-margin-right' style='padding:0 0' onclick="openUTeamJSON()"><b>Team JSON</b></button>
             <select id='guestCenter' class='w3-bar-item w3-select w3-mobile' style='height:40px;padding:0' onchange="changeGuestCenter()">
             </select>
-            <button id='calculate' class='w3-bar-item w3-green w3-hover-yellow roundBtn w3-right w3-mobile' onclick="calculate()"><b>Calculate</b></button>
+            <button id='calculate' class='w3-bar-item w3-green w3-hover-yellow roundBtn w3-right w3-mobile' onclick="calculate()"><b>Simulate</b></button>
         </div>
         <div id='liveSel' class='infoBar w3-black' style='height:auto'>
             <span> <b> </b> </span>
@@ -94,8 +93,17 @@
             <div class="swiper-scrollbar"></div>
         </div>
     </div>
-    <div id="simulation" class='w3-display-container'>
+    <div style="width:100%;border: 1px solid black; text-align:center; background-color:green; color:white"><b>Live Songs for Simulation</b></div>
+    <div id="live_control_container">
+        <div id="live_control">
+        </div>
+    </div>
+    <div style="width:100%;border: 1px solid black; text-align:center; background-color:green; color:white"><b>Advanced MF Live Stats</b></div>
+    <div id="total_stat">
+    </div>
+    <div id="simulation" class='w3-display-container' style='margin-bottom: 50px;'>
         <span class='exitBtn' style='z-index:1'><b>x</b></span>
+        <div style="width:100%;border: 1px solid black; text-align:center; background-color:green; color:white"><b>Simulation Results</b></div>
         <div id="cover_rate">
         </div>
         <div id="simul_hist">
@@ -103,14 +111,12 @@
         <div id="simul_result">
         </div>
     </div>
-    <div id='result'>
-    </div>
     <div id='userJSON' class='w3-modal'>
         <div class='w3-modal-content' style='height:100%'>
             <div class='w3-container w3-black w3-padding-24' style='height:100%;overflow: scroll;'>
                 <span onclick="inputTeamJSON()" class='exitBtn'><b>x</b></span>
                 <span id='profile-title'><b>Team JSON:</b></span>
-                <a href='/team_strength/edit/' style="text-decoration:none">
+                <a href='/advanced_simul/edit/' style="text-decoration:none">
                     <button class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Manual</b></button>
                 </a>
                 <button id='importSIT' class='roundBtn w3-pink w3-hover-yellow w3-margin-left'><b>Import SIT</b></button>

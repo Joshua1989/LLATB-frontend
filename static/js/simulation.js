@@ -42,7 +42,7 @@ function simulate(P_rate, live_group, live_attr, card_info, note_list, skillup, 
         var type_bonus = (note_list[idx].long ? 1.25 * P_rate + 1.1 * (1 - P_rate) : 1) * (note_list[idx].swing ? 0.5 : 1);
         var is_perfect = PLocking ? 1 : (Math.random() < P_rate);
         var judge_bonus = is_perfect ? 1.25 : 1.1;
-        var tap_score = Math.floor(0.01 * scoreup * base_value * judge_bonus * type_bonus * combo_bonus * group_bonus * attr_bonus);
+        var tap_score = Math.floor(0.01 * scoreup[idx] * base_value * judge_bonus * type_bonus * combo_bonus * group_bonus * attr_bonus);
 
         combo++;
         perfect_count += is_perfect;
@@ -75,7 +75,7 @@ function simulate(P_rate, live_group, live_attr, card_info, note_list, skillup, 
             skill_counter[x] = triggers[skills[x].trigger_type];
             while (skill_counter[x] - used_counter[x] >= skills[x].trigger_count) {
                 used_counter[x] += skills[x].trigger_count;
-                var rnd = 100.0 * Math.random() / skillup;
+                var rnd = 100.0 * Math.random() / skillup[idx];
                 if (rnd < skills[x].odds) {
                     switch (skills[x].effect_type) {
                         case 'Score Up':
@@ -315,7 +315,7 @@ function show_simul_result(simul_result, res, icons) {
         table[x][0] = '<b>' + row_header[x] + '</n>';
         for (var i = 1; i <= 9; i++) {
             if (x == 0) {
-                table[x][i] = '<img src="' + icons[i - 1] + '">';
+                table[x][i] = '<img src="' + icons[i - 1] + '" style="width:100%;max-width:75px;">';
             } else {
                 table[x][i] = res[field_name[x]][i - 1];
                 table[x][10] += parseFloat(res[field_name[x]][i - 1]);

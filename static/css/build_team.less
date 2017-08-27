@@ -369,3 +369,102 @@ body.modal-open {
         width: 75px;
     }
 }
+
+#live_control_container {
+    overflow-x: scroll;
+    #live_control {
+        margin: auto;
+        /*height:340px;*/
+        .live-control-item {
+            margin: 5px 5px;
+            display: inline-block;
+            background-position: center;
+            background-size: cover;
+            width: 260px;
+            height: 330px;
+            border-width: 5px;
+            border-style: solid;
+            .topBar {
+                .w3-bar;
+                .w3-center;
+                top: 0;
+                bottom: 100%;
+                left: 0;
+                right: 0;
+                height: 25px;
+                width: 100%;
+                .titleText {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    top: 50%;
+                    left: 50%;
+                }
+                .remove {
+                    height: 25px;
+                    padding: 0 5px;
+                    float:right;
+                    &:hover {
+                        color:black;
+                        background-color: yellow;
+                    }
+                }
+            }
+            img {
+                top: 25px;
+                width: 250px;
+            }
+            .move-before,
+            .move-next {
+                height: 40px;
+                padding: 0 0;
+                &:hover {
+                    color:black;
+                    background-color: yellow;
+                }
+                i {
+                    font-size:40px;
+                }
+            }
+            .move-before {
+                float:left;
+                margin-right: 15px;
+            }
+            .move-next {
+                float:right;
+                margin-left: 15px;
+            }
+            
+            .friend_score_up,
+            .friend_skill_up {
+                display: inline-block;
+                width:55px;
+                height:40px;
+                padding:0;
+                margin-right:5px;
+            }
+            .friend_score_up {
+                float:left;
+                input {
+                    background-image: url("https://r.llsif.win/assets/image/ui/event/e_button_32.png"); 
+                    background-size: auto 100%;
+                    background-color: #ffdddd;
+                    &:invalid {
+                        background-image: none;
+                    }
+                }
+            }
+            .friend_skill_up {
+                float:right;
+                input {
+                    background-image: url("https://r.llsif.win/assets/image/ui/event/e_button_33.png"); 
+                    background-size: auto 100%;
+                    background-color: #ffdddd;
+                    &:invalid {
+                        background-image: none;
+                    }
+                }
+            }
+        }
+    }
+}
+    

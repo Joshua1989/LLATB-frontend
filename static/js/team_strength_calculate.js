@@ -45,6 +45,23 @@ function inputTeamJSON() {
 
 // calculate best team
 function calculate() {
+    if (AS_page) {
+        var input_valid = true;
+        $('.friend_score_up input').each(function() {
+            input_valid &= $(this).is(':valid');
+        })
+        $('.friend_skill_up input').each(function() {
+            input_valid &= $(this).is(':valid');
+        })
+        if (!input_valid) {
+            alert('Friend score/skill up can only be set between 0% to 10%.')
+            return
+        } else if (live_selection.song_list.length == 0) {
+            alert('Live songs must be chosen before simulation.')
+            return
+        }
+    }
+
     var user_json = localStorage.getItem('user_json'),
         team_json = localStorage.getItem('team_json')
     if (user_json == '') {
@@ -111,40 +128,71 @@ function calculate() {
     }
     $.ajax({
         type: "POST",
-        url: "/team_strength/calculate",
+        url: "/{0}/calculate".format(AS_page ? 'advanced_simul' : 'team_strength'),
         headers: {
             'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
         },
         data: POST_JSON,
         success: function(data) {
             if (data['complete']) {
-                $('#simulation').hide();
-                $('#result').html(data['result']);
-                if (live_selection['song_list'][0].indexOf('Default') == -1 && !live_selection.is_sm) {
-                    $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>Simulate</b></button>")
-                    setInterval(function() { $("#simulBtn").fadeTo('slow', 0.5).fadeTo('slow', 1); }, 2000);
+                if (TS_page && !AS_page) {
+                    $('#simulation').hide();
+                    $('#result').html(data['result']);
+                    if (live_selection['song_list'][0].indexOf('Default') == -1 && !live_selection.is_sm) {
+                        $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>Simulate</b></button>")
+                        setInterval(function() { $("#simulBtn").fadeTo('slow', 0.5).fadeTo('slow', 1); }, 2000);
+                        var n_trial = 5000,
+                            P_rate = parseFloat(perfect_rate),
+                            live_group = group_arr[live_selection['group']],
+                            live_attr = live_selection['attr'],
+                            simul_card_info = JSON.parse(data.simul_base_info),
+                            simul_live_info = JSON.parse(data.note_list),
+                            skillup = 1 + skill_up,
+                            scoreup = 1 + score_up;
+                        $('#simulBtn').click(function() {
+                            var simul_res = MonteCarlo(n_trial, P_rate, live_group, live_attr, simul_card_info, simul_live_info, skillup, scoreup);
+                            draw_simul('simul_hist', 'cover_rate', simul_res);
+                            $('#simulation').show()
+                            $('#simul_hist').highcharts().reflow();
+                            $('#cover_rate').highcharts().reflow();
+                            show_simul_result('simul_result', simul_res, simul_card_info.icon_url);
+                            updateInfo('Finished simulation', false);
+                        })
+                    } else {
+                        $('#simulation').hide();
+                    }
+                    $('#userJSON .LLH').val(data['sd_file']);
+                    $('#userJSON .ieb').val(data['ieb_file']);
+                } else if (!TS_page && AS_page) {
                     var n_trial = 5000,
                         P_rate = parseFloat(perfect_rate),
                         live_group = group_arr[live_selection['group']],
                         live_attr = live_selection['attr'],
                         simul_card_info = JSON.parse(data.simul_base_info),
-                        simul_live_info = JSON.parse(data.note_list),
-                        skillup = 1 + skill_up,
-                        scoreup = 1 + score_up;
-                    $('#simulBtn').click(function() {
-                        var simul_res = MonteCarlo(n_trial, P_rate, live_group, live_attr, simul_card_info, simul_live_info, skillup, scoreup);
-                        draw_simul('simul_hist', 'cover_rate', simul_res);
-                        $('#simulation').show()
-                        $('#simul_hist').highcharts().reflow();
-                        $('#cover_rate').highcharts().reflow();
-                        show_simul_result('simul_result', simul_res, simul_card_info.icon_url);
-                        updateInfo('Finished simulation', false);
+                        simul_live_info = JSON.parse(data.note_list);
+                    var skillup = new Array(simul_live_info.length).fill(1 + skill_up),
+                        scoreup = new Array(simul_live_info.length).fill(1 + score_up);
+                    var temp = 0;
+                    $('.live-control-item').each(function() {
+                        var current_note_number = parseInt($(this).attr('value')),
+                            friend_score_up = parseInt($(this).find('.friend_score_up input').val())/100,
+                            friend_skill_up = parseInt($(this).find('.friend_skill_up input').val())/100;
+                        for(var x = 0; x < current_note_number; x++) {
+                            scoreup[temp] *= 1 + friend_score_up;
+                            skillup[temp] *= 1 + friend_skill_up;
+                            temp += 1;
+                        }
                     })
-                } else {
-                    $('#simulation').hide();
+                    var simul_res = MonteCarlo(n_trial, P_rate, live_group, live_attr, simul_card_info, simul_live_info, skillup, scoreup);
+                    draw_simul('simul_hist', 'cover_rate', simul_res);
+                    $('#simulation').show()
+                    $('#simul_hist').highcharts().reflow();
+                    $('#cover_rate').highcharts().reflow();
+                    show_simul_result('simul_result', simul_res, simul_card_info.icon_url);
+                    updateInfo('Finished simulation', false);
+                    $('#userJSON .LLH').val(data['sd_file']);
+                    $('#userJSON .ieb').val(data['ieb_file']);
                 }
-                $('#userJSON .LLH').val(data['sd_file']);
-                $('#userJSON .ieb').val(data['ieb_file']);
             }
             updateInfo(data['msg'], !data['complete']);
             $('#calculate').prop('disabled', false);

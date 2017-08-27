@@ -147,7 +147,7 @@ if (user_json_bucket == null | !IsJsonString(user_json_bucket)) {
 } else {
     user_json_bucket = JSON.parse(user_json_bucket);
 }
-if (TS_page) {
+if (TS_page || AS_page) {
     var team_json = localStorage.getItem("team_json");
     if (team_json == null) {
         team_json = '[0,{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":982,"unit_skill_level":8,"unit_removable_skill_capacity":8},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1027,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1004,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1131,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1109,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1075,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1048,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1177,"unit_skill_level":1,"unit_removable_skill_capacity":4},{"level":100,"love":1000,"rank":2,"removable":[],"unit_id":1153,"unit_skill_level":1,"unit_removable_skill_capacity":4}]';
@@ -161,7 +161,7 @@ var live_selection = {
     group: group_sel,
     attr: attr_sel,
     diff: diff_sel,
-    song_list: [song_name],
+    song_list: AS_page ? [] : [song_name],
     is_sm: false,
     is_random: false
 }
@@ -224,8 +224,108 @@ function updateLiveSel(add_song) {
     else
         $("#liveSel span b").html('Difficulty: {0}, Selected songs: {1}'.format(live_selection['diff'], song_names));
     $("#liveSel span b").css('color', attribute_color2[live_selection['attr']]);
+    // For advanced simulation page, show the live simulation
+    updateLiveControl();
+    updateTotalLiveStat();
 }
 updateLiveSel();
+
+function updateLiveControl() {
+    var no_note_list = (live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf(song_head) > -1) || live_selection.is_sm || live_selection['song_list'].length == 0;
+    $('#live_control').css('width', live_selection.song_list.length*275+'px');
+    if (AS_page && !no_note_list) {
+        var color_str = attribute_color[attr_sel];
+        var content = '';
+        for (var x in live_selection.song_list) {
+            var live_name = live_selection.song_list[x],
+                live_cover = '',
+                note_number = 0;
+            for (var y in live_info) {
+                if (live_info[y].name == live_name && live_info[y].diff_level == live_selection.diff) {
+                    live_cover = live_info[y].cover;
+                    note_number = live_info[y].note_number;
+                    break;
+                }
+            }
+            content += "<div class='live-control-item w3-{0} w3-border-{5}' value={7}><div class='topBar w3-{0}'><b class='titleText'>{1}</b><span onclick='live_remove(\"{6}\")' class='remove'><i class='material-icons'>delete</i></span></div><img src='{2}'>".format(color_str, live_name, live_cover, live_name, diff_sel, color_str, x, note_number)
+            content += '<div style="margin-top:5px;">';
+            content += "<span onclick='live_move_before(\"{0}\")' class='move-before'><i class='material-icons'>navigate_before</i></span>".format(x);
+            content += '<div class="friend_score_up"><input class="w3-input w3-round-large boostInput" type="number" inputmode="numeric" pattern="[0-9]*" min="0" max="10" step="1" value="0" required="required"></div>';
+            content += "<span onclick='live_move_next(\"{0}\")' class='move-next'><i class='material-icons'>navigate_next</i></span>".format(x);
+            content += '<div class="friend_skill_up"><input class="w3-input w3-round-large boostInput" type="number" inputmode="numeric" pattern="[0-9]*" min="0" max="10" step="1" value="0" required="required"></div>';
+            content += '</div></div>\n';
+        }
+        $('#live_control').html(content);
+    } else if (AS_page && no_note_list) {
+        $('#live_control').html('');
+    }
+}
+
+function live_remove(x) {
+    x = parseInt(x);
+    live_selection.song_list.splice(x, 1);
+    $('#live_control').children('live-control-item').eq(x).remove();
+    updateLiveControl();
+    updateTotalLiveStat();
+}
+
+function live_move_before(x) {
+    x = parseInt(x);
+    if (x > 0) {
+        var temp = live_selection.song_list[x];
+        live_selection.song_list[x] = live_selection.song_list[x-1];
+        live_selection.song_list[x-1] = temp;
+        $('#live_control').children('live-control-item').eq(x).remove();
+        updateLiveControl();
+        updateTotalLiveStat();
+    }
+}
+
+function live_move_next(x) {
+    x = parseInt(x);
+    if (x < live_selection.song_list.length-1) {
+        var temp = live_selection.song_list[x];
+        live_selection.song_list[x] = live_selection.song_list[x+1];
+        live_selection.song_list[x+1] = temp;
+        $('#live_control').children('live-control-item').eq(x).remove();
+        updateLiveControl();
+        updateTotalLiveStat();
+    }
+}
+
+function updateTotalLiveStat() {
+    var no_note_list = (live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf(song_head) > -1) || live_selection.is_sm || live_selection['song_list'].length == 0;
+    if (AS_page && !no_note_list) {
+        POST_JSON = {
+            lang: lang,
+            song_list: JSON.stringify(live_selection['song_list']),
+            difficulty: live_selection.diff,
+            perfect_rate: perfect_rate,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+        $.ajax({
+            type: "POST",
+            url: "/advanced_simul/live_stats",
+            headers: {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            data: POST_JSON,
+            success: function(data) {
+                $('#total_stat').html(data['live_stats']);
+                var song_name = $('#total_stat tr').children('td').eq(1).children('p').html().replace(/, /g, '<br/>');
+                $('#total_stat tr').children('td').eq(1).children('p').html(song_name);
+            },
+            error: function(data) {
+                if (lang == 'CN')
+                    alert('获取谱面进阶信息失败!')
+                else
+                    alert('Failed to fetch advanced stats for live song.')
+            }
+        });
+    } else if (AS_page && no_note_list) {
+        $('#total_stat').html('');
+    }
+}
 
 // Initialized display
 $('#group').html("<img src='{0}' alt='{1}'>".format(img_url[group_sel], group_arr[group_sel]));
@@ -297,9 +397,10 @@ function updateLiveSwiper() {
     // Default live
     var default_name = song_head + ' {0} {1}'.format(group_arr[group_sel], attr_sel);
     var color_str = attribute_color[attr_sel];
-    swiper.appendSlide("<div class='swiper-slide w3-{0} w3-border-{5} w3-hover-border-yellow'><div class='topBar w3-hover-{6} w3-{0}' onclick=\"chooseLive('{3}','{4}')\"><b class='titleText'>{1}</b></div><img src='{2}'></div>\n".format(color_str, default_name, default_cover_url[group_sel][attr_sel], default_name.replace("'", "\\\'"), diff_sel, color_str, color_str));
+    if (!AS_page)
+        swiper.appendSlide("<div class='swiper-slide w3-{0} w3-border-{5} w3-hover-border-yellow'><div class='topBar w3-hover-{6} w3-{0}' onclick=\"chooseLive('{3}','{4}')\"><b class='titleText'>{1}</b></div><img src='{2}'></div>\n".format(color_str, default_name, default_cover_url[group_sel][attr_sel], default_name.replace("'", "\\\'"), diff_sel, color_str, color_str));
     // SM live
-    if (diff_sel != 'Master') {
+    if (!AS_page && diff_sel != 'Master') {
         var date = new Date();
         var date_UTC = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
         date_UTC = Date.parse(date_UTC);
@@ -686,7 +787,7 @@ if (lang == 'CN') {
         }
     };
 
-    if (TS_page) {
+    if (TS_page || AS_page) {
         var SIT_user_name = localStorage.getItem('SIT_user_name');
         var SIT_team_list = undefined;
         if (SIT_user_name != null) {
