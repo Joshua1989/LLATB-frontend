@@ -392,9 +392,9 @@ function calculate() {
                         live_group = group_arr[live_selection['group']],
                         live_attr = live_selection['attr'],
                         simul_card_info = JSON.parse(data.simul_base_info),
-                        simul_live_info = JSON.parse(data.note_list),
-                        skillup = 1 + skill_up,
-                        scoreup = 1 + score_up;
+                        simul_live_info = JSON.parse(data.note_list);
+                    var skillup = new Array(simul_live_info.length).fill(1 + skill_up),
+                        scoreup = new Array(simul_live_info.length).fill(1 + score_up);
                     $('#simulBtn').click(function() {
                         var simul_res = MonteCarlo(n_trial, P_rate, live_group, live_attr, simul_card_info, simul_live_info, skillup, scoreup);
                         draw_simul('simul_hist', 'cover_rate', simul_res);
