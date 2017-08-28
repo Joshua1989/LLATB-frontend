@@ -939,7 +939,7 @@ $('#saveTeam').click(function() {
 
 // Update click event
 function create_team_unit(team_name) {
-    var $new_li = $("<li class='team-unit' data-name={0}></li>".format(team_name));
+    var $new_li = $("<li class='team-unit' data-name='{0}'></li>".format(team_name));
     var content = '<a href="javascript:;" class="team-name">{0}</a>'.format(team_name);
     content += '<a href="javascript:;" class="team-delete"><i class="material-icons">delete</i></a>';
     content += '<a href="javascript:;" class="team-update"><i class="material-icons">save</i></a>';
@@ -948,6 +948,7 @@ function create_team_unit(team_name) {
 
     $('.team-name').click(function() {
         var name = $(this).parent().attr('data-name');
+        console.log(name)
         team_json = team_json_bucket[name];
         init(team_json);
         showTeam(true);
