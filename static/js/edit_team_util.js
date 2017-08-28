@@ -946,19 +946,18 @@ function create_team_unit(team_name) {
     $new_li.html(content);
     $('#team-units').prepend($new_li);
 
-    $('.team-name').click(function() {
+    $('.team-name').off('click').click(function() {
         var name = $(this).parent().attr('data-name');
-        console.log(name)
         team_json = team_json_bucket[name];
         init(team_json);
         showTeam(true);
     });
-    $('.team-update').click(function() {
+    $('.team-update').off('click').click(function() {
         var name = $(this).parent().attr('data-name');
         if (!team_validation()) return;
         team_json_bucket[name] = team_json;
     });
-    $('.team-delete').click(function() {
+    $('.team-delete').off('click').click(function() {
         var name = $(this).parent().attr('data-name');
         delete team_json_bucket[name];
         $(this).parent().detach();
