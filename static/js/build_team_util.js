@@ -739,6 +739,9 @@ if (lang == 'CN') {
         document.body.removeChild(element);
     }
     $('#exportLLH').click(function() {
+        $('#exportLLH').prop('disabled', true);
+        $('#exportLLH').removeClass('w3-pink');
+        $('#exportLLH').addClass('w3-grey');
         POST_JSON = {
             lang: 'CN',
             user_json: user_json,
@@ -756,9 +759,15 @@ if (lang == 'CN') {
                     download('submembers.sd', data.user_json);
                 }
                 updateInfo(data['msg'], !data['complete']);
+                $('#exportLLH').prop('disabled', false);
+                $('#exportLLH').removeClass('w3-grey');
+                $('#exportLLH').addClass('w3-pink');
             },
             error: function(data) {
                 alert('导出LL Helper格式失败');
+                $('#exportLLH').prop('disabled', false);
+                $('#exportLLH').removeClass('w3-grey');
+                $('#exportLLH').addClass('w3-pink');
             }
         });
     })
