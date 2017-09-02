@@ -5,6 +5,7 @@
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
     (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -31,30 +32,38 @@
             display: block;
         }
     }
+    ul {
+      list-style-type: none;
+    }
     </style>
 </head>
 
 <body>
     <h3>Quick Link / 快速链接</h3>
     <ul>
-        <li>Team Building page / 组队页面:
+        <li><i class='material-icons'>group</i>
+            Team Building page / 组队页面:
             <a href="/build_team/en/">EN</a>，
             <a href="/build_team/">CN</a>，
             <a href="/old_ver/">旧版页面</a>
         </li>
-        <li>Team Strength Calculator page / 队伍强度计算器页面:
+        <li><i class='material-icons'>settings_cell</i>
+            Team Strength Calculator page / 队伍强度计算器页面:
             <a href="/team_strength/">EN</a>，
             <a href="/team_strength/tutorial/">Tutorial/教程</a>
         </li>
-        <li>Advanced Simulator for MF / 更详细的MF仿真页面:
+        <li><i class='material-icons'>build</i>
+            Advanced Simulator for MF / 更详细的MF仿真页面:
             <a href="/advanced_simul/">EN</a>，
             <a href="/advanced_simul/tutorial/">Tutorial/教程</a>
         </li>
-        <li>Detailed Tutorial / 详细教程:
+        <li><i class='material-icons'>description</i>
+            Detailed Tutorial / 详细教程:
             <a href="/tutorial/en/">EN</a>，
             <a href="/tutorial/cn/">CN</a>
         </li>
-        <li>Theoretical Material / 理论文档:
+        <li><i class='material-icons'>import_contacts</i>
+            Theoretical Material / 理论文档:
             <a href="/doc/en/">EN</a>，
             <a href="/doc/cn/">CN</a>
         </li>
@@ -126,9 +135,9 @@
 - Update combo weight, point per strength, and other live stats according to team cover rate for more accurate computation
   根据团队覆盖率实时变化歌曲的连击权重、每Point对应强度等数据，计算更加准确
 - Fix the bug that simulation mode is always 1%~2% percent smaller than expected score
-  修复了模拟功能中的bug，现在得分分布的峰值和期望得分基本重合了
+  修复了模拟功能中分布略微偏小的bug，现在得分分布的峰值和期望得分基本重合了
 - Add "home" button in top left corner of each subpage to return to portal page
-  在每个子页面左上角增加了返回门板页面的按钮，便于快速切换页面
+  在每个子页面左上角增加了返回门板页面的按钮，便于在不同功能的页面之间快速切换
 
 ## 2017.08.25:
 - Add an advanced simulator for MF so that user can set guest boost on each song.
