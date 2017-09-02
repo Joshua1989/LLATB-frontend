@@ -21,6 +21,7 @@
 <script src="{% static 'js/less.min.js' %}"></script>
 
 <head>    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script>
     lang = 'CN';
     TS_page = false;
@@ -45,6 +46,7 @@
 <body>
     <div class='w3-container w3-black' style='padding:0'>
         <div id='infoBox' class='infoBar w3-pale-green'>
+            <a href="/" style='float:left'><i class='material-icons'>home</i></a>
             <span onclick="this.parentElement.style.display='none'" class='exitBtn'><b>x</b></span>
             <button onclick="document.getElementById('about').style.display='block'" class='aboutBtn'>
                 <b>About</b>
