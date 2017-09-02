@@ -22,12 +22,6 @@ class GemAllocator:
 		self.owned_gem = owned_gem
 
 	def update_gem_score(self, sort=False):
-		# Compute Average Position Bonus
-		mu = np.array([card.mu for card in self.card_list[1:]])
-		zeta = self.live.combo_weight_fraction.copy()[[0,1,2,3,5,6,7,8]]
-		mu.sort()
-		zeta.sort()
-		self.mu_bar = self.card_list[0].mu * self.live.combo_weight_fraction[4] + (mu*zeta).sum()
 		# Compute team total cover rate
 		if hasattr(self.live, 'note_list'):
 			temp = np.ones(self.live.note_number)
@@ -36,6 +30,15 @@ class GemAllocator:
 			self.team_CR = (1-temp).mean()
 		else:
 			self.team_CR = 1 - (1-np.array([card.CR for card in self.card_list])).prod()
+		# Update live settings on new CR
+		if hasattr(self.live, 'update_live_stat'):
+			self.live.update_live_stat(self.team_CR)
+		# Compute Average Position Bonus
+		mu = np.array([card.mu for card in self.card_list[1:]])
+		zeta = self.live.combo_weight_fraction.copy()[[0,1,2,3,5,6,7,8]]
+		mu.sort()
+		zeta.sort()
+		self.mu_bar = self.card_list[0].mu * self.live.combo_weight_fraction[4] + (mu*zeta).sum()
 		# Update settings to compute skill gain of Skill Up and Stamina Restore skills
 		new_setting = self.setting.copy()
 		new_setting['attr_group_factor'] = self.mu_bar

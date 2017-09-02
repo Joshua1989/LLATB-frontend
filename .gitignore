@@ -1,4 +1,6 @@
 .ipynb_checkpoints/
+packet.txt
+test.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -103,3 +105,4 @@ ENV/
 
 templates/LLSIF-AutoTeamBuilder Tutorial.html
 static/exception.txt
+packet_to_json.json

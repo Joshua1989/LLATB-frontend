@@ -120,6 +120,16 @@
     <div class="contact"><span><img src="//sqimg.qq.com/qq_product_operations/im/2015/pc_icon.png" height="25px" style="margin-right:10px">@276364504</span></div>
     <h3>Change Log / 更新日志</h3>
     <textarea cols="110" rows="15" style="font-size:14px; margin-bottom: 50px; width:95%;" type="text" readonly>
+## 2017.09.02:
+- Fix bug of omitting group matching factor in card strength tier when there is no guest center skill
+  修正了没设置好友Center技能情况下，卡牌强度天梯没有考虑同团加成的bug
+- Update combo weight, point per strength, and other live stats according to team cover rate for more accurate computation
+  根据团队覆盖率实时变化歌曲的连击权重、每Point对应强度等数据，计算更加准确
+- Fix the bug that simulation mode is always 1%~2% percent smaller than expected score
+  修复了模拟功能中的bug，现在得分分布的峰值和期望得分基本重合了
+- Add "home" button in top left corner of each subpage to return to portal page
+  在每个子页面左上角增加了返回门板页面的按钮，便于快速切换页面
+
 ## 2017.08.25:
 - Add an advanced simulator for MF so that user can set guest boost on each song.
   This is useful when you want to compute the theoretic maximal score.

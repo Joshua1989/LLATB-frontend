@@ -35,27 +35,25 @@ function simulate(P_rate, live_group, live_attr, card_info, note_list, skillup, 
     for (var idx = 0; idx < note_list.length; idx++) {
         var PLocking = (PLock_remain > note_list[idx].timing_sec);
         var base_value = PLocking ? PLock_attr_stregth : attr_stregth;
-        var attr_bonus = (live_attr == card_info.attr[note_list[idx].position]) ? 1.1 : 1,
-            group_bonus = (live_group == card_info.group[note_list[idx].position]) ? 1.1 : 1;
+        var attr_bonus = (live_attr == card_info.attr[note_list[idx].position-1]) ? 1.1 : 1,
+            group_bonus = (live_group == card_info.group[note_list[idx].position-1]) ? 1.1 : 1;
 
         var combo_bonus = combo > 800 ? 1.35 : combo_aux[parseInt(combo / 50)];
         var type_bonus = (note_list[idx].long ? 1.25 * P_rate + 1.1 * (1 - P_rate) : 1) * (note_list[idx].swing ? 0.5 : 1);
         var is_perfect = PLocking ? 1 : (Math.random() < P_rate);
         var judge_bonus = is_perfect ? 1.25 : 1.1;
         var tap_score = Math.floor(0.01 * scoreup[idx] * base_value * judge_bonus * type_bonus * combo_bonus * group_bonus * attr_bonus);
-
         combo++;
         perfect_count += is_perfect;
         star_perfect_count += note_list[idx].star & is_perfect;
         total_score += tap_score;
         for (var x = 0; x < 9; x++) {
-            if (PLocking) {
+            if (!PLocking) {
                 attr_score_detail[x] += attr_fraction[x] * tap_score;
             } else {
                 attr_score_detail[x] += (attr_fraction[x] - PLock_only_fraction[x]) * tap_score;
                 PLock_score_detail[x] += PLock_only_fraction[x] * tap_score;
             }
-
         }
         if (PLocking) {
             PLock_track[idx] = 1;

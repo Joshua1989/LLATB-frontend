@@ -148,7 +148,7 @@ class Card:
 			center_bonus = 1.15
 			# Compute amend attribute
 			attr_val  = np.array([getattr(self, x.lower())/attr_match_factor**(x != self.main_attr) + self.bond*(x == self.main_attr) for x in attr_list])
-			attr_val *= center_bonus
+			attr_val *= center_bonus / group_match_factor**(1-group_match)
 		else:
 			# LL TeamBuilder rough strength
 			center_bonus = np.ones(3)
