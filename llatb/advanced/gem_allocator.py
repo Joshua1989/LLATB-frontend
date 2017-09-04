@@ -291,7 +291,7 @@ class GemAllocator:
 
 		def get_summary(index, card):
 			res = { 'CID':'<p>{0}</p>'.format(card.card_id), 
-					'Icon': '<img src="{0}" style="width:100%;max-width:75px;" />'.format(icon_path(card.card_id, card.idolized)),
+					'Icon': '<img src="{0}" style="width:100%;max-width:75px;" title="{1}"/>'.format(icon_path(card.card_id, card.idolized), card.tooltip()),
 					'SIS':gem_slot_pic(card, show_cost=show_cost, gem_size=25)}
 
 			# Skill gain information
@@ -439,7 +439,7 @@ class GemAllocator:
 			is_new = lambda cskill: all([not x.is_equal(cskill) for x in cskill_list])
 			for index, card in raw_card_dict.items():
 				if card.main_attr == self.live.attr and card.rarity == 'UR' and not card.promo:
-					guest_candidate[(card.cskill.base_attr, card.cskill.bonus_range)].append(card.card_id)
+					guest_candidate[(card.cskill.base_attr, card.cskill.bonus_range)].append(card)
 					if is_new(card.cskill):
 						cskill_list.append(card.cskill)
 			# find the center skill that increases the team strength most
@@ -453,10 +453,10 @@ class GemAllocator:
 			df_guest = pd.DataFrame()
 			df_guest['Recommend Guest Center Skill'] = [format_cskill(best_guest_cskill)]
 			# list the cards that has the best guest center skill
-			guest_size, fmt = 50, '<div style="float:left;*padding-left:0;"><img src="{0}" width={1}></div>'
+			guest_size, fmt = 50, '<div style="float:left;*padding-left:0;"><img src="{0}" width={1} title="{2}"></div>'
 			# divs = [fmt.format(icon_path(card_id,idolized), guest_size) for card_id in recommend_guest for idolized in [False,True] ]
-			divs1 = [fmt.format(icon_path(card_id,False), guest_size) for card_id in recommend_guest]
-			divs2 = [fmt.format(icon_path(card_id,True), guest_size) for card_id in recommend_guest]
+			divs1 = [fmt.format(icon_path(card.card_id,False), guest_size, card.tooltip()) for card in recommend_guest]
+			divs2 = [fmt.format(icon_path(card.card_id,True), guest_size, card.tooltip()) for card in recommend_guest]
 			df_guest['Recommend Guest Icon'] = '<div style="width:{0}px;">{1}<div>'.format(len(divs1)*guest_size, ''.join(divs1)+''.join(divs2))
 			# compute the expected score if the best guest center skill is present
 			setting = self.setting.copy()

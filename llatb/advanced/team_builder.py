@@ -46,7 +46,7 @@ class TeamBuilder:
 			border_style = '3px double' if (match_color and match_group) else ('1px solid' if (match_color or match_group) else '1px none')
 			res['CID'] = '<span style="color:{1}; border:{1} {2};font-weight:{3}; padding: 0 3px">{0}</span>'.format(card.card_id, font_color, border_style, font_weight)
 			# Generate HTML code for card view and skill
-			res[col_name['view']] =  '<img src="{0}" width=50 />'.format(icon_path(card.card_id, card.idolized))
+			res[col_name['view']] =  '<img src="{0}" width=50 title="{1}"/>'.format(icon_path(card.card_id, card.idolized), card.tooltip())
 
 			if card.skill is not None:
 				temp = repr(card.skill).split(': ')

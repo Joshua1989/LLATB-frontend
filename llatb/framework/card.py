@@ -206,6 +206,15 @@ class Card:
 		return res
 	def copy(self):
 		return deepcopy(self)
+	def tooltip(self):
+		lines = []
+		intro = '{0}: {1}'.format(self.card_id, self.member_name)
+		lines.append(intro + (', Promo Card' if self.promo else ''))
+		if self.rarity != 'N':
+			lines.append(repr(self.skill))
+			lines.append('CSkill - ' + str(self.cskill))
+		string = '&#13;'.join(lines)
+		return string
 	@classmethod
 	def fromJSON(cls, json_data, idolized=False):
 		card_id, card_name, member_name = json_data['card_id'], json_data['card_name'], json_data['member_name']
