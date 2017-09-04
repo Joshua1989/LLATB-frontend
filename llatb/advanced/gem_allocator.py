@@ -272,8 +272,7 @@ class GemAllocator:
 					'Charm', 'Heal', 'Trick', 'Amend STR', 'Skill STR', 'Live Bonus', 'Cmb WT%']
 
 		# Extract all team gems
-		team_gems = [gem for card in team.card_list for gem in card.equipped_gems \
-					 	if self.live.attr in gem.name and gem.effect == 'team_boost']
+		team_gems = [gem for card in team.card_list for gem in card.equipped_gems if self.live.attr in gem.name and gem.effect == 'team_boost']
 		# Find team center skill and cover rate
 		cskill = team.center().cskill
 		temp = np.ones(9)
@@ -292,8 +291,7 @@ class GemAllocator:
 		def get_summary(index, card):
 			res = { 'CID':'<p>{0}</p>'.format(card.card_id), 
 					'Icon': '<img src="{0}" style="width:100%;max-width:75px;" title="{1}"/>'.format(icon_path(card.card_id, card.idolized), card.tooltip()),
-					'SIS':gem_slot_pic(card, show_cost=show_cost, gem_size=25)}
-
+					'SIS': gem_slot_pic(card, show_cost=show_cost, gem_size=25)}
 			# Skill gain information
 			if card.skill is not None:
 				gain = card.skill.skill_gain(setting=self.setting)[0]

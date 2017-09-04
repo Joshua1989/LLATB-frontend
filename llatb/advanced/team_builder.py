@@ -269,7 +269,7 @@ class TeamBuilder:
 
 		self.best_gem_allocator = best_gem_allocator
 		self.best_team = best_gem_allocator.construct_team()
-		return self.view_result(), (i, len(cskill_list))
+		return self.best_team, (i, len(cskill_list))
 
 	def simulate(self, boosts={}, save_to=None):
 		if type(self.live) == DefaultLive:
