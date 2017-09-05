@@ -313,7 +313,7 @@ $('#userJSON .exitBtn').click(function() {
 })
 
 // calculate best team
-function calculate() {
+function calculate(is_continue) {
     user_json = localStorage.getItem('user_json');
     if (user_json == '' | user_json == undefined) {
         if (lang == 'CN')
@@ -344,6 +344,7 @@ function calculate() {
         }
         return
     }
+    $('#result').html('');
     $('#calculate').prop('disabled', true);
     $('#calculate').removeClass('w3-green');
     $('#calculate').addClass('w3-grey');
@@ -354,6 +355,10 @@ function calculate() {
         $("#calculate b").html("Running" + Array(i + 1).join("."));
     }, 500);
 
+    if (!is_continue) {
+        next_cskill_index = 0;
+        prev_max_cskill_index = 0;
+    }
     POST_JSON = {
         lang: lang,
         song_list: JSON.stringify(live_selection['song_list']),
@@ -371,6 +376,8 @@ function calculate() {
         is_random: live_selection.is_random,
         pin_index: pin_sel ? JSON.stringify(Object.keys(pin_cards)) : '[]',
         exclude_index: pin_sel ? JSON.stringify(Object.keys(exclude_cards)) : '[]',
+        next_cskill_index: next_cskill_index,
+        prev_max_cskill_index: prev_max_cskill_index,
         csrfmiddlewaretoken: '{{ csrf_token }}'
     }
     $.ajax({
@@ -384,6 +391,8 @@ function calculate() {
             if (data['complete']) {
                 $('#simulation').hide();
                 $('#result').html(data['result']);
+                next_cskill_index = parseInt(data['next_cskill_index']);
+                prev_max_cskill_index = parseInt(data['prev_max_cskill_index']);
                 if (live_selection['song_list'][0].indexOf(song_head) == -1 && !live_selection.is_sm) {
                     $('#result th').first().html("<button id='simulBtn' class='roundBtn w3-pink w3-hover-yellow' style='white-space: normal;'><b>{0}</b></button>".format(lang == 'CN' ? '进行仿真' : 'Simulate'))
                     setInterval(function() { $("#simulBtn").fadeTo('slow', 0.5).fadeTo('slow', 1); }, 2000);

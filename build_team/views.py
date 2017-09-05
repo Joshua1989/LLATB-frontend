@@ -48,7 +48,7 @@ def calculate(request):
 			'ERR_EXCOND': '应用附加条件失败...',
 			'ERR_SOLVE': '求解最佳卡组失败，请检查该色是否有13张卡',
 			'ERR_EXPORT': '导出文件失败...',
-			'IMCOMPLETE': '由于服务器响应时间限制，返回算法中断前最优结果，算法完成度 {0}/{1}，请尝试多次计算取最好结果。可能是你的宝石太少了，请尝试开启无限宝石看你需要哪些并抓紧时间收集吧。',
+			'IMCOMPLETE': '由于服务器响应时间限制，返回算法中断前最优结果，算法完成度 {0}/{1}，请尝试<button id="recalculate" class="w3-green w3-hover-yellow roundBtn" style="height:25px" onclick="calculate(true)"><b>继续未完成计算</b></button>。<br>可能是你的宝石太少了，您也可以尝试开启无限宝石看你需要哪些并抓紧时间收集。',
 			'SUCCESS': '#{0} 组队成功，共耗时{1:.2f}秒',
 			'ERR_NONAJAX': '服务器接收请求不是AJAX'
 		},
@@ -59,7 +59,7 @@ def calculate(request):
 			'ERR_EXCOND': 'Failed to apply extra condition...',
 			'ERR_SOLVE': 'Failed to solve optimal team, please check whether there are at least 13 cards have current attribute',
 			'ERR_EXPORT': 'Failed to export result into other formats...',
-			'IMCOMPLETE': 'Due to server response time limit, algorithm terminated with progress {0}/{1}, please try multiple times and take the best one',
+			'IMCOMPLETE': 'Due to server response time limit, algorithm terminated with progress {0}/{1}, please try to <button id="recalculate" class="w3-green w3-hover-yellow roundBtn" style="height:25px" onclick="calculate(true)"><b>continue</b></button> the computation.',
 			'SUCCESS': '#{0} Team builded, used {1:.2f} secs',
 			'ERR_NONAJAX': 'The request is not AJAX'
 		}
@@ -74,13 +74,14 @@ def calculate(request):
 		is_sm, is_random = bool(request.POST.get('is_sm', 'false')=='true'), bool(request.POST.get('is_random', 'false')=='true')
 		pin_index = [int(x) for x in json.loads(request.POST.get('pin_index', '[]'))]
 		exclude_index = [int(x) for x in json.loads(request.POST.get('exclude_index', '[]'))]
+		next_cskill_index, prev_max_cskill_index = int(request.POST.get('next_cskill_index', 0)), int(request.POST.get('prev_max_cskill_index', 0))
 
 		user_info  = 'User Information: {0} from {1} team building page\n'.format(str(get_client_ip(request)), lang)
 		if not is_sm:
 			user_info += 'Live Info: {0} {1} {2} {3}, P Rate={4}, {5}/{6} pinned cards\n'.format(song_list, group, attr, diff, PR, len(pin_index), len(exclude_index))
 		else:
 			user_info += 'Live Info: {5} {0} {1} {2} {3}, P Rate={4}, {6}/{7} pinned cards\n'.format(song_list, group, attr, diff, PR, 'SM'+' random'*is_random, len(pin_index), len(exclude_index))
-		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}'.format(score_up, skill_up, unlimit_gem, extra_cond)
+		user_info += 'ScoreUp={0}, SkillUp={1}, GemUnlimited={2}, ExtraCond={3}, start from case {4}, previous best case is at {5}'.format(score_up, skill_up, unlimit_gem, extra_cond, next_cskill_index, prev_max_cskill_index)
 		print(user_info)
 
 		# Load live
@@ -153,14 +154,14 @@ def calculate(request):
 			tb = TeamBuilder(live, user_profile, opt=opt)
 			
 			# Choose alloc method wisely
-			_, (num_calc, num_total) = tb.build_team(K=12, method='1-suboptimal', alloc_method='auto', time_limit=24, pin_index=pin_index, exclude_index=exclude_index)
+			_, (num_calc, num_total, prev_max_cskill_index) = tb.build_team(K=12, method='1-suboptimal', alloc_method='auto', time_limit=24, pin_index=pin_index, exclude_index=exclude_index, next_cskill_index=next_cskill_index, prev_max_cskill_index=prev_max_cskill_index)
 			result = ''
 			if num_calc < num_total:
 				result += '<p style="text-align:center; color:red"><b>{0}</b></p>'.format(strings[lang]['IMCOMPLETE'].format(num_calc, num_total))
 				# Save user request if there is a timeout for debug
-				error_log  = '='*100+'\n' + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())+'\n'
-				error_log += user_info+'\n' + '='*100+'\n' + json.dumps(request.POST) 
-				print(error_log)
+				# error_log  = '='*100+'\n' + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())+'\n'
+				# error_log += user_info+'\n' + '='*100+'\n' + json.dumps(request.POST) 
+				# print(error_log)
 			result += tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
 		except:
 			print('Failed to compute optimal team.')
@@ -189,6 +190,8 @@ def calculate(request):
 			'result': result,
 			'note_list': note_list,
 			'simul_base_info': simul_base_info,
+			'next_cskill_index': num_calc+1,
+			'prev_max_cskill_index': prev_max_cskill_index,
 			'msg': strings[lang]['SUCCESS'].format(counter.TeamCount, elapsed_time)
 		}
 	else:

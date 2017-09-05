@@ -225,7 +225,7 @@ class GemAllocator:
 						valid_card_index[gem].append(ind)
 		num_branch = 1
 		for gem, item in valid_card_index.items():
-			if gem.split()[1] in ['Cross', 'Aura', 'Veil', 'Charm', 'Heal', 'Trick']:
+			if gem.split()[1] in ['Cross', 'Aura', 'Veil', 'Charm', 'Heal']:
 				need, own = len(item), self.owned_gem[gem]
 				if need > own:
 					num_branch *= binom(need, own)
@@ -239,7 +239,7 @@ class GemAllocator:
 		if team_base_score + best_gem_score < max_score: return None
 		# Solve for best gem allocation
 		if alloc_method == 'auto':
-			alloc_method = self.choose_algorithm(add_trick, thresh=2.5e7)
+			alloc_method = self.choose_algorithm(add_trick, thresh=1e6)
 		if alloc_method == 'DP':
 			optimal_alloc, alloc_score = self.find_optimal_gem_allocation_DP(add_trick)
 		elif alloc_method == 'DC':
