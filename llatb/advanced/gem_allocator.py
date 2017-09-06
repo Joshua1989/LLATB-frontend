@@ -251,17 +251,29 @@ class GemAllocator:
 	def construct_team(self):
 		for card, alloc in zip(self.card_list, self.optimal_alloc):
 			card.equip_gem(alloc.gems)
-		# Put non-center card with less same group&color bonus at position with smaller combo weight fraction
-		bonus_list  = sorted([(card.mu,i) for i,card in enumerate(self.card_list[1:])])
-		weight_list = sorted([(self.live.combo_weight_fraction[i], i) for i in range(9) if i!=4])
 
-		final_card_list = [None]*4 + [self.card_list[0]] + [None]*4
-		for i in range(8): 
-			final_card_list[weight_list[i][1]] = self.card_list[1:][bonus_list[i][1]]
+		center_skill = self.card_list[0].cskill
+		center_idx_list = [i for i, card in enumerate(self.card_list) if card.cskill.is_equal(center_skill)]
+
+		max_pos_factor, final_card_list = 0, [None]*9
+		for center_idx in center_idx_list:
+			# Put non-center card with less same group&color bonus at position with smaller combo weight fraction
+			bonus_list  = sorted([(card.mu,i) for i, card in enumerate(self.card_list) if i != center_idx])
+			weight_list = sorted([(self.live.combo_weight_fraction[i], i) for i in range(9) if i!=4])
+			pos_factor  = self.card_list[center_idx].mu * self.live.combo_weight_fraction[4]
+			pos_factor += sum([b[0] * w[0] for b, w in zip(bonus_list, weight_list)])
+			print(pos_factor, max_pos_factor)
+			if pos_factor > max_pos_factor:
+				max_pos_factor, final_card_list[4] = pos_factor, self.card_list[center_idx]
+				for i in range(8): 
+					final_card_list[weight_list[i][1]] = self.card_list[bonus_list[i][1]]
 		return Team(final_card_list)
 
 	def view_optimal_details(self, show_cost=False, lang='EN', fixed_team=None):
 		team = self.construct_team() if fixed_team is None else fixed_team
+		# Update live settings on new CR
+		if hasattr(self.live, 'update_live_stat'):
+			self.live.update_live_stat(self.team_CR)
 
 		col_name = { x:'<img src="{0}" width=25/>'.format(misc_path(x)) for x in ['level','bond','smile','pure','cool'] }
 

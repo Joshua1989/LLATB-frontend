@@ -134,7 +134,7 @@ class DefaultLive:
 		self.average_bonus = note_judge_factor*self.aux['aux_not_long'] + note_judge_factor**2 * self.aux['aux_long']
 		self.strength_per_pt_tap = (1/base_score_factor) / self.average_bonus
 		self.pts_per_strength = self.note_number / self.strength_per_pt_tap
-		self.combo_weight_fraction = np.ones(9)/9
+		self.combo_weight_fraction = np.array([1,1,1,1,0,1,1,1,1])/8
 	def update_live_stat(self, team_CR):
 		perfect_rate = 1 - (1-self.perfect_rate)*(1-team_CR)
 		note_judge_factor = perfect_rate*accuracy_factor['Perfect'] + (1-perfect_rate)*accuracy_factor['Great']
@@ -142,7 +142,7 @@ class DefaultLive:
 		self.average_bonus = note_judge_factor*self.aux['aux_not_long'] + note_judge_factor**2 * self.aux['aux_long']
 		self.strength_per_pt_tap = (1/base_score_factor) / self.average_bonus
 		self.pts_per_strength = self.note_number / self.strength_per_pt_tap
-		self.combo_weight_fraction = np.ones(9)/9
+		self.combo_weight_fraction = np.array([1,1,1,1,0,1,1,1,1])/8
 		
 
 class MFLive:
@@ -304,7 +304,7 @@ class SMLive:
 			self.pts_per_strength = np.mean([live.pts_per_strength for live in self.live_list])
 			self.combo_weight_fraction = np.mean([live.combo_weight_fraction for live in self.live_list], axis=0)
 		else:
-			self.combo_weight_fraction = np.ones(9)/9
+			self.combo_weight_fraction = np.array([1,1,1,1,0,1,1,1,1])/8
 			self.average_bonus, self.strength_per_pt_tap, self.pts_per_strength = 0, 0, 0
 			for live in self.live_list:
 			# Average combo factor if achieve FC
