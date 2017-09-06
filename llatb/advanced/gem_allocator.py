@@ -262,7 +262,6 @@ class GemAllocator:
 			weight_list = sorted([(self.live.combo_weight_fraction[i], i) for i in range(9) if i!=4])
 			pos_factor  = self.card_list[center_idx].mu * self.live.combo_weight_fraction[4]
 			pos_factor += sum([b[0] * w[0] for b, w in zip(bonus_list, weight_list)])
-			print(pos_factor, max_pos_factor)
 			if pos_factor > max_pos_factor:
 				max_pos_factor, final_card_list[4] = pos_factor, self.card_list[center_idx]
 				for i in range(8): 
