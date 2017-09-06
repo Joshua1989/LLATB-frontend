@@ -34,11 +34,16 @@ class GemAllocator:
 		if hasattr(self.live, 'update_live_stat'):
 			self.live.update_live_stat(self.team_CR)
 		# Compute Average Position Bonus
-		mu = np.array([card.mu for card in self.card_list[1:]])
-		zeta = self.live.combo_weight_fraction.copy()[[0,1,2,3,5,6,7,8]]
-		mu.sort()
-		zeta.sort()
-		self.mu_bar = self.card_list[0].mu * self.live.combo_weight_fraction[4] + (mu*zeta).sum()
+		center_skill = self.card_list[0].cskill
+		center_idx_list = [i for i, card in enumerate(self.card_list) if card.cskill.is_equal(center_skill)]
+		self.mu_bar = 0
+		for center_idx in center_idx_list:
+			# Put non-center card with less same group&color bonus at position with smaller combo weight fraction
+			bonus_list  = sorted([(card.mu,i) for i, card in enumerate(self.card_list) if i != center_idx])
+			weight_list = sorted([(self.live.combo_weight_fraction[i], i) for i in range(9) if i!=4])
+			pos_factor  = self.card_list[center_idx].mu * self.live.combo_weight_fraction[4]
+			pos_factor += sum([b[0] * w[0] for b, w in zip(bonus_list, weight_list)])
+			if pos_factor > self.mu_bar: self.mu_bar = pos_factor
 		# Update settings to compute skill gain of Skill Up and Stamina Restore skills
 		new_setting = self.setting.copy()
 		new_setting['attr_group_factor'] = self.mu_bar
