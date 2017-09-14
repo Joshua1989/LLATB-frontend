@@ -120,6 +120,10 @@ def calculate(request):
 			elif extra_cond == 'idolized_max':
 				for i, card in user_profile.raw_card.items():
 					card.idolize(idolized=True, reset_slot=False)
+			elif extra_cond == 'copy_idolized_max':
+				for i, card in user_profile.raw_card.items():
+					if not card.idolized:
+						card.idolize(idolized=True, reset_slot=False)
 			elif extra_cond == 'ultimate':
 				for i, card in user_profile.raw_card.items():
 					card.idolize(idolized=True)
@@ -433,6 +437,10 @@ def filter_cards(request):
 			elif extra_cond == 'idolized_max':
 				for i, card in user_profile.raw_card.items():
 					card.idolize(idolized=True, reset_slot=False)
+			elif extra_cond == 'copy_idolized_max':
+				for i, card in user_profile.raw_card.items():
+					if not card.idolized:
+						card.idolize(idolized=True, reset_slot=False)
 			elif extra_cond == 'ultimate':
 				for i, card in user_profile.raw_card.items():
 					card.idolize(idolized=True)

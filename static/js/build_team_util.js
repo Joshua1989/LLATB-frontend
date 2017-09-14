@@ -66,18 +66,20 @@ var attribute_color2 = {
     Cool: '\#2196F3'
 }
 var difficulty_arr = ['Easy', 'Normal', 'Hard', 'Expert', 'Master'];
-var extra_cond_arr = ['default', 'current_max', 'idolized_max', 'ultimate'];
+var extra_cond_arr = ['default', 'current_max', 'idolized_max', 'copy_idolized_max', 'ultimate'];
 var extra_cond_text = {
     CN: {
         default: '维持当前状态',
         current_max: '当前状态满级满绊',
         idolized_max: '贴纸觉醒满级满绊',
+        copy_idolized_max: '同卡觉醒满级满绊',
         ultimate: '觉醒满槽满技能'
     },
     EN: {
         default: 'Maintain Current',
         current_max: 'Max Lv & Bond',
-        idolized_max: 'Idlz, Max Lv & Bond',
+        idolized_max: 'Seal Idlz, Max Lv&B',
+        copy_idolized_max: 'Copy Idlz, Max Lv&B',
         ultimate: 'Idlz, Lv 8 & Slot Max'
     }
 };
