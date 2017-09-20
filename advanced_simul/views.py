@@ -1,4 +1,4 @@
-E django.shortcuts import render
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -60,7 +60,7 @@ def calculate(request):
 			'ERR_PROFILE': 'Failed to read user profile...',
 			'ERR_TEAM': 'Failed to construct team...',
 			'ERR_EXCOND': 'Failed to apply extra condition...',
-			'ERR_PREPARE': 'Failed to finish preprocessing of advanced simulation',
+			'ERR_PREPARE': 'Failed to finish preprocessing of advanced simulation, please go to manual edit page to save and return again',
 			'ERR_EXPORT': 'Failed to export result into other formats...',
 			'SUCCESS': 'Team strength calculated, used {0:.2f} secs',
 			'SUCCESS_AUTO': '#{0} optimal SIS allocated, used {1:.2f} secs',
