@@ -1,4 +1,4 @@
-from django.shortcuts import render
+E django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -48,7 +48,7 @@ def calculate(request):
 			'ERR_PROFILE': '载入用户卡组信息失败...',
 			'ERR_TEAM': '构造组队失败...',
 			'ERR_EXCOND': '应用附加条件失败...',
-			'ERR_PREPARE': '仿真预处理失败',
+			'ERR_PREPARE': '仿真预处理失败, 可能是缺少技能槽信息，请尝试进入手动编辑界面点击保存再返回仿真',
 			'ERR_EXPORT': '导出文件失败...',
 			'SUCCESS': '队伍强度计算成功，共耗时{0:.2f}秒',
 			'SUCCESS_AUTO': '#{0} 宝石分配成功，共耗时{1:.2f}秒',
@@ -154,7 +154,7 @@ def calculate(request):
 			print('Successfully finished preparation for advanced simulation.')
 		except:
 			print('Failed to compute team strength details. Perhaps lack of slot number information, please try manual edit team first.')
-			message = {'complete':False, 'msg':strings[lang]['ERR_SOLVE']}
+			message = {'complete':False, 'msg':strings[lang]['ERR_PREPARE']}
 			return JsonResponse(message)
 		# Covert result to LL Helper and SIFStats
 		try:
