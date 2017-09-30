@@ -30,9 +30,6 @@ class GemAllocator:
 			self.team_CR = (1-temp).mean()
 		else:
 			self.team_CR = 1 - (1-np.array([card.CR for card in self.card_list])).prod()
-		# Update live settings on new CR
-		if hasattr(self.live, 'update_live_stat'):
-			self.live.update_live_stat(self.team_CR)
 		# Compute Average Position Bonus
 		center_skill = self.card_list[0].cskill
 		center_idx_list = [i for i, card in enumerate(self.card_list) if card.cskill.is_equal(center_skill)]
@@ -48,10 +45,14 @@ class GemAllocator:
 		new_setting = self.setting.copy()
 		new_setting['attr_group_factor'] = self.mu_bar
 		new_setting['perfect_rate'] = 1 - (1-self.live.perfect_rate) * (1-self.team_CR)
+		# Update live settings on new CR
+		if hasattr(self.live, 'update_live_stat'):
+			self.live.update_live_stat(new_setting['perfect_rate'])
 		# Compute strength per tap after amending perfect rate
 		for card in self.card_list:
 			if card.skill is not None:
 				self.strength_per_pt_tap = card.skill.skill_gain(setting=new_setting)[1]
+		self.strength_per_pt_tap = self.live.strength_per_pt_tap
 
 		cskill_bonus = np.array([card.cskill_bonus for card in self.card_list])
 		base_bond_value = np.array([card.base_bond_value for card in self.card_list])
@@ -297,6 +298,7 @@ class GemAllocator:
 				temp[i] -= card.skill.skill_gain(setting=self.setting)[0]
 		CR = 1 - temp.prod()
 		new_setting = self.setting.copy()
+		new_setting['attr_group_factor'] = self.mu_bar
 		new_setting['perfect_rate'] = 1 - (1-self.live.perfect_rate) * (1-self.team_CR)
 
 		# Compute 

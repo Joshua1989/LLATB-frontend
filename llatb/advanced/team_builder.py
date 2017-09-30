@@ -212,7 +212,7 @@ class TeamBuilder:
 									continue
 								score_map[new_choice] = gem_allocator.total_score
 								if gem_allocator.total_score > best_gem_allocator.total_score:
-									best_gem_allocator = gem_allocator
+									best_gem_allocator = copy.deepcopy(gem_allocator)
 							# If the new choice is better, add it to the queue to examine later
 							# otherwise the new choice is not promising, eliminate it
 							if not eliminate[new_choice] and score_map[new_choice] >= score_map[choice]:
