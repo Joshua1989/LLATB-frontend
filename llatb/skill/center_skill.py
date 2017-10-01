@@ -51,3 +51,10 @@ class CenterSkill:
 		else:
 			keys = ['main_attr', 'base_attr', 'main_ratio', 'bonus_range', 'bonus_ratio']
 			return all([getattr(self,x)==getattr(cskill,x) for x in keys])
+	@classmethod
+	def fromStr(cls, cskill_str):
+		main_attr = cskill_str.split(': ')[0]
+		params = cskill_str.split(': ')[1].split(' ')
+		base_attr, main_ratio = params[0], int(params[1][:-1])
+		bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
+		return cls(cskill_str, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)

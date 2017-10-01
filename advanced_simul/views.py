@@ -100,45 +100,13 @@ def calculate(request):
 			print('Failed to load user profile.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_PROFILE']}
 			return JsonResponse(message)
-		# Modify user profile
-		try:
-			if extra_cond == 'current_max':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=card.idolized, reset_slot=False)
-			elif extra_cond == 'idolized_max':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=True, reset_slot=False)
-			elif extra_cond == 'copy_idolized_max':
-				for i, card in user_profile.raw_card.items():
-					if not card.idolized:
-						card.idolize(idolized=True, reset_slot=False)
-						card.slot_num = card.min_slot_num + 1
-			elif extra_cond == 'ultimate':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=True)
-					card.slot_num = card.max_slot_num
-					if card.skill is not None:
-						card.skill.level = 8
-			if extra_cond != 'default':
-				print('Successfully applied extra condition.')
-		except:
-			print('Failed to apply extra condition.')
-			message = {'complete':False, 'msg':strings[lang]['ERR_EXCOND']}
-			return JsonResponse(message)
 		# Solve for optimal SIS allocation or compute the team strength
 		try:
 			guest_center = request.POST.get('guest_center', 'None')
-			if guest_center == 'None':
-				guest_cskill = None
-			else:
-				main_attr = guest_center.split(': ')[0]
-				params = guest_center.split(': ')[1].split(' ')
-				base_attr, main_ratio = params[0], int(params[1][:-1])
-				bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
-				guest_cskill = CenterSkill(guest_center, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)
-				print('Guest skill specified to be', str(guest_cskill))
+			guest_cskill = None if guest_center == 'None' else CenterSkill.fromStr(guest_center)
+			if guest_cskill != None: print('Guest skill specified to be', str(guest_cskill))
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':guest_cskill}
-			tb = TeamBuilder(live, user_profile, opt=opt)
+			tb = TeamBuilder(live, user_profile, opt=opt, extra_cond=extra_cond)
 
 			try:
 				adv_card_list = sorted(tb.cards, key=lambda x: x.index)

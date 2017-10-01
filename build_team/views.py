@@ -88,7 +88,7 @@ def calculate(request):
 		try:
 			if strings[lang]['DEFAULT'] not in song_list[0] and not is_sm:
 				live = MFLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR)
-				live_stats, note_list = html_view(live, lang='CN').data, json.dumps(live.web_note_list)
+				live_stats, note_list = html_view(live, lang=lang).data, json.dumps(live.web_note_list)
 			elif is_sm:
 				live = SMLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR, is_random=is_random)
 				live_stats, note_list = 'NA', '{}'
@@ -112,61 +112,19 @@ def calculate(request):
 			print('Failed to load user profile.')
 			message = {'complete':False, 'msg':strings[lang]['ERR_PROFILE']}
 			return JsonResponse(message)
-		# Modify user profile
-		try:
-			if extra_cond == 'current_max':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=card.idolized, reset_slot=False)
-			elif extra_cond == 'idolized_max':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=True, reset_slot=False)
-			elif extra_cond == 'copy_idolized_max':
-				for i, card in user_profile.raw_card.items():
-					if not card.idolized:
-						card.idolize(idolized=True, reset_slot=False)
-						card.slot_num = card.min_slot_num + 1
-			elif extra_cond == 'ultimate':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=True)
-					card.slot_num = card.max_slot_num
-					if card.skill is not None:
-						card.skill.level = 8
-			if unlimit_gem:
-				for x in list(user_profile.owned_gem.keys()):
-					user_profile.owned_gem[x] = 9
-			else:
-				for x in ['Smile', 'Pure', 'Cool']: 
-					user_profile.owned_gem[x+' Kiss'] = 9
-			if extra_cond != 'default':
-				print('Successfully applied extra condition.')
-		except:
-			print('Failed to apply extra condition.')
-			message = {'complete':False, 'msg':strings[lang]['ERR_EXCOND']}
-			return JsonResponse(message)
 		# Solve for optimal team
 		try:
 			guest_center = request.POST.get('guest_center', 'None')
-			if guest_center == 'None':
-				guest_cskill = None
-			else:
-				main_attr = guest_center.split(': ')[0]
-				params = guest_center.split(': ')[1].split(' ')
-				base_attr, main_ratio = params[0], int(params[1][:-1])
-				bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
-				guest_cskill = CenterSkill(guest_center, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)
-				print('Guest skill specified to be', str(guest_cskill))
+			guest_cskill = None if guest_center == 'None' else CenterSkill.fromStr(guest_center)
+			if guest_cskill != None: print('Guest skill specified to be', str(guest_cskill))
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':guest_cskill}
-			tb = TeamBuilder(live, user_profile, opt=opt)
+			tb = TeamBuilder(live, user_profile, opt=opt, unlimited_SIS=unlimit_gem, extra_cond=extra_cond)
 			
 			# Choose alloc method wisely
 			_, (num_calc, num_total, prev_max_cskill_index) = tb.build_team(K=12, method='1-suboptimal', alloc_method='auto', time_limit=24, pin_index=pin_index, exclude_index=exclude_index, next_cskill_index=next_cskill_index, prev_max_cskill_index=prev_max_cskill_index)
 			result = ''
 			if num_calc < num_total:
 				result += '<p style="text-align:center; color:red"><b>{0}</b></p>'.format(strings[lang]['IMCOMPLETE'].format(num_calc, num_total))
-				# Save user request if there is a timeout for debug
-				# error_log  = '='*100+'\n' + time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())+'\n'
-				# error_log += user_info+'\n' + '='*100+'\n' + json.dumps(request.POST) 
-				# print(error_log)
 			result += tb.view_result(show_cost=True, lang=lang).data.replace('http:','').replace('https:','')
 		except:
 			print('Failed to compute optimal team.')
@@ -406,7 +364,7 @@ def filter_cards(request):
 		try:
 			if strings[lang]['DEFAULT'] not in song_list[0] and not is_sm:
 				live = MFLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR)
-				live_stats, note_list = html_view(live, lang='CN').data, json.dumps(live.web_note_list)
+				live_stats, note_list = html_view(live, lang=lang).data, json.dumps(live.web_note_list)
 			elif is_sm:
 				live = SMLive(song_list, diff, local_dir=settings.BASE_DIR+'/static/live_json/', perfect_rate=PR, is_random=is_random)
 				live_stats, note_list = 'NA', '{}'
@@ -432,42 +390,11 @@ def filter_cards(request):
 			return JsonResponse(message)
 		# Modify user profile
 		try:
-			if extra_cond == 'current_max':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=card.idolized, reset_slot=False)
-			elif extra_cond == 'idolized_max':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=True, reset_slot=False)
-			elif extra_cond == 'copy_idolized_max':
-				for i, card in user_profile.raw_card.items():
-					if not card.idolized:
-						card.idolize(idolized=True, reset_slot=False)
-						card.slot_num = card.min_slot_num + 1
-			elif extra_cond == 'ultimate':
-				for i, card in user_profile.raw_card.items():
-					card.idolize(idolized=True)
-					card.slot_num = card.max_slot_num
-					if card.skill is not None:
-						card.skill.level = 8
-			if extra_cond != 'default':
-				print('Successfully applied extra condition.')
-		except:
-			print('Failed to apply extra condition.')
-			message = {'complete':False, 'msg':strings[lang]['ERR_EXCOND']}
-			return JsonResponse(message)
-		try:
 			guest_center = request.POST.get('guest_center', 'None')
-			if guest_center == 'None':
-				guest_cskill = None
-			else:
-				main_attr = guest_center.split(': ')[0]
-				params = guest_center.split(': ')[1].split(' ')
-				base_attr, main_ratio = params[0], int(params[1][:-1])
-				bonus_range, bonus_ratio = ' '.join(params[3:-1]), int(params[-1][:-1])
-				guest_cskill = CenterSkill(guest_center, main_attr, base_attr, main_ratio, bonus_range, bonus_ratio)
-				print('Guest skill specified to be', str(guest_cskill))
+			guest_cskill = None if guest_center == 'None' else CenterSkill.fromStr(guest_center)
+			if guest_cskill != None: print('Guest skill specified to be', str(guest_cskill))
 			opt = {'score_up_bonus':score_up, 'skill_up_bonus':skill_up, 'guest_cskill':guest_cskill}
-			tb = TeamBuilder(live, user_profile, opt=opt)
+			tb = TeamBuilder(live, user_profile, opt=opt, extra_cond=extra_cond)
 			result = {k:v.data.replace('http:','').replace('https:','') for k, v in tb.show_rough_strength().items()}
 		except:
 			print('Failed to filter cards.')
