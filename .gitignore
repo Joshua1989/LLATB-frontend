@@ -106,3 +106,4 @@ ENV/
 templates/LLSIF-AutoTeamBuilder Tutorial.html
 static/exception.txt
 packet_to_json.json
+doc/

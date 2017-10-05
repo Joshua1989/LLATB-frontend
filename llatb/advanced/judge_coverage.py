@@ -38,7 +38,8 @@ class CoverageCalculator:
 			for l in range(1,i+1):
 				for intv in intervals[i-l]:
 					if intv['end'] >= curr_period[0]['start'] and intv['start'] <= curr_period[0]['start']:
-						x = np.all([intervals[i-y][0]['start'] < intv['start'] for y in range(1,l)])
+						# x = np.all([intervals[i-y][0]['start'] < intv['start'] for y in range(1,l)])
+						x = True if l==1 else intervals[i-1][0]['start'] < intv['start']
 						temp.append({'start':intv['end'], 'end':intv['end']+td*1000, 'prob':p*intv['prob']*x})
 			# Combine overlapped states
 			l = 0
@@ -86,7 +87,8 @@ class CoverageCalculator:
 			for l in range(1,i+1):
 				for intv in intervals[i-l]:
 					if intv['end'] >= curr_period[0]['start'] and intv['start'] <= curr_period[0]['start']:
-						x = np.all([intervals[i-y][0]['start'] < intv['start'] for y in range(1,l)])
+						# x = np.all([intervals[i-y][0]['start'] < intv['start'] for y in range(1,l)])
+						x = True if l==1 else intervals[i-1][0]['start'] < intv['start']
 						temp.append({'start':intv['end'], 'end':intv['end']+td*1000, 'prob':p*intv['prob']*x})
 			# Combine overlapped states
 			l = 0
