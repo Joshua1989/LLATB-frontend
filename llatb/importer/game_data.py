@@ -55,7 +55,12 @@ class GameData:
 				self.owned_gem = {k:0 for k in list(gem_skill_id_dict.values())}
 				self.owned_gem.update(gem_owning_info)
 				# Owned cards of user: dict of gem-unequipped cards
-				self.raw_card = { k:gen_card(c, equip=False) for k,c in card_info.items() if c['card_id'] != '0'}
+				self.raw_card = dict()
+				for k, c in card_info.items():
+					try:
+						self.raw_card[k] = gen_card(c, equip=False)
+					except:
+						print('Card ID: {0} is not supported'.format(c['card_id']))
 				self.owned_card = card_dataframe(self.raw_card)
 				# Teams of user: list of gem-equipped cards
 				self.team_list = [ None if deck is None else Team([gen_card(c,equip=True) for c in deck]) for deck in deck_info ]
