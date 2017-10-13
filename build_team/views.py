@@ -260,8 +260,8 @@ def SIT_convert(request):
 		user_info += 'SIT username: {0}, SIT account: {1}'.format(user_name, account_name)
 		print(user_info)
 		try:
-			with open('/Users/JoshuaLian/Documents/LLSIF-AutoTeamBuilder-v2/static/dev/schoolidolu.txt','w') as fp:
-				fp.write(SIT_json_str)
+			# with open('/Users/JoshuaLian/Documents/LLSIF-AutoTeamBuilder-v2/static/dev/schoolidolu.txt','w') as fp:
+				# fp.write(SIT_json_str)
 			user_profile = GameData(SIT_json_str, file_type='SIT', string_input=True)
 			user_json = user_profile.to_WebATB()
 		except:

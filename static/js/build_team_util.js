@@ -981,6 +981,7 @@ if (lang == 'CN') {
             $(this).addClass('w3-grey');
             var id = $("#modalSIT select").val();
             SIT.get_all("//schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
+                console.log(cardList)
                 POST_JSON = {
                     lang: 'EN',
                     username: $("#modalSIT input").val(),
