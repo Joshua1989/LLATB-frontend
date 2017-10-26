@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -32,6 +32,8 @@ def get_client_ip(request):
 
 # Create your views here.
 def index(request):
+	print('User location: {0}'.format(str(get_client_ip(request))))
+	return redirect("http://llatb-v2.herokuapp.com/simulation/")
 	context = { 'count': Counter.objects.get_or_create()[0].TeamCount }
 	return render(request, 'advanced_simul.html', context)
 
