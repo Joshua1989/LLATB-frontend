@@ -339,6 +339,7 @@ var slot_num_dict = {
 // Display all filtered card
 function icon_path(cid, idolized) {
     return '//gitcdn.xyz/repo/iebb/SIFStatic/master/icon/{0}/{1}.png'.format(idolized ? 'rankup' : 'normal', cid);
+
 }
 
 function showCardPond() {
