@@ -5,7 +5,7 @@ from llatb.skill import Skill, CenterSkill, GemSkill
 from llatb.common.global_var import *
 
 class Card:
-	def __init__(self, card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo=False):
+	def __init__(self, card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo=False, is_limit=False):
 		if not all([card_id, card_name, member_name]):
 			print('Card ID, card name and member name cannot be None!')
 			raise
@@ -14,7 +14,7 @@ class Card:
 		if rarity not in rarity_list or type(idolized) != bool:
 			print('Incorrect rarity!')
 			raise
-		self.rarity, self.promo, self.idolized = rarity, promo, idolized
+		self.rarity, self.promo, self.is_limit, self.idolized = rarity, promo, is_limit, idolized
 		self.idolized = self.idolized or self.promo
 		self.max_level, self.max_bond = max_level_dict[idolized][rarity], max_bond_dict[idolized][rarity]
 		if self.promo:
@@ -227,8 +227,8 @@ class Card:
 								 cskill_data['main_ratio'], cskill_data['bonus_range'], cskill_data['bonus_ratio'])
 		else:
 			skill, cskill = None, None
-		idolized, promo = idolized or json_data['promo'], json_data['promo'] 
-		return cls(card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo)
+		idolized, promo, is_limit = idolized or json_data['promo'], json_data['promo'], json_data['is_limit']
+		return cls(card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo, is_limit)
 
 def card_dataframe(cards):
 	keys = [ 'card_name', 'card_id', 'member_name', 'main_attr',

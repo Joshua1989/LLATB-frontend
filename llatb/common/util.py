@@ -75,6 +75,7 @@ def update_card_data():
 			card_name = id_crown_dict.get(unit_info['unit_number'])
 		card_info = {
 			'promo': bool(unit_info['is_promo']),
+			'is_limit': bool(unit_info['is_limit']),
 			'card_name': card_name,
 			'card_id': int(unit_info['unit_number']),
 			'main_attr': attr_dict[unit_info['attribute_id']],
@@ -110,8 +111,12 @@ def update_card_data():
 	df_unit = pd.read_sql('SELECT * FROM unit_m', con=conn, index_col='unit_id')
 	df_unit = df_unit[df_unit['unit_number']>0]
 	df_unit['is_support'] = df_unit['smile_max'] == 1
-	df_unit['is_promo'] = df_unit.apply(lambda x: x['smile_max'] > 1 and
-										x['normal_icon_asset'] == x['rank_max_icon_asset'], axis=1)
+	df_unit['is_promo'] = df_unit.apply(lambda x: x['smile_max'] > 1 
+										and x['normal_icon_asset'] == x['rank_max_icon_asset'] 
+										and x['max_removable_skill_capacity'] == x['default_removable_skill_capacity'], axis=1)
+	df_unit['is_limit'] = df_unit.apply(lambda x: x['smile_max'] > 1 
+										and x['normal_icon_asset'] == x['rank_max_icon_asset'] 
+										and x['max_removable_skill_capacity'] > x['default_removable_skill_capacity'], axis=1)
 	# Generate card basic stat and save it to JSON
 	card_basic_stat = dict()
 	for unit_id, row in df_unit.iterrows():
@@ -132,8 +137,12 @@ def update_card_data():
 	df_unit = pd.read_sql('SELECT * FROM unit_m', con=conn, index_col='unit_id')
 	df_unit = df_unit[df_unit['unit_number']>0]
 	df_unit['is_support'] = df_unit['smile_max'] == 1
-	df_unit['is_promo'] = df_unit.apply(lambda x: x['smile_max'] > 1 and
-										x['normal_icon_asset'] == x['rank_max_icon_asset'], axis=1)
+	df_unit['is_promo'] = df_unit.apply(lambda x: x['smile_max'] > 1 
+										and x['normal_icon_asset'] == x['rank_max_icon_asset'] 
+										and x['max_removable_skill_capacity'] == x['default_removable_skill_capacity'], axis=1)
+	df_unit['is_limit'] = df_unit.apply(lambda x: x['smile_max'] > 1 
+										and x['normal_icon_asset'] == x['rank_max_icon_asset'] 
+										and x['max_removable_skill_capacity'] > x['default_removable_skill_capacity'], axis=1)
 	# Generate card basic stat and save it to JSON
 	for unit_id, row in df_unit.iterrows():
 		if not row['is_support'] and unit_id in list(range(1243,1252)):
@@ -142,7 +151,7 @@ def update_card_data():
 			card_basic_stat[str(card_id)] = card_info
 
 	with open(card_archive_dir, 'w') as fp:
-	    json.dump(card_basic_stat, fp)
+		json.dump(card_basic_stat, fp)
 	print('Basic card data has been saved in', card_archive_dir)
 
 def update_live_data(download=False):
@@ -176,5 +185,5 @@ def update_live_data(download=False):
 	live_data = [live_summary(live_setting_id) for live_setting_id, row in df_live_setting.iterrows() if row['difficulty']!=5 and live_setting_id < 10000]
 
 	with open(live_archive_dir, 'w') as fp:
-	    json.dump(live_data, fp)
+		json.dump(live_data, fp)
 	print('Basic live data has been saved in', live_archive_dir)

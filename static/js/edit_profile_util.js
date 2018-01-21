@@ -147,7 +147,7 @@ for (var cid in card_info) {
     var CI = card_info[cid];
     var key = rev_dict[CI['member_name']],
         attr = CI['main_attr'];
-    if (CI['promo']) {
+    if (CI['promo'] || CI['is_limit']) {
         promo_bucket[key][attr].push(cid);
     } else {
         card_bucket[key][attr].push(cid);

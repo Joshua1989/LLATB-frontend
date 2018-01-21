@@ -156,7 +156,7 @@ for (var cid in card_info) {
     var CI = card_info[cid];
     var key = rev_dict[CI['member_name']],
         attr = CI['main_attr'];
-    if (CI['promo']) {
+    if (CI['promo'] || CI['is_limit']) {
         promo_bucket[key][attr].push(cid);
     } else {
         card_bucket[key][attr].push(cid);
@@ -322,6 +322,7 @@ function init(team_json) {
             card_id: U2C_dict[team_card['unit_id']],
             idolized: team_card['rank'] == 2,
             promo: CI['promo'],
+            is_limit: CI['is_limit'],
             rarity: CI['rarity'],
             main_attr: CI['main_attr'],
             member_name: CI['member_name']
