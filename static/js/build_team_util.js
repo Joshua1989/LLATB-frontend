@@ -234,7 +234,7 @@ updateLiveSel();
 
 function updateLiveControl() {
     var no_note_list = (live_selection['song_list'].length == 1 && live_selection['song_list'][0].indexOf(song_head) > -1) || live_selection.is_sm || live_selection['song_list'].length == 0;
-    $('#live_control').css('width', live_selection.song_list.length*275+'px');
+    $('#live_control').css('width', live_selection.song_list.length * 275 + 'px');
     if (AS_page && !no_note_list) {
         var color_str = attribute_color[attr_sel];
         var content = '';
@@ -275,8 +275,8 @@ function live_move_before(x) {
     x = parseInt(x);
     if (x > 0) {
         var temp = live_selection.song_list[x];
-        live_selection.song_list[x] = live_selection.song_list[x-1];
-        live_selection.song_list[x-1] = temp;
+        live_selection.song_list[x] = live_selection.song_list[x - 1];
+        live_selection.song_list[x - 1] = temp;
         $('#live_control').children('live-control-item').eq(x).remove();
         updateLiveControl();
         updateTotalLiveStat();
@@ -285,10 +285,10 @@ function live_move_before(x) {
 
 function live_move_next(x) {
     x = parseInt(x);
-    if (x < live_selection.song_list.length-1) {
+    if (x < live_selection.song_list.length - 1) {
         var temp = live_selection.song_list[x];
-        live_selection.song_list[x] = live_selection.song_list[x+1];
-        live_selection.song_list[x+1] = temp;
+        live_selection.song_list[x] = live_selection.song_list[x + 1];
+        live_selection.song_list[x + 1] = temp;
         $('#live_control').children('live-control-item').eq(x).remove();
         updateLiveControl();
         updateTotalLiveStat();
@@ -777,6 +777,8 @@ if (lang == 'CN') {
     // SIT importer
     var SIT = {
         get_all: function(url, callback, progress, _loaded) {
+            if (url.slice(0, 2) === '//') { url = 'https:' + url; } else if (url.slice(0, 5) === 'http:') { url = 'https:' + url.slice(5); }
+            console.log(url);
             _loaded = _loaded || 0;
             var all = [];
             $.get(url, function(data) {
@@ -901,36 +903,55 @@ if (lang == 'CN') {
                 UR: 1000
             }
         }
-        $('#modalSIT button').click(function() {
-            var team_name = $("#modalSIT .team").val();
-            if (team_name == null) {
-                alert('There is no team selected.')
-            } else {
-                var team_sel = SIT_team_list[team_name],
-                    team_info = Array(10).fill(0);
-                for (var x = 1; x <= 9; x++) {
-                    if (team_sel[x - 1] == null) {
-                        team_info[x] = { "level": 40, "love": 100, "rank": 1, "removable": [], "unit_id": 49, "unit_skill_level": 1, "unit_removable_skill_capacity": 1 }
-                    } else {
-                        var card = team_sel[x - 1].card,
-                            idolized = team_sel[x - 1].idolized;
-                        team_info[x] = {
-                            level: idolized ? card.idolized_max_level : card.non_idolized_max_level,
-                            love: max_bond_dict[idolized][card.rarity],
-                            rank: 1 + idolized,
-                            removable: [],
-                            unit_id: card.game_id,
-                            unit_skill_level: team_sel[x - 1].skill,
-                            unit_removable_skill_capacity: team_sel[x - 1].skill_slots
-                        }
-                    }
+        $._data($('#modalSIT button')[0], 'events').click[0].handler = function(e) {
+            $(this).prop('disabled', true);
+            $(this).removeClass('w3-pink');
+            $(this).addClass('w3-grey');
+            var id = $("#modalSIT select").val();
+            SIT.get_all("//schoolido.lu/api/ownedcards/?owner_account=" + encodeURIComponent(id) + "&stored=Deck&card__rarity=UR,SSR,SR,R&expand_card", function(cardList) {
+                console.log(cardList)
+                POST_JSON = {
+                    lang: 'EN',
+                    username: $("#modalSIT input").val(),
+                    account: $('#modalSIT option[value="{0}"]'.format(id)).text(),
+                    SIT_json: JSON.stringify(cardList),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
                 }
-                team_json = JSON.stringify(team_info);
-                localStorage.setItem('team_json', team_json);
-                $('#userJSON .profile').val(team_json);
-                $('#modalSIT').hide();
-            }
-        })
+                $.ajax({
+                    type: "POST",
+                    url: "/build_team/SIT_convert",
+                    headers: {
+                        'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    data: POST_JSON,
+                    success: function(data) {
+                        if (data['complete']) {
+                            user_json = data['user_json'];
+                            localStorage.setItem('user_json', user_json);
+                            $('#userJSON .profile').val(user_json);
+
+                            user_json_bucket['auto save'] = user_json;
+                            localStorage.setItem('user_json_bucket', JSON.stringify(user_json_bucket));
+
+                            updateInfo(data['msg'], !data['complete']);
+                            $('#modalSIT').hide()
+                        } else {
+                            alert('Import SIT account failed.')
+                            updateInfo(data['msg'], !data['complete']);
+                        }
+                        $(this).prop('disabled', false);
+                        $(this).removeClass('w3-grey');
+                        $(this).addClass('w3-pink');
+                    },
+                    error: function(data) {
+                        alert('Failed to import SIT account');
+                        $(this).prop('disabled', false);
+                        $(this).removeClass('w3-grey');
+                        $(this).addClass('w3-pink');
+                    }
+                });
+            });
+        };
     } else {
         var SIT_user_name = localStorage.getItem('SIT_user_name');
         if (SIT_user_name != null) {
