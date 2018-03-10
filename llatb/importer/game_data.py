@@ -274,7 +274,8 @@ class GameData:
 				skill_name = attr.title() + ' ' + gem_type.title().replace('_1', ' (1st)').replace('_2', ' (2nd)').replace('_3', ' (3rd)')
 				if 'Charm' in skill_name or 'Heal' in skill_name or 'Trick' in skill_name:
 					skill_name = skill_name.replace('Smile', 'Princess').replace('Pure', 'Angel').replace('Cool', 'Empress')
-				gem_owning_info[skill_name] = value
+				if skill_name in gem_skill_id_dict.values():
+					gem_owning_info[skill_name] = value
 		# Generate user gem information
 		deck_info = []
 		return card_info, gem_owning_info, deck_info
