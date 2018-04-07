@@ -181,8 +181,9 @@ class GameData:
 		# Generate user gem information
 		gem_owning_info = { skill_name:0 for skill_name in list(gem_skill_id_dict.values()) }
 		for x in ieb_info['removable_info']['owning_info']:
-			skill_name = gem_skill_id_dict[x['unit_removable_skill_id']]
-			gem_owning_info[skill_name] = x['total_amount']
+			if x['unit_removable_skill_id'] in gem_skill_id_dict:
+				skill_name = gem_skill_id_dict[x['unit_removable_skill_id']]
+				gem_owning_info[skill_name] = x['total_amount']
 		# Generate user team information
 		deck_info = []
 		for i, deck in enumerate(ieb_info['deck_info'],1):
