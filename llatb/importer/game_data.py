@@ -63,7 +63,12 @@ class GameData:
 						print('Card ID: {0} is not supported'.format(c['card_id']))
 				self.owned_card = card_dataframe(self.raw_card)
 				# Teams of user: list of gem-equipped cards
-				self.team_list = [ None if deck is None else Team([gen_card(c,equip=True) for c in deck]) for deck in deck_info ]
+				self.team_list = []
+				for deck in deck_info:
+					try:
+						self.team_list.append(Team([gen_card(c, equip=True) for c in deck]))
+					except:
+						self.team_list.append(None)
 			except:
 				print('Failed to generate user information from profile file{0}!'.format(' ' + filename if not string_input else ''))
 	def get_user_packet_info(self, packet_file):
