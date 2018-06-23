@@ -9,25 +9,25 @@ user_profile = GameData('packet.txt', file_type='packet')
 # 1472: 上原歩夢 SR(t), Pure
 # | Level: 80/80 | Bond: 500/500 | Slot: 2/[2-4] | Smile: 2580 | Pure: 4190 | Cool: 2880 | HP:4 |
 # Skill - リズミカルチャーム lv1: 36% chance to add 200.0 score points. Triggers every 17 combo.
-# Center Skill - ピュアハート: Raise the team's Pure by 6%. 
+# Center Skill - ピュアハート: Raise the team's Pure by 6%.
 # Slot Number must be integer within valid range!
 # Card ID: 1472 is not supported
 # 1473: 宮下愛 SR(t), Smile
 # | Level: 80/80 | Bond: 500/500 | Slot: 2/[2-4] | Smile: 4180 | Pure: 2910 | Cool: 2560 | HP:4 |
 # Skill - トータルエール lv1: 36% chance to restore 1.0 stamina points. Triggers every 20 notes.
-# Center Skill - スマイルハート: Raise the team's Smile by 6%. 
+# Center Skill - スマイルハート: Raise the team's Smile by 6%.
 # Slot Number must be integer within valid range!
 # Card ID: 1473 is not supported
 # 1474: 優木せつ菜 SR(t), Cool
 # | Level: 80/80 | Bond: 500/500 | Slot: 2/[2-4] | Smile: 2540 | Pure: 2880 | Cool: 4230 | HP:4 |
 # Skill - トータルトリック lv1: 36% chance to slightly raise the accuracy judge for 2.0 seconds. Triggers every 20 notes.
-# Center Skill - クールハート: Raise the team's Cool by 6%. 
+# Center Skill - クールハート: Raise the team's Cool by 6%.
 # Slot Number must be integer within valid range!
 # Card ID: 1474 is not supported
 # 1473: 宮下愛 SR(t), Smile
 # | Level: 80/80 | Bond: 500/500 | Slot: 2/[2-4] | Smile: 4180 | Pure: 2910 | Cool: 2560 | HP:4 |
 # Skill - トータルエール lv1: 36% chance to restore 1.0 stamina points. Triggers every 20 notes.
-# Center Skill - スマイルハート: Raise the team's Smile by 6%. 
+# Center Skill - スマイルハート: Raise the team's Smile by 6%.
 # Slot Number must be integer within valid range!
 # Traceback (most recent call last):
 #   File "/Users/mengkelian/Documents/LLSIF-Tools/llsifteambuilder/packet_convert.py", line 3, in <module>
