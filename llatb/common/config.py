@@ -31,6 +31,9 @@ def gem_path(name):
     elif name == 'void':
         return 'https://r.llsif.win/assets/image/ui/live/l_etc_xxx.png'
     else:
+        if 'Bloom' in name:
+            # llsif.win doesn't have sprites for Bloom gems
+            return gem_path(name.replace('Bloom', 'Aura'))
         cost, idx = gem_skill_dict[name]['cost'], gem_skill_id_rev_dict[name]
         return 'http://my.llsif.win/images/sis/sis{0}_{1}.png'.format(str(idx).zfill(3), str(cost).zfill(2))
 

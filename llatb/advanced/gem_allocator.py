@@ -79,7 +79,7 @@ class GemAllocator:
 		attr, attr2 = self.live.attr, attr2_list[attr_list.index(self.live.attr)]
 		gem_list  = [attr+' Kiss', attr+' Perfume']
 		gem_list += [attr+x+grade for x in [' Ring ', ' Cross '] for grade in list(grade_append.values())]
-		gem_list += [attr+x for x in [' Aura', ' Veil']]
+		gem_list += [attr+x for x in [' Aura', ' Veil', ' Bloom']]
 		gem_list += [attr2+x for x in [' Charm', ' Heal', ' Trick'] for attr2 in attr2_list]
 		gem_idx_dict = {v:k for k,v in enumerate(gem_list)}
 
@@ -237,7 +237,7 @@ class GemAllocator:
 						valid_card_index[gem].append(ind)
 		num_branch = 1
 		for gem, item in valid_card_index.items():
-			if gem.split()[1] in ['Cross', 'Aura', 'Veil', 'Charm', 'Heal']:
+			if gem.split()[1] in ['Cross', 'Aura', 'Veil', 'Charm', 'Heal', 'Bloom']:
 				need, own = len(item), self.owned_gem[gem]
 				if need > own:
 					num_branch *= binom(need, own)

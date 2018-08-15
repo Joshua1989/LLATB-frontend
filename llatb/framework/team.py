@@ -44,9 +44,9 @@ class Team:
 			displayed_card_attr[i,:] = np.array([res[x.lower()+'*'] for x in attr_list])
 
 		# Count number of team boost gems
-		gem_type_list = ['Aura', 'Veil']
-		gem_value = {'Aura':1.8/100, 'Veil':2.4/100}
-		gem_count = {'Aura':np.zeros((1,3)), 'Veil':np.zeros((1,3))}
+		gem_type_list = ['Aura', 'Veil', 'Bloom']
+		gem_value = {'Aura':1.8/100, 'Veil':2.4/100, 'Bloom':4.0/100}
+		gem_count = {'Aura':np.zeros((1,3)), 'Veil':np.zeros((1,3)), 'Bloom':np.zeros((1,3))}
 		for i, card in enumerate(card_list):
 			for gem in card.equipped_gems:
 				gem_type = gem.name.split()[1]
@@ -288,6 +288,8 @@ class Team:
 					gem_data['gemallpercent'] += 0.018
 				if 'Veil' in gem.name and gem.attribute == self.card_list[4].main_attr:
 					gem_data['gemallpercent'] += 0.024
+				if 'Bloom' in gem.name and gem.attribute == self.card_list[4].main_attr:
+					gem_data['gemallpercent'] += 0.04
 				if 'Charm' in gem.name or 'Heal' in gem.name:
 					gem_data['gemskill'] = 1
 				if 'Trick' in gem.name:

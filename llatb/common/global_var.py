@@ -57,7 +57,11 @@ gem_skill_dict = {'Smile Kiss': 		{'attribute':'Smile',	'constraint':None,			'co
 				  'Empress Heal': 		{'attribute':None,		'constraint':'Cool',		'cost':4,	'effect':'heal_boost',	'value': 480},
 				  'Princess Trick': 	{'attribute':'Smile',	'constraint':'Smile',		'cost':4,	'effect':'judge_boost',	'value': 33.0},
 				  'Angel Trick': 		{'attribute':'Pure',	'constraint':'Pure',		'cost':4,	'effect':'judge_boost',	'value': 33.0},
-				  'Empress Trick': 		{'attribute':'Cool',	'constraint':'Cool',		'cost':4,	'effect':'judge_boost',	'value': 33.0}}
+				  'Empress Trick': 		{'attribute':'Cool',	'constraint':'Cool',		'cost':4,	'effect':'judge_boost',	'value': 33.0},
+				  'Smile Bloom': 		{'attribute':'Smile',	'constraint':None,			'cost':6,	'effect':'team_boost',	'value': 4.0},
+				  'Pure Bloom': 		{'attribute':'Pure',	'constraint':None,			'cost':6,	'effect':'team_boost',	'value': 4.0},
+				  'Cool Bloom': 		{'attribute':'Cool',	'constraint':None,			'cost':6,	'effect':'team_boost',	'value': 4.0},
+                  }
 gem_skill_id_dict = { 1:'Smile Kiss',		 	 2:'Pure Kiss',				 3:'Cool Kiss',
 					  4:'Smile Perfume',		 5:'Pure Perfume',			 6:'Cool Perfume',
 					  7:'Smile Ring (1st)',		 8:'Pure Ring (1st)',		 9:'Cool Ring (1st)',
@@ -70,7 +74,9 @@ gem_skill_id_dict = { 1:'Smile Kiss',		 	 2:'Pure Kiss',				 3:'Cool Kiss',
 					 28:'Smile Veil',			29:'Pure Veil',				30:'Cool Veil',
 					 31:'Princess Charm',		32:'Princess Heal',			33:'Princess Trick',
 					 34:'Angel Charm',			35:'Angel Heal',			36:'Angel Trick',
-					 37:'Empress Charm',		38:'Empress Heal',			39:'Empress Trick'}
+					 37:'Empress Charm',		38:'Empress Heal',			39:'Empress Trick',
+					 52:'Smile Bloom',			53:'Pure Bloom',			54:'Cool Bloom',
+                     }
 gem_skill_id_rev_dict = {v:k for k,v in gem_skill_id_dict.items()}
 # Center Skill relevant
 muse = np.array(['高坂穂乃果', '絢瀬絵里', '南ことり', '園田海未', '星空凛', '西木野真姫', '東條希', '小泉花陽', '矢澤にこ'])

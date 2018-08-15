@@ -126,6 +126,76 @@ var group_arr = {
     Aqours: 'Aqours'
 };
 var attribute_arr = ['Smile', 'Pure', 'Cool'];
+
+var gem_skill_id_dict = {
+    1: 'Smile Kiss',
+    2: 'Pure Kiss',
+    3: 'Cool Kiss',
+    4: 'Smile Perfume',
+    5: 'Pure Perfume',
+    6: 'Cool Perfume',
+    7: 'Smile Ring 1st',
+    8: 'Pure Ring 1st',
+    9: 'Cool Ring 1st',
+    10: 'Smile Ring 2nd',
+    11: 'Pure Ring 2nd',
+    12: 'Cool Ring 2nd',
+    13: 'Smile Ring 3rd',
+    14: 'Pure Ring 3rd',
+    15: 'Cool Ring 3rd',
+    16: 'Smile Cross 1st',
+    17: 'Pure Cross 1st',
+    18: 'Cool Cross 1st',
+    19: 'Smile Cross 2nd',
+    20: 'Pure Cross 2nd',
+    21: 'Cool Cross 2nd',
+    22: 'Smile Cross 3rd',
+    23: 'Pure Cross 3rd',
+    24: 'Cool Cross 3rd',
+    25: 'Smile Aura',
+    26: 'Pure Aura',
+    27: 'Cool Aura',
+    28: 'Smile Veil',
+    29: 'Pure Veil',
+    30: 'Cool Veil',
+    31: 'Princess Charm',
+    32: 'Princess Heal',
+    33: 'Princess Trick',
+    34: 'Angel Charm',
+    35: 'Angel Heal',
+    36: 'Angel Trick',
+    37: 'Empress Charm',
+    38: 'Empress Heal',
+    39: 'Empress Trick',
+    52: 'Smile Bloom',
+    53: 'Pure Bloom',
+    54: 'Cool Bloom'
+}
+var gem_name = {
+    CN: {
+        Perfume: '香水',
+        Ring: '指环',
+        Cross: '十字',
+        Aura: '光环',
+        Veil: '面纱',
+        Charm: '爆分',
+        Heal: '奶分',
+        Trick: '判定',
+        Bloom: '???'
+    },
+    EN: {
+        Perfume: 'Perfume',
+        Ring: 'Ring',
+        Cross: 'Cross',
+        Aura: 'Aura',
+        Veil: 'Veil',
+        Charm: 'Charm',
+        Heal: 'Heal',
+        Trick: 'Trick',
+        Bloom: 'Bloom'
+    }
+}
+
 // Load all live basic information
 var card_info = JSON.parse(card_info_data);
 var rev_dict = {},
@@ -165,7 +235,7 @@ if (user_json == null || user_json == '') {
             owning_info: []
         }
     };
-    for (var gid = 1; gid <= 39; gid++) {
+    for (var gid in gem_skill_id_dict) {
         user_json['removable_info']['owning_info'].push({
             total_amount: 9,
             unit_removable_skill_id: parseInt(gid)
@@ -180,7 +250,7 @@ if (user_json == null || user_json == '') {
         user_json['removable_info'] = {};
         if (user_json['removable_info']['owning_info'] == undefined) {
             user_json['removable_info']['owning_info'] = [];
-            for (var gid = 1; gid <= 39; gid++) {
+            for (var gid in gem_skill_id_dict) {
                 user_json['removable_info']['owning_info'].push({
                     total_amount: 9,
                     unit_removable_skill_id: parseInt(gid)
@@ -188,20 +258,23 @@ if (user_json == null || user_json == '') {
             }
         }
     }
-    var temp = [];
-    for (var gid = 1; gid <= 39; gid++) {
-        temp.push({
+    temp = {};
+    for (var gid in gem_skill_id_dict) {
+        temp[gid] = {
             total_amount: 0,
-            unit_removable_skill_id: gid
-        })
+            unit_removable_skill_id: parseInt(gid)
+        }
     }
     for (var x in user_json['removable_info']['owning_info']) {
         var gem_info = user_json['removable_info']['owning_info'][x];
         var gid = gem_info['unit_removable_skill_id']
-        temp[gid - 1]['total_amount'] = gem_info['total_amount'];
+        temp[gid]['total_amount'] = gem_info['total_amount'];
     }
     user_json['removable_info']['equipment_info'] = {};
-    user_json['removable_info']['owning_info'] = temp;
+    user_json['removable_info']['owning_info'] = [];
+    for (var gid in temp) {
+        user_json['removable_info']['owning_info'].push(temp[gid])
+    }
 }
 var temp_dict = JSON.parse(uid_cid_dict);
 var U2C_dict = {},
@@ -584,69 +657,6 @@ $('#idolized').click(function() {
 })
 
 // Edit gem number
-var gem_skill_id_dict = {
-    1: 'Smile Kiss',
-    2: 'Pure Kiss',
-    3: 'Cool Kiss',
-    4: 'Smile Perfume',
-    5: 'Pure Perfume',
-    6: 'Cool Perfume',
-    7: 'Smile Ring 1st',
-    8: 'Pure Ring 1st',
-    9: 'Cool Ring 1st',
-    10: 'Smile Ring 2nd',
-    11: 'Pure Ring 2nd',
-    12: 'Cool Ring 2nd',
-    13: 'Smile Ring 3rd',
-    14: 'Pure Ring 3rd',
-    15: 'Cool Ring 3rd',
-    16: 'Smile Cross 1st',
-    17: 'Pure Cross 1st',
-    18: 'Cool Cross 1st',
-    19: 'Smile Cross 2nd',
-    20: 'Pure Cross 2nd',
-    21: 'Cool Cross 2nd',
-    22: 'Smile Cross 3rd',
-    23: 'Pure Cross 3rd',
-    24: 'Cool Cross 3rd',
-    25: 'Smile Aura',
-    26: 'Pure Aura',
-    27: 'Cool Aura',
-    28: 'Smile Veil',
-    29: 'Pure Veil',
-    30: 'Cool Veil',
-    31: 'Princess Charm',
-    32: 'Princess Heal',
-    33: 'Princess Trick',
-    34: 'Angel Charm',
-    35: 'Angel Heal',
-    36: 'Angel Trick',
-    37: 'Empress Charm',
-    38: 'Empress Heal',
-    39: 'Empress Trick'
-}
-var gem_name = {
-    CN: {
-        Perfume: '香水',
-        Ring: '指环',
-        Cross: '十字',
-        Aura: '光环',
-        Veil: '面纱',
-        Charm: '爆分',
-        Heal: '奶分',
-        Trick: '判定'
-    },
-    EN: {
-        Perfume: 'Perfume',
-        Ring: 'Ring',
-        Cross: 'Cross',
-        Aura: 'Aura',
-        Veil: 'Veil',
-        Charm: 'Charm',
-        Heal: 'Heal',
-        Trick: 'Trick'
-    }
-}
 $('#editGem').click(function() {
     $('#editGemModal').show();
     $('body').addClass('modal-open');
@@ -665,17 +675,10 @@ $('#exitEditGem').click(function() {
             alert('SIS number should be a non-negative integer,')
         return
     }
-    for (gem_id in gem_skill_id_dict) {
+    for (var index in user_json['removable_info']['owning_info']) {
+        var gem_id = user_json['removable_info']['owning_info'][index]['unit_removable_skill_id']
         if (gem_id > 3) {
-            user_json['removable_info']['owning_info'][gem_id - 1] = {
-                total_amount: parseInt($('#gem-' + gem_id + ' input').val()),
-                unit_removable_skill_id: parseInt(gem_id)
-            }
-        } else {
-            user_json['removable_info']['owning_info'][gem_id - 1] = {
-                total_amount: 1,
-                unit_removable_skill_id: parseInt(gem_id)
-            }
+            user_json['removable_info']['owning_info'][index]['total_amount'] = parseInt($('#gem-' + gem_id + ' input').val());
         }
     }
     $('#editGemModal').hide();
@@ -686,12 +689,14 @@ $('#exitEditGem').click(function() {
         updateInfo('SIS owning number updated.')
 })
 var own_gem = {};
-for (var gem_id = 4; gem_id <= 39; gem_id++) {
-    var attr = gem_skill_id_dict[gem_id].split(' ')[0].replace('Princess', 'Smile').replace('Angel', 'Pure').replace('Empress', 'Cool');
-    var subnames = gem_skill_id_dict[gem_id].split(' ').slice(1);
-    var name = subnames.length == 1 ? gem_name[lang][subnames[0]] : gem_name[lang][subnames[0]] + ' ' + subnames[1]
-    var number = 0;
-    own_gem[gem_id] = "<div id='gem-{0}' class='gemNum {1}'><div>{2}</div><input class='w3-input' type='number' min='0' step='1' value='{3}' required='required'></div>".format(gem_id, attr, name, number);
+for (var gem_id in gem_skill_id_dict) {
+    if (gem_id > 3) {
+        var attr = gem_skill_id_dict[gem_id].split(' ')[0].replace('Princess', 'Smile').replace('Angel', 'Pure').replace('Empress', 'Cool');
+        var subnames = gem_skill_id_dict[gem_id].split(' ').slice(1);
+        var name = subnames.length == 1 ? gem_name[lang][subnames[0]] : gem_name[lang][subnames[0]] + ' ' + subnames[1]
+        var number = 0;
+        own_gem[gem_id] = "<div id='gem-{0}' class='gemNum {1}'><div>{2}</div><input class='w3-input' type='number' min='0' step='1' value='{3}' required='required'></div>".format(gem_id, attr, name, number);
+    }
 }
 for (var x in user_json['removable_info']['owning_info']) {
     var gem_id = user_json['removable_info']['owning_info'][x]['unit_removable_skill_id'];
@@ -704,8 +709,10 @@ for (var x in user_json['removable_info']['owning_info']) {
     }
 }
 var temp = '';
-for (var gem_id = 4; gem_id <= 39; gem_id++) {
+for (var gem_id in gem_skill_id_dict) {
+    if (gem_id > 3) {
     temp += own_gem[gem_id];
+    }
 }
 $('#editGemModal .w3-container').html(temp);
 
