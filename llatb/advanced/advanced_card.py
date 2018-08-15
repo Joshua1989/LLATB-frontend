@@ -15,7 +15,7 @@ class Alloc:
 class AdvancedCard(Card):
 	def __init__(self, index, card):
 		self.index = int(index)
-		args = [getattr(card, x) for x in ['card_id', 'card_name', 'member_name', 'rarity', 'main_attr', 'stats_list', 'idolized', 'skill', 'cskill', 'promo']]
+		args = [getattr(card, x) for x in ['card_id', 'card_name', 'member_name', 'rarity', 'main_attr', 'stats_list', 'idolized', 'skill', 'cskill', 'promo', 'min_slot_num', 'max_slot_num']]
 		Card.__init__(self, *args)
 		self.level_up(slot_num=card.slot_num, level=card.level, bond=card.bond)
 		self.equip_gem([x.name for x in card.equipped_gems])

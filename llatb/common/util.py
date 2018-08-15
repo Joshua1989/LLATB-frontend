@@ -82,6 +82,8 @@ def update_card_data():
             'stats_list': stats_list,
             'cskill': cskill,
             'skill': skill,
+            'min_slot_num': int(unit_info['default_removable_skill_capacity']),
+            'max_slot_num': int(unit_info['max_removable_skill_capacity']),
             'rarity': rarity_dict[unit_info['rarity']]
         }
         return unit_info['unit_number'], card_info

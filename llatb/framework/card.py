@@ -6,7 +6,7 @@ from llatb.common.global_var import *
 
 
 class Card:
-    def __init__(self, card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo=False, is_limit=False):
+    def __init__(self, card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo, min_slot_num, max_slot_num, is_limit=False):
         if not all([card_id, card_name, member_name]):
             print('Card ID, card name and member name cannot be None!')
             raise
@@ -18,10 +18,7 @@ class Card:
         self.rarity, self.promo, self.is_limit, self.idolized = rarity, promo, is_limit, idolized
         self.idolized = self.idolized or self.promo
         self.max_level, self.max_bond = max_level_dict[idolized][rarity], max_bond_dict[idolized][rarity]
-        if self.promo:
-            self.min_slot_num, self.max_slot_num = promo_slot_num_dict[rarity]
-        else:
-            self.min_slot_num, self.max_slot_num = slot_num_dict[rarity]
+        self.min_slot_num, self.max_slot_num = min_slot_num, max_slot_num
         self.level, self.bond = self.max_level, self.max_bond
         self.slot_num, self.used_slot_num, self.equipped_gems = self.min_slot_num, 0, []
         if main_attr not in attr_list:
@@ -63,14 +60,16 @@ class Card:
         def is_valid(x, min_val, max_val): return x is None or (type(x) in [int, np.int64] and x <= max_val and x >= min_val)
         check = [is_valid(level, 1, self.max_level),
                  is_valid(bond, 0, self.max_bond),
-                 is_valid(skill_level, 1, 8),
-                 is_valid(slot_num, self.min_slot_num, self.max_slot_num)]
-        is_none = [x is None for x in [level, bond, slot_num, skill_level]]
+                 is_valid(skill_level, 1, 8)]
         if not all(check):
             attr_name = np.array(['Level', 'Bond', 'Skill Level', 'Slot Number'])
             print(self)
             print('{0} must be integer within valid range!'.format(', '.join(attr_name[[not x for x in check]])))
             raise
+        if not is_valid(slot_num, self.min_slot_num, self.max_slot_num):
+            # School Idol Tomodachi has wrong slot data for some promos, so we ignore this error
+            slot_num = self.min_slot_num
+        is_none = [x is None for x in [level, bond, slot_num, skill_level]]
         not_none = [not x for x in is_none]
         new_attr = np.array([self.level, self.bond, self.slot_num, 0 if self.skill is None else self.skill.level], dtype=int)
         new_attr[not_none] = np.array([level, bond, slot_num, 0 if skill_level is None else skill_level])[not_none]
@@ -85,10 +84,6 @@ class Card:
         self.level, self.bond = self.max_level, self.max_bond
         self.smile, self.pure, self.cool, self.hp = [self.stats_list[self.level - 1][i] for i in [0, 1, 2, 5]]
         if reset_slot:
-            if self.promo:
-                self.min_slot_num, self.max_slot_num = promo_slot_num_dict[self.rarity]
-            else:
-                self.min_slot_num, self.max_slot_num = slot_num_dict[self.rarity]
             self.slot_num, self.equipped_gems = self.min_slot_num, []
 
     def equip_gem(self, gem_list):
@@ -239,7 +234,8 @@ class Card:
         else:
             skill, cskill = None, None
         idolized, promo, is_limit = idolized or json_data['promo'], json_data['promo'], json_data['is_limit']
-        return cls(card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo, is_limit)
+        min_slot_num, max_slot_num = json_data['min_slot_num'], json_data['max_slot_num']
+        return cls(card_id, card_name, member_name, rarity, main_attr, stats_list, idolized, skill, cskill, promo, min_slot_num, max_slot_num, is_limit)
 
 
 def card_dataframe(cards):
