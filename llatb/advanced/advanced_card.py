@@ -43,7 +43,8 @@ class AdvancedCard(Card):
 			return result
 		# Find all possible gem allocation
 		gem_alloc = {0:[[]], 1:[[live.attr+' Kiss']], 2:[[live.attr+' Perfume'], [live.attr+' Ring '+self.grade]], 
-					 3:[[live.attr+' Cross '+self.grade], [live.attr+' Aura']], 4:[[live.attr+' Veil']], 5:[], 6:[[live.attr+' Bloom']], 7:[], 8:[]}
+					 3:[[live.attr+' Cross '+self.grade], [live.attr+' Aura']], 4:[[live.attr+' Veil']],
+                     5:[[live.attr+' Wink'], [live.attr+' Trill '+self.grade]], 6:[[live.attr+' Bloom']], 7:[], 8:[]}
 		if live.attr == self.main_attr:
 			gem_alloc[4].append([self.attr2+' Trick'])
 		if self.is_charm:
@@ -123,6 +124,9 @@ class AdvancedCard(Card):
 				if self.skill.trigger_type in ['Score', 'Perfect', 'Star']:
 					self.skill_gain = self.skill.skill_gain(setting=new_setting)[0]
 				gem_score[self.attr2+' Heal'] = ceil(480 * self.skill_gain * live.note_number)
+		if self.slot_num >= 5:
+			gem_score[live.attr +' Trill '+ self.grade] = ceil(ceil(ceil(self.base_bond_value*0.28) * (1+self.cskill_bonus)) * boost)
+			gem_score[live.attr +' Wink'] = ceil(ceil(1400 * (1+self.cskill_bonus)) * boost)
 		if self.slot_num >= 6:
 			gem_score[live.attr +' Bloom'] = ceil(team_total_stat * 0.04 * boost)
 		self.gem_score = gem_score
@@ -136,7 +140,7 @@ class AdvancedCard(Card):
 				alloc.score += self.gem_score[gem]
 			if self.attr2+' Trick' in alloc.gems:
 				for gem in alloc.gems: 
-					if gem.split()[1] in ['Kiss', 'Perfume', 'Ring', 'Cross']:
+					if gem.split()[1] in ['Kiss', 'Perfume', 'Ring', 'Cross', 'Trill', 'Wink']:
 						alloc.score += ceil(0.33 * team_CR * self.gem_score[gem] / (1+self.cskill_bonus))
 			if alloc.score > self.max_alloc_score:
 				self.max_alloc_score = alloc.score

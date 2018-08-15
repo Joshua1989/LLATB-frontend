@@ -280,10 +280,14 @@ class Team:
 					gem_data['gemnum'] += 200
 				if 'Perfume' in gem.name and gem.attribute == self.card_list[4].main_attr:
 					gem_data['gemnum'] += 450
+				if 'Wink' in gem.name and gem.attribute == self.card_list[4].main_attr:
+					gem_data['gemnum'] += 1400
 				if 'Ring' in gem.name and gem.attribute == self.card_list[4].main_attr:
 					gem_data['gemsinglepercent'] += 0.1
 				if 'Cross' in gem.name and gem.attribute == self.card_list[4].main_attr:
 					gem_data['gemsinglepercent'] += 0.16
+				if 'Trill' in gem.name and gem.attribute == self.card_list[4].main_attr:
+					gem_data['gemsinglepercent'] += 0.28
 				if 'Aura' in gem.name and gem.attribute == self.card_list[4].main_attr:
 					gem_data['gemallpercent'] += 0.018
 				if 'Veil' in gem.name and gem.attribute == self.card_list[4].main_attr:

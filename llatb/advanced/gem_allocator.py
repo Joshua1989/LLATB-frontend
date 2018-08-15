@@ -77,8 +77,8 @@ class GemAllocator:
 		# Generate a dict to store index of different types of gems
 		grade_append = {1:'(1st)', 2:'(2nd)', 3:'(3rd)'}
 		attr, attr2 = self.live.attr, attr2_list[attr_list.index(self.live.attr)]
-		gem_list  = [attr+' Kiss', attr+' Perfume']
-		gem_list += [attr+x+grade for x in [' Ring ', ' Cross '] for grade in list(grade_append.values())]
+		gem_list  = [attr+' Kiss', attr+' Perfume', attr+' Wink']
+		gem_list += [attr+x+grade for x in [' Ring ', ' Cross ', ' Trill '] for grade in list(grade_append.values())]
 		gem_list += [attr+x for x in [' Aura', ' Veil', ' Bloom']]
 		gem_list += [attr2+x for x in [' Charm', ' Heal', ' Trick'] for attr2 in attr2_list]
 		gem_idx_dict = {v:k for k,v in enumerate(gem_list)}
@@ -93,7 +93,7 @@ class GemAllocator:
 		grade_count, charm_count, heal_count = {'(1st)':0, '(2nd)':0, '(3rd)':0}, {k:0 for k in attr2_list}, {k:0 for k in attr2_list}
 		for i, card in enumerate(self.card_list):
 			if card.grade != '': 
-				card_aux[i]['grade_idx'] = [gem_idx_dict[self.live.attr+' Ring '+card.grade], gem_idx_dict[self.live.attr+' Cross '+card.grade]]
+				card_aux[i]['grade_idx'] = [gem_idx_dict[self.live.attr+' Ring '+card.grade], gem_idx_dict[self.live.attr+' Cross '+card.grade], gem_idx_dict[self.live.attr+' Trill '+card.grade]]
 				grade_count[card.grade] += 1
 			if card.is_charm or card.is_heal:
 				if card.is_charm:
@@ -105,13 +105,15 @@ class GemAllocator:
 
 		# Mark a gem type as unlimited if
 		# * the gem number is at least 9
-		# * ring, cross of a grade is larger than number of team member in that grade
+		# * ring, cross, trill of a grade is larger than number of team member in that grade
 		# * charm, heal of a color is larger than number of team member with same color and associated skill
 		gem_occupy = [np.Inf if self.owned_gem[gem] >= 9 else self.owned_gem[gem] for gem in gem_list]
 		for grade in list(grade_append.values()):
 			idx = gem_idx_dict[self.live.attr+' Ring '+grade]
 			if gem_occupy[idx] >= grade_count[grade]: gem_occupy[idx] = np.Inf
 			idx = gem_idx_dict[self.live.attr+' Cross '+grade]
+			if gem_occupy[idx] >= grade_count[grade]: gem_occupy[idx] = np.Inf
+			idx = gem_idx_dict[self.live.attr+' Trill '+grade]
 			if gem_occupy[idx] >= grade_count[grade]: gem_occupy[idx] = np.Inf
 		for attr2 in attr2_list:
 			idx = gem_idx_dict[attr2+' Charm']
@@ -145,9 +147,10 @@ class GemAllocator:
 						if new_remain[j] >= 9-i: new_remain[j] = np.Inf
 					if card.grade != '':
 						# When grade is None, the card rarity is N
-						ring_idx, cross_idx = aux['grade_idx']
+						ring_idx, cross_idx, trill_idx = aux['grade_idx']
 						if new_remain[ring_idx]  > grade_count[card.grade]: new_remain[ring_idx]  = np.Inf
 						if new_remain[cross_idx] > grade_count[card.grade]: new_remain[cross_idx] = np.Inf
+						if new_remain[trill_idx] > grade_count[card.grade]: new_remain[trill_idx] = np.Inf
 						if card.is_charm or card.is_heal:
 							charm_idx, heal_idx = aux['charm_idx'], aux['heal_idx']
 							if charm_idx is not None and new_remain[charm_idx] > charm_count[card.attr2]: new_remain[charm_idx] = np.Inf
@@ -237,7 +240,7 @@ class GemAllocator:
 						valid_card_index[gem].append(ind)
 		num_branch = 1
 		for gem, item in valid_card_index.items():
-			if gem.split()[1] in ['Cross', 'Aura', 'Veil', 'Charm', 'Heal', 'Bloom']:
+			if gem.split()[1] in ['Cross', 'Trill', 'Aura', 'Veil', 'Charm', 'Heal', 'Bloom']:
 				need, own = len(item), self.owned_gem[gem]
 				if need > own:
 					num_branch *= binom(need, own)

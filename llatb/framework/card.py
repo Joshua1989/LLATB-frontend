@@ -117,7 +117,7 @@ class Card:
         if not include_gem:
             strength = np.array(card_only_attr, dtype=int).tolist()
         else:
-            gem_type_list = ['Kiss', 'Perfume', 'Ring', 'Cross']
+            gem_type_list = ['Kiss', 'Perfume', 'Ring', 'Cross', 'Wink', 'Trill']
             gem_matrix = {gem_type: np.zeros(3) for gem_type in gem_type_list}
             for gem in self.equipped_gems:
                 gem_type = gem.name.split()[1]
@@ -125,9 +125,9 @@ class Card:
                     gem_matrix[gem_type][attr_list.index(gem.attribute)] = gem.value / 100**(gem.effect == 'attr_boost')
             strength = card_only_attr.copy()
             for gem_type in gem_type_list:
-                if gem_type in ['Kiss', 'Perfume']:
+                if gem_type in ['Kiss', 'Perfume', 'Wink']:
                     strength += gem_matrix[gem_type]
-                elif gem_type in ['Ring', 'Cross']:
+                elif gem_type in ['Ring', 'Cross', 'Trill']:
                     strength += np.ceil(card_only_attr * gem_matrix[gem_type])
             strength = np.array(strength, dtype=int)
         return {k.lower() + '*': v for k, v in zip(attr_list, strength)}

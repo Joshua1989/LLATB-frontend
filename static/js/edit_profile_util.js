@@ -167,6 +167,18 @@ var gem_skill_id_dict = {
     37: 'Empress Charm',
     38: 'Empress Heal',
     39: 'Empress Trick',
+    40: 'Smile Wink',
+    41: 'Pure Wink',
+    42: 'Cool Wink',
+    43: 'Smile Trill 1st',
+    44: 'Pure Trill 1st',
+    45: 'Cool Trill 1st',
+    46: 'Smile Trill 2nd',
+    47: 'Pure Trill 2nd',
+    48: 'Cool Trill 2nd',
+    49: 'Smile Trill 3rd',
+    50: 'Pure Trill 3rd',
+    51: 'Cool Trill 3rd',
     52: 'Smile Bloom',
     53: 'Pure Bloom',
     54: 'Cool Bloom'
@@ -181,7 +193,9 @@ var gem_name = {
         Charm: '爆分',
         Heal: '奶分',
         Trick: '判定',
-        Bloom: '???'
+        Wink: 'Wink',
+        Trill: 'Trill',
+        Bloom: 'Bloom'
     },
     EN: {
         Perfume: 'Perfume',
@@ -192,6 +206,8 @@ var gem_name = {
         Charm: 'Charm',
         Heal: 'Heal',
         Trick: 'Trick',
+        Wink: 'Wink',
+        Trill: 'Trill',
         Bloom: 'Bloom'
     }
 }
