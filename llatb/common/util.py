@@ -158,7 +158,7 @@ def update_card_data():
 
 def update_live_data(download=False):
     def live_summary(live_setting_id):
-        group_dict = {1: "μ's", 2: 'Aqours'}
+        group_dict = {1: "μ's", 2: 'Aqours', 3: 'PDP'}
         attr_dict = {1: 'Smile', 2: 'Pure', 3: 'Cool'}
         diff_dict = {1: 'Easy', 2: 'Normal', 3: 'Hard', 4: 'Expert', 6: 'Master'}
         setting = df_live_setting.loc[live_setting_id]
@@ -185,6 +185,7 @@ def update_live_data(download=False):
     df_live_track = pd.read_sql('SELECT * FROM live_track_m', con=conn, index_col='live_track_id')
     df_live_setting = pd.read_sql('SELECT * FROM live_setting_m', con=conn, index_col='live_setting_id')
     live_data = [live_summary(live_setting_id) for live_setting_id, row in df_live_setting.iterrows() if row['difficulty'] != 5 and live_setting_id < 10000]
+    live_data = [live for live in live_data if live['group'] != 'PDP']
 
     with open(live_archive_dir, 'w') as fp:
         json.dump(live_data, fp)
